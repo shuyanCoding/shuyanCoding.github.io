@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>SSM整合 | Shuyan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SSM整合笔记一、数据库环境1.1、创建数据库及数据表CREATE TABLE &#96;books&#96;(         &#96;bookId&#96; INT(10) NOT NULL AUTO_INCREMENT COMMENT &#39;书id&#39;,         &#96;bookName&#96; VARCHAR(100) NOT NULL COMMENT &#39;书名&#39;,      &#96;bookCounts">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SSM整合">
+<meta property="og:url" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="SSM整合笔记一、数据库环境1.1、创建数据库及数据表CREATE TABLE &#96;books&#96;(         &#96;bookId&#96; INT(10) NOT NULL AUTO_INCREMENT COMMENT &#39;书id&#39;,         &#96;bookName&#96; VARCHAR(100) NOT NULL COMMENT &#39;书名&#39;,      &#96;bookCounts">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
+<meta property="article:modified_time" content="2022-03-17T03:48:42.336Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Spring">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shuyan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JAVA/Spring框架/Spring/SSM整合笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/" class="article-date">
+  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      SSM整合
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="SSM整合笔记"><a href="#SSM整合笔记" class="headerlink" title="SSM整合笔记"></a>SSM整合笔记</h1><h2 id="一、数据库环境"><a href="#一、数据库环境" class="headerlink" title="一、数据库环境"></a>一、数据库环境</h2><h3 id="1-1、创建数据库及数据表"><a href="#1-1、创建数据库及数据表" class="headerlink" title="1.1、创建数据库及数据表"></a>1.1、创建数据库及数据表</h3><pre><code class="sql">CREATE TABLE `books`(    
+    `bookId` INT(10) NOT NULL AUTO_INCREMENT COMMENT &#39;书id&#39;,    
+    `bookName` VARCHAR(100) NOT NULL COMMENT &#39;书名&#39;, 
+    `bookCounts` INT(11) NOT NULL COMMENT &#39;数量&#39;,    
+    `detail` VARCHAR(200) NOT NULL COMMENT &#39;描述&#39;,   
+    KEY `bookId` (`bookId`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8; 
+
+INSERT INTO books(`bookId`,`bookName`,`bookCounts`,`detail`) 
+    VALUES(1,&#39;Java&#39;,1,&#39;从入门到放弃&#39;), (2,&#39;MySQL&#39;,10,&#39;从删库到跑路&#39;), (3,&#39;Linux&#39;,5,&#39;从进门到进牢&#39;);
+</code></pre>
+<h2 id="二、导入依赖"><a href="#二、导入依赖" class="headerlink" title="二、导入依赖"></a>二、导入依赖</h2><h3 id="2-1、导入jar包"><a href="#2-1、导入jar包" class="headerlink" title="2.1、导入jar包"></a>2.1、导入jar包</h3><p>​        创建一个maven工程，导入依赖和静态资源处理的配置。</p>
+<pre><code class="xml">&lt;dependencies&gt;
+    
+    &lt;!--Junit--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;junit&lt;/groupId&gt;
+        &lt;artifactId&gt;junit&lt;/artifactId&gt;
+        &lt;version&gt;4.12&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+    &lt;!--数据库驱动--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;5.1.35&lt;/version&gt;
+    &lt;/dependency&gt;
+   
+    &lt;!--连接池--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.mchange&lt;/groupId&gt;
+        &lt;artifactId&gt;c3p0&lt;/artifactId&gt;
+        &lt;version&gt;0.9.5.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+    &lt;!--servlet--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+        &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+        &lt;version&gt;4.0.1&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+    &lt;!--jsp--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+        &lt;artifactId&gt;jsp-api&lt;/artifactId&gt;
+        &lt;version&gt;2.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+    &lt;!--JSTL--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+        &lt;artifactId&gt;jstl&lt;/artifactId&gt;
+        &lt;version&gt;1.2&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+    &lt;!--mybatis--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+        &lt;version&gt;3.5.2&lt;/version&gt;
+    &lt;/dependency&gt;
+   
+    &lt;!--mybatis-spring--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+        &lt;artifactId&gt;mybatis-spring&lt;/artifactId&gt;
+        &lt;version&gt;2.0.6&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+    &lt;!--spring--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;
+        &lt;version&gt;5.1.9.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+    
+    &lt;!--jdbc--&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;
+        &lt;version&gt;5.1.9.RELEASE&lt;/version&gt;
+    &lt;/dependency&gt;
+&lt;/dependencies&gt;
+
+&lt;!--静态资源导出问题--&gt;
+&lt;build&gt;
+    &lt;resources&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/java&lt;/directory&gt;
+            &lt;includes&gt;
+                &lt;include&gt;**/*.properties&lt;/include&gt;
+                &lt;include&gt;**/*.xml&lt;/include&gt;
+            &lt;/includes&gt;
+            &lt;filtering&gt;false&lt;/filtering&gt;
+        &lt;/resource&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;
+            &lt;includes&gt;
+                &lt;include&gt;**/*.properties&lt;/include&gt;
+                &lt;include&gt;**/*.xml&lt;/include&gt;
+            &lt;/includes&gt;
+            &lt;filtering&gt;false&lt;/filtering&gt;
+        &lt;/resource&gt;
+    &lt;/resources&gt;
+&lt;/build&gt;
+</code></pre>
+<h3 id="2-2、建包："><a href="#2-2、建包：" class="headerlink" title="2.2、建包："></a>2.2、建包：</h3><p>​        连接数据库；    </p>
+<p>​        在src/main/java下创建pojo、service、controller、dao、util。</p>
+<p>​        在resource文件夹下创建mybatis-config.xml、applicationContext.xml、database.properties。</p>
+<h3 id="2-3、修改resource下的配置文件："><a href="#2-3、修改resource下的配置文件：" class="headerlink" title="2.3、修改resource下的配置文件："></a>2.3、修改resource下的配置文件：</h3><h4 id="2-3-1、mybatis-config-xml"><a href="#2-3-1、mybatis-config-xml" class="headerlink" title="2.3.1、mybatis-config.xml"></a>2.3.1、mybatis-config.xml</h4><p>​        关联数据库文件源</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE configuration
+        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-config.dtd&quot;&gt;
+&lt;configuration&gt;
+    &lt;!--
+        数据源配置交给spring做
+        &lt;typeAliases&gt;
+            &lt;package name=&quot;com.example.pojo&quot;/&gt;
+        &lt;/typeAliases&gt;
+    --&gt;
+    
+    &lt;!--写一些mapper配置文件的注册--&gt;
+    &lt;mappers&gt;
+        &lt;mapper resource=&quot;BookMapper.xml&quot;/&gt;
+    &lt;/mappers&gt;
+    &lt;settings&gt;
+        &lt;setting name=&quot;logImpl&quot; value=&quot;STDOUT_LOGGING&quot;/&gt;
+    &lt;/settings&gt;
+&lt;/configuration&gt;
+</code></pre>
+<p>​        编写pojo文件夹下的实体类：Books；</p>
+<p>​        编写dao文件夹下的接口：BookMapper；</p>
+<p>​        编写BookMapper.xml</p>
+<h4 id="2-3-2、applicationContext-xml"><a href="#2-3-2、applicationContext-xml" class="headerlink" title="2.3.2、applicationContext.xml"></a>2.3.2、applicationContext.xml</h4><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd&quot;&gt;
+    &lt;!--将其他三层的spring配置文件合在一起即可--&gt;
+    &lt;import resource=&quot;classpath:spring-dao.xml&quot;/&gt;
+    &lt;import resource=&quot;classpath:spring-service.xml&quot;/&gt;
+    &lt;import resource=&quot;classpath:spring-mvc.xml&quot;/&gt;
+&lt;/beans&gt;
+</code></pre>
+<h4 id="2-3-3、database-properties"><a href="#2-3-3、database-properties" class="headerlink" title="2.3.3、database.properties"></a>2.3.3、database.properties</h4><p>​        数据库的配置文件    </p>
+<pre><code class="properties">jdbc.driver=com.mysql.jdbc.Driver
+# 如果使用MySQL8.0，还需要增加一个时区的配置 &amp;serverTimezone=Asia/Shanghai
+jdbc.url=jdbc:mysql://localhost:3306/ssm?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf8
+jdbc.username=root
+jdbc.password=123456
+</code></pre>
+<h2 id="三、Mybatis层的配置："><a href="#三、Mybatis层的配置：" class="headerlink" title="三、Mybatis层的配置："></a>三、Mybatis层的配置：</h2><h3 id="3-1、创建pojo对象"><a href="#3-1、创建pojo对象" class="headerlink" title="3.1、创建pojo对象"></a>3.1、创建pojo对象</h3><p>​    采用lombok依赖对这个pojo生成get、set方法等一系列方法。</p>
+<pre><code class="xml">&lt;!--lombok--&gt;
+&lt;dependency&gt;    
+    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;    
+    &lt;artifactId&gt;lombok&lt;/artifactId&gt;    
+    &lt;version&gt;1.18.20&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<pre><code class="java">@Data       //get、set等方法
+@AllArgsConstructor     //有参构造
+@NoArgsConstructor      //无参构造
+public class Book &#123;
+    private Integer bookId;
+    private String bookName;
+    private Integer bookCounts;
+    private String detail;
+&#125;
+</code></pre>
+<h3 id="3-2、创建dao接口。"><a href="#3-2、创建dao接口。" class="headerlink" title="3.2、创建dao接口。"></a>3.2、创建dao接口。</h3><pre><code class="java">public interface BookMapper &#123;
+    int addBook(Book book);
+    int deleteBookById(@Param(&quot;id&quot;) Integer id);
+    int updateBook(Book book);
+    Book queryBookById(@Param(&quot;id&quot;) Integer id);
+    List&lt;Book&gt; queryAllBooks();
+&#125;
+</code></pre>
+<h3 id="3-3、创建mapper配置文件"><a href="#3-3、创建mapper配置文件" class="headerlink" title="3.3、创建mapper配置文件"></a>3.3、创建mapper配置文件</h3><p>​        并在全局配置中进行注册</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;!DOCTYPE mapper
+        PUBLIC &quot;-//mybatis.org//DTD Config 3.0//EN&quot;
+        &quot;http://mybatis.org/dtd/mybatis-3-mapper.dtd&quot;&gt;
+
+&lt;mapper namespace=&quot;com.example.dao.BookMapper&quot;&gt;
+
+    &lt;insert id=&quot;addBook&quot; parameterType=&quot;com.example.pojo.Book&quot;&gt;
+        insert into books(`bookName`,`bookCounts`,`detail`) values
+        (#&#123;bookName&#125;,#&#123;bookCounts&#125;,#&#123;details&#125;)
+    &lt;/insert&gt;
+
+    &lt;delete id=&quot;deleteBookById&quot;&gt;
+        delete from books where bookId = #&#123;id&#125;
+    &lt;/delete&gt;
+
+    &lt;update id=&quot;updateBook&quot;&gt;
+        update books set `bookName` = #&#123;bookName&#125;,`bookCounts` = #&#123;bookCounts&#125;,
+        `detail` = #&#123;detail&#125; where `bookId` = #&#123;bookId&#125;
+    &lt;/update&gt;
+
+    &lt;select id=&quot;queryBookById&quot; resultType=&quot;com.example.pojo.Book&quot;&gt;
+        select * from books where `bookId` = #&#123;id&#125;
+    &lt;/select&gt;
+
+    &lt;select id=&quot;queryAllBooks&quot; resultType=&quot;com.example.pojo.Book&quot;&gt;
+        select * from books
+    &lt;/select&gt;
+&lt;/mapper&gt;
+</code></pre>
+<h3 id="3-4、创建service业务。"><a href="#3-4、创建service业务。" class="headerlink" title="3.4、创建service业务。"></a>3.4、创建service业务。</h3><pre><code class="java">public interface BookService &#123;
+    int addBook(Book book);
+    int deleteBookById(Integer id);
+    int updateBook(Book book);
+    Book queryBookById(Integer id);
+    List&lt;Book&gt; queryAllBooks();
+&#125;
+</code></pre>
+<pre><code class="java">public class BookServiceImpl implements BookService&#123;
+    // 之后用spring自动注入
+    // service调dao层：组合Dao
+    private BookMapper bookMapper;
+    
+    @Override
+    public int addBook(Book book) &#123;
+        return bookMapper.addBook(book);
+    &#125;
+    @Override
+    public int deleteBookById(Integer id) &#123;
+        return bookMapper.deleteBookById(id);
+    &#125;
+    @Override
+    public int updateBook(Book book) &#123;
+        return bookMapper.updateBook(book);
+    &#125;
+    @Override
+    public Book queryBookById(Integer id) &#123;
+        return bookMapper.queryBookById(id);
+    &#125;
+    @Override
+    public List&lt;Book&gt; queryAllBooks() &#123;
+        return bookMapper.queryAllBooks();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="四、Spring层的配置："><a href="#四、Spring层的配置：" class="headerlink" title="四、Spring层的配置："></a>四、Spring层的配置：</h2><h3 id="4-1、创建一个新的spring配置文件去整合dao层"><a href="#4-1、创建一个新的spring配置文件去整合dao层" class="headerlink" title="4.1、创建一个新的spring配置文件去整合dao层"></a>4.1、创建一个新的spring配置文件去整合dao层</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+    
+    &lt;!--关联数据库配置文件--&gt;
+    &lt;context:property-placeholder location=&quot;classpath:database.properties&quot;/&gt;
+    
+    &lt;!--连接池--&gt;
+    &lt;bean id=&quot;dataSource&quot; class=&quot;com.mchange.v2.c3p0.ComboPooledDataSource&quot;&gt;
+        &lt;property name=&quot;driverClass&quot; value=&quot;$&#123;jdbc.driver&#125;&quot;/&gt;
+        &lt;property name=&quot;jdbcUrl&quot; value=&quot;$&#123;jdbc.url&#125;&quot;/&gt;
+        &lt;property name=&quot;user&quot; value=&quot;$&#123;jdbc.username&#125;&quot;/&gt;
+        &lt;property name=&quot;password&quot; value=&quot;$&#123;jdbc.password&#125;&quot;/&gt;
+    &lt;/bean&gt;
+    
+    &lt;!--sqlSessionFactory--&gt;
+    &lt;bean id=&quot;sqlSessionFactory&quot; class=&quot;org.mybatis.spring.SqlSessionFactoryBean&quot;&gt;
+        &lt;!--绑定数据源--&gt;
+        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+        &lt;!--绑定mybatis的配置文件--&gt;
+        &lt;property name=&quot;configLocation&quot; value=&quot;classpath:mybatis-config.xml&quot;/&gt;
+    &lt;/bean&gt;
+   
+    &lt;!--配置dao接口扫描包，可以将dao接口注入到spring的容器中--&gt;
+    &lt;bean class=&quot;org.mybatis.spring.mapper.MapperScannerConfigurer&quot;&gt;
+        &lt;!--注入sqlSessionFactory--&gt;
+        &lt;property name=&quot;sqlSessionFactoryBeanName&quot; value=&quot;sqlSessionFactory&quot;/&gt;
+        &lt;!--扫描dao包--&gt;
+        &lt;property name=&quot;basePackage&quot; value=&quot;com.example.dao&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<h4 id="4-2、创建一个新的spring配置文件去整合service层。"><a href="#4-2、创建一个新的spring配置文件去整合service层。" class="headerlink" title="4.2、创建一个新的spring配置文件去整合service层。"></a>4.2、创建一个新的spring配置文件去整合service层。</h4><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+
+    &lt;!--扫描service包--&gt;
+    &lt;context:component-scan base-package=&quot;com.example.service&quot;/&gt;
+
+    &lt;!--声明式事务--&gt;
+    &lt;bean id=&quot;transactionManager&quot; class=&quot;org.springframework.jdbc.datasource.DataSourceTransactionManager&quot;&gt;
+        &lt;!--注入数据源--&gt;
+        &lt;property name=&quot;dataSource&quot; ref=&quot;dataSource&quot;/&gt;
+    &lt;/bean&gt;
+
+    &lt;!--aop事务支持--&gt;
+    &lt;tx:advice id=&quot;txAdvice&quot; transaction-manager=&quot;transactionManager&quot;&gt;
+        &lt;tx:attributes&gt;
+            &lt;tx:method name=&quot;*&quot; propagation=&quot;REQUIRED&quot;/&gt;
+        &lt;/tx:attributes&gt;
+    &lt;/tx:advice&gt;
+    &lt;aop:config&gt;
+        &lt;aop:pointcut id=&quot;txPointCut&quot; expression=&quot;execution(* com.example.dao.*.*(..))&quot;/&gt;
+        &lt;aop:advisor advice-ref=&quot;txAdvice&quot; pointcut-ref=&quot;txPointCut&quot;/&gt;
+    &lt;/aop:config&gt;
+&lt;/beans&gt;
+</code></pre>
+<h2 id="五、springMVC层配置："><a href="#五、springMVC层配置：" class="headerlink" title="五、springMVC层配置："></a>五、springMVC层配置：</h2><h3 id="5-1、添加web支持，创建web-xml"><a href="#5-1、添加web支持，创建web-xml" class="headerlink" title="5.1、添加web支持，创建web.xml"></a>5.1、添加web支持，创建web.xml</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;
+         version=&quot;4.0&quot;&gt;
+    
+    &lt;!--配置前端处理器--&gt;
+    &lt;servlet&gt;
+        &lt;servlet-name&gt;springMVC&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+            &lt;!--绑定的是spring的全局配置文件--&gt;
+            &lt;param-value&gt;classpath:applicationContext.xml&lt;/param-value&gt;
+        &lt;/init-param&gt;
+        &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+    &lt;/servlet&gt;
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;springMVC&lt;/servlet-name&gt;
+        &lt;!--
+            /  :
+            /* :会过滤到jsp等资源
+        --&gt;
+        &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+    
+    &lt;!--配置乱码过滤器--&gt;
+    &lt;filter&gt;
+        &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;org.springframework.web.filter.CharacterEncodingFilter&lt;/filter-class&gt;
+        &lt;init-param&gt;
+            &lt;param-name&gt;encoding&lt;/param-name&gt;
+            &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+        &lt;/init-param&gt;
+    &lt;/filter&gt;
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+    &lt;/filter-mapping&gt;
+    
+    &lt;!--配置session--&gt;
+    &lt;session-config&gt;
+        &lt;!--配置session超时时间--&gt;
+        &lt;session-timeout&gt;15&lt;/session-timeout&gt;
+    &lt;/session-config&gt;
+&lt;/web-app&gt;
+</code></pre>
+<h3 id="5-2、创建spring的mvc配置文件"><a href="#5-2、创建spring的mvc配置文件" class="headerlink" title="5.2、创建spring的mvc配置文件"></a>5.2、创建spring的mvc配置文件</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+       xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot;
+       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;
+    &lt;!--注解驱动--&gt;
+    &lt;mvc:annotation-driven/&gt;
+    &lt;!--静态资源过滤--&gt;
+    &lt;mvc:default-servlet-handler/&gt;
+    &lt;!--扫描controller--&gt;
+    &lt;context:component-scan base-package=&quot;com.example.controller&quot;/&gt;
+    &lt;!--视图解析器--&gt;
+    &lt;bean class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;&gt;
+        &lt;property name=&quot;prefix&quot; value=&quot;/WEB-INF/jsp/&quot;/&gt;
+        &lt;property name=&quot;suffix&quot; value=&quot;.jsp&quot;/&gt;
+    &lt;/bean&gt;
+&lt;/beans&gt;
+</code></pre>
+<h3 id="5-3、在WEB-INF下创建jsp目录。"><a href="#5-3、在WEB-INF下创建jsp目录。" class="headerlink" title="5.3、在WEB-INF下创建jsp目录。"></a>5.3、在WEB-INF下创建jsp目录。</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/" data-id="cl0utfle50015ugvseftzhuy6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E6%95%B4%E5%90%88Mybatis/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          SpringBoot整合Mybaits
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Sping%E6%95%B4%E5%90%88Log4j/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Spring整合Log4j</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/">配置文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Shuyan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

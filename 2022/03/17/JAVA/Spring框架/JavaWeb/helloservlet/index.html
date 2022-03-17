@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>配置文件 | Shuyan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. Servlet1.1 servlet简介 Servlet就是sun公司开发动态web的一门技术 Sun公司在这些API提供一个借口叫做：servlert程序 编写一个类，实现servlet借口 把开发好的类部署到web服务器   把实现了servlet接口的程序叫做 servlet  1.2 关于maven父子工程的理解 父项目中会有 &lt;modules&gt;   &lt;module">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置文件">
+<meta property="og:url" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="1. Servlet1.1 servlet简介 Servlet就是sun公司开发动态web的一门技术 Sun公司在这些API提供一个借口叫做：servlert程序 编写一个类，实现servlet借口 把开发好的类部署到web服务器   把实现了servlet接口的程序叫做 servlet  1.2 关于maven父子工程的理解 父项目中会有 &lt;modules&gt;   &lt;module">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
+<meta property="article:modified_time" content="2022-03-17T07:11:05.178Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="JavaWeb">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shuyan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JAVA/Spring框架/JavaWeb/helloservlet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/" class="article-date">
+  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      配置文件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-Servlet"><a href="#1-Servlet" class="headerlink" title="1. Servlet"></a>1. Servlet</h1><h2 id="1-1-servlet简介"><a href="#1-1-servlet简介" class="headerlink" title="1.1 servlet简介"></a>1.1 servlet简介</h2><ul>
+<li>Servlet就是sun公司开发动态web的一门技术</li>
+<li>Sun公司在这些API提供一个借口叫做：servlert程序<ul>
+<li>编写一个类，实现servlet借口</li>
+<li>把开发好的类部署到web服务器</li>
+</ul>
+</li>
+<li>把实现了servlet接口的程序叫做 servlet</li>
+</ul>
+<h2 id="1-2-关于maven父子工程的理解"><a href="#1-2-关于maven父子工程的理解" class="headerlink" title="1.2 关于maven父子工程的理解"></a>1.2 关于maven父子工程的理解</h2><ul>
+<li><p>父项目中会有</p>
+<pre><code class="xml">&lt;modules&gt;
+  &lt;module&gt;servlet-01&lt;/module&gt;
+&lt;/modules&gt;
+</code></pre>
+</li>
+<li><p>子项目中会有</p>
+<pre><code class="xml">&lt;parent&gt;
+  &lt;artifactId&gt;javaweb-02-servlet&lt;/artifactId&gt;
+  &lt;groupId&gt;org.example&lt;/groupId&gt;
+  &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;/parent&gt;
+</code></pre>
+</li>
+</ul>
+<h2 id="1-3-编写一个servlet程序"><a href="#1-3-编写一个servlet程序" class="headerlink" title="1.3 编写一个servlet程序"></a>1.3 编写一个servlet程序</h2><h3 id="1-3-1-编写一个普通类"><a href="#1-3-1-编写一个普通类" class="headerlink" title="1.3.1 编写一个普通类"></a>1.3.1 编写一个普通类</h3><h3 id="1-3-2-通过继承httpservlet实现servlet接口"><a href="#1-3-2-通过继承httpservlet实现servlet接口" class="headerlink" title="1.3.2 通过继承httpservlet实现servlet接口"></a>1.3.2 通过继承httpservlet实现servlet接口</h3><ul>
+<li><p>注：如果出现导入失败的情况，可能是镜像还没加入该文件，需要自己去仓库里面下载，放入到相应的文件夹</p>
+<pre><code class="java">public class HelloServlet extends HttpServlet &#123;
+ //由于get或者post只是请求实现的不同方式，可以相互调用
+ @Override
+ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+     PrintWriter writer=resp.getWriter();
+     writer.print(&quot;Hello,Servlet&quot;);
+ &#125;
+    
+ @Override
+ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+     doGet(req,resp);
+ &#125;
+&#125;
+</code></pre>
+<h3 id="1-3-3-编写servlet的映射"><a href="#1-3-3-编写servlet的映射" class="headerlink" title="1.3.3 编写servlet的映射"></a>1.3.3 编写servlet的映射</h3><blockquote>
+<p> 为什么需要映射</p>
+</blockquote>
+<p>​    我们写的是Java程序，但是需要通过浏览器进行访问，而浏览器需要连接web服务器，所以我们需要在web服务中注册我们写的servlet，还需要给他一个浏览器能够访问的路径。</p>
+<pre><code class="xml"> &lt;!--注册servlet--&gt;
+ &lt;servlet&gt;
+     &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
+     &lt;servlet-class&gt;com.yu.servlet.HelloServlet&lt;/servlet-class&gt;
+ &lt;/servlet&gt;
+
+ &lt;!--servlet的请求路径--&gt;
+ &lt;servlet-mapping&gt;
+     &lt;servlet-name&gt;hello&lt;/servlet-name&gt;
+     &lt;url-pattern&gt;/hello&lt;/url-pattern&gt;
+ &lt;/servlet-mapping&gt;
+</code></pre>
+<h3 id="1-3-4-启动错误原因总结"><a href="#1-3-4-启动错误原因总结" class="headerlink" title="1.3.4 启动错误原因总结"></a>1.3.4 启动错误原因总结</h3><ol>
+<li><p>pom文件没有配置好，检查子项目的配置文件，把重复的属性值删除(文件仅供参考)</p>
+<pre><code class="xml">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt; 
+    &lt;parent&gt;     
+        &lt;artifactId&gt;javaweb-02&lt;/artifactId&gt;     
+        &lt;groupId&gt;com.yu&lt;/groupId&gt;     
+        &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt; 
+    &lt;/parent&gt; 
+    
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt; 
+    
+    &lt;artifactId&gt;servlet-01&lt;/artifactId&gt; 
+    
+    &lt;packaging&gt;war&lt;/packaging&gt; 
+    &lt;name&gt;servlet-01 Maven Webapp&lt;/name&gt; 
+    &lt;!-- FIXME change it to the project&#39;s website --&gt; 
+    &lt;url&gt;http://www.example.com&lt;/url&gt; 
+    &lt;properties&gt;     
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;maven.compiler.source&gt;1.7&lt;/maven.compiler.source&gt;     
+        &lt;maven.compiler.target&gt;1.7&lt;/maven.compiler.target&gt; 
+    &lt;/properties&gt; 
+    &lt;dependencies&gt;     
+        &lt;dependency&gt;     
+            &lt;groupId&gt;junit&lt;/groupId&gt;     
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;     
+            &lt;version&gt;4.11&lt;/version&gt;     
+            &lt;scope&gt;test&lt;/scope&gt;     
+        &lt;/dependency&gt; 
+    &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre>
+</li>
+<li><p>检查导入依赖，如果在external libraries 没有相应依赖会导致启动失败</p>
+<pre><code class="xml"> javax.servlet.jsp.api javax.sevlet.api maven:junit maven:hamcresrt-core
+</code></pre>
+</li>
+<li><p>检查tomcat配置</p>
+<pre><code class="xml"> 环境变量 deployment server
+ 注意核对一下几项：
+ Application server        
+ JRE        
+ HTTP port
+ JMX port
+</code></pre>
+</li>
+</ol>
+</li>
+</ul>
+<h1 id="2-配置文件"><a href="#2-配置文件" class="headerlink" title="2. 配置文件"></a>2. 配置文件</h1><h3 id="pom文件"><a href="#pom文件" class="headerlink" title="pom文件"></a>pom文件</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!--MAven版本和头文件--&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    
+    &lt;!--这里就是我们刚才配置的GAV--&gt;
+    &lt;groupId&gt;com.qf&lt;/groupId&gt;
+    &lt;artifactId&gt;javaweb-03-maven&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    
+    &lt;!--项目的打包方式
+  jar:java应用
+  war:javaweb应用--&gt;
+    &lt;packaging&gt;war&lt;/packaging&gt;
+    &lt;name&gt;javaweb-03-maven Maven Webapp&lt;/name&gt;
+    
+    &lt;!-- FIXME change it to the project&#39;s website --&gt;
+    &lt;url&gt;http://www.example.com&lt;/url&gt;
+    
+    &lt;!--配置--&gt;
+    &lt;properties&gt;
+        &lt;!--项目的默认构建编码--&gt;
+        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;
+        &lt;!--编码版本--&gt;
+        &lt;maven.compiler.source&gt;1.7&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;1.7&lt;/maven.compiler.target&gt;
+    &lt;/properties&gt;
+    
+    &lt;!--项目依赖--&gt;
+    &lt;dependencies&gt;
+        &lt;!--具体依赖的jar包配置文件--&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;junit&lt;/groupId&gt;
+            &lt;artifactId&gt;junit&lt;/artifactId&gt;
+            &lt;version&gt;4.11&lt;/version&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+    
+    &lt;!--  项目构建用的东西--&gt;
+    &lt;build&gt;
+        &lt;finalName&gt;javaweb-03-maven&lt;/finalName&gt;
+        &lt;pluginManagement&gt;
+            
+            &lt;!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) --&gt;
+            &lt;plugins&gt;
+                &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-clean-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;3.1.0&lt;/version&gt;
+                &lt;/plugin&gt;
+                
+                &lt;!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging --&gt;
+                &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;3.0.2&lt;/version&gt;
+                &lt;/plugin&gt;
+                
+                &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;3.8.0&lt;/version&gt;
+                &lt;/plugin&gt;
+                
+                &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-surefire-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;2.22.1&lt;/version&gt;
+                &lt;/plugin&gt;
+                
+                &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;3.2.2&lt;/version&gt;
+                &lt;/plugin&gt;
+                
+                &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-install-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;2.5.2&lt;/version&gt;
+                &lt;/plugin&gt;
+                
+                &lt;plugin&gt;
+                    &lt;artifactId&gt;maven-deploy-plugin&lt;/artifactId&gt;
+                    &lt;version&gt;2.8.2&lt;/version&gt;
+                &lt;/plugin&gt;
+            &lt;/plugins&gt;
+        &lt;/pluginManagement&gt;
+    &lt;/build&gt;
+&lt;/project&gt;
+
+&lt;!--在build中配置resources,来防止我们资源导出失败的问题--&gt;
+&lt;build&gt;
+    &lt;resources&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/resources&lt;/directory&gt;
+            &lt;excludes&gt;
+                &lt;exclude&gt;**/*.properties&lt;/exclude&gt;
+                &lt;exclude&gt;**/*.xml&lt;/exclude&gt;
+            &lt;/excludes&gt;
+            &lt;filtering&gt;false&lt;/filtering&gt;
+        &lt;/resource&gt;
+        &lt;resource&gt;
+            &lt;directory&gt;src/main/java&lt;/directory&gt;
+            &lt;includes&gt;
+                &lt;include&gt;**/*.properties&lt;/include&gt;
+                &lt;include&gt;**/*.xml&lt;/include&gt;
+            &lt;/includes&gt;
+            &lt;filtering&gt;false&lt;/filtering&gt;
+        &lt;/resource&gt;
+    &lt;/resources&gt;
+&lt;/build&gt;
+</code></pre>
+<h3 id="web-xml"><a href="#web-xml" class="headerlink" title="web.xml"></a>web.xml</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee
+    http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;
+    version=&quot;4.0&quot;
+    metadata-complete=&quot;true&quot;&gt;
+&lt;/web-app&gt;
+</code></pre>
+<h3 id="添加依赖"><a href="#添加依赖" class="headerlink" title="添加依赖"></a>添加依赖</h3><pre><code class="xml">&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;javax.servlet&lt;/groupId&gt;
+        &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;
+        &lt;version&gt;4.0.1&lt;/version&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+        &lt;artifactId&gt;javax.servlet.jsp-api&lt;/artifactId&gt;
+        &lt;version&gt;2.3.3&lt;/version&gt;
+        &lt;scope&gt;provided&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;!-- 旧版，注释掉
+     &lt;dependency&gt;
+         &lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+         &lt;artifactId&gt;jsp-api&lt;/artifactId&gt;
+         &lt;version&gt;2.1&lt;/version&gt;
+         &lt;scope&gt;provided&lt;/scope&gt;
+     &lt;/dependency&gt; 
+     --&gt;
+&lt;/dependencies&gt;
+
+
+JSP方面的依赖
+&lt;!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet.jsp&lt;/groupId&gt;
+    &lt;artifactId&gt;javax.servlet.jsp-api&lt;/artifactId&gt;
+    &lt;version&gt;2.3.3&lt;/version&gt;
+    &lt;scope&gt;provided&lt;/scope&gt;
+&lt;/dependency&gt;
+&lt;!-- JSTL表达式的依赖 --&gt;
+&lt;!-- https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl-api --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;javax.servlet.jsp.jstl&lt;/groupId&gt;
+    &lt;artifactId&gt;jstl-api&lt;/artifactId&gt;
+    &lt;version&gt;1.2&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;!--standard标签库--&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;taglibs&lt;/groupId&gt;
+    &lt;artifactId&gt;standard&lt;/artifactId&gt;
+    &lt;version&gt;1.1.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/" data-id="cl0utfldq000augvsh9ybbjbu" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JSP简介
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JavaWeb/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaWeb</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/">配置文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Shuyan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

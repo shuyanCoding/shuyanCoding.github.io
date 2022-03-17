@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JDBC连接数据库 | Shuyan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JDBC连接数据库一、加载JDBC驱动程序​        在连接数据库之前，首先要加载想要连接的数据库的驱动到JVM（Java虚拟机），  这通过java.lang.Class类的静态方法forName(String className)实现，成功加载后，会将Driver类的实例注册到DriverManager类中。 static&amp;#123;     try &amp;#123;         &#x2F;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC连接数据库">
+<meta property="og:url" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="JDBC连接数据库一、加载JDBC驱动程序​        在连接数据库之前，首先要加载想要连接的数据库的驱动到JVM（Java虚拟机），  这通过java.lang.Class类的静态方法forName(String className)实现，成功加载后，会将Driver类的实例注册到DriverManager类中。 static&amp;#123;     try &amp;#123;         &#x2F;&#x2F;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
+<meta property="article:modified_time" content="2022-03-17T03:52:26.741Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Mybaits">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shuyan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JAVA/Spring框架/Mybaits/JDBC连接数据库" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" class="article-date">
+  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JDBC连接数据库
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JDBC连接数据库"><a href="#JDBC连接数据库" class="headerlink" title="JDBC连接数据库"></a>JDBC连接数据库</h1><h2 id="一、加载JDBC驱动程序"><a href="#一、加载JDBC驱动程序" class="headerlink" title="一、加载JDBC驱动程序"></a>一、加载JDBC驱动程序</h2><p>​        在连接数据库之前，首先要加载想要连接的数据库的驱动到JVM（Java虚拟机），  这通过java.lang.Class类的<strong>静态方法</strong>forName(String className)实现，成功加载后，会将Driver类的实例注册到<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=DriverManager&spm=1001.2101.3001.7020">DriverManager</a>类中。</p>
+<pre><code class="java">static&#123;
+    try &#123;
+        // 加载数据库驱动
+        Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+    &#125;
+    catch (ClassNotFoundException e) &#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="二、提供JDBC连接的URL"><a href="#二、提供JDBC连接的URL" class="headerlink" title="二、提供JDBC连接的URL"></a>二、提供JDBC连接的URL</h2><pre><code>     JDBC连接的URL格式为：协议：子协议：数据源标识  。 其中：
+</code></pre>
+<ul>
+<li><p>协议：在JDBC中总是以jdbc开始 。</p>
+</li>
+<li><p>子协议：是桥连接的驱动程序或是数据库管理系统名称。  </p>
+</li>
+<li><p>数据源标识：标记找到数据库来源的地址与连接端口。</p>
+</li>
+</ul>
+<pre><code class="java">// 连接MySql数据库 
+
+String url = &quot;jdbc:mysql://localhost:3306/数据库名&quot; ;    
+
+String username = &quot;root&quot; ;   
+
+String password = &quot; &quot; ;  
+</code></pre>
+<h2 id="三、创建数据库的连接"><a href="#三、创建数据库的连接" class="headerlink" title="三、创建数据库的连接"></a>三、创建数据库的连接</h2><pre><code class="csharp">public static Connection getConn()&#123;
+
+    Connection conn = null;
+    try &#123;
+        // 连接数据库
+        conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/数据库名&quot;, &quot;root&quot;,&quot; &quot;);    
+    &#125;catch(SQLException e)&#123;
+        e.printStackTrace();
+    &#125;
+    return conn;
+&#125;
+</code></pre>
+<h2 id="四、驱动的区别"><a href="#四、驱动的区别" class="headerlink" title="四、驱动的区别"></a>四、驱动的区别</h2><h3 id="4-1、区别"><a href="#4-1、区别" class="headerlink" title="4.1、区别"></a>4.1、区别</h3><p>​        <code>com.mysql.jdbc.Driver</code> 是 mysql-connector-java 5中的，<br>​        <code>com.mysql.cj.jdbc.Driver</code> 是 mysql-connector-java 6中的</p>
+<p>1、JDBC连接Mysql5 <code>com.mysql.jdbc.Driver</code>:</p>
+<pre><code class="properties">driverClassName = com.mysql.jdbc.Driver
+url = jdbc:mysql://localhost:3306/数据库名?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false
+username = root
+password = &quot; &quot;
+</code></pre>
+<p>2、JDBC连接Mysql6 <code>com.mysql.cj.jdbc.Driver</code>， 需要指定时区<strong>serverTimezone</strong>:</p>
+<pre><code class="properties">driverClassName = com.mysql.cj.jdbc.Driver
+url = jdbc:mysql://localhost:3306/数据库名?serverTimezone=UTC&amp;?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false
+username = root
+password = &quot; &quot;
+</code></pre>
+<p>​        在设定时区的时候，如果设定serverTimezone=UTC，会比中国时间早8个小时，如果在中国，可以选择Asia/Shanghai或者Asia/Hongkong，例如：</p>
+<pre><code class="properties">driverClassName = com.mysql.cj.jdbc.Driver
+url = jdbc:mysql://localhost:3306/数据库名?serverTimezone=Shanghai&amp;?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false
+username = root
+password = &quot; &quot;
+</code></pre>
+<h3 id="4-2、依赖区别"><a href="#4-2、依赖区别" class="headerlink" title="4.2、依赖区别"></a>4.2、依赖区别</h3><p>1、如果mysql-connector-java用的6.0以上的，如下：</p>
+<pre><code class="xml">&lt;!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java --&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;mysql&lt;/groupId&gt;
+    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+    &lt;version&gt;6.0.6&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>​        但是你的driver用的还是<code>com.mysql.jdbc.Driver</code>，就会报错：</p>
+<pre><code class="java">Loading class &#39;com.mysql.jdbc.Driver&#39;. This is deprecated. The new driver class is &#39;com.mysql.cj.jdbc.Driver&#39;. 
+The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+</code></pre>
+<p>​        此时需要把<code>com.mysql.jdbc.Driver</code> 改为<code>com.mysql.cj.jdbc.Driver</code></p>
+<p>2、还有一个警告：</p>
+<pre><code class="java">WARN: Establishing SSL connection without server’s identity verification is not recommended. 
+According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn’t set. 
+For compliance with existing applications not using SSL the verifyServerCertificate property is set to ‘false’. 
+You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+</code></pre>
+<p>​        不推荐不使用服务器身份验证来建立SSL连接。<br>​        如果未明确设置，MySQL 5.5.45+、5.6.26+ 以及 5.7.6+版本默认要求建立SSL连接。<br>​        为了符合当前不使用SSL连接的应用程序，<code>verifyServerCertificate</code>属性设置为<strong>false</strong>。<br>​        如果你不需要使用SSL连接，你需要通过设置<code>useSSL=false</code>来显式禁用SSL连接。<br>​        如果你需要用SSL连接，就要为服务器证书验证提供信任库，并设置<code>useSSL=true</code>。</p>
+<p>​        SSL – Secure Sockets Layer（安全套接层）</p>
+<h3 id="4-2、MySql驱动8-0-11版本的一些使用注意事项"><a href="#4-2、MySql驱动8-0-11版本的一些使用注意事项" class="headerlink" title="4.2、MySql驱动8.0.11版本的一些使用注意事项"></a>4.2、MySql驱动8.0.11版本的一些使用注意事项</h3><p>1、解决java.sql.SQLException: The server time zone value ‘???ú±ê×??±??’ is unrecognized or represents more than one time zone.</p>
+<p>添加格式：</p>
+<pre><code class="ruby">?serverTimezone = GMT%2B8;
+</code></pre>
+<p>​        使用的数据库是MySQL，驱动是8.0.11，这是由于数据库和系统时区差异所造成的，在jdbc连接的url后面加上serverTimezone=GMT即可解决问题，如果需要使用gmt+8时区，需要写成GMT%2B8，否则会被解析为空。再一个解决办法就是使用低版本的MySQL jdbc驱动，5.1.28不会存在时区的问题。</p>
+<p>2、解决：Fri May 18 15:00:19 CST 2018 WARN: Establishing SSL connection without server’s identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn’t set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to ‘false’. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.</p>
+<p>​        在后面加入：</p>
+<pre><code class="java">useSSL=false
+</code></pre>
+<p>3、解决：Loading class <code>com.mysql.jdbc.Driver&#39;. This is deprecated. The new driver class is </code>com.mysql.cj.jdbc.Driver’. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.</p>
+<pre><code class="java">// 改变驱动，改为下方驱动
+driverClass=&quot;com.mysql.jdbc.Driver&quot;
+
+driverClass=&quot;com.mysql.cj.jdbc.Driver&quot;
+</code></pre>
+<p><strong>最终如下：</strong></p>
+<pre><code class="xml">&lt;jdbcConnection driverClass=&quot;com.mysql.cj.jdbc.Driver&quot;
+     connectionURL=&quot;jdbc:mysql://localhost:3306/springmvc?serverTimezone=GMT%2B8&amp;useSSL=false&quot; 
+     userId=&quot;root&quot; password=&quot;root&quot;&gt;
+&lt;/jdbcConnection&gt;
+</code></pre>
+<h2 id="五、创建Statement"><a href="#五、创建Statement" class="headerlink" title="五、创建Statement"></a>五、创建Statement</h2><p>​        要执行SQL语句，必须获得java.sql.Statement实例，Statement实例分为以下3 种类型：</p>
+<ul>
+<li><p>  执行<strong>静态SQL</strong>语句。通常通过Statement实例实现。</p>
+</li>
+<li><p>  执行<strong>动态SQL</strong>语句。通常通过PreparedStatement实例实现。</p>
+</li>
+<li><p>  执行<strong>数据库存储</strong>过程。通常通过CallableStatement实例实现。</p>
+</li>
+</ul>
+<p>  ​    代码如下：</p>
+<pre><code class="typescript">public static Statement getStmt(Connection conn)&#123;
+    
+    Statement stmt = null;
+
+    try &#123;
+        stmt = conn.createStatement();
+    &#125; catch (SQLException e) &#123;
+        e.printStackTrace();
+    &#125;
+    
+    return stmt;
+&#125;
+</code></pre>
+<h2 id="六、执行SQL语句"><a href="#六、执行SQL语句" class="headerlink" title="六、执行SQL语句"></a>六、执行SQL语句</h2><p>​        Statement接口提供了三种执行SQL语句的方法：executeQuery 、executeUpdate  和execute 。</p>
+<ul>
+<li><p>  ResultSet executeQuery(String sqlString)：执行查询数据库的SQL语句  ，返回一个结果集（ResultSet）对象。</p>
+</li>
+<li><p>  int executeUpdate(String sqlString)：用于执行INSERT、UPDATE或  DELETE语句以及SQL DDL语句，如：CREATE TABLE和DROP TABLE等  </p>
+</li>
+<li><p>  execute(sqlString):用于执行返回多个结果集、多个更新计数或二者组合的  语句。</p>
+</li>
+</ul>
+<p>  ​    代码如下：</p>
+<pre><code class="java">public static ResultSet executeQuery(Statement stmt,String sql)&#123;
+    ResultSet rs = null;
+    try &#123;
+        rs = stmt.executeQuery(sql);
+    &#125; catch (SQLException e) &#123;
+        e.printStackTrace();
+    &#125;
+    return rs; 
+&#125;
+</code></pre>
+<h2 id="七、处理结果"><a href="#七、处理结果" class="headerlink" title="七、处理结果"></a>七、处理结果</h2><p>​         两种情况：  </p>
+<ul>
+<li><p>  执行更新返回的是本次操作影响到的记录数。  </p>
+</li>
+<li><p>执行查询返回的结果是一个ResultSet对象。  </p>
+<pre><code>     ResultSet包含符合SQL语句中条件的所有行，并且它通过一套get方法提供了对这些行中数据的访问。
+</code></pre>
+</li>
+</ul>
+<p>  ​      使用结果集（ResultSet）对象的访问方法获取数据，代码如下：</p>
+<pre><code class="java">while(rs.next())&#123;             
+    String name = rs.getString(&quot;name&quot;) ;        
+    String pass = rs.getString(1) ; // 此方法比较高效         
+&#125;
+</code></pre>
+<h2 id="八、关闭JDBC对象"><a href="#八、关闭JDBC对象" class="headerlink" title="八、关闭JDBC对象"></a>八、关闭JDBC对象</h2><p>​         操作完成以后要把所有使用的JDBC对象全都关闭，以释放JDBC资源，关闭顺序和声明顺序相反：</p>
+<ul>
+<li><p>  关闭记录集</p>
+</li>
+<li><p>  关闭声明  </p>
+</li>
+<li><p>  关闭连接对象</p>
+</li>
+</ul>
+<p>  ​    代码如下：</p>
+<pre><code class="java">//关闭结果集
+public static void closeRs(ResultSet rs)&#123;
+    try &#123;
+        if(rs != null )&#123;
+            rs.close();
+            rs = null;
+        &#125;
+    &#125; catch (SQLException e) &#123;
+        e.printStackTrace();
+    &#125; 
+&#125;
+
+//关闭执行方法
+public static void closeStmt(Statement stmt)&#123;
+    try &#123;
+        if(stmt != null )&#123;
+            stmt.close();
+            stmt = null;
+        &#125;
+    &#125; catch (SQLException e) &#123;
+        e.printStackTrace();
+    &#125; 
+
+&#125;
+
+//关闭连接
+public static void closeConn(Connection conn)&#123;
+    try &#123;
+        if(conn != null )&#123;
+            conn.close();
+            conn = null;
+        &#125;
+    &#125; catch (SQLException e) &#123;
+        e.printStackTrace();
+    &#125;
+&#125;
+</code></pre>
+<h2 id="九、JDBC连接数据库工具类"><a href="#九、JDBC连接数据库工具类" class="headerlink" title="九、JDBC连接数据库工具类"></a>九、JDBC连接数据库工具类</h2><pre><code class="java">import java.sql.*;
+
+public class DB &#123;
+    static&#123;
+        try &#123;
+            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);//加载数据库驱动
+        &#125;
+        catch (ClassNotFoundException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    private DB() &#123;&#125;
+
+    public static Connection getConn()&#123;
+        Connection conn = null;
+        try &#123;
+            //连接数据库    
+            conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/db_baima&quot;, &quot;root&quot;,&quot;123456&quot;);
+            
+        &#125;catch(SQLException e)&#123;
+            e.printStackTrace();
+        &#125;
+        return conn;
+    &#125;
+
+    public static void closeConn(Connection conn)&#123;
+        try &#123;
+            if(conn != null )&#123;
+                conn.close();
+                conn = null;
+            &#125;
+        &#125; catch (SQLException e) &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+    public static Statement getStmt(Connection conn)&#123;
+        Statement stmt = null;
+        try &#123;
+            stmt = conn.createStatement();
+        &#125; catch (SQLException e) &#123;
+            e.printStackTrace();
+        &#125;
+        return stmt;
+    &#125;
+
+    public static PreparedStatement getPStmt(Connection conn,String sql)&#123;
+        PreparedStatement pstmt = null;
+        try &#123;
+            pstmt = conn.prepareStatement(sql);
+        &#125; catch (SQLException e) &#123;
+            e.printStackTrace();
+        &#125;
+        return pstmt;
+    &#125;
+
+    public static void closeStmt(Statement stmt)&#123;
+        try &#123;
+            if(stmt != null )&#123;
+                stmt.close();
+                stmt = null;
+            &#125;
+        &#125; catch (SQLException e) &#123;
+            e.printStackTrace();
+        &#125; 
+
+    &#125;
+
+    public static ResultSet executeQuery(Statement stmt,String sql)&#123;
+        ResultSet rs = null;
+        try &#123;
+            rs = stmt.executeQuery(sql);
+        &#125; catch (SQLException e) &#123;
+            e.printStackTrace();
+        &#125;
+        return rs; 
+    &#125;
+
+    public static void closeRs(ResultSet rs)&#123;
+        try &#123;
+            if(rs != null )&#123;
+                rs.close();
+                rs = null;
+            &#125;
+        &#125; catch (SQLException e) &#123;
+            e.printStackTrace();
+        &#125; 
+    &#125; 
+
+    public static ResultSet executeQuery(Connection conn,String sql)&#123;//重载
+        ResultSet rs = null;
+        try &#123;
+            rs = conn.createStatement().executeQuery(sql);
+        &#125; catch (SQLException e) &#123;
+            e.printStackTrace();
+        &#125;
+        return rs;  
+    &#125; 
+&#125;
+</code></pre>
+<p>工具类使用说明代码：</p>
+<pre><code class="java">//插入数据
+public static void saveinfo(Object[] data) throws ParseException&#123;
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+try &#123;
+    conn= DB.getConn();
+    String sql = &quot;insert into information value (null,?,?,?,?,?,?,?) &quot;;
+    pstmt = DB.getPStmt(conn, sql);
+    pstmt.setString(1,(String) data[0]);
+    pstmt.setString(2, (String) data[1]);
+    pstmt.setString(3,(String) data[2]);
+    pstmt.setString(4,(String) data[3]); 
+    pstmt.setString(5,(String) data[4]);
+    pstmt.setString(6,(String) data[5]);
+    pstmt.setTimestamp(7 ,(Timestamp)data[6]);
+    pstmt.executeUpdate();
+    &#125; 
+    catch (SQLException e) &#123;
+        e.printStackTrace();
+    &#125;
+    finally&#123;
+        DB.closeStmt(pstmt);
+        DB.closeConn(conn);
+    &#125;
+&#125;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" data-id="cl0utfldx000nugvs6aagclxo" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E4%BB%A5%E5%8F%8A%E8%BF%9E%E6%8E%A5%E6%B1%A0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          JDBC以及连接池
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Lombok%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Lombok使用详解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/">配置文件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Shuyan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
