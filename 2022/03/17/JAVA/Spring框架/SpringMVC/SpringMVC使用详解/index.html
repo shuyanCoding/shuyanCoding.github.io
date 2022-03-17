@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-  
-  <title>SpringMVC使用详解 | Shuyan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
   <meta name="description" content="SpringMVC使用详解一、SpringMVC简介1.1、什么是 SpringMVC​        Spring MVC 是 Spring Framework 的一部分，是基于 Java 实现 MVC 的轻量级 Web 框架 1.2、为什么学习 SpringMVC​        因为 SpringMVC “简单好学”，便捷，能与 Spring 无缝集成（SpringIOC、AOP），使用约定">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringMVC使用详解">
@@ -30,79 +43,204 @@
 <meta property="article:tag" content="SpringMVC">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/441a74b64c644a4b93927bab0306f534.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5byA546p5ZacNjY=,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center">
-  
-    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<link rel="canonical" href="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringMVC/SpringMVC%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Shuyan</a>
-      </h1>
-      
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>SpringMVC使用详解 | Shuyan</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Shuyan</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">微我无酒，以敖以游</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
   </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-JAVA/Spring框架/SpringMVC/SpringMVC使用详解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringMVC/SpringMVC%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" class="article-date">
-  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
-</a>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      SpringMVC使用详解
-    </h1>
-  
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringMVC/SpringMVC%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shuyan">
+      <meta itemprop="description" content="ShuyanCoding......">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shuyan">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringMVC使用详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-03-17 11:29:01 / Modified: 11:50:53" itemprop="dateCreated datePublished" datetime="2022-03-17T11:29:01+08:00">2022-03-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/" itemprop="url" rel="index"><span itemprop="name">“Spring框架”</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/" itemprop="url" rel="index"><span itemprop="name">SpringMVC</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
       </header>
+
     
-    <div class="article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <h1 id="SpringMVC使用详解"><a href="#SpringMVC使用详解" class="headerlink" title="SpringMVC使用详解"></a>SpringMVC使用详解</h1><h2 id="一、SpringMVC简介"><a href="#一、SpringMVC简介" class="headerlink" title="一、SpringMVC简介"></a>一、SpringMVC简介</h2><h3 id="1-1、什么是-SpringMVC"><a href="#1-1、什么是-SpringMVC" class="headerlink" title="1.1、什么是 SpringMVC"></a>1.1、什么是 SpringMVC</h3><p>​        Spring MVC 是 Spring Framework 的一部分，是基于 Java 实现 MVC 的轻量级 Web 框架</p>
 <h3 id="1-2、为什么学习-SpringMVC"><a href="#1-2、为什么学习-SpringMVC" class="headerlink" title="1.2、为什么学习 SpringMVC"></a>1.2、为什么学习 SpringMVC</h3><p>​        因为 SpringMVC “简单好学”，便捷，能与 Spring 无缝集成（SpringIOC、AOP），使用约定大于配置，能够进行简单的 junit 测试，支持 Restful 风格，异常处理，本地化，国际化，数据验证，类型转换，拦截器，等等</p>
@@ -968,153 +1106,211 @@
 
 
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringMVC/SpringMVC%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" data-id="cl0uxgges003h10vsh57serpr" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SpringMVC/" rel="tag"># SpringMVC</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/17/C%E8%AF%AD%E8%A8%80/STL%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6%E7%AE%80%E4%BB%8B/" rel="prev" title="STL六个组件简介">
+      <i class="fa fa-chevron-left"></i> STL六个组件简介
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" rel="next" title="Spring设计模式">
+      Spring设计模式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SpringMVC%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.</span> <span class="nav-text">SpringMVC使用详解</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81SpringMVC%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">一、SpringMVC简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-SpringMVC"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1、什么是 SpringMVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AD%A6%E4%B9%A0-SpringMVC"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2、为什么学习 SpringMVC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3%E3%80%81SpringMVC-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3、SpringMVC 的特点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%AD%E5%BF%83%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">1.2.</span> <span class="nav-text">二、中心控制器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81SpringMVC%E5%8E%9F%E7%90%86"><span class="nav-number">1.3.</span> <span class="nav-text">三、SpringMVC原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81HelloSpringMVC"><span class="nav-number">1.4.</span> <span class="nav-text">四、HelloSpringMVC</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1%E3%80%81%E9%85%8D%E7%BD%AE%E7%89%88"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.1、配置版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2%E3%80%81%E6%B3%A8%E8%A7%A3%E7%89%88%EF%BC%88-%EF%BC%89"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.2、注解版（*）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3%E3%80%81%E7%BB%93%E8%AE%BA"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.3、结论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%B3%A8%E8%A7%A3"><span class="nav-number">1.5.</span> <span class="nav-text">五、注解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1%E3%80%81Controller"><span class="nav-number">1.5.1.</span> <span class="nav-text">5.1、Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-1%E3%80%81%E5%AE%9E%E7%8E%B0-Controller-%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">5.1.1、实现 Controller 接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-2%E3%80%81%E6%B3%A8%E8%A7%A3-Controller"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">5.1.2、注解 @Controller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2%E3%80%81RequestMapping"><span class="nav-number">1.5.2.</span> <span class="nav-text">5.2、RequestMapping</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81RestFul%E9%A3%8E%E6%A0%BC"><span class="nav-number">1.6.</span> <span class="nav-text">六、RestFul风格</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-RestFul"><span class="nav-number">1.6.1.</span> <span class="nav-text">6.1、什么是 RestFul</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2%E3%80%81RestFul-%E5%8A%9F%E8%83%BD"><span class="nav-number">1.6.2.</span> <span class="nav-text">6.2、RestFul 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-3%E3%80%81%E6%B5%8B%E8%AF%95-RestFul-%E9%A3%8E%E6%A0%BC"><span class="nav-number">1.6.3.</span> <span class="nav-text">6.3、测试 RestFul 风格</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-1%E3%80%81%E4%BD%BF%E7%94%A8-RequestMapping"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">6.3.1、使用 @RequestMapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-2%E3%80%81%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3%E5%8F%98%E4%BD%93"><span class="nav-number">1.6.3.2.</span> <span class="nav-text">6.3.2、使用注解变体</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-4%E3%80%81%E5%B0%8F%E7%BB%93"><span class="nav-number">1.6.4.</span> <span class="nav-text">6.4、小结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E8%BD%AC%E5%8F%91%E4%B8%8E%E9%87%8D%E5%AE%9A%E5%90%91"><span class="nav-number">1.7.</span> <span class="nav-text">七、转发与重定向</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1%E3%80%81ModelAndView"><span class="nav-number">1.7.1.</span> <span class="nav-text">7.1、ModelAndView</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2%E3%80%81ServletAPI"><span class="nav-number">1.7.2.</span> <span class="nav-text">7.2、ServletAPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-3%E3%80%81SpringMVC"><span class="nav-number">1.7.3.</span> <span class="nav-text">7.3、SpringMVC</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-1%E3%80%81%E6%97%A0%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="nav-number">1.7.3.1.</span> <span class="nav-text">7.3.1、无视图解析器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3-2%E3%80%81%E6%9C%89%E8%A7%86%E5%9B%BE%E8%A7%A3%E6%9E%90%E5%99%A8"><span class="nav-number">1.7.3.2.</span> <span class="nav-text">7.3.2、有视图解析器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"><span class="nav-number">1.8.</span> <span class="nav-text">八、数据处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#8-1%E3%80%81%E5%A4%84%E7%90%86%E6%8F%90%E4%BA%A4%E6%95%B0%E6%8D%AE"><span class="nav-number">1.8.1.</span> <span class="nav-text">8.1、处理提交数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-2%E3%80%81%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E7%AB%AF"><span class="nav-number">1.8.2.</span> <span class="nav-text">8.2、数据显示到前端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98"><span class="nav-number">1.9.</span> <span class="nav-text">九、中文乱码问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E3%80%81Json"><span class="nav-number">1.10.</span> <span class="nav-text">十、Json</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#10-1%E3%80%81JSON-%E4%B8%8E-JavaScript"><span class="nav-number">1.10.1.</span> <span class="nav-text">10.1、JSON 与 JavaScript</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-2%E3%80%81Controller-%E8%BF%94%E5%9B%9E-JSON-%E6%95%B0%E6%8D%AE"><span class="nav-number">1.10.2.</span> <span class="nav-text">10.2、Controller 返回 JSON 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-3%E3%80%81Controller-%E8%BF%94%E5%9B%9E-JSON-%E6%95%B0%E6%8D%AE%E4%BB%A3%E7%A0%81%E4%BC%98%E5%8C%96"><span class="nav-number">1.10.3.</span> <span class="nav-text">10.3、Controller 返回 JSON 数据代码优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-3-1%E3%80%81%E5%B0%86%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E7%BB%9F%E4%B8%80%E8%A7%A3%E5%86%B3"><span class="nav-number">1.10.3.1.</span> <span class="nav-text">10.3.1、将乱码问题统一解决</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-3-2%E3%80%81%E7%BB%9F%E4%B8%80%E8%A7%A3%E5%86%B3%E8%BF%94%E5%9B%9E%E4%B8%BA-json-%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%97%AE%E9%A2%98"><span class="nav-number">1.10.3.2.</span> <span class="nav-text">10.3.2、统一解决返回为 json 字符串问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-4%E3%80%81%E6%B5%8B%E8%AF%95%E9%9B%86%E5%90%88%E7%9A%84%E8%BE%93%E5%87%BA"><span class="nav-number">1.10.4.</span> <span class="nav-text">10.4、测试集合的输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-5%E3%80%81%E6%B5%8B%E8%AF%95%E6%97%B6%E9%97%B4%E5%AF%B9%E8%B1%A1%E8%BE%93%E5%87%BA"><span class="nav-number">1.10.5.</span> <span class="nav-text">10.5、测试时间对象输出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-6%E3%80%81%E5%B0%86%E9%87%8D%E5%A4%8D%E4%BB%A3%E7%A0%81%E6%8A%BD%E5%8F%96%E4%B8%BA%E5%B7%A5%E5%85%B7%E7%B1%BB"><span class="nav-number">1.10.6.</span> <span class="nav-text">10.6、将重复代码抽取为工具类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-7%E3%80%81FastJson"><span class="nav-number">1.10.7.</span> <span class="nav-text">10.7、FastJson</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81Ajax"><span class="nav-number">1.11.</span> <span class="nav-text">十一、Ajax</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#11-1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF-Ajax"><span class="nav-number">1.11.1.</span> <span class="nav-text">11.1、什么是 Ajax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-2%E3%80%81Ajax-%E5%8E%9F%E7%90%86"><span class="nav-number">1.11.2.</span> <span class="nav-text">11.2、Ajax 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-3%E3%80%81%E4%BC%AA%E9%80%A0-Ajax"><span class="nav-number">1.11.3.</span> <span class="nav-text">11.3、伪造 Ajax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-4%E3%80%81jQuery-%E6%93%8D%E4%BD%9C-ajax"><span class="nav-number">1.11.4.</span> <span class="nav-text">11.4、jQuery 操作 ajax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-5%E3%80%81%E5%8E%9F%E5%A7%8B%E7%9A%84-HttpServletResponse-%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.11.5.</span> <span class="nav-text">11.5、原始的 HttpServletResponse 实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-6%E3%80%81SpringMVC-%E5%AE%9E%E7%8E%B0%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE"><span class="nav-number">1.11.6.</span> <span class="nav-text">11.6、SpringMVC 实现异步加载数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-7%E3%80%81%E6%B3%A8%E5%86%8C%E6%8F%90%E7%A4%BA%E6%95%88%E6%9E%9C"><span class="nav-number">1.11.7.</span> <span class="nav-text">11.7、注册提示效果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">1.12.</span> <span class="nav-text">十二、拦截器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#12-1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">1.12.1.</span> <span class="nav-text">12.1、什么是拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-2%E3%80%81%E8%87%AA%E5%AE%9A%E4%B9%89%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="nav-number">1.12.2.</span> <span class="nav-text">12.2、自定义拦截器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-3%E3%80%81%E9%AA%8C%E8%AF%81%E7%94%A8%E6%88%B7%E6%98%AF%E5%90%A6%E7%99%BB%E5%BD%95%EF%BC%88%E8%AE%A4%E8%AF%81%E7%94%A8%E6%88%B7%EF%BC%89"><span class="nav-number">1.12.3.</span> <span class="nav-text">12.3、验证用户是否登录（认证用户）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#13%E3%80%81%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E5%92%8C%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.13.</span> <span class="nav-text">13、文件上传和下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#13-1%E3%80%81%E5%87%86%E5%A4%87%E6%B5%8B%E8%AF%95"><span class="nav-number">1.13.1.</span> <span class="nav-text">13.1、准备测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-2%E3%80%81%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">1.13.2.</span> <span class="nav-text">13.2、文件上传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-3%E3%80%81%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.13.3.</span> <span class="nav-text">13.3、文件下载</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Shuyan"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Shuyan</p>
+  <div class="site-description" itemprop="description">ShuyanCoding......</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuyanCoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shuyanCoding" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/2437197969@qq.com" title="E-Mail → 2437197969@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuyan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E6%95%B4%E5%90%88Mybatis/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          SpringBoot整合Mybaits
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SpringBoot使用详解</div>
-    </a>
-  
-</nav>
 
   
-</article>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
-    </div>
-  </div>
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
-    </div>
-  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
-    </div>
-  </div>
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
-    </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/">配置文件</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JavaWeb/">JavaWeb</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 Shuyan<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
 </body>
 </html>

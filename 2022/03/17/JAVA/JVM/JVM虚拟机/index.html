@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-  
-  <title>JVM虚拟机 | Shuyan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
   <meta name="description" content="一、类加载器子系统、运算时数据区、内存分布、执行引擎1  JDK中包含了哪些内容? ①. JDK是提供给Java开发人员使用的，其中包含了java的开发工具，也包括了JRE。所以安装了JDK，就不用在单独安装JRE了。其中的开发工具:编译工具(javac.exe) 打包工具(jar.exe)等 ②. JRE(Java Runtime Environment Java运行环境)：包括Java虚拟机(">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JVM虚拟机">
@@ -262,79 +275,200 @@
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/2021060411352293.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1RaODQ1MTk1NDg1,size_16,color_FFFFFF,t_70">
-  
-    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
 
-<meta name="generator" content="Hexo 5.4.0"></head>
+<link rel="canonical" href="http://example.com/2022/03/17/JAVA/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Shuyan</a>
-      </h1>
-      
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>JVM虚拟机 | Shuyan</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da# <app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Shuyan</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">微我无酒，以敖以游</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
     </div>
   </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-JAVA/JVM/JVM虚拟机" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/03/17/JAVA/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/" class="article-date">
-  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
-</a>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a>
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
   </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      JVM虚拟机
-    </h1>
-  
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/JAVA/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Shuyan">
+      <meta itemprop="description" content="ShuyanCoding......">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Shuyan">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM虚拟机
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2022-03-17 11:29:01 / Modified: 11:38:01" itemprop="dateCreated datePublished" datetime="2022-03-17T11:29:01+08:00">2022-03-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/" itemprop="url" rel="index"><span itemprop="name">“JVM”</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
       </header>
+
     
-    <div class="article-entry" itemprop="articleBody">
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
       
         <h2 id="一、类加载器子系统、运算时数据区、内存分布、执行引擎"><a href="#一、类加载器子系统、运算时数据区、内存分布、执行引擎" class="headerlink" title="一、类加载器子系统、运算时数据区、内存分布、执行引擎"></a>一、类加载器子系统、运算时数据区、内存分布、执行引擎</h2><h3 id="1-JDK中包含了哪些内容"><a href="#1-JDK中包含了哪些内容" class="headerlink" title="1  JDK中包含了哪些内容?"></a>1  JDK中包含了哪些内容?</h3><ul>
 <li>①. JDK是提供给Java开发人员使用的，其中包含了java的开发工具，也包括了JRE。所以安装了JDK，就不用在单独安装JRE了。其中的开发工具:编译工具(javac.exe) 打包工具(jar.exe)等</li>
@@ -3327,153 +3461,211 @@
 <li>②. 暂停时间目标不要太过严苛</li>
 </ul>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/17/JAVA/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/" data-id="cl0uxggem003910vshhneclxv" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JVM/" rel="tag"># JVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/MyBaits%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" rel="prev" title="Mybaits使用详解">
+      <i class="fa fa-chevron-left"></i> Mybaits使用详解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Lombok%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" rel="next" title="Lombok使用详解">
+      Lombok使用详解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%AD%90%E7%B3%BB%E7%BB%9F%E3%80%81%E8%BF%90%E7%AE%97%E6%97%B6%E6%95%B0%E6%8D%AE%E5%8C%BA%E3%80%81%E5%86%85%E5%AD%98%E5%88%86%E5%B8%83%E3%80%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E"><span class="nav-number">1.</span> <span class="nav-text">一、类加载器子系统、运算时数据区、内存分布、执行引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-JDK%E4%B8%AD%E5%8C%85%E5%90%AB%E4%BA%86%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9"><span class="nav-number">1.1.</span> <span class="nav-text">1  JDK中包含了哪些内容?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%89%E5%A4%A7%E5%95%86%E4%B8%9A%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">1.2.</span> <span class="nav-text">2  三大商业虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9JVM%E6%95%B4%E4%BD%93%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">3 谈谈你对JVM整体的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%AE%80%E8%BF%B0Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6-Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.</span> <span class="nav-text">4 简述Java类加载机制(Java类加载过程)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E3%80%81%E9%93%BE%E6%8E%A5%E3%80%81%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.5.</span> <span class="nav-text">5  什么是类的加载、链接、初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%B1%BB%E7%9A%84%E4%B8%BB%E5%8A%A8%E4%BD%BF%E7%94%A8%E5%92%8C%E8%A2%AB%E5%8A%A8%E4%BD%BF%E7%94%A8"><span class="nav-number">1.6.</span> <span class="nav-text">6 类的主动使用和被动使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-forName-%E2%80%9CJava-lang-String%E2%80%9D-%E5%92%8CloadClass-%E2%80%9CJava-lang-String%E2%80%9D-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-number">1.7.</span> <span class="nav-text">7 forName(“Java.lang.String”)和loadClass(“Java.lang.String”)有什么区别?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%88%A4%E5%AE%9A%E4%B8%80%E4%B8%AA%E5%B8%B8%E9%87%8F%E6%98%AF%E5%90%A6%E2%80%9D%E5%BA%9F%E5%BC%83%E2%80%9D%E8%BF%98%E6%98%AF%E7%9B%B8%E5%AF%B9%E7%AE%80%E5%8D%95%EF%BC%8C%E8%80%8C%E8%A6%81%E5%88%A4%E5%AE%9A%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%9E%8B%E6%98%AF%E5%90%A6%E5%B1%9E%E4%BA%8E%E2%80%9D%E4%B8%8D%E5%86%8D%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E7%B1%BB%E2%80%9D%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%B0%B1%E6%AF%94%E8%BE%83%E8%8B%9B%E5%88%BB%E4%BA%86%E3%80%82%E9%9C%80%E8%A6%81%E5%90%8C%E6%97%B6%E6%BB%A1%E8%B6%B3%E4%B8%8B%E9%9D%A2%E4%B8%89%E4%B8%AA%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.8.</span> <span class="nav-text">8 判定一个常量是否”废弃”还是相对简单，而要判定一个类型是否属于”不再被使用的类”的条件就比较苛刻了。需要同时满足下面三个条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E8%AF%B4%E8%AF%B4%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%88%86%E7%B1%BB%EF%BC%9F"><span class="nav-number">1.9.</span> <span class="nav-text">9  说说类的加载器分类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E8%AF%B4%E8%AF%B4%E4%BD%A0%E5%AF%B9%E5%BC%95%E5%AF%BC%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E3%80%81%E6%89%A9%E5%B1%95%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%92%8C%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.10.</span> <span class="nav-text">10  说说你对引导类加载器、扩展类加载器和应用程序类加载器的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.11.</span> <span class="nav-text">11  谈谈你对双亲委派机制的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%E7%9A%84%E4%BC%98%E5%8A%BF"><span class="nav-number">1.12.</span> <span class="nav-text">12  双亲委派机制的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%89%98%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="nav-number">1.13.</span> <span class="nav-text">13  双亲委托模式的弊端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%E5%8F%AF%E4%BB%A5%E6%89%93%E7%A0%B4%E5%90%97%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88"><span class="nav-number">1.14.</span> <span class="nav-text">14  双亲委派机制可以打破吗？为什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-%E6%B2%99%E7%AE%B1%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6%E8%B0%88%E8%B0%88%E4%BD%A0%E7%9A%84%E8%AE%A4%E8%AF%86"><span class="nav-number">1.15.</span> <span class="nav-text">15  沙箱安全机制谈谈你的认识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9ClassLaoder%E4%B8%AD%E7%9A%84loadClass%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.16.</span> <span class="nav-text">16  谈谈你对ClassLaoder中的loadClass的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-Java%E4%B8%AD%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AD%98%E5%82%A8%E5%9C%A8JVM%E4%B8%AD%E7%9A%84%E5%AD%98%E5%82%A8%E4%BD%8D%E7%BD%AE"><span class="nav-number">1.17.</span> <span class="nav-text">17  Java中基本数据类型存储在JVM中的存储位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6%E4%B8%AD%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88"><span class="nav-number">1.18.</span> <span class="nav-text">18  字节码文件中都有什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-%E5%B8%B8%E9%87%8F%E6%B1%A0%E4%B8%AD%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.19.</span> <span class="nav-text">19  常量池中都有什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-JVM%E7%9A%84%E6%B0%B8%E4%B9%85%E4%BB%A3%E4%B8%AD%E4%BC%9A%E5%8F%91%E7%94%9F%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E4%B9%88"><span class="nav-number">1.20.</span> <span class="nav-text">20 JVM的永久代中会发生垃圾回收么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-JVM%E5%9C%A8%E5%8A%A0%E8%BD%BD%E7%B1%BB%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%98%AF%E5%90%A6%E6%8C%89%E7%85%A7%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E3%80%81%E9%93%BE%E6%8E%A5-%E9%AA%8C%E8%AF%81%E3%80%81%E5%87%86%E5%A4%87%E3%80%81%E8%A7%A3%E6%9E%90-%E5%92%8C%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E9%A1%BA%E5%BA%8F%E6%89%A7%E8%A1%8C%E7%9A%84%EF%BC%9F"><span class="nav-number">1.21.</span> <span class="nav-text">21  JVM在加载类的时候，是否按照类的加载、链接(验证、准备、解析)和初始化的顺序执行的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-%E2%80%9C%E7%88%B6%E5%8A%A0%E8%BD%BD%E5%99%A8%E2%80%9D%E5%92%8C%E2%80%9D%E5%AD%90%E5%8A%A0%E8%BD%BD%E5%99%A8%E2%80%9D%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E6%98%AF%E7%BB%A7%E6%89%BF%E7%9A%84%E5%90%97"><span class="nav-number">1.22.</span> <span class="nav-text">22 “父加载器”和”子加载器”之间的关系是继承的吗?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-%E5%A6%82%E6%9E%9C%E6%88%91%E4%BB%AC%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E8%BD%BD%E5%99%A8%EF%BC%8C%E6%B2%A1%E6%9C%89%E4%BD%BF%E7%94%A8%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%EF%BC%8C%E9%82%A3%E4%B9%88Java%E4%B8%AD%E7%9A%84%E6%A0%B8%E5%BF%83%E7%B1%BB%E5%BA%93%E6%98%AF%E4%B8%8D%E6%98%AF%E8%BF%98%E6%98%AF%E4%BC%9A%E8%BF%9B%E8%A1%8C%E5%8A%A0%E8%BD%BD%EF%BC%9F"><span class="nav-number">1.23.</span> <span class="nav-text">23  如果我们自定义加载器，没有使用双亲委派机制，那么Java中的核心类库是不是还是会进行加载？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-%E4%B8%BA%E4%BB%80%E4%B9%88JDBC%E9%9C%80%E8%A6%81%E6%89%93%E7%A0%B4%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6-tomcat%E4%B9%9F%E6%89%93%E7%A0%B4%E4%BA%86"><span class="nav-number">1.24.</span> <span class="nav-text">24  为什么JDBC需要打破双亲委派机制?(tomcat也打破了)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#25-%E6%97%A2%E7%84%B6Tomcat%E4%B8%8D%E9%81%B5%E5%BE%AA%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%EF%BC%8C%E9%82%A3%E4%B9%88%E5%A6%82%E6%9E%9C%E6%88%91%E8%87%AA%E5%B7%B1%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E6%81%B6%E6%84%8F%E7%9A%84HashMap%EF%BC%8C%E4%BC%9A%E4%B8%8D%E4%BC%9A%E6%9C%89%E9%A3%8E%E9%99%A9%E5%91%A2"><span class="nav-number">1.25.</span> <span class="nav-text">25  既然Tomcat不遵循双亲委派机制，那么如果我自己定义一个恶意的HashMap，会不会有风险呢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#26-%E6%88%91%E4%BB%AC%E6%80%9D%E8%80%83%E4%B8%80%E4%B8%8B-Tomcat%E6%98%AF%E4%B8%AAweb%E5%AE%B9%E5%99%A8%EF%BC%8C%E9%82%A3%E4%B9%88%E5%AE%83%E8%A6%81%E8%A7%A3%E5%86%B3%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">1.26.</span> <span class="nav-text">26  我们思考一下:Tomcat是个web容器，那么它要解决什么问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#27-%E5%A6%82%E6%9E%9Ctomcat%E7%9A%84CommonClassLoader%E6%83%B3%E5%8A%A0%E8%BD%BDWebAppClassLoader%E4%B8%AD%E7%9A%84%E7%B1%BB%EF%BC%8C%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">1.27.</span> <span class="nav-text">27  如果tomcat的CommonClassLoader想加载WebAppClassLoader中的类，该怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#28-%E4%B8%BA%E4%BB%80%E4%B9%88java%E6%96%87%E4%BB%B6%E6%94%BE%E5%9C%A8Eclipse-IDEA%E4%B8%AD%E7%9A%84src%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%8B%E4%BC%9A%E4%BC%98%E5%85%88jar%E5%8C%85%E4%B8%AD%E7%9A%84class"><span class="nav-number">1.28.</span> <span class="nav-text">28 为什么java文件放在Eclipse&#x2F;IDEA中的src文件夹下会优先jar包中的class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#29-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.29.</span> <span class="nav-text">29 谈谈你对程序计数器的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#30-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8PC%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%B0%E5%BD%95%E5%BD%93%E5%89%8D%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%89%A7%E8%A1%8C%E5%9C%B0%E5%9D%80%E5%91%A2"><span class="nav-number">1.30.</span> <span class="nav-text">30  为什么使用PC寄存器记录当前线程的执行地址呢?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#31-PC%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AE%BE%E5%AE%9A%E4%B8%BA%E7%BA%BF%E7%A8%8B%E7%A7%81%E6%9C%89"><span class="nav-number">1.31.</span> <span class="nav-text">31 PC寄存器为什么设定为线程私有?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32-%E8%AF%B4%E8%AF%B4%E4%BD%A0%E5%AF%B9%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.32.</span> <span class="nav-text">32 说说你对本地方法栈的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#33-%E4%BB%80%E4%B9%88%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%EF%BC%9F"><span class="nav-number">1.33.</span> <span class="nav-text">33  什么虚拟机栈？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#34-%E6%A0%88%E9%87%8C%E9%9D%A2%E5%AD%98%E5%9C%A8GC%E5%90%97%EF%BC%9F"><span class="nav-number">1.34.</span> <span class="nav-text">34  栈里面存在GC吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#35-%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E5%92%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%AF%B9%E6%AF%94%EF%BC%9F"><span class="nav-number">1.35.</span> <span class="nav-text">35  静态变量和局部变量的对比？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#36-%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%E4%B8%AD%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88"><span class="nav-number">1.36.</span> <span class="nav-text">36 虚拟机栈中都有什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#37-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.37.</span> <span class="nav-text">37 谈谈你对局部变量表的理解?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#38-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.38.</span> <span class="nav-text">38 谈谈你对操作数栈的理解?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#39-%E8%AF%B4%E8%AF%B4%E4%BD%A0%E5%AF%B9%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.39.</span> <span class="nav-text">39 说说你对动态链接的理解?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#40-%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80%EF%BC%9F"><span class="nav-number">1.40.</span> <span class="nav-text">40 方法返回地址？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#41-%E9%99%84%E5%8A%A0%E4%BF%A1%E6%81%AF-%E4%BA%86%E8%A7%A3"><span class="nav-number">1.41.</span> <span class="nav-text">41 附加信息(了解)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#42-%E8%B0%83%E6%95%B4%E6%A0%88%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%B0%B1%E8%83%BD%E4%BF%9D%E8%AF%81%E4%B8%8D%E5%87%BA%E7%8E%B0%E6%BA%A2%E5%87%BA%E5%90%97"><span class="nav-number">1.42.</span> <span class="nav-text">42 调整栈大小，就能保证不出现溢出吗?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#43-%E5%88%86%E9%85%8D%E7%9A%84%E6%A0%88%E5%86%85%E5%AD%98%E8%B6%8A%E5%A4%A7%E8%B6%8A%E5%A5%BD%E5%90%97"><span class="nav-number">1.43.</span> <span class="nav-text">43 分配的栈内存越大越好吗?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#44-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%98%AF%E5%90%A6%E4%BC%9A%E6%B6%89%E5%8F%8A%E5%88%B0%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88"><span class="nav-number">1.44.</span> <span class="nav-text">44 垃圾回收是否会涉及到虚拟机栈?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#45-%E6%96%B9%E6%B3%95%E4%B8%AD%E5%AE%9A%E4%B9%89%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E6%98%AF%E5%90%A6%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">1.45.</span> <span class="nav-text">45 方法中定义的局部变量是否线程安全?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#46-%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%8F%91%E7%94%9F%E6%A0%88%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA"><span class="nav-number">1.46.</span> <span class="nav-text">46 什么情况下会发生栈内存溢出?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#47-%E8%AF%B4%E8%AF%B4%E5%A0%86%E5%92%8C%E6%A0%88%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.47.</span> <span class="nav-text">47 说说堆和栈的区别?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#48-%E7%AE%80%E5%8D%95%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E5%A0%86%E7%9A%84%E7%90%86%E8%A7%A3-%E5%85%B1%E4%BA%AB-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">1.48.</span> <span class="nav-text">48 简单谈谈你对堆的理解?(共享|垃圾回收)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#49-%E5%A0%86%E9%87%8C%E9%9D%A2%E7%9A%84%E5%88%86%E5%8C%BA-Eden%EF%BC%8Csurvival-from-to-%EF%BC%8C%E8%80%81%E5%B9%B4%E4%BB%A3%EF%BC%8C%E5%90%84%E8%87%AA%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">1.49.</span> <span class="nav-text">49 堆里面的分区:Eden，survival(from+to)，老年代，各自的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#50-%E5%A0%86%E5%A4%A7%E5%B0%8F%E9%80%9A%E8%BF%87%E4%BB%80%E4%B9%88%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE%EF%BC%9F"><span class="nav-number">1.50.</span> <span class="nav-text">50 堆大小通过什么参数设置？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#51-%E5%88%9D%E5%A7%8B%E5%A0%86%E5%A4%A7%E5%B0%8F%E5%92%8C%E6%9C%80%E5%A4%A7%E5%A0%86%E5%A4%A7%E5%B0%8F%E4%B8%80%E6%A0%B7%EF%BC%8C%E9%97%AE%E8%BF%99%E6%A0%B7%E6%9C%89%E4%BB%80%E4%B9%88%E5%A5%BD%E5%A4%84"><span class="nav-number">1.51.</span> <span class="nav-text">51 初始堆大小和最大堆大小一样，问这样有什么好处?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#52-%E5%AF%B9%E8%B1%A1%E5%9C%A8%E5%A0%86%E4%B8%AD%E7%9A%84%E5%88%86%E9%85%8D%E8%A7%84%E5%88%99"><span class="nav-number">1.52.</span> <span class="nav-text">52 对象在堆中的分配规则?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#53-Minor-GC-Major-GC-Full-GC"><span class="nav-number">1.53.</span> <span class="nav-text">53 Minor GC | Major GC | Full GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#54-%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E8%A7%A6%E5%8F%91minor-gc%EF%BC%9F"><span class="nav-number">1.54.</span> <span class="nav-text">54  什么时候会触发minor gc？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#55-%E6%98%AF%E4%B8%8D%E6%98%AF%E6%89%80%E6%9C%89%E5%AF%B9%E8%B1%A1%E9%83%BD%E5%88%86%E9%85%8D%E5%9C%A8%E5%A0%86%E4%B8%AD"><span class="nav-number">1.55.</span> <span class="nav-text">55 是不是所有对象都分配在堆中?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#56-%E6%96%B9%E6%B3%95%E5%8C%BA%E4%B8%AD%E9%83%BD%E5%AD%98%E6%94%BE%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF"><span class="nav-number">1.56.</span> <span class="nav-text">56 方法区中都存放什么东西?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#57-%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%A4%A7%E5%B0%8F%E5%86%B3%E5%AE%9A%E4%BA%86%E7%B3%BB%E7%BB%9F%E5%8F%AF%E4%BB%A5%E4%BF%9D%E5%AD%98%E5%A4%9A%E5%B0%91%E4%B8%AA%E7%B1%BB%EF%BC%8C%E5%A6%82%E6%9E%9C%E7%B3%BB%E7%BB%9F%E5%AE%9A%E4%B9%89%E4%BA%86%E5%A4%AA%E5%A4%9A%E7%9A%84%E7%B1%BB%EF%BC%8C%E5%AF%BC%E8%87%B4%E6%96%B9%E6%B3%95%E5%8C%BA%E6%BA%A2%E5%87%BA%EF%BC%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%90%8C%E6%A0%B7%E4%BC%9A%E6%8A%9B%E5%87%BA%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E9%94%99%E8%AF%AF"><span class="nav-number">1.57.</span> <span class="nav-text">57 方法区的大小决定了系统可以保存多少个类，如果系统定义了太多的类，导致方法区溢出，虚拟机同样会抛出内存溢出错误?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#58-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E6%96%B9%E6%B3%95%E5%8C%BA%E4%B8%AD%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0%E3%80%81%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%9F"><span class="nav-number">1.58.</span> <span class="nav-text">58 谈谈你对方法区中字符串常量池、静态变量的变化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#59-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8%E5%85%83%E7%A9%BA%E9%97%B4%E5%8F%96%E4%BB%A3%E6%B0%B8%E4%B9%85%E4%BB%A3"><span class="nav-number">1.59.</span> <span class="nav-text">59 为什么要用元空间取代永久代</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#60-StringTable%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%B0%83%E6%95%B4"><span class="nav-number">1.60.</span> <span class="nav-text">60 StringTable为什么要调整?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#61-new%E5%AF%B9%E8%B1%A1%E6%B5%81%E7%A8%8B%EF%BC%9F%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">1.61.</span> <span class="nav-text">61 new对象流程？对象的内存分配?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#62-%E5%AF%B9%E8%B1%A1%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84%E9%83%BD%E6%9C%89%E4%BB%80%E4%B9%88"><span class="nav-number">1.62.</span> <span class="nav-text">62 对象内部结构都有什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#63-Java%E5%AF%B9%E8%B1%A1%E5%A4%B4%E9%87%8C%E6%9C%89%E4%BB%80%E4%B9%88"><span class="nav-number">1.63.</span> <span class="nav-text">63  Java对象头里有什么?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#64-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.64.</span> <span class="nav-text">64  谈谈你对执行引擎的理解?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#65-%E4%BD%A0%E6%98%AF%E6%80%8E%E4%B9%88%E6%8C%87%E5%AE%9AJVM%E5%90%AF%E5%8A%A8%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="nav-number">1.65.</span> <span class="nav-text">65 你是怎么指定JVM启动模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#66-%E9%82%A3%E4%BD%A0%E7%9F%A5%E9%81%93-server-c2-%E5%92%8C-client-c1-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%90%97%EF%BC%9F"><span class="nav-number">1.66.</span> <span class="nav-text">66 那你知道-server(c2)和-client(c1)的区别吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#67-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%86AOT%E9%9D%99%E6%80%81%E6%8F%90%E5%89%8D%E7%BC%96%E8%AF%91%EF%BC%8C%E6%88%91%E4%BB%AC%E6%B2%A1%E7%94%A8%EF%BC%9F%E8%80%8C%E6%98%AF%E7%94%A8%E7%9A%84JLT%E7%BC%96%E8%AF%91%E5%99%A8%EF%BC%9F"><span class="nav-number">1.67.</span> <span class="nav-text">67  为什么有了AOT静态提前编译，我们没用？而是用的JLT编译器？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#68-%E4%BB%80%E4%B9%88%E6%98%AF%E5%9E%83%E5%9C%BE%EF%BC%9F"><span class="nav-number">1.68.</span> <span class="nav-text">68 什么是垃圾？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#69-Java%E4%B8%AD%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E9%87%8D%E7%82%B9%E5%8C%BA%E5%9F%9F%E6%98%AF%EF%BC%9F"><span class="nav-number">1.69.</span> <span class="nav-text">69  Java中垃圾回收的重点区域是？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#70-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E5%9E%83%E5%9C%BE%E5%88%A4%E5%88%AB%E9%98%B6%E6%AE%B5%E7%AE%97%E6%B3%95%E9%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B"><span class="nav-number">1.70.</span> <span class="nav-text">70  谈谈你对垃圾判别阶段算法都有哪些?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#71-%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E7%AE%97%E6%B3%95"><span class="nav-number">1.71.</span> <span class="nav-text">71 引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#72-%E4%BD%A0%E5%AF%B9%E6%9E%9A%E4%B8%BE%E6%A0%B9%E8%8A%82%E7%82%B9%E5%81%9A%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90%E4%BA%86%E8%A7%A3%E5%90%97"><span class="nav-number">1.72.</span> <span class="nav-text">72 你对枚举根节点做可达性分析了解吗?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#73-%E5%9C%A8java%E4%B8%AD%EF%BC%8C%E5%8F%AF%E4%BD%9C%E4%B8%BAGC-Roots%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%9C%89"><span class="nav-number">1.73.</span> <span class="nav-text">73 在java中，可作为GC Roots的对象有?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#74-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9%E4%BD%A0%E6%98%AF%E6%80%8E%E4%B9%88%E7%90%86%E8%A7%A3%E7%9A%84"><span class="nav-number">1.74.</span> <span class="nav-text">74 复制算法及优缺点你是怎么理解的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#75-%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95-Mark%E4%B8%80Sweep"><span class="nav-number">1.75.</span> <span class="nav-text">75 标记清除算法(Mark一Sweep)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#76-%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86-%E5%8E%8B%E7%BC%A9-%E7%AE%97%E6%B3%95-Mark-Compact"><span class="nav-number">1.76.</span> <span class="nav-text">76 标记整理(压缩)算法(Mark-Compact)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#77-JVM%E9%87%87%E7%94%A8%E7%9A%84%E6%98%AF%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%EF%BC%9F"><span class="nav-number">1.77.</span> <span class="nav-text">77 JVM采用的是分代收集？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#78-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9finalize-%E6%96%B9%E6%B3%95%E4%B8%AD%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E7%8A%B6%E6%80%81%EF%BC%9F"><span class="nav-number">1.78.</span> <span class="nav-text">78 谈谈你对finalize( )方法中虚拟机的状态？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#79-System-gc-%E4%B8%8ERuntime-getRuntime-gc-%E5%8C%BA%E5%88%AB"><span class="nav-number">1.79.</span> <span class="nav-text">79 System.gc()与Runtime.getRuntime().gc()区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#80-%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%9F"><span class="nav-number">1.80.</span> <span class="nav-text">80 什么是内存泄漏？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#81-%E4%BB%80%E4%B9%88%E6%98%AF%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%EF%BC%9F"><span class="nav-number">1.81.</span> <span class="nav-text">81  什么是内存溢出？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#82-Java%E4%B8%AD%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E7%9A%848%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">1.82.</span> <span class="nav-text">82  Java中内存泄漏的8种情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#83-%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%AF%BC%E8%87%B4stop-the-world"><span class="nav-number">1.83.</span> <span class="nav-text">83 什么情况下会导致stop the world</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#84-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9%E5%AE%89%E5%85%A8%E7%82%B9%E7%9A%84%E7%90%86%E8%A7%A3-%EF%BC%9F"><span class="nav-number">1.84.</span> <span class="nav-text">84 谈谈你对安全点的理解 ？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#85-%E5%AE%89%E5%85%A8%E5%8C%BA%E5%9F%9F%E4%BD%A0%E7%9F%A5%E9%81%93%E5%90%97"><span class="nav-number">1.85.</span> <span class="nav-text">85 安全区域你知道吗?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#86-%E5%BC%BA%E5%BC%95%E7%94%A8%E3%80%81%E8%BD%AF%E5%BC%95%E7%94%A8%E3%80%81%E5%BC%B1%E5%BC%95%E7%94%A8%E3%80%81%E8%99%9A%E5%BC%95%E7%94%A8%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.86.</span> <span class="nav-text">86 强引用、软引用、弱引用、虚引用的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#87-Java%E4%B8%AD%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E9%87%8D%E7%82%B9%E5%8C%BA%E5%9F%9F%E6%98%AF%EF%BC%9F"><span class="nav-number">1.87.</span> <span class="nav-text">87  Java中垃圾回收的重点区域是？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#88-GC%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E6%9C%89GC%EF%BC%9F"><span class="nav-number">1.88.</span> <span class="nav-text">88 GC是什么？为什么要有GC？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#89-%E5%90%9E%E5%90%90%E9%87%8F%E4%BC%98%E5%85%88%E9%80%89%E6%8B%A9%E4%BB%80%E4%B9%88%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%EF%BC%9F%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4%E4%BC%98%E5%85%88%E5%91%A2"><span class="nav-number">1.89.</span> <span class="nav-text">89 吞吐量优先选择什么垃圾回收器？响应时间优先呢?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#90-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9JVM%E4%B8%AD%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="nav-number">1.90.</span> <span class="nav-text">90  谈谈你对JVM中垃圾收集器的理解？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#91-%E8%AE%B2%E4%B8%80%E4%B8%8BCMS%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E6%B5%81%E7%A8%8B"><span class="nav-number">1.91.</span> <span class="nav-text">91 讲一下CMS垃圾收集器垃圾回收的流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#92-CMS%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.92.</span> <span class="nav-text">92  CMS优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#93-CMS%E4%BC%9A%E5%87%BA%E7%8E%B0%E6%BC%8F%E6%A0%87%EF%BC%8C%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E7%9A%84"><span class="nav-number">1.93.</span> <span class="nav-text">93  CMS会出现漏标，怎么解决的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#94-%E4%B8%89%E8%89%B2%E6%A0%87%E5%BF%97%E8%B0%88%E8%B0%88%E4%BD%A0%E7%9A%84%E7%90%86%E8%A7%A3%E6%98%AF%E4%BB%80%E4%B9%88%E6%A0%B7%E7%9A%84"><span class="nav-number">1.94.</span> <span class="nav-text">94 三色标志谈谈你的理解是什么样的?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#95-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="nav-number">1.95.</span> <span class="nav-text">95  谈谈你对G1垃圾收集器的理解？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#96-G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E7%89%B9%E7%82%B9%E3%80%81%E7%BC%BA%E7%82%B9"><span class="nav-number">1.96.</span> <span class="nav-text">96 G1垃圾收集器的特点、缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#97-%E8%B0%88%E8%B0%88%E4%BD%A0%E5%AF%B9G1%E4%B8%AD%E7%9A%84Region%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">1.97.</span> <span class="nav-text">97  谈谈你对G1中的Region的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#98-%E5%A4%A7%E8%87%B4%E8%AF%B4%E8%AF%B4G1%E7%9A%84%E5%9B%9E%E6%94%B6%E8%BF%87%E7%A8%8B"><span class="nav-number">1.98.</span> <span class="nav-text">98  大致说说G1的回收过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#99-G1%E7%9A%84%E5%B9%B4%E8%BD%BB%E4%BB%A3GC"><span class="nav-number">1.99.</span> <span class="nav-text">99  G1的年轻代GC?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#100-%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E8%BF%87%E7%A8%8B"><span class="nav-number">1.100.</span> <span class="nav-text">100  并发标记过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#101-%E6%B7%B7%E5%90%88%E5%9B%9E%E6%94%B6-Mixed-GC"><span class="nav-number">1.101.</span> <span class="nav-text">101 混合回收 Mixed GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#102-G1%E5%92%8CCMS%E7%9B%B8%E6%AF%94%E6%9C%89%E5%93%AA%E4%BA%9B%E4%BC%98%E5%8A%BF"><span class="nav-number">1.102.</span> <span class="nav-text">102  G1和CMS相比有哪些优势?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#103-%E6%88%91%E4%BB%AC%E6%80%8E%E4%B9%88%E5%8E%BB%E9%80%89%E6%8B%A9%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%EF%BC%9F"><span class="nav-number">1.103.</span> <span class="nav-text">103  我们怎么去选择垃圾收集器？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%8E%9F%E7%90%86%E3%80%81%E5%88%86%E7%B1%BB%E3%80%81%E4%B8%89%E5%A4%A7%E5%95%86%E4%B8%9A%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">2.</span> <span class="nav-text">二、跨平台原理、分类、三大商业虚拟机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFJVM%EF%BC%9F"><span class="nav-number">2.1.</span> <span class="nav-text">1 什么是JVM？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Java%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%8F%8A%E5%8E%9F%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">2 Java的跨平台及原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JVM%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">2.3.</span> <span class="nav-text">3  JVM的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%89%E5%A4%A7%E5%95%86%E4%B8%9A%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">2.4.</span> <span class="nav-text">4  三大商业虚拟机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81"><span class="nav-number">3.</span> <span class="nav-text">三、</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">四、程序计数器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A8%8B%E5%BA%8F%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text">1 程序计数器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%9C%AC%E5%9C%B0%E6%96%B9%E6%B3%95%E6%A0%88"><span class="nav-number">4.2.</span> <span class="nav-text">2  本地方法栈</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A0%88%E6%A6%82%E8%BF%B0%E3%80%81%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8%E3%80%81%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88%E3%80%81%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5"><span class="nav-number">5.</span> <span class="nav-text">五、虚拟机栈概述、局部变量表、操作数栈、动态链接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFJava-virtual-machine"><span class="nav-number">5.1.</span> <span class="nav-text">1 什么是Java virtual machine?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A1%A8-LocalVariables"><span class="nav-number">5.2.</span> <span class="nav-text">2 局部变量表(LocalVariables)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%88-operand-stack"><span class="nav-number">5.3.</span> <span class="nav-text">3 操作数栈(operand stack)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5-Dynamic-Linking"><span class="nav-number">5.4.</span> <span class="nav-text">4 动态链接(Dynamic Linking)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%96%B9%E6%B3%95%E7%9A%84%E8%B0%83%E7%94%A8-%E5%B0%8F%E6%8F%92%E6%9B%B2-%E9%9A%BE%E7%82%B9"><span class="nav-number">5.5.</span> <span class="nav-text">5 方法的调用:(小插曲)难点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%85%B3%E4%BA%8Einvokedynamic%E6%8C%87%E4%BB%A4"><span class="nav-number">5.6.</span> <span class="nav-text">6 关于invokedynamic指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%9C%B0%E5%9D%80-Return-Address"><span class="nav-number">5.7.</span> <span class="nav-text">7 方法返回地址(Return Address)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E4%B8%80%E4%BA%9B%E9%99%84%E5%8A%A0%E4%BF%A1%E6%81%AF"><span class="nav-number">5.8.</span> <span class="nav-text">8  一些附加信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E9%97%AE%E9%A2%98%E5%B0%8F%E7%BB%93%E4%B8%8E%E6%89%A9%E5%B1%95"><span class="nav-number">5.9.</span> <span class="nav-text">9  问题小结与扩展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%A0%86%E7%9A%84%E6%A6%82%E8%BF%B0%E3%80%81%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">6.</span> <span class="nav-text">六、堆的概述、内存结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%A0%86%E7%9A%84%E6%A6%82%E8%BF%B0-%E5%85%B1%E4%BA%AB-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">6.1.</span> <span class="nav-text">1 堆的概述(共享|垃圾回收)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A0%86%E7%9A%84%E5%86%85%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">6.2.</span> <span class="nav-text">2 堆的内存结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A0%86%E7%A9%BA%E9%97%B4%E5%A4%A7%E5%B0%8F%E7%9A%84%E8%AE%BE%E7%BD%AE-Xms-Xmx"><span class="nav-number">6.3.</span> <span class="nav-text">3  堆空间大小的设置 -Xms -Xmx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%96%B0%E7%94%9F%E4%BB%A3%E4%B8%8E%E8%80%81%E5%B9%B4%E4%BB%A3%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE-NewRation-SurvivorRatio"><span class="nav-number">6.4.</span> <span class="nav-text">4  新生代与老年代参数设置 NewRation SurvivorRatio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">6.5.</span> <span class="nav-text">5  复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Minor-GC-Major-GC-Full-GC"><span class="nav-number">6.6.</span> <span class="nav-text">6 Minor GC | Major GC | Full GC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E9%92%88%E5%AF%B9%E4%B8%8D%E5%90%8C%E5%B9%B4%E9%BE%84%E9%98%B6%E6%AE%B5%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%88%86%E9%85%8D%E5%8E%9F%E5%88%99"><span class="nav-number">6.7.</span> <span class="nav-text">7  针对不同年龄阶段的对象分配原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-TLAB-Thread-Local-Allocation-Buffer"><span class="nav-number">6.8.</span> <span class="nav-text">8  TLAB(Thread Local Allocation Buffer)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%A0%86%E7%A9%BA%E9%97%B4%E5%8F%82%E6%95%B0%E6%80%BB%E7%BB%93"><span class="nav-number">6.9.</span> <span class="nav-text">9 堆空间参数总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90"><span class="nav-number">6.10.</span> <span class="nav-text">10 逃逸分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E6%A0%88%E4%B8%8A%E5%88%86%E9%85%8D"><span class="nav-number">6.11.</span> <span class="nav-text">11 栈上分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E5%90%8C%E6%AD%A5%E6%9B%BF%E6%8D%A2-%E9%94%81%E6%B6%88%E9%99%A4"><span class="nav-number">6.12.</span> <span class="nav-text">12  同步替换 锁消除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E5%88%86%E7%A6%BB%E5%AF%B9%E8%B1%A1%E6%88%96%E6%A0%87%E9%87%8F%E6%9B%BF%E6%8D%A2"><span class="nav-number">6.13.</span> <span class="nav-text">13 分离对象或标量替换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E6%A6%82%E8%BF%B0"><span class="nav-number">7.</span> <span class="nav-text">七、方法区的概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E6%A6%82%E8%BF%B0"><span class="nav-number">7.1.</span> <span class="nav-text">1 方法区的概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84"><span class="nav-number">7.2.</span> <span class="nav-text">2 方法区的内部结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E6%BC%94%E8%BF%9B%E7%BB%86%E8%8A%82"><span class="nav-number">7.3.</span> <span class="nav-text">3 方法区的演进细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95%E5%8C%BA%E5%A4%A7%E5%B0%8F"><span class="nav-number">7.4.</span> <span class="nav-text">4 设置方法区大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%B8%B8%E9%87%8F%E6%B1%A0%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">7.5.</span> <span class="nav-text">5 常量池的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%BF%90%E8%A1%8C%E6%97%B6%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">7.6.</span> <span class="nav-text">6 运行时常量池</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%A6%82%E4%BD%95%E8%AF%81%E6%98%8E%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8F%E5%AD%98%E5%9C%A8%E5%93%AA"><span class="nav-number">7.7.</span> <span class="nav-text">7 如何证明静态变量存在哪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E6%96%B9%E6%B3%95%E5%8C%BA%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">7.8.</span> <span class="nav-text">8 方法区的垃圾回收</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96"><span class="nav-number">8.</span> <span class="nav-text">八、对象的实例化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%8E%E5%AD%97%E8%8A%82%E7%A0%81%E8%A7%92%E5%BA%A6%E7%9C%8B%E5%BE%85%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="nav-number">8.1.</span> <span class="nav-text">1  从字节码角度看待对象的创建过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%AE%9E%E4%BE%8B%E5%8C%96-%E5%85%AD%E4%B8%AA%E6%AD%A5%E9%AA%A4"><span class="nav-number">8.2.</span> <span class="nav-text">2 对象的实例化(六个步骤)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%86%85%E5%AD%98%E5%B8%83%E5%B1%80"><span class="nav-number">8.3.</span> <span class="nav-text">3 对象的内存布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AF%B9%E8%B1%A1%E5%A4%B4-Header"><span class="nav-number">8.4.</span> <span class="nav-text">4 对象头(Header)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%AE%9E%E4%BE%8B%E6%95%B0%E6%8D%AE%EF%BC%88Instance-Data%EF%BC%89"><span class="nav-number">8.5.</span> <span class="nav-text">5  实例数据（Instance Data）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%AF%B9%E9%BD%90%E5%A1%AB%E5%85%85%EF%BC%88Padding%EF%BC%89"><span class="nav-number">8.6.</span> <span class="nav-text">6  对齐填充（Padding）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E6%80%BB%E7%BB%93"><span class="nav-number">8.7.</span> <span class="nav-text">7 总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BF%E9%97%AE%E5%AE%9A%E4%BD%8D"><span class="nav-number">8.8.</span> <span class="nav-text">8 对象的访问定位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E7%9B%B4%E6%8E%A5%E5%86%85%E5%AD%98-Direct-Memory"><span class="nav-number">8.9.</span> <span class="nav-text">9  直接内存(Direct Memory)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%B8%B8%E9%87%8F%E6%B1%A0"><span class="nav-number">9.</span> <span class="nav-text">九、字符串常量池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-String%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="nav-number">9.1.</span> <span class="nav-text">1  String的基本特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-String%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E9%85%8D"><span class="nav-number">9.2.</span> <span class="nav-text">2 String的内存分配</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8B%BC%E6%8E%A5%E6%93%8D%E4%BD%9C"><span class="nav-number">9.3.</span> <span class="nav-text">3 字符串拼接操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%8B%BC%E6%8E%A5%E6%93%8D%E4%BD%9C%E4%B8%8Eappend%E7%9A%84%E6%95%88%E7%8E%87%E5%AF%B9%E6%AF%94"><span class="nav-number">9.4.</span> <span class="nav-text">4 拼接操作与append的效率对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-intern-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">9.5.</span> <span class="nav-text">5 intern()的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-new-String-%E2%80%9Cab%E2%80%9D-%E4%BC%9A%E5%88%9B%E5%BB%BA%E5%87%A0%E4%B8%AA%E5%AF%B9%E8%B1%A1"><span class="nav-number">9.6.</span> <span class="nav-text">6 new String(“ab”)会创建几个对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-new-String-%E2%80%9Ca%E2%80%9D-new-String-%E2%80%9Cb%E2%80%9D-%E5%88%9B%E5%BB%BA%E5%87%A0%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%91%A2%EF%BC%9F"><span class="nav-number">9.7.</span> <span class="nav-text">7 new String(“a”) + new String(“b”)创建几个对象呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%85%B3%E4%BA%8EString-intern-%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">9.8.</span> <span class="nav-text">8 关于String.intern( )的面试题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E6%80%BB%E7%BB%93String%E7%9A%84intern%EF%BC%88%EF%BC%89%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">9.9.</span> <span class="nav-text">9 总结String的intern（）的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-intern-%E6%95%88%E7%8E%87%E6%B5%8B%E8%AF%95"><span class="nav-number">9.10.</span> <span class="nav-text">10  intern()效率测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-StrtingTable%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6-%E4%BA%86%E8%A7%A3"><span class="nav-number">9.11.</span> <span class="nav-text">11 StrtingTable的垃圾回收(了解)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E%E6%A6%82%E8%BF%B0"><span class="nav-number">10.</span> <span class="nav-text">十、执行引擎概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%89%A7%E8%A1%8C%E5%BC%95%E6%93%8E%E6%A6%82%E8%BF%B0"><span class="nav-number">10.1.</span> <span class="nav-text">1 执行引擎概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Java%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91%E5%92%8C%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">10.2.</span> <span class="nav-text">2  Java代码编译和执行过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%9C%BA%E5%99%A8%E7%A0%81%E3%80%81%E6%8C%87%E4%BB%A4%E3%80%81%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80"><span class="nav-number">10.3.</span> <span class="nav-text">3 机器码、指令、汇编语言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%A7%A3%E9%87%8A%E5%99%A8-%E8%B4%9F%E8%B4%A3%E5%93%8D%E5%BA%94%E6%97%B6%E9%97%B4"><span class="nav-number">10.4.</span> <span class="nav-text">4 解释器 -负责响应时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-JIT%E7%BC%96%E8%AF%91%E5%99%A8-%E4%B8%BB%E8%A6%81%E5%BD%B1%E5%93%8D%E6%80%A7%E8%83%BD"><span class="nav-number">10.5.</span> <span class="nav-text">5 JIT编译器 -主要影响性能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-HotSpot-VM-%E5%8F%AF%E4%BB%A5%E8%AE%BE%E7%BD%AE%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F"><span class="nav-number">10.6.</span> <span class="nav-text">6 HotSpot VM 可以设置程序执行方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-HotSpot-VM%E4%B8%AD%E7%9A%84JIT%E5%88%86%E7%B1%BB"><span class="nav-number">10.7.</span> <span class="nav-text">7 HotSpot VM中的JIT分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-AOT%E7%BC%96%E8%AF%91%E5%99%A8"><span class="nav-number">10.8.</span> <span class="nav-text">8 AOT编译器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">11.</span> <span class="nav-text">十一、引用计数法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%BC%95%E7%94%A8%E8%AE%A1%E6%95%B0%E6%B3%95"><span class="nav-number">11.1.</span> <span class="nav-text">1 引用计数法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%9E%9A%E4%B8%BE%E6%A0%B9%E8%8A%82%E7%82%B9%E5%81%9A%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">11.2.</span> <span class="nav-text">2 枚举根节点做可达性分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-finalization%E6%9C%BA%E5%88%B6"><span class="nav-number">11.3.</span> <span class="nav-text">3 finalization机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-finalization%E6%9C%BA%E5%88%B6%E8%AF%B4%E6%98%8E"><span class="nav-number">11.3.1.</span> <span class="nav-text">3.1 finalization机制说明</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E4%B8%8D%E4%B8%BB%E5%8A%A8%E8%B0%83%E7%94%A8%E6%9F%90%E4%B8%AA%E5%AF%B9%E8%B1%A1%E7%9A%84finalize-%E6%96%B9%E6%B3%95%EF%BC%8C%E5%BA%94%E8%AF%A5%E4%BA%A4%E7%BB%99%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E8%B0%83%E7%94%A8%EF%BC%8C%E7%90%86%E7%94%B1%E5%8C%85%E6%8B%AC%E4%B8%8B%E9%9D%A2%E4%B8%89%E7%82%B9"><span class="nav-number">11.3.2.</span> <span class="nav-text">3.2 不主动调用某个对象的finalize( ) 方法，应该交给垃圾回收机制调用，理由包括下面三点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-finalize-%E6%96%B9%E6%B3%95%E4%B8%AD%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">11.3.3.</span> <span class="nav-text">3.3 finalize( )方法中虚拟机的状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E6%98%AF%E5%90%A6%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E5%9B%9E%E6%94%B6-%E7%90%86%E8%A7%A3"><span class="nav-number">11.3.4.</span> <span class="nav-text">3.4 判断一个对象是否可以进行回收(理解)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-%E4%BB%A3%E7%A0%81%E6%BC%94%E7%A4%BA"><span class="nav-number">11.3.5.</span> <span class="nav-text">3.5 代码演示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95-Copying"><span class="nav-number">11.4.</span> <span class="nav-text">4  复制算法(Copying)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95-Mark%E4%B8%80Sweep"><span class="nav-number">11.5.</span> <span class="nav-text">5 标记清除算法(Mark一Sweep)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86-%E5%8E%8B%E7%BC%A9-%E7%AE%97%E6%B3%95-Mark-Compact"><span class="nav-number">11.6.</span> <span class="nav-text">6 标记整理(压缩)算法(Mark-Compact)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86"><span class="nav-number">11.7.</span> <span class="nav-text">7 分代收集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%A2%9E%E9%87%8F%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95-%E4%BA%86%E8%A7%A3"><span class="nav-number">11.8.</span> <span class="nav-text">8 增量收集算法(了解)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%88%86%E5%8C%BA%E7%AE%97%E6%B3%95-%E4%BA%86%E8%A7%A3"><span class="nav-number">11.9.</span> <span class="nav-text">9  分区算法(了解)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81System-gc"><span class="nav-number">12.</span> <span class="nav-text">十二、System.gc</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-System-gc-%E7%9A%84%E7%90%86%E8%A7%A3"><span class="nav-number">12.1.</span> <span class="nav-text">1 System.gc()的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA-out-of-Memory"><span class="nav-number">12.2.</span> <span class="nav-text">2 内存溢出(out of Memory)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F-Memory-Leak"><span class="nav-number">12.3.</span> <span class="nav-text">3 内存泄漏(Memory Leak)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Stop-The-World"><span class="nav-number">12.4.</span> <span class="nav-text">4 Stop The World</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%AD%E7%9A%84%E5%B9%B6%E8%A1%8C%E4%B8%8E%E5%B9%B6%E5%8F%91"><span class="nav-number">12.5.</span> <span class="nav-text">5 多线程中的并行与并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%9A%84%E5%B9%B6%E8%A1%8C%E3%80%81%E4%B8%B2%E8%A1%8C%E3%80%81%E5%B9%B6%E5%8F%91"><span class="nav-number">12.6.</span> <span class="nav-text">6 垃圾回收的并行、串行、并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%AE%89%E5%85%A8%E7%82%B9-Safepoint"><span class="nav-number">12.7.</span> <span class="nav-text">7 安全点(Safepoint)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%AE%89%E5%85%A8%E5%8C%BA%E5%9F%9F-Safe-Region"><span class="nav-number">12.8.</span> <span class="nav-text">8 安全区域(Safe Region)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%BC%95%E7%94%A8"><span class="nav-number">12.9.</span> <span class="nav-text">9 引用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-1-%E5%BC%BA%E5%BC%95%E7%94%A8-%E4%B8%8D%E5%9B%9E%E6%94%B6"><span class="nav-number">12.9.1.</span> <span class="nav-text">9.1  强引用:不回收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2-%E8%BD%AF%E5%BC%95%E7%94%A8-%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%E5%8D%B3%E5%9B%9E%E6%94%B6"><span class="nav-number">12.9.2.</span> <span class="nav-text">9.2 软引用: 内存不足即回收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-3-%E5%BC%B1%E5%BC%95%E7%94%A8-%E5%8F%91%E7%8E%B0%E5%8D%B3%E5%9B%9E%E6%94%B6"><span class="nav-number">12.9.3.</span> <span class="nav-text">9.3 弱引用: 发现即回收</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-4-%E8%99%9A%E5%BC%95%E7%94%A8-%E5%AF%B9%E8%B1%A1%E5%9B%9E%E6%94%B6%E8%B7%9F%E8%B8%AA"><span class="nav-number">12.9.4.</span> <span class="nav-text">9.4 虚引用: 对象回收跟踪</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E8%AF%84%E4%BC%B0GC%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">13.</span> <span class="nav-text">十三、评估GC性能指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AF%84%E4%BC%B0GC%E7%9A%84%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87"><span class="nav-number">13.1.</span> <span class="nav-text">1 评估GC的性能指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%8D%E5%90%8C%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%A6%82%E8%BF%B0"><span class="nav-number">13.2.</span> <span class="nav-text">2 不同的垃圾回收器概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Serial%E3%80%81SerialOld-%E5%9B%9E%E6%94%B6%E5%99%A8-%E4%B8%B2%E8%A1%8C%E5%9B%9E%E6%94%B6-%E4%BA%86%E8%A7%A3"><span class="nav-number">13.3.</span> <span class="nav-text">3 Serial、SerialOld 回收器:串行回收(了解)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-ParNew%E5%9B%9E%E6%94%B6%E5%99%A8-%E5%B9%B6%E8%A1%8C%E5%9B%9E%E6%94%B6-%E4%BA%86%E8%A7%A3"><span class="nav-number">13.4.</span> <span class="nav-text">4 ParNew回收器:并行回收(了解)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Parallel%E3%80%81ParallelOld-%E5%90%9E%E5%90%90%E9%87%8F%E4%BC%98%E5%85%88"><span class="nav-number">13.5.</span> <span class="nav-text">5 Parallel、ParallelOld:吞吐量优先</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%AF%A6%E8%A7%A3-XX-PrintGCDetails"><span class="nav-number">13.6.</span> <span class="nav-text">6 详解-XX:+PrintGCDetails</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%85%B6%E4%BB%96%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8%E6%A6%82%E8%BF%B0"><span class="nav-number">13.7.</span> <span class="nav-text">7 其他垃圾回收器概述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6"><span class="nav-number">14.</span> <span class="nav-text">十四、字节码文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%AD%97%E8%8A%82%E7%A0%81%E6%96%87%E4%BB%B6%E7%9A%84%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%80%A7-%E4%BA%86%E8%A7%A3"><span class="nav-number">14.1.</span> <span class="nav-text">1 字节码文件的跨平台性(了解)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Java%E7%9A%84%E5%89%8D%E7%AB%AF%E7%BC%96%E8%AF%91%E5%99%A8-%E4%BA%86%E8%A7%A3"><span class="nav-number">14.2.</span> <span class="nav-text">2  Java的前端编译器(了解)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%80%8F%E8%BF%87%E5%AD%97%E8%8A%82%E7%A0%81%E6%8C%87%E4%BB%A4%E7%9C%8B%E4%BB%A3%E7%A0%81%E7%BB%86%E8%8A%82"><span class="nav-number">14.3.</span> <span class="nav-text">3 透过字节码指令看代码细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A6%82%E4%BD%95%E8%A7%A3%E8%AF%BB%E4%BE%9B%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%A7%A3%E9%87%8A%E6%89%A7%E8%A1%8C%E7%9A%84%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%AD%97%E8%8A%82%E7%A0%81%EF%BC%9F"><span class="nav-number">14.4.</span> <span class="nav-text">4 如何解读供虚拟机解释执行的二进制字节码？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BB%80%E4%B9%88%E6%98%AF%E5%AD%97%E8%8A%82%E7%A0%81%E6%8C%87%E4%BB%A4"><span class="nav-number">14.5.</span> <span class="nav-text">5 什么是字节码指令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%BA%94%E3%80%81Class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="nav-number">15.</span> <span class="nav-text">十五、Class文件结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-class%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E7%BB%86%E8%8A%82%E6%A6%82%E8%BF%B0"><span class="nav-number">15.1.</span> <span class="nav-text">1  class文件结构细节概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-class%E6%96%87%E4%BB%B6%E7%9A%84%E9%AD%94%E6%95%B0%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">15.2.</span> <span class="nav-text">2  class文件的魔数是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A6%82%E4%BD%95%E7%A1%AE%E4%BF%9D%E9%AB%98%E7%89%88%E6%9C%AC%E7%9A%84JVM%E5%8F%AF%E6%89%A7%E8%A1%8C%E4%BD%8E%E7%89%88%E6%9C%AC%E7%9A%84class%E6%96%87%E4%BB%B6%EF%BC%9F"><span class="nav-number">15.3.</span> <span class="nav-text">3  如何确保高版本的JVM可执行低版本的class文件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%B8%B8%E9%87%8F%E6%B1%A0-class%E6%96%87%E4%BB%B6%E7%9A%84%E5%9F%BA%E7%9F%B3"><span class="nav-number">15.4.</span> <span class="nav-text">4  常量池(class文件的基石)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%B8%B8%E9%87%8F%E6%B1%A0%EF%BC%9F"><span class="nav-number">15.4.1.</span> <span class="nav-text">4.1 什么是常量池？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-%E5%B8%B8%E9%87%8F%E6%B1%A0%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">15.4.2.</span> <span class="nav-text">4.2 常量池计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-%E5%B8%B8%E9%87%8F%E6%B1%A0%E8%A1%A8"><span class="nav-number">15.4.3.</span> <span class="nav-text">4.3 常量池表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-%E5%AD%97%E9%9D%A2%E9%87%8F%E5%92%8C%E7%AC%A6%E5%8F%B7%E5%BC%95%E7%94%A8"><span class="nav-number">15.4.4.</span> <span class="nav-text">4.4 字面量和符号引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-%E7%AC%A6%E5%8F%B7%E5%BC%95%E7%94%A8%E3%80%81%E7%9B%B4%E6%8E%A5%E5%BC%95%E7%94%A8%E7%9A%84%E7%90%86%E8%A7%A3%EF%BC%9F"><span class="nav-number">15.4.5.</span> <span class="nav-text">4.5  符号引用、直接引用的理解？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-%E5%B8%B8%E9%87%8F%E7%B1%BB%E5%9E%8B%E5%92%8C%E7%BB%93%E6%9E%84"><span class="nav-number">15.4.6.</span> <span class="nav-text">4.6  常量类型和结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%AE%BF%E9%97%AE%E6%A0%87%E8%AF%86-%E6%88%96%E6%A0%87%E5%BF%97"><span class="nav-number">15.5.</span> <span class="nav-text">5 访问标识(或标志)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%B1%BB%E7%B4%A2%E5%BC%95-%E7%88%B6%E7%B1%BB%E7%B4%A2%E5%BC%95-%E6%8E%A5%E5%8F%A3%E7%B4%A2%E5%BC%95%E9%9B%86%E5%90%88"><span class="nav-number">15.6.</span> <span class="nav-text">6 类索引|父类索引|接口索引集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%AD%97%E6%AE%B5%E8%A1%A8%E9%9B%86%E5%90%88"><span class="nav-number">15.7.</span> <span class="nav-text">7 字段表集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E6%96%B9%E6%B3%95%E8%A1%A8%E9%9B%86%E5%90%88"><span class="nav-number">15.8.</span> <span class="nav-text">8 方法表集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%B1%9E%E6%80%A7%E8%A1%A8%E9%9B%86%E5%90%88"><span class="nav-number">15.9.</span> <span class="nav-text">9 属性表集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-IDEA%E4%B8%AD%E9%9B%86%E6%88%90jclasslib%E8%AF%B4%E6%98%8EClass%E6%96%87%E4%BB%B6%E4%BF%A1%E6%81%AF"><span class="nav-number">15.10.</span> <span class="nav-text">10 IDEA中集成jclasslib说明Class文件信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-1-Class%E6%96%87%E4%BB%B6%E8%AF%A6%E8%A7%A3"><span class="nav-number">15.10.1.</span> <span class="nav-text">10.1 Class文件详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-2-%E6%96%B9%E6%B3%95%E8%A1%A8%E9%9B%86%E5%90%88"><span class="nav-number">15.10.2.</span> <span class="nav-text">10.2  方法表集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-3-code%E5%B1%9E%E6%80%A7"><span class="nav-number">15.10.3.</span> <span class="nav-text">10.3 code属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-4-LineNumberTable%E3%80%81LocalVariableTable"><span class="nav-number">15.10.4.</span> <span class="nav-text">10.4 LineNumberTable、LocalVariableTable</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-5-SourceFile%E5%B1%9E%E6%80%A7"><span class="nav-number">15.10.5.</span> <span class="nav-text">10.5 SourceFile属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E5%85%AD%E3%80%81%E7%B1%BB%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">16.</span> <span class="nav-text">十六、类的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AF%B4%E8%AF%B4%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%88%86%E5%87%A0%E6%AD%A5%EF%BC%9F"><span class="nav-number">16.1.</span> <span class="nav-text">1 说说类加载分几步？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BF%87%E7%A8%8B%E4%B8%80-%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD-Loading"><span class="nav-number">16.2.</span> <span class="nav-text">2 过程一:类的加载(Loading)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%BF%87%E7%A8%8B%E4%BA%8C-%E9%93%BE%E6%8E%A5-Linking"><span class="nav-number">16.3.</span> <span class="nav-text">3 过程二:链接(Linking)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%BF%87%E7%A8%8B%E4%B8%89-%E5%88%9D%E5%A7%8B%E5%8C%96-Initialization"><span class="nav-number">16.4.</span> <span class="nav-text">4 过程三:初始化(Initialization)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%B8%BB%E5%8A%A8%E5%BC%95%E7%94%A8-%E8%A7%A6%E5%8F%91%E5%9C%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E9%98%B6%E6%AE%B5%E7%9A%84Clinit%E6%96%B9%E6%B3%95"><span class="nav-number">16.5.</span> <span class="nav-text">5 主动引用(触发在初始化阶段的Clinit方法)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%A2%AB%E5%8A%A8%E4%BD%BF%E7%94%A8"><span class="nav-number">16.6.</span> <span class="nav-text">6 被动使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E8%BF%87%E7%A8%8B%E5%9B%9B-%E7%B1%BB%E7%9A%84Using-%E4%BD%BF%E7%94%A8"><span class="nav-number">16.7.</span> <span class="nav-text">7 过程四:类的Using(使用)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E8%BF%87%E7%A8%8B%E4%BA%94-%E7%B1%BB%E7%9A%84Unloading-%E5%8D%B8%E8%BD%BD"><span class="nav-number">16.8.</span> <span class="nav-text">8 过程五:类的Unloading(卸载)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B8%83%E3%80%81%E7%B1%BB%E7%9A%84%E6%A6%82%E8%BF%B0"><span class="nav-number">17.</span> <span class="nav-text">十七、类的概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">17.1.</span> <span class="nav-text">1 类的加载器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%B1%BB%E7%9A%84%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%88%86%E7%B1%BB%E4%B8%8E%E6%B5%8B%E8%AF%95"><span class="nav-number">17.2.</span> <span class="nav-text">2 类的加载器分类与测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%9A%84%E4%BB%8B%E7%BB%8D"><span class="nav-number">17.2.1.</span> <span class="nav-text">2.1 类加载器的介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-%E5%90%AF%E5%8A%A8-%E5%BC%95%E5%AF%BC-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8-Bootstrap"><span class="nav-number">17.2.2.</span> <span class="nav-text">2.2 启动(引导)类加载器 Bootstrap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-%E6%89%A9%E5%B1%95%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8-Extension"><span class="nav-number">17.2.3.</span> <span class="nav-text">2.3 扩展类加载器 Extension</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F-%E7%B3%BB%E7%BB%9F-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8-AppClassLoader"><span class="nav-number">17.2.4.</span> <span class="nav-text">2.4 应用程序(系统)类加载器 AppClassLoader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-5-%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">17.2.5.</span> <span class="nav-text">2.5 用户自定义类加载器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-6-%E6%B5%8B%E8%AF%95%E4%B8%8D%E5%90%8C%E7%9A%84%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">17.2.6.</span> <span class="nav-text">2.6 测试不同的类加载器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ClassLoader%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90"><span class="nav-number">17.3.</span> <span class="nav-text">3 ClassLoader源码剖析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-ClassLoader%E4%B8%8E%E7%8E%B0%E6%9C%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">17.3.1.</span> <span class="nav-text">3.1 ClassLoader与现有类加载器的关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-%E6%8A%BD%E8%B1%A1%E7%B1%BBClassLoader%E7%9A%84%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95-%E5%86%85%E9%83%A8%E6%B2%A1%E6%9C%89%E6%8A%BD%E8%B1%A1%E6%96%B9%E6%B3%95"><span class="nav-number">17.3.2.</span> <span class="nav-text">3.2 抽象类ClassLoader的主要方法(内部没有抽象方法)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-SecureClassLoader%E4%B8%8EURLClassLoader"><span class="nav-number">17.3.3.</span> <span class="nav-text">3.3 SecureClassLoader与URLClassLoader</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-Class-forName-%E4%B8%8EClassLoader-loadClass-%E5%AF%B9%E6%AF%94"><span class="nav-number">17.3.4.</span> <span class="nav-text">3.4 Class.forName()与ClassLoader.loadClass()对比</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6"><span class="nav-number">17.4.</span> <span class="nav-text">4 双亲委派机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%B2%99%E7%AE%B1%E5%AE%89%E5%85%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">17.5.</span> <span class="nav-text">5 沙箱安全机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E5%85%AB%E3%80%81tomcat%E6%89%93%E7%A0%B4%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E5%88%B6%E5%BA%A6"><span class="nav-number">18.</span> <span class="nav-text">十八、tomcat打破双亲委派制度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Tomcat%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6"><span class="nav-number">18.1.</span> <span class="nav-text">1 Tomcat类加载机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Tomcat%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">18.2.</span> <span class="nav-text">2 Tomcat执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ClassLoader%E7%9A%84%E5%88%9B%E5%BB%BA"><span class="nav-number">18.3.</span> <span class="nav-text">3 ClassLoader的创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-ClassLoader%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B"><span class="nav-number">18.4.</span> <span class="nav-text">4 ClassLoader加载过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Tomcat%E7%A0%B4%E5%9D%8F%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%9C%BA%E5%88%B6%E5%B8%A6%E6%9D%A5%E7%9A%84%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">18.5.</span> <span class="nav-text">5 Tomcat破坏双亲委派机制带来的面试题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E4%B9%9D%E3%80%81CMS%E4%BD%8E%E5%BB%B6%E8%BF%9F%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">19.</span> <span class="nav-text">十九、CMS低延迟垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CMS%E6%A6%82%E8%BF%B0"><span class="nav-number">19.1.</span> <span class="nav-text">1 CMS概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CMS%E8%BF%87%E7%A8%8B-%E5%8E%9F%E7%90%86"><span class="nav-number">19.2.</span> <span class="nav-text">2 CMS过程(原理)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-CMS%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">19.3.</span> <span class="nav-text">3 CMS优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-CMS%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="nav-number">19.4.</span> <span class="nav-text">4 CMS参数设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-CMS%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E6%A6%82%E8%BF%B0%E3%80%81%E9%97%AE%E9%A2%98%E3%80%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">19.5.</span> <span class="nav-text">5 CMS三色标记概述、问题、解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%8E%9F%E5%A7%8B%E5%BF%AB%E7%85%A7SATB-%E5%92%8C-%E5%A2%9E%E9%87%8F%E6%9B%B4%E6%96%B0Incremental-Update"><span class="nav-number">19.6.</span> <span class="nav-text">6 原始快照SATB 和 增量更新Incremental Update</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E8%AE%B0%E5%BF%86%E9%9B%86%E4%B8%8E%E5%8D%A1%E8%A1%A8"><span class="nav-number">19.7.</span> <span class="nav-text">7 记忆集与卡表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E5%8D%81%E3%80%81G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E6%A6%82%E8%BF%B0"><span class="nav-number">20.</span> <span class="nav-text">二十、G1垃圾收集器概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AFG1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">20.1.</span> <span class="nav-text">1 什么是G1垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%90%8D%E5%AD%97%E5%8F%ABGarbage-First"><span class="nav-number">20.2.</span> <span class="nav-text">2 为什么名字叫Garbage First</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E7%89%B9%E7%82%B9%E3%80%81%E7%BC%BA%E7%82%B9"><span class="nav-number">20.3.</span> <span class="nav-text">3 G1垃圾收集器的特点、缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="nav-number">20.4.</span> <span class="nav-text">4 参数设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%B0%83%E4%BC%98%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">20.5.</span> <span class="nav-text">5 调优操作步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Region%E8%AF%A6%E8%A7%A3"><span class="nav-number">20.6.</span> <span class="nav-text">6 Region详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E8%AE%B0%E5%BF%86%E9%9B%86%E4%B8%8E%E5%86%99%E5%B1%8F%E9%9A%9C"><span class="nav-number">20.7.</span> <span class="nav-text">7 记忆集与写屏障</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-G1%E5%9B%9E%E6%94%B6%E5%99%A8%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E8%BF%87%E7%A8%8B"><span class="nav-number">20.8.</span> <span class="nav-text">8 G1回收器垃圾回收过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-%E5%B9%B4%E8%BD%BB%E4%BB%A3GC"><span class="nav-number">20.8.1.</span> <span class="nav-text">8.1 年轻代GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E8%BF%87%E7%A8%8B"><span class="nav-number">20.8.2.</span> <span class="nav-text">8.2 并发标记过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3-%E6%B7%B7%E5%90%88%E5%9B%9E%E6%94%B6-Mixed-GC"><span class="nav-number">20.8.3.</span> <span class="nav-text">8.3 混合回收 Mixed GC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-4-Full-GC"><span class="nav-number">20.8.4.</span> <span class="nav-text">8.4 Full GC</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E4%BC%98%E5%8C%96%E5%BB%BA%E8%AE%AE"><span class="nav-number">20.9.</span> <span class="nav-text">9 优化建议</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Shuyan"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Shuyan</p>
+  <div class="site-description" itemprop="description">ShuyanCoding......</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/shuyanCoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shuyanCoding" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/2437197969@qq.com" title="E-Mail → 2437197969@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shuyan</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
     </footer>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Mybaits%E7%9F%A5%E8%AF%86%E7%82%B9/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Mybaits知识点
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Spring%E4%B8%8EMybaits%E6%95%B4%E5%90%88/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Spring整合Mybaits</div>
-    </a>
-  
-</nav>
 
   
-</article>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
-    </div>
-  </div>
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
-    </div>
-  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
-    </div>
-  </div>
 
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
-    </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/">配置文件</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JavaWeb/">JavaWeb</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 Shuyan<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
 </body>
 </html>
