@@ -31,6 +31,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -157,124 +159,52 @@
 </tbody></table>
 <p>　    五种作用域中，request、session和global session三种作用域仅在基于web的应用中使用（不必关心你所采用的是什么web应用框架），只能用在基于web的Spring ApplicationContext环境。</p>
 <p>　　(1)当一个bean的作用域为Singleton，那么Spring IoC容器中只会存在一个共享的bean实例，并且所有对bean的请求，只要id与该bean定义相匹配，则只会返回bean的同一实例。Singleton是单例类型，就是在创建起容器时就同时自动创建了一个bean的对象，不管你是否使用，他都存在了，每次获取到的对象都是同一个对象。注意，Singleton作用域是Spring中的缺省作用域。要在XML中将bean定义成singleton，可以这样配置：</p>
-<pre><code class="xml">&lt;bean id=&quot;ServiceImpl&quot; class=&quot;cn.csdn.service.ServiceImpl&quot; scope=&quot;singleton&quot;&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;ServiceImpl&quot;</span> <span class="attr">class</span>=<span class="string">&quot;cn.csdn.service.ServiceImpl&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;singleton&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>　　(2)当一个bean的作用域为Prototype，表示一个bean定义对应多个对象实例。Prototype作用域的bean会导致在每次对该bean请求（将其注入到另一个bean中，或者以程序的方式调用容器的getBean()方法）时都会创建一个新的bean实例。Prototype是原型类型，它在我们创建容器的时候并没有实例化，而是当我们获取bean的时候才会去创建一个对象，而且我们每次获取到的对象都不是同一个对象。根据经验，对有状态的bean应该使用prototype作用域，而对无状态的bean则应该使用singleton作用域。在XML中将bean定义成prototype，可以这样配置：</p>
-<pre><code class="xml">&lt;bean id=&quot;account&quot; class=&quot;com.foo.DefaultAccount&quot; scope=&quot;prototype&quot;/&gt;  
-&lt;!--或者--&gt;
-&lt;bean id=&quot;account&quot; class=&quot;com.foo.DefaultAccount&quot; singleton=&quot;false&quot;/&gt; 
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;account&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.foo.DefaultAccount&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;prototype&quot;</span>/&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!--或者--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;account&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.foo.DefaultAccount&quot;</span> <span class="attr">singleton</span>=<span class="string">&quot;false&quot;</span>/&gt;</span> </span><br></pre></td></tr></table></figure>
+
 <p>　　(3)当一个bean的作用域为Request，表示在一次HTTP请求中，一个bean定义对应一个实例；即每个HTTP请求都会有各自的bean实例，它们依据某个bean定义创建而成。该作用域仅在基于web的Spring ApplicationContext情形下有效。考虑下面bean定义：</p>
-<pre><code class="xml">&lt;bean id=&quot;loginAction&quot; class=com.foo.LoginAction&quot; scope=&quot;request&quot;/&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;loginAction&quot;</span> <span class="attr">class</span>=<span class="string">com.foo.LoginAction</span>&quot; <span class="attr">scope</span>=<span class="string">&quot;request&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>　　针对每次HTTP请求，Spring容器会根据loginAction bean的定义创建一个全新的LoginAction bean实例，且该loginAction bean实例仅在当前HTTP request内有效，因此可以根据需要放心的更改所建实例的内部状态，而其他请求中根据loginAction bean定义创建的实例，将不会看到这些特定于某个请求的状态变化。当处理请求结束，request作用域的bean实例将被销毁。</p>
 <p>　　(4)当一个bean的作用域为Session，表示在一个HTTP Session中，一个bean定义对应一个实例。该作用域仅在基于web的Spring ApplicationContext情形下有效。考虑下面bean定义：</p>
-<pre><code class="xml">&lt;bean id=&quot;userPreferences&quot; class=&quot;com.foo.UserPreferences&quot; scope=&quot;session&quot;/&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.foo.UserPreferences&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;session&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>　　针对某个HTTP Session，Spring容器会根据userPreferences bean定义创建一个全新的userPreferences bean实例，且该userPreferences bean仅在当前HTTP Session内有效。与request作用域一样，可以根据需要放心的更改所创建实例的内部状态，而别的HTTP Session中根据userPreferences创建的实例，将不会看到这些特定于某个HTTP Session的状态变化。当HTTP Session最终被废弃的时候，在该HTTP Session作用域内的bean也会被废弃掉。</p>
 <p>　　(5)当一个bean的作用域为Global Session，表示在一个全局的HTTP Session中，一个bean定义对应一个实例。典型情况下，仅在使用portlet context的时候有效。该作用域仅在基于web的Spring ApplicationContext情形下有效。考虑下面bean定义：</p>
-<pre><code class="xml">&lt;bean id=&quot;user&quot; class=&quot;com.foo.Preferences &quot;scope=&quot;globalSession&quot;/&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;user&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.foo.Preferences &quot;</span><span class="attr">scope</span>=<span class="string">&quot;globalSession&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>　　global session作用域类似于标准的HTTP Session作用域，不过仅仅在基于portlet的web应用中才有意义。Portlet规范定义了全局Session的概念，它被所有构成某个portlet web应用的各种不同的portlet所共享。在global session作用域中定义的bean被限定于全局portlet Session的生命周期范围内。</p>
 <h3 id="2-1-Spring中request请求作用域是什么？"><a href="#2-1-Spring中request请求作用域是什么？" class="headerlink" title="2.1 Spring中request请求作用域是什么？"></a>2.1 Spring中request请求作用域是什么？</h3><p>每个请求初始化具有此作用域的Bean注解。这听起来像是原型作用域的描述，但它们有一些差异。第一个区别是原型作用域在Spring的上下文中可用。而请求作用域仅适用于Web应用程序。第二个是原型bean根据需求进行初始化，而请求bean是在每个请求下构建的。需要说的是，request作用域bean在其作用域内有且仅有一个实例。而你可以拥有一个或多个原型作用域bean实例。</p>
 <p>在以下代码中，你可以看到请求作用域bean的示例：</p>
-<pre><code class="xml">&lt;bean id=&quot;shoppingCartRequest&quot; class=&quot;com.migo.scope.ShoppingCartRequest&quot; scope=&quot;request&quot;&gt;
-    &lt;aop:scoped-proxy/&gt;
-&lt;/bean&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;shoppingCartRequest&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.migo.scope.ShoppingCartRequest&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;request&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:scoped-proxy</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>当使用注解驱动组件或Java Config时，<code>@RequestScope</code>注解可以用于将一个组件分配给<code>request</code>作用域。</p>
-<pre><code class="java">@RequestScope
-@Component
-public class ShoppingCartRequest &#123;
-    // ...
-&#125;
-// request bean
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RequestScope</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShoppingCartRequest</span> </span>&#123;</span><br><span class="line">	<span class="comment">// ...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// request bean</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// injection sample</span></span><br><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ShoppingCartRequest shoppingCartRequest;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@RequestMapping(value = &quot;/test&quot;, method = RequestMethod.GET)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        LOGGER.debug(<span class="string">&quot;shoppingCartRequest is :&quot;</span>+shoppingCartRequest);</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-// injection sample
-@Controller
-public class TestController &#123;
-    @Autowired
-    private ShoppingCartRequest shoppingCartRequest;
-
-    @RequestMapping(value = &quot;/test&quot;, method = RequestMethod.GET)
-    public String test(HttpServletRequest request) &#123;
-        LOGGER.debug(&quot;shoppingCartRequest is :&quot;+shoppingCartRequest);
-        // ...
-    &#125;
-&#125;
-</code></pre>
 <p>请注意<strong>定义内</strong>存在的**&lt;aop: scoped-proxy /&gt;**标签。这代表着使用代理对象。所以实际上，TestController持有的是代理对象的引用。我们所有的调用该对象都会转发到真正的<code>ShoppingCartRequest</code>对象。</p>
 <p>有时我们需要使用<code>DispatcherServlet</code>的另一个<code>servlet</code>来处理请求。在这种情况下，我们必须确保Spring中所有请求都可用(否则可以抛出与下面类似的异常)。为此，我们需要在<code>web.xml</code>中定义一个监听器:</p>
-<pre><code class="xml">&lt;listener&gt;
-    &lt;listener-class&gt;org.springframework.web.context.request.RequestContextListener&lt;/listener-class&gt;
-&lt;/listener&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.request.RequestContextListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>调用/测试URL后，你应该能在日志中的发现以下信息:</p>
-<pre><code class="java">shoppingCartRequest is :com.migo.scope.ShoppingCartRequest@2586b11c
-shoppingCartRequest is :com.migo.scope.ShoppingCartRequest@3bd5b945
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shoppingCartRequest is :com.migo.scope.ShoppingCartRequest@2586b11c</span><br><span class="line">shoppingCartRequest is :com.migo.scope.ShoppingCartRequest@3bd5b945</span><br></pre></td></tr></table></figure>
+
 <p>如果我们尝试在单例bean中使用request作用域的bean，则会在应用程序上下文加载阶段抛出一个<code>BeanCreationException</code>:</p>
-<pre><code>org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#39;testController&#39;: Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.migo.scope.ShoppingCartRequest com.migo.controller.TestController.shoppingCartRequest; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#39;shoppingCartRequest&#39;: Scope &#39;request&#39; is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton; nested exception is java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.
-    at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:292)
-    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1185)
-    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:537)
-    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:475)
-    at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:304)
-    at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:228)
-    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:300)
-    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:195)
-    at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:700)
-    at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:760)
-    at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:482)
-    at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:381)
-    at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:293)
-    at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:106)
-    at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4701)
-    at org.apache.catalina.core.StandardContext$1.call(StandardContext.java:5204)
-    at org.apache.catalina.core.StandardContext$1.call(StandardContext.java:5199)
-    at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
-    at java.util.concurrent.FutureTask.run(Unknown Source)
-    at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(Unknown Source)
-    at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
-    at java.lang.Thread.run(Unknown Source)
-Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.migo.scope.ShoppingCartRequest com.migo.controller.TestController.shoppingCartRequest; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#39;shoppingCartRequest&#39;: Scope &#39;request&#39; is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton; nested exception is java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.
-    at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:508)
-    at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:87)
-    at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:289)
-    ... 21 more
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#39;shoppingCartRequest&#39;: Scope &#39;request&#39; is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton; nested exception is java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.
-    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:353)
-    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:195)
-    at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1014)
-    at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:957)
-    at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:855)
-    at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:480)
-    ... 23 more
-Caused by: java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.
-    at org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes(RequestContextHolder.java:131)
-    at org.springframework.web.context.request.AbstractRequestAttributesScope.get(AbstractRequestAttributesScope.java:41)
-    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:338)
-    ... 28 more
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#x27;testController&#x27;: Injection of autowired dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.migo.scope.ShoppingCartRequest com.migo.controller.TestController.shoppingCartRequest; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#x27;shoppingCartRequest&#x27;: Scope &#x27;request&#x27; is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton; nested exception is java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.</span><br><span class="line">	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:292)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1185)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:537)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:475)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:304)</span><br><span class="line">	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:228)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:300)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:195)</span><br><span class="line">	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:700)</span><br><span class="line">	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:760)</span><br><span class="line">	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:482)</span><br><span class="line">	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:381)</span><br><span class="line">	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:293)</span><br><span class="line">	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:106)</span><br><span class="line">	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4701)</span><br><span class="line">	at org.apache.catalina.core.StandardContext$1.call(StandardContext.java:5204)</span><br><span class="line">	at org.apache.catalina.core.StandardContext$1.call(StandardContext.java:5199)</span><br><span class="line">	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(Unknown Source)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(Unknown Source)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)</span><br><span class="line">	at java.lang.Thread.run(Unknown Source)</span><br><span class="line">Caused by: org.springframework.beans.factory.BeanCreationException: Could not autowire field: private com.migo.scope.ShoppingCartRequest com.migo.controller.TestController.shoppingCartRequest; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#x27;shoppingCartRequest&#x27;: Scope &#x27;request&#x27; is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton; nested exception is java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.</span><br><span class="line">	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:508)</span><br><span class="line">	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:87)</span><br><span class="line">	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessPropertyValues(AutowiredAnnotationBeanPostProcessor.java:289)</span><br><span class="line">	... 21 more</span><br><span class="line">Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#x27;shoppingCartRequest&#x27;: Scope &#x27;request&#x27; is not active for the current thread; consider defining a scoped proxy for this bean if you intend to refer to it from a singleton; nested exception is java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:353)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:195)</span><br><span class="line">	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1014)</span><br><span class="line">	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:957)</span><br><span class="line">	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:855)</span><br><span class="line">	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:480)</span><br><span class="line">	... 23 more</span><br><span class="line">Caused by: java.lang.IllegalStateException: No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread? If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet: In this case, use RequestContextListener or RequestContextFilter to expose the current request.</span><br><span class="line">	at org.springframework.web.context.request.RequestContextHolder.currentRequestAttributes(RequestContextHolder.java:131)</span><br><span class="line">	at org.springframework.web.context.request.AbstractRequestAttributesScope.get(AbstractRequestAttributesScope.java:41)</span><br><span class="line">	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:338)</span><br><span class="line">	... 28 more</span><br></pre></td></tr></table></figure>
+
 <h2 id=""><a href="#" class="headerlink" title=""></a></h2><h3 id="2-2-什么是Spring的Session作用域？"><a href="#2-2-什么是Spring的Session作用域？" class="headerlink" title="2.2 什么是Spring的Session作用域？"></a>2.2 什么是Spring的Session作用域？</h3><p>Session作用域的bean与request 作用域的bean没有太大的不同。它们也与纯Web应用程序上下文相关联。注解为Session作用域的Bean对于每个用户的会话仅创建一次。他们在会话结束时被破坏销毁掉。</p>
 <p>由Session作用域限制的Bean可以被认为是面向Web的单例，因为给定环境(用户会话)仅存在一个实例。但请记住，你无法在Web应用程序上下文中使用它们(说个好理解点的，就是一个函数内部自定义变量所在的作用域，函数执行完就销毁了，没有什么逃逸，关于此处更深入的理解请看我的博文<a target="_blank" rel="noopener" href="https://muyinchen.github.io/2016/11/08/%E7%94%B1%E5%9F%9F%E8%81%94%E7%B3%BB%E5%88%B0%E7%9A%84%E9%80%83%E9%80%B8%E5%88%86%E6%9E%90/">由域联系到的逃逸分析</a>)。</p>
 <p>想知道Session作用域bean在Spring中的操作，我们需要在配置文件中定义一个bean:</p>
-<pre><code class="xml">&lt;bean id=&quot;shoppingCartRequest&quot; class=&quot;com.migo.scope.ShoppingCartSession&quot; scope=&quot;session&quot;&gt;
-    &lt;aop:scoped-proxy/&gt;
-&lt;/bean&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;shoppingCartRequest&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.migo.scope.ShoppingCartSession&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;session&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:scoped-proxy</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>通过<code>@Autowired</code>注解，查找这个bean的方式与request 作用域的bean相同。可以看到以下结果:</p>
-<pre><code class="java">shoppingCartSession is :com.migo.scope.ShoppingCartSession@3876e5d
-shoppingCartSession is :com.migo.scope.ShoppingCartSession@3876e5d
-shoppingCartSession is :com.migo.scope.ShoppingCartSession@3876e5d
-shoppingCartSession is :com.migo.scope.ShoppingCartSession@3876e5d
-shoppingCartSession is :com.migo.scope.ShoppingCartSession@3876e5d
-shoppingCartSession is :com.migo.scope.ShoppingCartSession@2f87fafc
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shoppingCartSession is :com.migo.scope.ShoppingCartSession@<span class="number">3876e5d</span></span><br><span class="line">shoppingCartSession is :com.migo.scope.ShoppingCartSession@<span class="number">3876e5d</span></span><br><span class="line">shoppingCartSession is :com.migo.scope.ShoppingCartSession@<span class="number">3876e5d</span></span><br><span class="line">shoppingCartSession is :com.migo.scope.ShoppingCartSession@<span class="number">3876e5d</span></span><br><span class="line">shoppingCartSession is :com.migo.scope.ShoppingCartSession@<span class="number">3876e5d</span></span><br><span class="line">shoppingCartSession is :com.migo.scope.ShoppingCartSession@2f87fafc</span><br></pre></td></tr></table></figure>
+
 <p>你可以看到，前5个打印输出代表相同的对象。最后一个是不同的。这是什么意思 ?简单来说，这代表 着一个新的用户使用自动注入的Session作用域访问该页面。我们可以通过打开两个浏览器的测试页(/test)来观察它。每个都将初始化一个新的会话Session，因此也就创建新的<code>ShoppingCartSession bean</code>实例。</p>
 <p>关于全局会话作用域(Global session scope)属于4.3x的范畴了，Spring5已经没有了，Spring5文档是去掉了因为4的存在所以还是说两句，它保留给portlet应用程序。 是不是一脸懵逼，so，来解释一下portlet是什么。Portlet是能够生成语义代码(例如：HTML)片段的小型Java Web插件。它们基于portlet容器，可以像servlet一样处理HTTP请求。但是，与servlet不同，每个portlet都有不同的会话。在这种情况下，Spring提供了一个名为<code>global-session</code>的作用域。通过它，一个bean可以通过应用程序中的多个portlet共享。</p>
-<pre><code class="xml">&lt;bean id=&quot;userPreferences&quot; class=&quot;com.foo.UserPreferences&quot; scope=&quot;globalSession&quot;/&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;userPreferences&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.foo.UserPreferences&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;globalSession&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>至此，我们解释了请求和面向会话的作用域。第一个的作用是在每个request请求上创建新的bean。第二个在Session会话开始的时候初始化bean。</p>
 <h2 id="三、Bean的生命周期"><a href="#三、Bean的生命周期" class="headerlink" title="三、Bean的生命周期"></a>三、Bean的生命周期</h2><p>　Spring中Bean的实例化过程：</p>
 <p><img src="https://img-blog.csdnimg.cn/20210510144229675.png" alt="img"></p>
@@ -299,227 +229,63 @@ shoppingCartSession is :com.migo.scope.ShoppingCartSession@2f87fafc
 <p>　　这里特别说明一下Aware接口，Spring的依赖注入最大亮点就是所有的Bean对Spring容器的存在是没有意识的。但是在实际项目中，我们有时不可避免的要用到Spring容器本身提供的资源，这时候要让 Bean主动意识到Spring容器的存在，才能调用Spring所提供的资源，这就是Spring的Aware接口，Aware接口是个标记接口，标记这一类接口是用来“感知”属性的，Aware的众多子接口则是表征了具体要“感知”什么属性。例如BeanNameAware接口用于“感知”自己的名称，ApplicationContextAware接口用于“感知”自己所处的上下文。其实Spring的Aware接口是Spring设计为框架内部使用的，在大多数情况下，我们不需要使用任何Aware接口，除非我们真的需要它们，实现了这些接口会使应用层代码耦合到Spring框架代码中。</p>
 <p>　　其实很多时候我们并不会真的去实现上面所描述的那些接口，那么下面我们就除去那些接口，针对bean的单例和非单例来描述下bean的生命周期：</p>
 <h3 id="3-1-单例管理的对象"><a href="#3-1-单例管理的对象" class="headerlink" title="3.1 单例管理的对象"></a>3.1 单例管理的对象</h3><p>　　当scope=”singleton”，即默认情况下，会在启动容器时（即实例化容器时）时实例化。但我们可以指定Bean节点的lazy-init=”true”来延迟初始化bean，这时候，只有在第一次获取bean时才会初始化bean，即第一次请求该bean时才初始化。如下配置：</p>
-<pre><code class="xml">&lt;bean id=&quot;serviceImpl&quot; class=&quot;cn.csdn.service.ServiceImpl&quot; lazy-init=&quot;true&quot;/&gt;
-</code></pre>
-<p>　　如果想对所有的默认单例bean都应用延迟初始化，可以在根节点beans设置default-lazy-init属性为true，如下所示：</p>
-<pre><code class="xml">&lt;beans default-lazy-init=&quot;true&quot;&gt;
-</code></pre>
-<p>　　默认情况下，Spring在读取xml文件的时候，就会创建对象。在创建对象的时候先调用构造器，然后调用init-method属性值中所指定的方法。对象在被销毁的时候，会调用destroy-method属性值中所指定的方法（例如调用Container.destroy()方法的时候）。写一个测试类，代码如下：</p>
-<pre><code class="java">public class LifeBean &#123;
-    private String name;  
-    
-    public LifeBean()&#123;  
-        System.out.println(&quot;LifeBean()构造函数&quot;);  
-    &#125;  
-    public String getName() &#123;  
-        return name;  
-    &#125;  
-  
-    public void setName(String name) &#123;  
-        System.out.println(&quot;setName()&quot;);  
-        this.name = name;  
-    &#125;  
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;serviceImpl&quot;</span> <span class="attr">class</span>=<span class="string">&quot;cn.csdn.service.ServiceImpl&quot;</span> <span class="attr">lazy-init</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
 
-    public void init()&#123;  
-        System.out.println(&quot;this is init of lifeBean&quot;);  
-    &#125;  
-      
-    public void destory()&#123;  
-        System.out.println(&quot;this is destory of lifeBean &quot; + this);  
-    &#125;  
-&#125;
-</code></pre>
+<p>　　如果想对所有的默认单例bean都应用延迟初始化，可以在根节点beans设置default-lazy-init属性为true，如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">default-lazy-init</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>　　默认情况下，Spring在读取xml文件的时候，就会创建对象。在创建对象的时候先调用构造器，然后调用init-method属性值中所指定的方法。对象在被销毁的时候，会调用destroy-method属性值中所指定的方法（例如调用Container.destroy()方法的时候）。写一个测试类，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LifeBean</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> String name;  </span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">LifeBean</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        System.out.println(<span class="string">&quot;LifeBean()构造函数&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> name;  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;  </span><br><span class="line">        System.out.println(<span class="string">&quot;setName()&quot;</span>);  </span><br><span class="line">        <span class="keyword">this</span>.name = name;  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        System.out.println(<span class="string">&quot;this is init of lifeBean&quot;</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">      </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destory</span><span class="params">()</span></span>&#123;  </span><br><span class="line">        System.out.println(<span class="string">&quot;this is destory of lifeBean &quot;</span> + <span class="keyword">this</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>　　life.xml配置如下：</p>
-<pre><code class="xml">&lt;bean id=&quot;life_singleton&quot; class=&quot;com.bean.LifeBean&quot; scope=&quot;singleton&quot; 
-            init-method=&quot;init&quot; destroy-method=&quot;destory&quot; lazy-init=&quot;true&quot;/&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;life_singleton&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.bean.LifeBean&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;singleton&quot;</span> </span></span><br><span class="line"><span class="tag">			<span class="attr">init-method</span>=<span class="string">&quot;init&quot;</span> <span class="attr">destroy-method</span>=<span class="string">&quot;destory&quot;</span> <span class="attr">lazy-init</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>　　测试代码如下：</p>
-<pre><code class="java">public class LifeTest &#123;
-    @Test 
-    public void test() &#123;
-        AbstractApplicationContext container = 
-        new ClassPathXmlApplicationContext(&quot;life.xml&quot;);
-        LifeBean life1 = (LifeBean)container.getBean(&quot;life&quot;);
-        System.out.println(life1);
-        container.close();
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LifeTest</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Test</span> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		AbstractApplicationContext container = </span><br><span class="line">		<span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;life.xml&quot;</span>);</span><br><span class="line">		LifeBean life1 = (LifeBean)container.getBean(<span class="string">&quot;life&quot;</span>);</span><br><span class="line">		System.out.println(life1);</span><br><span class="line">		container.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>　　运行结果如下：</p>
-<pre><code class="java">LifeBean()构造函数
-this is init of lifeBean
-com.bean.LifeBean@573f2bb1
-……
-this is destory of lifeBean com.bean.LifeBean@573f2bb1
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LifeBean()构造函数</span><br><span class="line"><span class="keyword">this</span> is init of lifeBean</span><br><span class="line">com.bean.LifeBean@573f2bb1</span><br><span class="line">……</span><br><span class="line"><span class="keyword">this</span> is destory of lifeBean com.bean.LifeBean@573f2bb1</span><br></pre></td></tr></table></figure>
+
 <h3 id="2-2-非单例管理的对象"><a href="#2-2-非单例管理的对象" class="headerlink" title="2.2 非单例管理的对象"></a>2.2 非单例管理的对象</h3><p>　　当scope=”prototype”时，容器也会延迟初始化bean，Spring读取xml文件的时候，并不会立刻创建对象，而是在第一次请求该bean时才初始化（如调用getBean方法时）。在第一次请求每一个prototype的bean时，Spring容器都会调用其构造器创建这个对象，然后调用init-method属性值中所指定的方法。对象销毁的时候，Spring容器不会帮我们调用任何方法，因为是非单例，这个类型的对象有很多个，Spring容器一旦把这个对象交给你之后，就不再管理这个对象了。</p>
 <p>　　为了测试prototype bean的生命周期life.xml配置如下：</p>
-<pre><code class="xml">&lt;bean id=&quot;life_prototype&quot; class=&quot;com.bean.LifeBean&quot; scope=&quot;prototype&quot; init-method=&quot;init&quot; destroy-method=&quot;destory&quot;/&gt;
-</code></pre>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;life_prototype&quot;</span> <span class="attr">class</span>=<span class="string">&quot;com.bean.LifeBean&quot;</span> <span class="attr">scope</span>=<span class="string">&quot;prototype&quot;</span> <span class="attr">init-method</span>=<span class="string">&quot;init&quot;</span> <span class="attr">destroy-method</span>=<span class="string">&quot;destory&quot;</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
 <p>　　测试程序如下：</p>
-<pre><code class="java">public class LifeTest &#123;
-    @Test 
-    public void test() &#123;
-        AbstractApplicationContext container = new ClassPathXmlApplicationContext(&quot;life.xml&quot;);
-        LifeBean life1 = (LifeBean)container.getBean(&quot;life_singleton&quot;);
-        System.out.println(life1);
-        
-        LifeBean life3 = (LifeBean)container.getBean(&quot;life_prototype&quot;);
-        System.out.println(life3);
-        container.close();
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LifeTest</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Test</span> </span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		AbstractApplicationContext container = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;life.xml&quot;</span>);</span><br><span class="line">		LifeBean life1 = (LifeBean)container.getBean(<span class="string">&quot;life_singleton&quot;</span>);</span><br><span class="line">		System.out.println(life1);</span><br><span class="line">		</span><br><span class="line">		LifeBean life3 = (LifeBean)container.getBean(<span class="string">&quot;life_prototype&quot;</span>);</span><br><span class="line">		System.out.println(life3);</span><br><span class="line">		container.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>　　运行结果如下：　</p>
-<pre><code class="java">LifeBean()构造函数
-this is init of lifeBean
-com.bean.LifeBean@573f2bb1
-LifeBean()构造函数
-this is init of lifeBean
-com.bean.LifeBean@5ae9a829
-……
-this is destory of lifeBean com.bean.LifeBean@573f2bb1
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">LifeBean()构造函数</span><br><span class="line"><span class="keyword">this</span> is init of lifeBean</span><br><span class="line">com.bean.LifeBean@573<span class="function">f2bb1</span></span><br><span class="line"><span class="function"><span class="title">LifeBean</span><span class="params">()</span>构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">this</span> is init of lifeBean</span></span><br><span class="line"><span class="function">com.bean.LifeBean@5ae9a829</span></span><br><span class="line"><span class="function">……</span></span><br><span class="line"><span class="function"><span class="keyword">this</span> is destory of lifeBean com.bean.LifeBean@573f2bb1</span></span><br></pre></td></tr></table></figure>
+
 <p>　　可以发现，对于作用域为prototype的bean，其destroy方法并没有被调用。如果bean的scope设为prototype时，当容器关闭时，destroy方法不会被调用。对于prototype作用域的bean，有一点非常重要，那就是Spring不能对一个prototype bean的整个生命周期负责：容器在初始化、配置、装饰或者是装配完一个prototype实例后，将它交给客户端，随后就对该prototype实例不闻不问了。不管何种作用域，容器都会调用所有对象的初始化生命周期回调方法。但对prototype而言，任何配置好的析构生命周期回调方法都将不会被调用。清除prototype作用域的对象并释放任何prototype bean所持有的昂贵资源，都是客户端代码的职责（让Spring容器释放被prototype作用域bean占用资源的一种可行方式是，通过使用bean的后置处理器，该处理器持有要被清除的bean的引用）。谈及prototype作用域的bean时，在某些方面你可以将Spring容器的角色看作是Java new操作的替代者，任何迟于该时间点的生命周期事宜都得交由客户端来处理。</p>
 <p>　　Spring容器可以管理singleton作用域下bean的生命周期，在此作用域下，Spring能够精确地知道bean何时被创建，何时初始化完成，以及何时被销毁。而对于prototype作用域的bean，Spring只负责创建，当容器创建了bean的实例后，bean的实例就交给了客户端的代码管理，Spring容器将不再跟踪其生命周期，并且不会管理那些被配置成prototype作用域的bean的生命周期。</p>
 <h3 id="2-3-引申"><a href="#2-3-引申" class="headerlink" title="2.3 引申"></a>2.3 引申</h3><p>　　在学习Spring IoC过程中发现，每次产生ApplicationContext工厂的方式是：</p>
-<pre><code class="java">ApplicationContext applicationContext = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br></pre></td></tr></table></figure>
+
 <p>　　这样产生ApplicationContext就有一个弊端，每次访问加载bean的时候都会产生这个工厂，所以这里需要解决这个问题。</p>
 <p>　　ApplicationContext是一个接口，它继承自BeanFactory接口，除了包含BeanFactory的所有功能之外，在国际化支持、资源访问（如URL和文件）、事件传播等方面进行了良好的支持。</p>
 <p>　　解决问题的方法很简单，在web容器启动的时候将ApplicationContext转移到ServletContext中，因为在web应用中所有的Servlet都共享一个ServletContext对象。那么我们就可以利用ServletContextListener去监听ServletContext事件，当web应用启动的是时候，我们就将ApplicationContext装载到ServletContext中。 Spring容器底层已经为我们想到了这一点，在spring-web-xxx-release.jar包中有一个已经实现了ServletContextListener接口的类ContextLoader，其源码如下：</p>
-<pre><code class="java">public class ContextLoaderListener extends ContextLoader implements ServletContextListener &#123;
-    private ContextLoader contextLoader;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContextLoaderListener</span> <span class="keyword">extends</span> <span class="title">ContextLoader</span> <span class="keyword">implements</span> <span class="title">ServletContextListener</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> ContextLoader contextLoader;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ContextLoaderListener</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ContextLoaderListener</span><span class="params">(WebApplicationContext context)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>(context);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextInitialized</span><span class="params">(ServletContextEvent event)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.contextLoader = createContextLoader();</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.contextLoader == <span class="keyword">null</span>) &#123;</span><br><span class="line">			<span class="keyword">this</span>.contextLoader = <span class="keyword">this</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">this</span>.contextLoader.initWebApplicationContext(event.getServletContext());</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">protected</span> ContextLoader <span class="title">createContextLoader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Deprecated</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> ContextLoader <span class="title">getContextLoader</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.contextLoader;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextDestroyed</span><span class="params">(ServletContextEvent event)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.contextLoader != <span class="keyword">null</span>) &#123;</span><br><span class="line">		<span class="keyword">this</span>.contextLoader.closeWebApplicationContext(event.getServletContext());</span><br><span class="line">		&#125;</span><br><span class="line">		ContextCleanupListener.cleanupAttributes(event.getServletContext());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-    public ContextLoaderListener() &#123;
-
-    &#125;
-
-    public ContextLoaderListener(WebApplicationContext context) &#123;
-        super(context);
-    &#125;
-
-    public void contextInitialized(ServletContextEvent event) &#123;
-        this.contextLoader = createContextLoader();
-        if (this.contextLoader == null) &#123;
-            this.contextLoader = this;
-        &#125;
-        this.contextLoader.initWebApplicationContext(event.getServletContext());
-    &#125;
-
-    @Deprecated
-    protected ContextLoader createContextLoader() &#123;
-        return null;
-    &#125;
-
-    @Deprecated
-    public ContextLoader getContextLoader() &#123;
-        return this.contextLoader;
-    &#125;
-
-    public void contextDestroyed(ServletContextEvent event) &#123;
-        if (this.contextLoader != null) &#123;
-        this.contextLoader.closeWebApplicationContext(event.getServletContext());
-        &#125;
-        ContextCleanupListener.cleanupAttributes(event.getServletContext());
-    &#125;
-&#125;
-</code></pre>
 <p>　　这里就监听到了servletContext的创建过程, 那么 这个类又是如何将applicationContext装入到serveletContext容器中的呢?</p>
 <p>　　this.contextLoader.initWebApplicationContext(event.getServletContext())方法的具体实现中：</p>
-<pre><code class="java">public WebApplicationContext initWebApplicationContext(ServletContext servletContext) &#123;
-     if (servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE) != null) &#123;
-         throw new IllegalStateException(
-                 &quot;Cannot initialize context because there is already a root application context present - &quot; +
-                 &quot;check whether you have multiple ContextLoader* definitions in your web.xml!&quot;);
-     &#125;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> WebApplicationContext <span class="title">initWebApplicationContext</span><span class="params">(ServletContext servletContext)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">if</span> (servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE) != <span class="keyword">null</span>) &#123;</span><br><span class="line">         <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(</span><br><span class="line">                 <span class="string">&quot;Cannot initialize context because there is already a root application context present - &quot;</span> +</span><br><span class="line">                 <span class="string">&quot;check whether you have multiple ContextLoader* definitions in your web.xml!&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     Log logger = LogFactory.getLog(ContextLoader.class);</span><br><span class="line">     servletContext.log(<span class="string">&quot;Initializing Spring root WebApplicationContext&quot;</span>);</span><br><span class="line">     <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</span><br><span class="line">         logger.info(<span class="string">&quot;Root WebApplicationContext: initialization started&quot;</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">long</span> startTime = System.currentTimeMillis();</span><br><span class="line"></span><br><span class="line">     <span class="keyword">try</span> &#123;</span><br><span class="line">     	  <span class="comment">// Store context in local instance variable, to guarantee that</span></span><br><span class="line">          <span class="comment">// it is available on ServletContext shutdown.</span></span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">this</span>.context == <span class="keyword">null</span>) &#123;</span><br><span class="line">             <span class="keyword">this</span>.context = createWebApplicationContext(servletContext);</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">this</span>.context <span class="keyword">instanceof</span> ConfigurableWebApplicationContext) &#123;</span><br><span class="line">             ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) <span class="keyword">this</span>.context;</span><br><span class="line">             <span class="keyword">if</span> (!cwac.isActive()) &#123;</span><br><span class="line">                 <span class="comment">// The context has not yet been refreshed -&gt; provide services such as</span></span><br><span class="line">                 <span class="comment">// setting the parent context, setting the application context id, etc</span></span><br><span class="line">                 <span class="keyword">if</span> (cwac.getParent() == <span class="keyword">null</span>) &#123;</span><br><span class="line">                     <span class="comment">// The context instance was injected without an explicit parent -&gt;</span></span><br><span class="line">                     <span class="comment">// determine parent for root web application context, if any.</span></span><br><span class="line">                     ApplicationContext parent = loadParentContext(servletContext);</span><br><span class="line">                     cwac.setParent(parent);</span><br><span class="line">                 &#125;</span><br><span class="line">                 configureAndRefreshWebApplicationContext(cwac, servletContext);</span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, <span class="keyword">this</span>.context);</span><br><span class="line"></span><br><span class="line">         ClassLoader ccl = Thread.currentThread().getContextClassLoader();</span><br><span class="line">         <span class="keyword">if</span> (ccl == ContextLoader.class.getClassLoader()) &#123;</span><br><span class="line">             currentContext = <span class="keyword">this</span>.context;</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">else</span> <span class="keyword">if</span> (ccl != <span class="keyword">null</span>) &#123;</span><br><span class="line">             currentContextPerThread.put(ccl, <span class="keyword">this</span>.context);</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span> (logger.isDebugEnabled()) &#123;</span><br><span class="line">             logger.debug(<span class="string">&quot;Published root WebApplicationContext as ServletContext attribute with name [&quot;</span> +</span><br><span class="line">                     WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE + <span class="string">&quot;]&quot;</span>);</span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">if</span> (logger.isInfoEnabled()) &#123;</span><br><span class="line">             <span class="keyword">long</span> elapsedTime = System.currentTimeMillis() - startTime;</span><br><span class="line">             logger.info(<span class="string">&quot;Root WebApplicationContext: initialization completed in &quot;</span> + elapsedTime + <span class="string">&quot; ms&quot;</span>);</span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">         <span class="keyword">return</span> <span class="keyword">this</span>.context;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">catch</span> (RuntimeException ex) &#123;</span><br><span class="line">         logger.error(<span class="string">&quot;Context initialization failed&quot;</span>, ex);</span><br><span class="line">         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, ex);</span><br><span class="line">         <span class="keyword">throw</span> ex;</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">catch</span> (Error err) &#123;</span><br><span class="line">         logger.error(<span class="string">&quot;Context initialization failed&quot;</span>, err);</span><br><span class="line">         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, err);</span><br><span class="line">         <span class="keyword">throw</span> err;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
 
-     Log logger = LogFactory.getLog(ContextLoader.class);
-     servletContext.log(&quot;Initializing Spring root WebApplicationContext&quot;);
-     if (logger.isInfoEnabled()) &#123;
-         logger.info(&quot;Root WebApplicationContext: initialization started&quot;);
-     &#125;
-     long startTime = System.currentTimeMillis();
-
-     try &#123;
-           // Store context in local instance variable, to guarantee that
-          // it is available on ServletContext shutdown.
-         if (this.context == null) &#123;
-             this.context = createWebApplicationContext(servletContext);
-         &#125;
-         if (this.context instanceof ConfigurableWebApplicationContext) &#123;
-             ConfigurableWebApplicationContext cwac = (ConfigurableWebApplicationContext) this.context;
-             if (!cwac.isActive()) &#123;
-                 // The context has not yet been refreshed -&gt; provide services such as
-                 // setting the parent context, setting the application context id, etc
-                 if (cwac.getParent() == null) &#123;
-                     // The context instance was injected without an explicit parent -&gt;
-                     // determine parent for root web application context, if any.
-                     ApplicationContext parent = loadParentContext(servletContext);
-                     cwac.setParent(parent);
-                 &#125;
-                 configureAndRefreshWebApplicationContext(cwac, servletContext);
-             &#125;
-         &#125;
-         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.context);
-
-         ClassLoader ccl = Thread.currentThread().getContextClassLoader();
-         if (ccl == ContextLoader.class.getClassLoader()) &#123;
-             currentContext = this.context;
-         &#125;
-         else if (ccl != null) &#123;
-             currentContextPerThread.put(ccl, this.context);
-         &#125;
-
-         if (logger.isDebugEnabled()) &#123;
-             logger.debug(&quot;Published root WebApplicationContext as ServletContext attribute with name [&quot; +
-                     WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE + &quot;]&quot;);
-         &#125;
-         if (logger.isInfoEnabled()) &#123;
-             long elapsedTime = System.currentTimeMillis() - startTime;
-             logger.info(&quot;Root WebApplicationContext: initialization completed in &quot; + elapsedTime + &quot; ms&quot;);
-         &#125;
-
-         return this.context;
-     &#125;
-     catch (RuntimeException ex) &#123;
-         logger.error(&quot;Context initialization failed&quot;, ex);
-         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, ex);
-         throw ex;
-     &#125;
-     catch (Error err) &#123;
-         logger.error(&quot;Context initialization failed&quot;, err);
-         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, err);
-         throw err;
-     &#125;
- &#125;
-</code></pre>
 <p>　　这里的重点是servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, this.context)，用key:WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE value: this.context的形式将applicationContext装载到servletContext中了。另外从上面的一些注释我们可以看出： WEB-INF/applicationContext.xml， 如果我们项目中的配置文件不是这么一个路径的话 那么我们使用ContextLoaderListener 就会出问题, 所以我们还需要在web.xml中配置我们的applicationContext.xml配置文件的路径。</p>
-<pre><code class="xml">&lt;listener&gt;
-    &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
-&lt;/listener&gt;
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:applicationContext.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-&lt;context-param&gt;
-    &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
-    &lt;param-value&gt;classpath:applicationContext.xml&lt;/param-value&gt;
-&lt;/context-param&gt;
-</code></pre>
 <p>　　剩下的就是在项目中开始使用 servletContext中装载的applicationContext对象了： 那么这里又有一个问题，装载时的key是 WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE，我们在代码中真的要使用这个吗? 其实Spring为我们提供了一个工具类WebApplicationContextUtils，接着我们先看下如何使用，然后再去看下这个工具类的源码：</p>
-<pre><code class="java">WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());</span><br></pre></td></tr></table></figure>
+
 <p>　　接着来看下这个工具类的源码：</p>
-<pre><code class="java">public static WebApplicationContext getWebApplicationContext(ServletContext sc) &#123;
-    return getWebApplicationContext(sc, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> WebApplicationContext <span class="title">getWebApplicationContext</span><span class="params">(ServletContext sc)</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> getWebApplicationContext(sc, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>　　这里就能很直观清晰地看到 通过key值直接获取到装载到servletContext中的 applicationContext对象了。</p>
 <p>　　ContextLoaderListener监听器的作用就是启动Web容器时，自动装配ApplicationContext的配置信息，因为它实现了ServletContextListener这个接口，在web.xml配置这个监听器，启动容器时，就会默认执行它实现的方法。在ContextLoaderListener中关联了ContextLoader这个类，整个加载配置过程由ContextLoader来完成。</p>
 <h2 id="四、补充"><a href="#四、补充" class="headerlink" title="四、补充"></a>四、补充</h2><h3 id="4-1-简介"><a href="#4-1-简介" class="headerlink" title="4.1 简介"></a>4.1 简介</h3><p>​        理解spring中bean的生命周期，对于学习和使用spring很有帮助。本文将从两个角度对spring中bean的生命周期进行介绍，一是bean定义生成；二是bean在初始化、使用、销毁的生命周期中经历的阶段。</p>
 <h3 id="4-2-bean定义生成"><a href="#4-2-bean定义生成" class="headerlink" title="4.2 bean定义生成"></a>4.2 bean定义生成</h3><p>​        bean定义生成主要分为三个步骤，即bean定义的获取、bean定义的注册。<br><strong>1、bean定义的获取</strong><br>​        bean的定义来源各种各样，如xml定义、java注解定义等。<br>​        spring对各种来源提供了统一的接口org.springframework.core.io.Resource，<br>​        Resource接口即也是对spring内的所有底层资源进行了抽象（如file、url、classpath）。<br>​        Resource接口相关的类结构图如下：<br><img src="https://img-blog.csdnimg.cn/20181114231111589.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NoaW5hYmVzdGNoaW5h,size_16,color_FFFFFF,t_70" alt="img"></p>
 <p>​        各类bean定义的加载请参数相应spring源码。<br><strong>2、bean定义的解析</strong><br>​        由于来源的不同，bean的解析也是各种各样的（如xml内标签的解析）。<br>​        spring对bean的定义仍然有公共的接口org.springframework.beans.factory.config.BeanDefinition。<br>​        具体解析请查看spring源码。<br><strong>3、bean的注册</strong><br>​        解析得到的bean，最终会注册到容器中，其实也就是ConcurrentHashMap，<br>​        即org.springframework.beans.factory.support.DefaultListableBeanFactory类中的实例变量</p>
-<pre><code class="java">/** Map of bean definition objects, keyed by bean name */
-private final Map&lt;String, BeanDefinition&gt; beanDefinitionMap = new ConcurrentHashMap&lt;&gt;(256);
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Map of bean definition objects, keyed by bean name */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Map&lt;String, BeanDefinition&gt; beanDefinitionMap = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;(<span class="number">256</span>);</span><br></pre></td></tr></table></figure>
+
 <p>​        此bean的加载完成</p>
 <h3 id="4-3-spring的生命周期"><a href="#4-3-spring的生命周期" class="headerlink" title="4.3 spring的生命周期"></a>4.3 spring的生命周期</h3><p>​        spring生命周期中的阶段，包括初始化、使用、销毁。<br><strong>1、初始化阶段</strong><br>​        1）调用bean的构造函数，创建实例；<br>​        2）进行参数依赖注入；<br>​        3）若实现org.springframework.beans.BeanNameAware接口，则调用BeanNameAware的setBeanName()方法;<br>​        4）若实现org.springframework.beans.factory.BeanClassLoaderAware接口，则调用BeanClassLoaderAware的setBeanClassLoader()方法;<br>​        5）若实现org.springframework.context.ApplicationContextAware接口，则调用ApplicationContextAware的setApplicationContext()方法;<br>​        6）若使用了注解@PostConstruct，则调相应方法；<br>​        7）若实现org.springframework.beans.factory.InitializingBean接口，则调用InitializingBean接口的afterPropertiesSet方法;<br>​        8）若bean定义的使用了initMethod，则调相应方法；<br>​        9）若实现org.springframework.beans.factory.config.BeanPostProcessor接口，则调用BeanPostProcessor的postProcessBeforeInitialization()方法和postProcessAfterInitialization方法;<br><strong>2、使用阶段</strong><br>​        1）bean在项目的使用；<br><strong>3、销毁阶段</strong><br>​        1）若使用注解@PreDestroy，则调用相应方法；<br>​        2）若bean定义中配置了destroyMethod，则调用相应方法；<br>​        3）若实现org.springframework.beans.factory.DisposableBean接口，则调用DisposableBean接口的destroy方法; </p>
 <h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>综合前面的代码和分析，现在我们用大白话描述下：</p>
@@ -541,7 +307,7 @@ private final Map&lt;String, BeanDefinition&gt; beanDefinitionMap = new Concurre
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E4%B8%ADBean%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/" data-id="cl0utfle8001gugvsdmoc4ktp" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E4%B8%ADBean%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/" data-id="cl0utrb67000q7kvs8sqv9ex2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li></ul>
@@ -552,19 +318,19 @@ private final Map&lt;String, BeanDefinition&gt; beanDefinitionMap = new Concurre
     
 <nav id="article-nav">
   
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Sping%E6%95%B4%E5%90%88Log4j/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          SpringBoot使用详解
+          Spring整合Log4j
         
       </div>
     </a>
   
   
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E4%BB%A5%E5%8F%8A%E8%BF%9E%E6%8E%A5%E6%B1%A0/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Spring使用详解</div>
+      <div class="article-nav-title">JDBC以及连接池</div>
     </a>
   
 </nav>
@@ -626,15 +392,15 @@ private final Map&lt;String, BeanDefinition&gt; beanDefinitionMap = new Concurre
           </li>
         
           <li>
-            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
             <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
           </li>
         
           <li>
             <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
           </li>
         
           <li>

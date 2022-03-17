@@ -32,6 +32,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -120,12 +122,11 @@
 </li>
 </ul>
 <h3 id="1-2-JDBC使用步骤"><a href="#1-2-JDBC使用步骤" class="headerlink" title="1.2 JDBC使用步骤"></a>1.2 JDBC使用步骤</h3><h4 id="1-2-1、注册驱动"><a href="#1-2-1、注册驱动" class="headerlink" title="1.2.1、注册驱动"></a>1.2.1、<strong>注册驱动</strong></h4><p>​        首先复制JDBC包到lib-解压；</p>
-<pre><code class="java">// 注册驱动   
-DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注册驱动   </span></span><br><span class="line">DriverManager.registerDriver(<span class="keyword">new</span> com.mysql.jdbc.Driver());</span><br></pre></td></tr></table></figure>
+
 <p>​        或使用java.lang.Class 类中的 forName() 方法指定 JDBC 驱动的类型：</p>
-<pre><code class="java"> Class.froName(&quot;com.mysql.jdbc.Driver&quot;);
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Class.froName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);</span><br></pre></td></tr></table></figure>
+
 <h4 id="1-2-2、获取数据库连接"><a href="#1-2-2、获取数据库连接" class="headerlink" title="1.2.2、获取数据库连接"></a>1.2.2、<strong>获取数据库连接</strong></h4><p>​        表示Java程序与数据库之间的连接，只有拿到Connection才能操作数据库。</p>
 <p>​        <strong>理解</strong>：就像之前接触过的网络编程，java程序就像是客户端，客户端要取得端口一样，然后打开socket</p>
 <table>
@@ -144,15 +145,10 @@ DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 <p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/07/30/kuangstudyf27a7b35-ed7e-4352-a7d8-c1a4d532adfb.png" alt="img"></p>
 <p>如果是本地服务器，端口号是默认的3306，则可以简写：jdbc:mysql:///test</p>
 <p>​        <strong>String username：</strong>数据库的账号<br>​        <strong>String password：</strong>数据库的密码</p>
-<pre><code class="java">//参数解释：createDatabaseIfNotExist:如果数据库不存在就创建
-String url = &quot;jdbc:mysql://localhost:3306/activitiDB?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf8&quot;;
-String username = &quot;root&quot;;
-String password =  &quot;1234566&quot;;
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//参数解释：createDatabaseIfNotExist:如果数据库不存在就创建</span></span><br><span class="line">String url = <span class="string">&quot;jdbc:mysql://localhost:3306/activitiDB?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=utf8&quot;</span>;</span><br><span class="line">String username = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">String password =  <span class="string">&quot;1234566&quot;</span>;</span><br><span class="line"></span><br><span class="line">Connection connection = DriverManager.getConnection(url,username,password);</span><br></pre></td></tr></table></figure>
 
-Connection connection = DriverManager.getConnection(url,username,password);
-</code></pre>
-<h4 id="1-2-3、获取执行SQL语句对象"><a href="#1-2-3、获取执行SQL语句对象" class="headerlink" title="1.2.3、获取执行SQL语句对象"></a>1.2.3、<strong>获取执行SQL语句对象</strong></h4><pre><code class="java">Statement statement = connection.createStatement();
-</code></pre>
+<h4 id="1-2-3、获取执行SQL语句对象"><a href="#1-2-3、获取执行SQL语句对象" class="headerlink" title="1.2.3、获取执行SQL语句对象"></a>1.2.3、<strong>获取执行SQL语句对象</strong></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Statement statement = connection.createStatement();</span><br></pre></td></tr></table></figure>
+
 <h4 id="1-2-4、执行SQL语句并返回结果"><a href="#1-2-4、执行SQL语句并返回结果" class="headerlink" title="1.2.4、执行SQL语句并返回结果"></a>1.2.4、<strong>执行SQL语句并返回结果</strong></h4><table>
 <thead>
 <tr>
@@ -207,98 +203,21 @@ Connection connection = DriverManager.getConnection(url,username,password);
 </tr>
 </tbody></table>
 <p><strong>案例</strong>：</p>
-<pre><code class="java">while (rs.next()) &#123;
-            // 取出数据
-            // 通过字段名获取字段值
-            int id = rs.getInt(&quot;id&quot;);
-            String name = rs.getString(&quot;name&quot;);
-            String password = rs.getString(&quot;password&quot;);
-            System.out.println(id + &quot;: &quot; + name + &quot;: &quot; + password);
-        &#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">            <span class="comment">// 取出数据</span></span><br><span class="line">            <span class="comment">// 通过字段名获取字段值</span></span><br><span class="line">            <span class="keyword">int</span> id = rs.getInt(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">            String name = rs.getString(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">            String password = rs.getString(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">            System.out.println(id + <span class="string">&quot;: &quot;</span> + name + <span class="string">&quot;: &quot;</span> + password);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <p><strong>注：</strong>SQL类型与JDBC对应方法：</p>
 <p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/07/30/kuangstudy89db4b00-7c13-4bcc-b75c-93e7caf4f5a1.png" alt="img"></p>
 <h4 id="1-2-6、释放资源"><a href="#1-2-6、释放资源" class="headerlink" title="1.2.6、释放资源"></a>1.2.6、释放资源</h4><p>关流，把流出去和流进来的数据通道关掉！</p>
-<h3 id="1-3、案例"><a href="#1-3、案例" class="headerlink" title="1.3、案例"></a>1.3、案例</h3><pre><code class="java">public class Demo &#123;
-    public static void main(String[] args) throws SQLException &#123;
-        // 1.注册驱动(自动注册)
-        
-        // 2.获取连接
-        Connection conn = DriverManager.getConnection(&quot;jdbc:mysql:///test&quot;, &quot;root&quot;, &quot;root&quot;);
-        
-        // 3.获取Statement对象
-        Statement stmt = conn.createStatement();
-        
-        // 4.执行SQL语句
-        String sql = &quot;SELECT * FROM user;&quot;;
-        ResultSet rs = stmt.executeQuery(sql);
-        
-        // 5.处理结果
-        while (rs.next()) &#123;
-            // 取出数据
-            // 通过字段名获取字段值
-            int id = rs.getInt(&quot;id&quot;);
-            String name = rs.getString(&quot;name&quot;);
-            String password = rs.getString(&quot;password&quot;);
-            System.out.println(id + &quot;: &quot; + name + &quot;: &quot; + password);
-        &#125;
-        
-        // 6.关闭资源
-        rs.close();
-        stmt.close();
-        conn.close();
-    &#125;
-&#125;
-</code></pre>
+<h3 id="1-3、案例"><a href="#1-3、案例" class="headerlink" title="1.3、案例"></a>1.3、案例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// 1.注册驱动(自动注册)</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2.获取连接</span></span><br><span class="line">        Connection conn = DriverManager.getConnection(<span class="string">&quot;jdbc:mysql:///test&quot;</span>, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;root&quot;</span>);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3.获取Statement对象</span></span><br><span class="line">        Statement stmt = conn.createStatement();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4.执行SQL语句</span></span><br><span class="line">        String sql = <span class="string">&quot;SELECT * FROM user;&quot;</span>;</span><br><span class="line">        ResultSet rs = stmt.executeQuery(sql);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 5.处理结果</span></span><br><span class="line">        <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">            <span class="comment">// 取出数据</span></span><br><span class="line">            <span class="comment">// 通过字段名获取字段值</span></span><br><span class="line">            <span class="keyword">int</span> id = rs.getInt(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">            String name = rs.getString(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">            String password = rs.getString(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">            System.out.println(id + <span class="string">&quot;: &quot;</span> + name + <span class="string">&quot;: &quot;</span> + password);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 6.关闭资源</span></span><br><span class="line">        rs.close();</span><br><span class="line">        stmt.close();</span><br><span class="line">        conn.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="二、JDBC工具类"><a href="#二、JDBC工具类" class="headerlink" title="二、JDBC工具类"></a>二、JDBC工具类</h2><p>​        定义一个**<code>JDBCUtils</code>类**。把注册驱动，获取连接，得到Statement，以及释放资源的代码放到这个类的方法中，以后直接调用方法即可。</p>
 <h3 id="2-1、-编写JDBC工具类步骤"><a href="#2-1、-编写JDBC工具类步骤" class="headerlink" title="2.1、 编写JDBC工具类步骤"></a>2.1、 编写JDBC工具类步骤</h3><p>​        1、将固定字符串定义为常量<br>​        2、提供一个获取连接的方法<code>static Connection getConneciton();</code><br>​        3、定义关闭资源的方法<code>close(Connection conn, Statement stmt, ResultSet rs)</code><br>​        4、重载关闭方法<code>close(Connection conn, Statement stmt)</code></p>
-<h3 id="2-2、-案例"><a href="#2-2、-案例" class="headerlink" title="2.2、 案例"></a>2.2、 案例</h3><pre><code class="java">import java.sql.*;
-public class JDBCUtils &#123;
-    // 编写JDBC工具类步骤
-    // 1.将固定字符串定义为常量
-    private static final String URL = &quot;jdbc:mysql:///test&quot;;
-    private static final String USER = &quot;root&quot;;
-    private static final String PASSWORD = &quot;root&quot;;
-    
-    // 2.提供一个获取连接的方法`static Connection getConneciton();`
-    // 谁使用谁处理异常, 这个方法把连接返回给别人使用,有问题也抛给他处理
-    public static Connection getConnection() throws SQLException &#123;
-        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        return conn;
-    &#125;
-    
-    // 3.定义关闭资源的方法`close(Connection conn, Statement stmt, ResultSet rs)`
-    // 谁使用谁处理异常, 其他地方调用close会传入 conn, stmt, rs给我们使用.就处理异常
-    public static void close(Connection conn, Statement stmt, ResultSet rs) &#123;
-        if (rs != null) &#123;
-            try &#123;
-                rs.close();
-            &#125; catch (SQLException e) &#123;
-                e.printStackTrace();
-            &#125;
-        &#125;
-        if (stmt != null) &#123;
-            try &#123;
-                stmt.close();
-            &#125; catch (SQLException e) &#123;
-                e.printStackTrace();
-            &#125;
-        &#125;
-        if (conn != null) &#123; // 防止空指针
-            try &#123;
-                conn.close();
-            &#125; catch (SQLException e) &#123;
-                e.printStackTrace();
-            &#125;
-        &#125;
-    &#125;
-    
-    // 4.重载关闭方法`close(Connection conn, Statement stmt)`
-    public static void close(Connection conn, Statement stmt) &#123;
-        close(conn, stmt, null);
-    &#125;
-&#125;
-</code></pre>
+<h3 id="2-2、-案例"><a href="#2-2、-案例" class="headerlink" title="2.2、 案例"></a>2.2、 案例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JDBCUtils</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 编写JDBC工具类步骤</span></span><br><span class="line">    <span class="comment">// 1.将固定字符串定义为常量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String URL = <span class="string">&quot;jdbc:mysql:///test&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String USER = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String PASSWORD = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 2.提供一个获取连接的方法`static Connection getConneciton();`</span></span><br><span class="line">    <span class="comment">// 谁使用谁处理异常, 这个方法把连接返回给别人使用,有问题也抛给他处理</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);</span><br><span class="line">        <span class="keyword">return</span> conn;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3.定义关闭资源的方法`close(Connection conn, Statement stmt, ResultSet rs)`</span></span><br><span class="line">    <span class="comment">// 谁使用谁处理异常, 其他地方调用close会传入 conn, stmt, rs给我们使用.就处理异常</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">(Connection conn, Statement stmt, ResultSet rs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                rs.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (stmt != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                stmt.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123; <span class="comment">// 防止空指针</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4.重载关闭方法`close(Connection conn, Statement stmt)`</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">(Connection conn, Statement stmt)</span> </span>&#123;</span><br><span class="line">        close(conn, stmt, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="三、JDBC事务"><a href="#三、JDBC事务" class="headerlink" title="三、JDBC事务"></a>三、JDBC事务</h2><h3 id="3-1、JDBC事务使用步骤"><a href="#3-1、JDBC事务使用步骤" class="headerlink" title="3.1、JDBC事务使用步骤"></a>3.1、JDBC事务使用步骤</h3><ul>
 <li><p><strong>注册驱动</strong></p>
 </li>
@@ -336,97 +255,18 @@ public class JDBCUtils &#123;
 <td>回滚事务</td>
 </tr>
 </tbody></table>
-<h3 id="3-2、-案例"><a href="#3-2、-案例" class="headerlink" title="3.2、 案例"></a>3.2、 案例</h3><pre><code class="java">import com.itheima.utils.JDBCUtils;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-public class Demo &#123;
-    public static void main(String[] args) &#123;
-        Connection conn = null;
-        Statement stmt = null;
-        try &#123;
-            // 1.注册驱动(自动注册)
-            // 2.获取连接
-            conn = JDBCUtils.getConnection();
-            
-            // 3.开启事务
-            conn.setAutoCommit(false); // false会关闭自动提交,变成开启事务,我们手动提交
-            
-            // 4.获取到Statement
-            stmt = conn.createStatement();
-            // 5.Statement执行SQL
-            // 张三-500
-            stmt.executeUpdate(&quot;UPDATE account SET balance=balance-500 WHERE id=1;&quot;);
-            // 模拟异常
-            int a = 10 / 0;
-            // 李四+500
-            stmt.executeUpdate(&quot;UPDATE account SET balance=balance+500 WHERE id=2;&quot;);
-            
-            // 6.成功提交事务
-            conn.commit();
-            System.out.println(&quot;成功提交事务&quot;);
-        &#125; catch (Exception e) &#123;
-            
-            // 7.失败回滚事务
-            try &#123;
-                if (conn != null) &#123;
-                    conn.rollback();
-                    System.out.println(&quot;失败回滚事务&quot;);
-                &#125;
-            &#125; catch (SQLException e1) &#123;
-                e1.printStackTrace();
-            &#125;
-        &#125; finally &#123;
-            JDBCUtils.close(conn, stmt);
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+<h3 id="3-2、-案例"><a href="#3-2、-案例" class="headerlink" title="3.2、 案例"></a>3.2、 案例</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.utils.JDBCUtils;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Connection conn = <span class="keyword">null</span>;</span><br><span class="line">        Statement stmt = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 1.注册驱动(自动注册)</span></span><br><span class="line">            <span class="comment">// 2.获取连接</span></span><br><span class="line">            conn = JDBCUtils.getConnection();</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 3.开启事务</span></span><br><span class="line">            conn.setAutoCommit(<span class="keyword">false</span>); <span class="comment">// false会关闭自动提交,变成开启事务,我们手动提交</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 4.获取到Statement</span></span><br><span class="line">            stmt = conn.createStatement();</span><br><span class="line">            <span class="comment">// 5.Statement执行SQL</span></span><br><span class="line">            <span class="comment">// 张三-500</span></span><br><span class="line">            stmt.executeUpdate(<span class="string">&quot;UPDATE account SET balance=balance-500 WHERE id=1;&quot;</span>);</span><br><span class="line">            <span class="comment">// 模拟异常</span></span><br><span class="line">            <span class="keyword">int</span> a = <span class="number">10</span> / <span class="number">0</span>;</span><br><span class="line">            <span class="comment">// 李四+500</span></span><br><span class="line">            stmt.executeUpdate(<span class="string">&quot;UPDATE account SET balance=balance+500 WHERE id=2;&quot;</span>);</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 6.成功提交事务</span></span><br><span class="line">            conn.commit();</span><br><span class="line">            System.out.println(<span class="string">&quot;成功提交事务&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 7.失败回滚事务</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    conn.rollback();</span><br><span class="line">                    System.out.println(<span class="string">&quot;失败回滚事务&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e1) &#123;</span><br><span class="line">                e1.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            JDBCUtils.close(conn, stmt);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="3-3、JDBC实现登录以及SQL注入攻击"><a href="#3-3、JDBC实现登录以及SQL注入攻击" class="headerlink" title="3.3、JDBC实现登录以及SQL注入攻击"></a>3.3、JDBC实现登录以及SQL注入攻击</h3><p><strong>案例分析</strong>：</p>
 <p>​        使用数据库保存用户的账号和密码<br>​        让用户输入账号和密码<br>​        使用SQL根据用户的账号和密码去数据库查询数据<br>​        如果查询到数据，说明登录成功<br>​        如果查询不到数据，说明登录失败</p>
 <p><strong>代码</strong>：</p>
-<pre><code class="java">import com.itheima.utils.JDBCUtils;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Scanner;
-public class Demo &#123;
-    public static void main(String[] args) throws SQLException &#123;
-        // 1.使用数据库保存用户的账号和密码
-        
-        // 2.让用户输入账号和密码
-        Scanner sc = new Scanner(System.in);
-        System.out.println(&quot;请输入账号:&quot;);
-        String name = sc.next();
-        System.out.println(&quot;请输入密码:&quot;);
-        String password = sc.next();
-        
-        // 3.使用SQL根据用户的账号和密码去数据库查询数据
-        Connection conn = JDBCUtils.getConnection();
-        Statement stmt = conn.createStatement();
-        
-        String sql = &quot;SELECT * FROM user WHERE name=&#39;&quot; + name + &quot;&#39; AND password=&#39;&quot; + password + &quot;&#39;;&quot;;
-        System.out.println(&quot;sql = &quot; + sql); 
-        // SELECT * FROM user WHERE name=&#39;hehe&#39; AND password=&#39;a&#39;or&#39;1&#39;=&#39;1&#39;;
-        ResultSet rs = stmt.executeQuery(sql);
-        
-        // 4.如果查询到数据，说明登录成功
-        // 5.如果查询不到数据，说明登录失败
-        if (rs.next()) &#123;
-            System.out.println(&quot;欢迎您, &quot; + name + &quot;登录成功!&quot;);
-        &#125; else &#123; 
-            System.out.println(&quot;登录失败, 用户名或密码错误!&quot;);
-        &#125;
-        
-        // 6.关闭资源
-        JDBCUtils.close(conn, stmt, rs);
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.utils.JDBCUtils;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// 1.使用数据库保存用户的账号和密码</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 2.让用户输入账号和密码</span></span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        System.out.println(<span class="string">&quot;请输入账号:&quot;</span>);</span><br><span class="line">        String name = sc.next();</span><br><span class="line">        System.out.println(<span class="string">&quot;请输入密码:&quot;</span>);</span><br><span class="line">        String password = sc.next();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3.使用SQL根据用户的账号和密码去数据库查询数据</span></span><br><span class="line">        Connection conn = JDBCUtils.getConnection();</span><br><span class="line">        Statement stmt = conn.createStatement();</span><br><span class="line">        </span><br><span class="line">        String sql = <span class="string">&quot;SELECT * FROM user WHERE name=&#x27;&quot;</span> + name + <span class="string">&quot;&#x27; AND password=&#x27;&quot;</span> + password + <span class="string">&quot;&#x27;;&quot;</span>;</span><br><span class="line">        System.out.println(<span class="string">&quot;sql = &quot;</span> + sql); </span><br><span class="line">        <span class="comment">// SELECT * FROM user WHERE name=&#x27;hehe&#x27; AND password=&#x27;a&#x27;or&#x27;1&#x27;=&#x27;1&#x27;;</span></span><br><span class="line">        ResultSet rs = stmt.executeQuery(sql);</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4.如果查询到数据，说明登录成功</span></span><br><span class="line">        <span class="comment">// 5.如果查询不到数据，说明登录失败</span></span><br><span class="line">        <span class="keyword">if</span> (rs.next()) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;欢迎您, &quot;</span> + name + <span class="string">&quot;登录成功!&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123; </span><br><span class="line">            System.out.println(<span class="string">&quot;登录失败, 用户名或密码错误!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 6.关闭资源</span></span><br><span class="line">        JDBCUtils.close(conn, stmt, rs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h4 id="3-3-1、SQL注入攻击："><a href="#3-3-1、SQL注入攻击：" class="headerlink" title="3.3.1、SQL注入攻击："></a><strong>3.3.1、SQL注入攻击：</strong></h4><p>正常来说正常登录是可以实现的，但是如果SQL语句换成</p>
-<pre><code class="sql">SELECT * FROM user WHERE name=&#39;hehe&#39; AND password=&#39;a&#39;or&#39;1&#39;=&#39;1&#39;;
-</code></pre>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> <span class="keyword">user</span> <span class="keyword">WHERE</span> name<span class="operator">=</span><span class="string">&#x27;hehe&#x27;</span> <span class="keyword">AND</span> password<span class="operator">=</span><span class="string">&#x27;a&#x27;</span><span class="keyword">or</span><span class="string">&#x27;1&#x27;</span><span class="operator">=</span><span class="string">&#x27;1&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
 <p>任何人都可以直接登录，主要是<strong>a’or’1’=’1</strong>的原因 ，<strong>or</strong>导致了数据库对传输进来的sql语句判断为<strong>true</strong>（or语句只要有一边为ture就都是true），则会判断账户以及密码比对正确，就会成功登录。</p>
 <p><strong>SQL注入攻击的原理：</strong></p>
 <p>​        按照正常道理来说，我们在密码处输入的所有内容，都应该认为是密码的组成。但是现在Statement对象在执行sql语句时，将密码的一部分内容当做查询条件来执行了。</p>
@@ -442,76 +282,13 @@ public class Demo &#123;
 <p> setXxx(参数1,参数2); </p>
 <p>​         Xxx代表：数据类型<br>​         参数1：第几个? (编号从1开始)<br>         参数2：?的实际参数</p>
 <p><strong>执行SQL语句</strong></p>
-<pre><code class="java">//执行insert、update、delete语句
-int executeUpdate();
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//执行insert、update、delete语句</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">executeUpdate</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//执行select语句</span></span><br><span class="line"><span class="function">ResultSet <span class="title">executeQuery</span><span class="params">()</span></span>; </span><br></pre></td></tr></table></figure>
 
-//执行select语句
-ResultSet executeQuery(); 
-</code></pre>
 <p><strong>PreparedStatement实现增删改</strong></p>
-<pre><code class="java">import com.itheima.utils.JDBCUtils;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-/*
-目标:使用PreparedStatement实现增删改
-讲解:
-    添加数据: 向user表添加1条记录
-    注意:只有字段值不确定才能给?
- */
-public class Demo &#123;
-    public static void main(String[] args) throws SQLException &#123;
-        // 1.获取连接
-        Connection conn = JDBCUtils.getConnection();
-        // 2.编写参数化SQL(带?的SQL语句)
-        String sql = &quot;INSERT INTO user VALUES (NULL, ?, ?)&quot;;
-        // 3.为sql语句获取PreparedStatement对象
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        // 4.给?赋值
-        // pstmt.setXxx(第几个?, 具体值);
-        pstmt.setString(1, &quot;刘德华&quot;);
-        pstmt.setString(2, &quot;666&quot;);
-        // 5.执行
-        int row = pstmt.executeUpdate();
-        System.out.println(&quot;影响的行数: &quot; + row);
-        // 6.释放资源
-        JDBCUtils.close(conn, pstmt);
-    &#125;
-&#125;
-</code></pre>
-<h4 id="3-3-3、JDBC实现登陆之改进"><a href="#3-3-3、JDBC实现登陆之改进" class="headerlink" title="3.3.3、JDBC实现登陆之改进"></a>3.3.3、JDBC实现登陆之改进</h4><pre><code class="java">import com.itheima.utils.JDBCUtils;
-import java.sql.*;
-import java.util.Scanner;
-public class Demo &#123;
-    public static void main(String[] args) throws SQLException &#123;
-        // 1.使用数据库保存用户的账号和密码
-        // 2.让用户输入账号和密码
-        Scanner sc = new Scanner(System.in);
-        System.out.println(&quot;请输入账号:&quot;);
-        String name = sc.next();
-        System.out.println(&quot;请输入密码:&quot;);
-        String password = sc.next();
-        
-        // 3.使用SQL根据用户的账号和密码去数据库查询数据
-        Connection conn = JDBCUtils.getConnection();
-        String sql = &quot;SELECT * FROM user WHERE name=? AND password=?;&quot;;
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setString(1, name);
-        pstmt.setString(2, password);
-        ResultSet rs = pstmt.executeQuery();
-        
-        // 4.如果查询到数据，说明登录成功
-        // 5.如果查询不到数据，说明登录失败
-        if (rs.next()) &#123;
-            System.out.println(&quot;欢迎您, &quot; + name + &quot;登录成功!&quot;);
-        &#125; else &#123;
-            System.out.println(&quot;登录失败, 用户名或密码错误!&quot;);
-        &#125;
-        // 6.关闭资源
-        JDBCUtils.close(conn, pstmt, rs);
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.utils.JDBCUtils;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">目标:使用PreparedStatement实现增删改</span></span><br><span class="line"><span class="comment">讲解:</span></span><br><span class="line"><span class="comment">    添加数据: 向user表添加1条记录</span></span><br><span class="line"><span class="comment">    注意:只有字段值不确定才能给?</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// 1.获取连接</span></span><br><span class="line">        Connection conn = JDBCUtils.getConnection();</span><br><span class="line">        <span class="comment">// 2.编写参数化SQL(带?的SQL语句)</span></span><br><span class="line">        String sql = <span class="string">&quot;INSERT INTO user VALUES (NULL, ?, ?)&quot;</span>;</span><br><span class="line">        <span class="comment">// 3.为sql语句获取PreparedStatement对象</span></span><br><span class="line">        PreparedStatement pstmt = conn.prepareStatement(sql);</span><br><span class="line">        <span class="comment">// 4.给?赋值</span></span><br><span class="line">        <span class="comment">// pstmt.setXxx(第几个?, 具体值);</span></span><br><span class="line">        pstmt.setString(<span class="number">1</span>, <span class="string">&quot;刘德华&quot;</span>);</span><br><span class="line">        pstmt.setString(<span class="number">2</span>, <span class="string">&quot;666&quot;</span>);</span><br><span class="line">        <span class="comment">// 5.执行</span></span><br><span class="line">        <span class="keyword">int</span> row = pstmt.executeUpdate();</span><br><span class="line">        System.out.println(<span class="string">&quot;影响的行数: &quot;</span> + row);</span><br><span class="line">        <span class="comment">// 6.释放资源</span></span><br><span class="line">        JDBCUtils.close(conn, pstmt);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-3、JDBC实现登陆之改进"><a href="#3-3-3、JDBC实现登陆之改进" class="headerlink" title="3.3.3、JDBC实现登陆之改进"></a>3.3.3、JDBC实现登陆之改进</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.utils.JDBCUtils;</span><br><span class="line"><span class="keyword">import</span> java.sql.*;</span><br><span class="line"><span class="keyword">import</span> java.util.Scanner;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// 1.使用数据库保存用户的账号和密码</span></span><br><span class="line">        <span class="comment">// 2.让用户输入账号和密码</span></span><br><span class="line">        Scanner sc = <span class="keyword">new</span> Scanner(System.in);</span><br><span class="line">        System.out.println(<span class="string">&quot;请输入账号:&quot;</span>);</span><br><span class="line">        String name = sc.next();</span><br><span class="line">        System.out.println(<span class="string">&quot;请输入密码:&quot;</span>);</span><br><span class="line">        String password = sc.next();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 3.使用SQL根据用户的账号和密码去数据库查询数据</span></span><br><span class="line">        Connection conn = JDBCUtils.getConnection();</span><br><span class="line">        String sql = <span class="string">&quot;SELECT * FROM user WHERE name=? AND password=?;&quot;</span>;</span><br><span class="line">        PreparedStatement pstmt = conn.prepareStatement(sql);</span><br><span class="line">        pstmt.setString(<span class="number">1</span>, name);</span><br><span class="line">        pstmt.setString(<span class="number">2</span>, password);</span><br><span class="line">        ResultSet rs = pstmt.executeQuery();</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 4.如果查询到数据，说明登录成功</span></span><br><span class="line">        <span class="comment">// 5.如果查询不到数据，说明登录失败</span></span><br><span class="line">        <span class="keyword">if</span> (rs.next()) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;欢迎您, &quot;</span> + name + <span class="string">&quot;登录成功!&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;登录失败, 用户名或密码错误!&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 6.关闭资源</span></span><br><span class="line">        JDBCUtils.close(conn, pstmt, rs);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="3-4、PreparedSatement查询数据"><a href="#3-4、PreparedSatement查询数据" class="headerlink" title="3.4、PreparedSatement查询数据"></a>3.4、PreparedSatement查询数据</h3><p>​        使用PreparedSatement实现查询数据，将查询出的数据保存到对象中。</p>
 <p><strong>实现步骤：</strong></p>
 <ul>
@@ -524,53 +301,11 @@ public class Demo &#123;
 <li>遍历集合操作数据</li>
 </ul>
 <p><strong>定义User类：</strong></p>
-<pre><code class="java">@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class User &#123;
-    private int id;
-    private String name;
-    private String password;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Data</span></span><br><span class="line"><span class="meta">@AllArgsConstructor</span></span><br><span class="line"><span class="meta">@NoArgsConstructor</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p><strong>测试类：</strong></p>
-<pre><code class="java">import com.itheima.utils.JDBCUtils;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-public class Demo &#123;
-    public static void main(String[] args) throws SQLException &#123;
-        // 1.定义User类
-        Connection conn = JDBCUtils.getConnection();
-        String sql = &quot;SELECT * FROM user WHERE id&lt;=?;&quot;;
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        // 给?赋值
-        pstmt.setInt(1, 4); // 第1个?赋值为4
-        // 2.执行SQL语句，得到ResultSet
-        ResultSet rs = pstmt.executeQuery();
-        // 3.创建一个集合用于保存所有的用户对象
-        ArrayList&lt;User&gt; list = new ArrayList&lt;&gt;();
-        // 4.每次循环将一条记录存的数据放到一个用户对象中
-        while (rs.next()) &#123;
-            // 取出这条数据
-            int id = rs.getInt(&quot;id&quot;);
-            String name = rs.getString(&quot;name&quot;);
-            String password = rs.getString(&quot;password&quot;);
-            User user = new User(id, name, password);
-            // 5.把用户对象放到集合中
-            list.add(user);
-        &#125;
-        // 6.关闭资源
-        JDBCUtils.close(conn, pstmt, rs);
-        // 7.遍历集合操作数据, 以后只要操作User对象就有数据.不需要每次都查询数据库
-        for (User user : list) &#123;
-            System.out.println(user);
-        &#125;
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.utils.JDBCUtils;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.util.ArrayList;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// 1.定义User类</span></span><br><span class="line">        Connection conn = JDBCUtils.getConnection();</span><br><span class="line">        String sql = <span class="string">&quot;SELECT * FROM user WHERE id&lt;=?;&quot;</span>;</span><br><span class="line">        PreparedStatement pstmt = conn.prepareStatement(sql);</span><br><span class="line">        <span class="comment">// 给?赋值</span></span><br><span class="line">        pstmt.setInt(<span class="number">1</span>, <span class="number">4</span>); <span class="comment">// 第1个?赋值为4</span></span><br><span class="line">        <span class="comment">// 2.执行SQL语句，得到ResultSet</span></span><br><span class="line">        ResultSet rs = pstmt.executeQuery();</span><br><span class="line">        <span class="comment">// 3.创建一个集合用于保存所有的用户对象</span></span><br><span class="line">        ArrayList&lt;User&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="comment">// 4.每次循环将一条记录存的数据放到一个用户对象中</span></span><br><span class="line">        <span class="keyword">while</span> (rs.next()) &#123;</span><br><span class="line">            <span class="comment">// 取出这条数据</span></span><br><span class="line">            <span class="keyword">int</span> id = rs.getInt(<span class="string">&quot;id&quot;</span>);</span><br><span class="line">            String name = rs.getString(<span class="string">&quot;name&quot;</span>);</span><br><span class="line">            String password = rs.getString(<span class="string">&quot;password&quot;</span>);</span><br><span class="line">            User user = <span class="keyword">new</span> User(id, name, password);</span><br><span class="line">            <span class="comment">// 5.把用户对象放到集合中</span></span><br><span class="line">            list.add(user);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 6.关闭资源</span></span><br><span class="line">        JDBCUtils.close(conn, pstmt, rs);</span><br><span class="line">        <span class="comment">// 7.遍历集合操作数据, 以后只要操作User对象就有数据.不需要每次都查询数据库</span></span><br><span class="line">        <span class="keyword">for</span> (User user : list) &#123;</span><br><span class="line">            System.out.println(user);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h2 id="四、连接池"><a href="#四、连接池" class="headerlink" title="四、连接池"></a>四、连接池</h2><h3 id="4-1、-连接池简介"><a href="#4-1、-连接池简介" class="headerlink" title="4.1、 连接池简介"></a>4.1、 连接池简介</h3><p><strong>之前JDBC访问数据库的步骤：</strong><br>        创建数据库连接→运行SQL语句→关闭连接 每次数据库访问执行这样重复的动作。</p>
 <p><strong>每次创建数据库连接遇到的问题</strong>：</p>
 <p>​        获取数据库连接需要消耗比较多的资源，而每次操作都要重新获取新的连接对象，执行一次操作就把连接关闭，而数据库创建连接通常需要消耗相对较多的资源。这样数据库连接对象的使用率低。</p>
@@ -581,11 +316,8 @@ public class Demo &#123;
 <p><strong>常见的连接池</strong>：</p>
 <p>​        阿里巴巴-德鲁伊Druid连接池：Druid是阿里巴巴开源平台上的一个项目<br>​        C3P0是一个开源的连接池，目前使用它的开源项目有Hibernate，Spring等。<br>​        DBCP(DataBase Connection Pool)数据库连接池，是Tomcat使用的连接池组件。</p>
 <p>​        <strong>javax.sql.DataSource表示数据库连接池</strong>，是JDK中提供的一个<strong>接口</strong>，没有具体的实现，它的实现由连接池的厂商去实现。我们只需要学习这个工具如何使用即可。</p>
-<pre><code class="java">public interface DataSource extends CommonDataSource, Wrapper&#123;
-    Connection getConnection();
-    ...
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DataSource</span> <span class="keyword">extends</span> <span class="title">CommonDataSource</span>, <span class="title">Wrapper</span></span>&#123;</span><br><span class="line">    <span class="function">Connection <span class="title">getConnection</span><span class="params">()</span></span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-2、-C3P0连接池"><a href="#4-2、-C3P0连接池" class="headerlink" title="4.2、 C3P0连接池"></a>4.2、 C3P0连接池</h3><h4 id="4-2-1-C3P0连接池简介"><a href="#4-2-1-C3P0连接池简介" class="headerlink" title="4.2.1 C3P0连接池简介"></a>4.2.1 C3P0连接池简介</h4><blockquote>
 <p> C3P0地址：<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/c3p0/?source=navbar">https://sourceforge.net/projects/c3p0/?source=navbar</a></p>
 </blockquote>
@@ -629,30 +361,8 @@ public class Demo &#123;
 <p><strong>【注意事项】</strong></p>
 <p>​        注意事项C3P0配置文件名称必须为c3p0-config.xml<br>​        C3P0命名配置可以有多个</p>
 <p><img src="https://kuangstudy.oss-cn-beijing.aliyuncs.com/bbs/2021/07/30/kuangstudy29a1b745-650c-4d74-a7ff-423156fba3ba.png" alt="img"></p>
-<pre><code class="java">import com.mchange.v2.c3p0.ComboPooledDataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-public class Demo11 &#123;
-    public static void main(String[] args) throws SQLException &#123;
-        // 1.导入jar包c3p0-0.9.5.2.jar和mchange-commons-java-0.2.12.jar
-        // 2.复制配置文件c3p0-config.xml放在src目录下，配置对应参数
-        // 3.创建连接池对象ComboPooledDataSource
-        ComboPooledDataSource ds = new ComboPooledDataSource(); // 使用&lt;default-config&gt;这套配置
-        // ComboPooledDataSource ds = new ComboPooledDataSource(&quot;nba&quot;); // 使用&lt;named-config name=&quot;nba&quot;&gt;这套配置
-        // 4.从连接池中获取连接对象
-        Connection conn = ds.getConnection();
-        // 5.使用连接对象操作数据库
-        String sql = &quot;DELETE FROM user WHERE id=?;&quot;;
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, 5);
-        pstmt.executeUpdate();
-        // 6.关闭资源，将连接还回连接池中
-        pstmt.close();
-        conn.close(); // 连接的close是把连接放回连接池
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.mchange.v2.c3p0.ComboPooledDataSource;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo11</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// 1.导入jar包c3p0-0.9.5.2.jar和mchange-commons-java-0.2.12.jar</span></span><br><span class="line">        <span class="comment">// 2.复制配置文件c3p0-config.xml放在src目录下，配置对应参数</span></span><br><span class="line">        <span class="comment">// 3.创建连接池对象ComboPooledDataSource</span></span><br><span class="line">        ComboPooledDataSource ds = <span class="keyword">new</span> ComboPooledDataSource(); <span class="comment">// 使用&lt;default-config&gt;这套配置</span></span><br><span class="line">        <span class="comment">// ComboPooledDataSource ds = new ComboPooledDataSource(&quot;nba&quot;); // 使用&lt;named-config name=&quot;nba&quot;&gt;这套配置</span></span><br><span class="line">        <span class="comment">// 4.从连接池中获取连接对象</span></span><br><span class="line">        Connection conn = ds.getConnection();</span><br><span class="line">        <span class="comment">// 5.使用连接对象操作数据库</span></span><br><span class="line">        String sql = <span class="string">&quot;DELETE FROM user WHERE id=?;&quot;</span>;</span><br><span class="line">        PreparedStatement pstmt = conn.prepareStatement(sql);</span><br><span class="line">        pstmt.setInt(<span class="number">1</span>, <span class="number">5</span>);</span><br><span class="line">        pstmt.executeUpdate();</span><br><span class="line">        <span class="comment">// 6.关闭资源，将连接还回连接池中</span></span><br><span class="line">        pstmt.close();</span><br><span class="line">        conn.close(); <span class="comment">// 连接的close是把连接放回连接池</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-3、Druid连接池"><a href="#4-3、Druid连接池" class="headerlink" title="4.3、Druid连接池"></a>4.3、Druid连接池</h3><h4 id="4-3-1、Druid连接池简介"><a href="#4-3-1、Druid连接池简介" class="headerlink" title="4.3.1、Druid连接池简介"></a>4.3.1、Druid连接池简介</h4><p>​        Druid是阿里巴巴开发的号称为监控而生的数据库连接池，Druid是目前最好的数据库连接池。</p>
 <p>​        <strong>特点：</strong>①日志监控，可以很好的监控数据库连接池和SQL的执行情况；②需要自行加载propertise文件；</p>
 <p>​        <strong>下载地址：</strong><a target="_blank" rel="noopener" href="https://github.com/alibaba/druid">https://github.com/alibaba/druid</a></p>
@@ -674,14 +384,8 @@ public class Demo11 &#123;
 </tr>
 </tbody></table>
 <p><strong>druid.properties</strong></p>
-<pre><code class="java">url=jdbc:mysql://localhost:3306/数据库名
-username=mysql账户
-password=密码
-driverClassName=com.mysql.jdbc.Driver //固定
-initialSize=5  //连接池默认连接量5
-maxActive=10    //连接池最大连接量10
-maxWait=2000    //单位（毫秒）  最大等待时间2000毫秒
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">url=jdbc:mysql:<span class="comment">//localhost:3306/数据库名</span></span><br><span class="line">username=mysql账户</span><br><span class="line">password=密码</span><br><span class="line">driverClassName=com.mysql.jdbc.Driver <span class="comment">//固定</span></span><br><span class="line">initialSize=<span class="number">5</span>  <span class="comment">//连接池默认连接量5</span></span><br><span class="line">maxActive=<span class="number">10</span>    <span class="comment">//连接池最大连接量10</span></span><br><span class="line">maxWait=<span class="number">2000</span>    <span class="comment">//单位（毫秒）  最大等待时间2000毫秒</span></span><br></pre></td></tr></table></figure>
+
 <h4 id="4-3-3、使用步骤"><a href="#4-3-3、使用步骤" class="headerlink" title="4.3.3、使用步骤"></a>4.3.3、使用步骤</h4><p>首先需要创建连接池的方法：</p>
 <table>
 <thead>
@@ -696,121 +400,30 @@ maxWait=2000    //单位（毫秒）  最大等待时间2000毫秒
 </tr>
 </tbody></table>
 <p><strong>可以看到需要添加参数的参数类型是properties，这里就是添加druid.properties配置文件中数据的地方啦,需要根据配置来创建连接池！</strong></p>
-<pre><code class="java">import com.alibaba.druid.pool.DruidDataSourceFactory;
-import com.itheima.utils.JDBCUtils;
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.util.Properties;
-public class Demo &#123;
-    public static void main(String[] args) throws Exception &#123;
-        //创建properties对象
-        //加载properties文件的内容到Properties对象中（如果有不懂的朋友，可以看一下IO流附近的知识哦，属性集可以读取保存数据）
-        Properties pp = new Properties();
-        //我这里用的是类加载，
-        pp.load(Demo02.class.getClassLoader().getResourceAsStream(&quot;druid.properties&quot;));
-        //    4.创建Druid连接池，使用配置文件中的参数
-        DataSource dataSource = DruidDataSourceFactory.createDataSource(pp);
-        //    5.从Druid连接池中取出连接
-        Connection coon = dataSource.getConnection();
-        //    6.执行SQL语句
-        String sql = &quot;UPDATE  user SET ps=998 WHERE id=4;&quot;;
-        PreparedStatement pps = coon.prepareStatement(sql);
-        pps.executeUpdate();
-        //    7.关闭资源
-        JDBCUtils.close(coon,pps);
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alibaba.druid.pool.DruidDataSourceFactory;</span><br><span class="line"><span class="keyword">import</span> com.itheima.utils.JDBCUtils;</span><br><span class="line"><span class="keyword">import</span> javax.sql.DataSource;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">//创建properties对象</span></span><br><span class="line">        <span class="comment">//加载properties文件的内容到Properties对象中（如果有不懂的朋友，可以看一下IO流附近的知识哦，属性集可以读取保存数据）</span></span><br><span class="line">        Properties pp = <span class="keyword">new</span> Properties();</span><br><span class="line">        <span class="comment">//我这里用的是类加载，</span></span><br><span class="line">        pp.load(Demo02.class.getClassLoader().getResourceAsStream(<span class="string">&quot;druid.properties&quot;</span>));</span><br><span class="line">        <span class="comment">//    4.创建Druid连接池，使用配置文件中的参数</span></span><br><span class="line">        DataSource dataSource = DruidDataSourceFactory.createDataSource(pp);</span><br><span class="line">        <span class="comment">//    5.从Druid连接池中取出连接</span></span><br><span class="line">        Connection coon = dataSource.getConnection();</span><br><span class="line">        <span class="comment">//    6.执行SQL语句</span></span><br><span class="line">        String sql = <span class="string">&quot;UPDATE  user SET ps=998 WHERE id=4;&quot;</span>;</span><br><span class="line">        PreparedStatement pps = coon.prepareStatement(sql);</span><br><span class="line">        pps.executeUpdate();</span><br><span class="line">        <span class="comment">//    7.关闭资源</span></span><br><span class="line">        JDBCUtils.close(coon,pps);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="4-4、连接池工具类"><a href="#4-4、连接池工具类" class="headerlink" title="4.4、连接池工具类"></a>4.4、连接池工具类</h3><h4 id="4-4-1、-工具类使用步骤"><a href="#4-4-1、-工具类使用步骤" class="headerlink" title="4.4.1、 工具类使用步骤"></a>4.4.1、 工具类使用步骤</h4><p>​        声明静态连接池成员变量<br>​        创建连接池对象<br>​        定义得到连接对象的方法<br>​        定义关闭资源的方法</p>
-<h4 id="4-4-2、-案例"><a href="#4-4-2、-案例" class="headerlink" title="4.4.2、 案例"></a>4.4.2、 案例</h4><pre><code class="java">import com.alibaba.druid.pool.DruidDataSourceFactory;
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
-// 这是一个连接池工具类.对Druid连接池的代码进行封装,让德鲁伊连接池使用更简单
-public class DataSourceUtils &#123;
-    
-    // 1.声明静态连接池成员变量
-    private static DataSource ds;
-    
-    // 使用静态代码块给静态成员变量赋值
-    static &#123;
-        System.out.println(&quot;静态代码块执行啦!&quot;);
-        // 2.创建连接池对象
-        Properties pp = new Properties();
-        // FileInputStream fis = new FileInputStream(&quot;study_day20\\src\\druid.properties&quot;);
-        InputStream in = DataSourceUtils.class.getClassLoader().getResourceAsStream(&quot;druid.properties&quot;);
-        try &#123;
-            pp.load(in);
-            ds = DruidDataSourceFactory.createDataSource(pp);
-        &#125; catch (Exception e) &#123;
-            e.printStackTrace();
-        &#125;
-    &#125;
-    
-    // 3.定义得到连接对象的方法
-    public static Connection getConnection() throws SQLException &#123;
-        return ds.getConnection(); // 从连接池中取一个连接去使用
-    &#125;
-    
-    // 4.定义关闭资源的方法
-    public static void close(Connection conn, Statement stmt, ResultSet rs) &#123;
-        if (rs != null) &#123;
-            try &#123;
-                rs.close();
-            &#125; catch (SQLException e) &#123;
-                e.printStackTrace();
-            &#125;
-        &#125;
-        if (stmt != null) &#123;
-            try &#123;
-                stmt.close();
-            &#125; catch (SQLException e) &#123;
-                e.printStackTrace();
-            &#125;
-        &#125;
-        if (conn != null) &#123; // 防止空指针
-            try &#123;
-                conn.close();
-            &#125; catch (SQLException e) &#123;
-                e.printStackTrace();
-            &#125;
-        &#125;
-    &#125;
-    
-    // 5.重载关闭方法`close(Connection conn, Statement stmt)`
-    public static void close(Connection conn, Statement stmt) &#123;
-        close(conn, stmt, null);
-    &#125;
-&#125;
-</code></pre>
-<pre><code class="java">import com.itheima.utils.DataSourceUtils;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-public class Demo03 &#123;
-    public static void main(String[] args) throws SQLException &#123;
-        // 1.从连接池工具类中取出连接
-        Connection conn = DataSourceUtils.getConnection();
-        // 2.执行SQL语句
-        String sql = &quot;DELETE FROM user WHERE id=4;&quot;;
-        PreparedStatement pstmt = conn.prepareStatement(sql);
-        pstmt.executeUpdate();
-        // 3.关闭资源
-        DataSourceUtils.close(conn, pstmt);
-    &#125;
-&#125;
-</code></pre>
+<h4 id="4-4-2、-案例"><a href="#4-4-2、-案例" class="headerlink" title="4.4.2、 案例"></a>4.4.2、 案例</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.alibaba.druid.pool.DruidDataSourceFactory;</span><br><span class="line"><span class="keyword">import</span> javax.sql.DataSource;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.io.InputStream;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.ResultSet;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">import</span> java.sql.Statement;</span><br><span class="line"><span class="keyword">import</span> java.util.Properties;</span><br><span class="line"><span class="comment">// 这是一个连接池工具类.对Druid连接池的代码进行封装,让德鲁伊连接池使用更简单</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DataSourceUtils</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 1.声明静态连接池成员变量</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DataSource ds;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 使用静态代码块给静态成员变量赋值</span></span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;静态代码块执行啦!&quot;</span>);</span><br><span class="line">        <span class="comment">// 2.创建连接池对象</span></span><br><span class="line">        Properties pp = <span class="keyword">new</span> Properties();</span><br><span class="line">        <span class="comment">// FileInputStream fis = new FileInputStream(&quot;study_day20\\src\\druid.properties&quot;);</span></span><br><span class="line">        InputStream in = DataSourceUtils.class.getClassLoader().getResourceAsStream(<span class="string">&quot;druid.properties&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            pp.load(in);</span><br><span class="line">            ds = DruidDataSourceFactory.createDataSource(pp);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 3.定义得到连接对象的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Connection <span class="title">getConnection</span><span class="params">()</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> ds.getConnection(); <span class="comment">// 从连接池中取一个连接去使用</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 4.定义关闭资源的方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">(Connection conn, Statement stmt, ResultSet rs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (rs != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                rs.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (stmt != <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                stmt.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (conn != <span class="keyword">null</span>) &#123; <span class="comment">// 防止空指针</span></span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                conn.close();</span><br><span class="line">            &#125; <span class="keyword">catch</span> (SQLException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 5.重载关闭方法`close(Connection conn, Statement stmt)`</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">(Connection conn, Statement stmt)</span> </span>&#123;</span><br><span class="line">        close(conn, stmt, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.itheima.utils.DataSourceUtils;</span><br><span class="line"><span class="keyword">import</span> java.sql.Connection;</span><br><span class="line"><span class="keyword">import</span> java.sql.PreparedStatement;</span><br><span class="line"><span class="keyword">import</span> java.sql.SQLException;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo03</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> SQLException </span>&#123;</span><br><span class="line">        <span class="comment">// 1.从连接池工具类中取出连接</span></span><br><span class="line">        Connection conn = DataSourceUtils.getConnection();</span><br><span class="line">        <span class="comment">// 2.执行SQL语句</span></span><br><span class="line">        String sql = <span class="string">&quot;DELETE FROM user WHERE id=4;&quot;</span>;</span><br><span class="line">        PreparedStatement pstmt = conn.prepareStatement(sql);</span><br><span class="line">        pstmt.executeUpdate();</span><br><span class="line">        <span class="comment">// 3.关闭资源</span></span><br><span class="line">        DataSourceUtils.close(conn, pstmt);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E4%BB%A5%E5%8F%8A%E8%BF%9E%E6%8E%A5%E6%B1%A0/" data-id="cl0utfldw000lugvs9cq73ypb" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E4%BB%A5%E5%8F%8A%E8%BF%9E%E6%8E%A5%E6%B1%A0/" data-id="cl0utrb67000s7kvs9msth5x4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li></ul>
@@ -821,19 +434,19 @@ public class Demo03 &#123;
     
 <nav id="article-nav">
   
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/MyBaits%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E4%B8%ADBean%E7%9A%84%E4%BD%9C%E7%94%A8%E5%9F%9F/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Mybaits使用详解
+          Spring中Bean作用域
         
       </div>
     </a>
   
   
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/JDBC%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">JDBC连接数据库</div>
+      <div class="article-nav-title">Spring使用详解</div>
     </a>
   
 </nav>
@@ -895,15 +508,15 @@ public class Demo03 &#123;
           </li>
         
           <li>
-            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
             <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
           </li>
         
           <li>
             <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
           </li>
         
           <li>

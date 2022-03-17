@@ -55,6 +55,8 @@
     <link rel="icon" href="/favicon.png">
   
   
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
   
 <link rel="stylesheet" href="/css/style.css">
 
@@ -353,55 +355,8 @@
 <p>其中加载、验证、准备、初始化和卸载这五个阶段的顺序是确定的。解析阶段可以在初始化之后再开始(运行时绑定或动态绑定或晚期绑定)。</p>
 <p>以下五种情况必须对类进行初始化(而加载、验证、准备自然需要在此之前完成)：</p>
 <p>遇到 new、getstatic、putstatic 或 invokestatic 这 4 条字节码指令时没初始化触发初始化。使用场景：使用 new 关键字实例化对象、读取一个类的静态字段(被 final 修饰、已在编译期把结果放入常量池的静态字段除外)、调用一个类的静态方法。<br>使用 java.lang.reflect 包的方法对类进行反射调用的时候。<br>当初始化一个类的时候，如果发现其父类还没有进行初始化，则需先触发其父类的初始化。<br>当虚拟机启动时，用户需指定一个要加载的主类(包含 main() 方法的那个类)，虚拟机会先初始化这个主类。<br>当使用 JDK 1.7 的动态语言支持时，如果一个 java.lang.invoke.MethodHandle 实例最后的解析结果 REF_getStatic、REF_putStatic、REF_invokeStatic 的方法句柄，并且这个方法句柄所对应的类没有进行过初始化，则需先触发其初始化。<br>前面的五种方式是对一个类的主动引用，除此之外，所有引用类的方法都不会触发初始化，佳作被动引用。举几个例子~</p>
-<pre><code class="java">public class SuperClass &#123;
-    static &#123;
-        System.out.println(&quot;SuperClass init!&quot;);
-    &#125;
-    public static int value = 1127;
-&#125;
- 
-public class SubClass extends SuperClass &#123;
-    static &#123;
-        System.out.println(&quot;SubClass init!&quot;);
-    &#125;
-&#125;
- 
-public class ConstClass &#123;
-    static &#123;
-        System.out.println(&quot;ConstClass init!&quot;);
-    &#125;
-    public static final String HELLOWORLD = &quot;hello world!&quot;
-&#125;
- 
-public class NotInitialization &#123;
-    public static void main(String[] args) &#123;
-        System.out.println(SubClass.value);
-        /**
-         *  output : SuperClass init!
-         * 
-         * 通过子类引用父类的静态对象不会导致子类的初始化
-         * 只有直接定义这个字段的类才会被初始化
-         */
- 
-        SuperClass[] sca = new SuperClass[10];
-        /**
-         *  output : 
-         * 
-         * 通过数组定义来引用类不会触发此类的初始化
-         * 虚拟机在运行时动态创建了一个数组类
-         */
- 
-        System.out.println(ConstClass.HELLOWORLD);
-        /**
-         *  output : 
-         * 
-         * 常量在编译阶段会存入调用类的常量池当中，本质上并没有直接引用到定义类常量的类，
-         * 因此不会触发定义常量的类的初始化。
-         * “hello world” 在编译期常量传播优化时已经存储到 NotInitialization 常量池中了。
-         */
-    &#125;
-&#125;
-</code></pre>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SuperClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;SuperClass init!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> value = <span class="number">1127</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SubClass</span> <span class="keyword">extends</span> <span class="title">SuperClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;SubClass init!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstClass</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;ConstClass init!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String HELLOWORLD = <span class="string">&quot;hello world!&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NotInitialization</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(SubClass.value);</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *  output : SuperClass init!</span></span><br><span class="line"><span class="comment">         * </span></span><br><span class="line"><span class="comment">         * 通过子类引用父类的静态对象不会导致子类的初始化</span></span><br><span class="line"><span class="comment">         * 只有直接定义这个字段的类才会被初始化</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"> </span><br><span class="line">        SuperClass[] sca = <span class="keyword">new</span> SuperClass[<span class="number">10</span>];</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *  output : </span></span><br><span class="line"><span class="comment">         * </span></span><br><span class="line"><span class="comment">         * 通过数组定义来引用类不会触发此类的初始化</span></span><br><span class="line"><span class="comment">         * 虚拟机在运行时动态创建了一个数组类</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line"> </span><br><span class="line">        System.out.println(ConstClass.HELLOWORLD);</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         *  output : </span></span><br><span class="line"><span class="comment">         * </span></span><br><span class="line"><span class="comment">         * 常量在编译阶段会存入调用类的常量池当中，本质上并没有直接引用到定义类常量的类，</span></span><br><span class="line"><span class="comment">         * 因此不会触发定义常量的类的初始化。</span></span><br><span class="line"><span class="comment">         * “hello world” 在编译期常量传播优化时已经存储到 NotInitialization 常量池中了。</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h3 id="6-2、类的加载过程"><a href="#6-2、类的加载过程" class="headerlink" title="6.2、类的加载过程"></a>6.2、类的加载过程</h3><h4 id="6-2-1、加载"><a href="#6-2-1、加载" class="headerlink" title="6.2.1、加载"></a>6.2.1、加载</h4><p>通过一个类的全限定名来获取定义次类的二进制流(ZIP 包、网络、运算生成、JSP 生成、数据库读取)。<br>将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。<br>在内存中生成一个代表这个类的 java.lang.Class 对象，作为方法去这个类的各种数据的访问入口。<br>数组类的特殊性：数组类本身不通过类加载器创建，它是由 Java 虚拟机直接创建的。但数组类与类加载器仍然有很密切的关系，因为数组类的元素类型最终是要靠类加载器去创建的，数组创建过程如下：</p>
 <p>如果数组的组件类型是引用类型，那就递归采用类加载加载。<br>如果数组的组件类型不是引用类型，Java 虚拟机会把数组标记为引导类加载器关联。<br>数组类的可见性与他的组件类型的可见性一致，如果组件类型不是引用类型，那数组类的可见性将默认为 public。<br>内存中实例的 java.lang.Class 对象存在方法区中。作为程序访问方法区中这些类型数据的外部接口。<br>加载阶段与连接阶段的部分内容是交叉进行的，但是开始时间保持先后顺序。</p>
 <h4 id="6-2-2、验证"><a href="#6-2-2、验证" class="headerlink" title="6.2.2、验证"></a>6.2.2、验证</h4><p>是连接的第一步，确保 Class 文件的字节流中包含的信息符合当前虚拟机要求。</p>
@@ -568,7 +523,7 @@ public class NotInitialization &#123;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" data-id="cl0utfldm0005ugvsd61d9ucm" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" data-id="cl0utrb5y00097kvscpw1eil1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
@@ -579,19 +534,19 @@ public class NotInitialization &#123;
     
 <nav id="article-nav">
   
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          (no title)
+          JSP简介
         
       </div>
     </a>
   
   
-    <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">G1使用详解</div>
+      <div class="article-nav-title">配置文件</div>
     </a>
   
 </nav>
@@ -653,15 +608,15 @@ public class NotInitialization &#123;
           </li>
         
           <li>
-            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
             <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
           </li>
         
           <li>
             <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JSP%E7%AE%80%E4%BB%8B/">JSP简介</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
           </li>
         
           <li>
