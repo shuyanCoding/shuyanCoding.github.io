@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Mybaits知识点 | Shuyan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、概念、使用方法向的问题1.1、Mybaits介绍​        （1）Mybatis是一个半ORM框架，它内部封装了JDBC，开发时只需要关注SQL语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement等繁杂的过程。 ​        （2）MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mybaits知识点">
+<meta property="og:url" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Mybaits%E7%9F%A5%E8%AF%86%E7%82%B9/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="一、概念、使用方法向的问题1.1、Mybaits介绍​        （1）Mybatis是一个半ORM框架，它内部封装了JDBC，开发时只需要关注SQL语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement等繁杂的过程。 ​        （2）MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200920171405540.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020092018550771.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200920190114946.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917203424287.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200705193704124.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200705193729573.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200705193759456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200705193914827.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200705193851637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200705193821188.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200920183713811.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200920183657317.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200915221915851.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020092018294130.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200920183022252.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200830162428980.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200915222654319.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200915221915851.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200915223612191.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200915224121930.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200915225840294.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916211402947.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916214700706.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916213826490.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916214239389.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916214959863.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916215029787.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916215442588.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916215556263.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200916215523383.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917203050838.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917203424287.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917205236272.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917205454850.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917210415293.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917210606702.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917210831277.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917211035123.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917211124589.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200919104808424.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917211725203.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200917211854628.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20200919110111271.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091911381497.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2020091911204922.png">
+<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
+<meta property="article:modified_time" content="2022-03-17T03:54:14.947Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Mybaits">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20200920171405540.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Shuyan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JAVA/Spring框架/Mybaits/Mybaits知识点" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Mybaits%E7%9F%A5%E8%AF%86%E7%82%B9/" class="article-date">
+  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mybaits知识点
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、概念、使用方法向的问题"><a href="#一、概念、使用方法向的问题" class="headerlink" title="一、概念、使用方法向的问题"></a>一、概念、使用方法向的问题</h2><h3 id="1-1、Mybaits介绍"><a href="#1-1、Mybaits介绍" class="headerlink" title="1.1、Mybaits介绍"></a>1.1、Mybaits介绍</h3><p>​        （1）Mybatis是一个<strong>半ORM框架</strong>，它<strong>内部封装了JDBC</strong>，开发时只需要关注SQL语句本身，不需要花费精力去处理加载驱动、创建连接、创建statement等繁杂的过程。</p>
+<p>​        （2）MyBatis 可以使用 XML 或注解来配置和映射原生信息，将 POJO映射成数据库中的记录，避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。</p>
+<p>​        （3）通过xml 文件或注解的方式将要执行的各种 statement 配置起来，并通过java对象和statement中sql的动态参数进行映射生成最终执行的sql语句，最后<u>由mybatis框架执行sql并将结果映射为java对象并返回</u>。</p>
+<h3 id="1-2、-为什么说Mybatis是半ORM框架-与Hibernate有哪些不同"><a href="#1-2、-为什么说Mybatis是半ORM框架-与Hibernate有哪些不同" class="headerlink" title="1.2、 为什么说Mybatis是半ORM框架?与Hibernate有哪些不同?"></a>1.2、 为什么说Mybatis是半ORM框架?与Hibernate有哪些不同?</h3><p>​        <strong>ORM是对象和关系之间的映射，包括对象-&gt;关系和关系-&gt;对象两方面。</strong>Hibernate是个完整的ORM框架，而MyBatis只完成了<strong>关系-&gt;对象</strong>，准确地说MyBatis是SQL映射框架而不是ORM框架，因为其仅有字段映射，对象数据以及对象实际关系仍然需要通过手写SQL来实现和管理。</p>
+<p>​        （1）Hibernate为完整的ORM框架，Mybatis为半ORM框架。</p>
+<p>​        （2）Mybatis程序员直接编写原生sql，可严格控制sql执行性能，灵活度高，适用于对关系数据模型要求不高的软件开发，例如互联网软件、企业运营类软件等；Hibernate只能通过编写hql实现数据库查询。</p>
+<p>​        （3）Hibernate对象/关系映射能力强，数据库无关性好，适用于对关系模型要求高的软件； Mybatis的数据库无关性较差，如果需要实现支持多种数据库的软件则需要自定义多套sql映射文件。</p>
+<h3 id="1-3、-Mybaits的优点"><a href="#1-3、-Mybaits的优点" class="headerlink" title="1.3、 Mybaits的优点?"></a><strong>1.3、 Mybaits的优点?</strong></h3><p>​        （1）基于SQL语句编程，不会对应用程序或者数据库的现有设计造成任何影响，解除sql与程序代码的耦合，便于统一管理；提供XML标签，支持编写动态SQL语句，重用性高。</p>
+<p>​        （2）与JDBC相比，减少了50%以上的代码量，消除了JDBC大量冗余的代码，不需要手动开关连接；</p>
+<p>​        （3）很好的与各种数据库兼容（因为MyBatis使用JDBC来连接数据库，所以只要JDBC支持的数据库MyBatis都支持）。</p>
+<p>​        （4）能够与Spring很好的集成；</p>
+<p>​        （5）<strong>提供映射标签</strong>，支持对象与数据库的ORM字段关系映射；提供对象关系映射标签，支持对象关系组件维护。</p>
+<h3 id="1-4-、MyBatis框架的缺点"><a href="#1-4-、MyBatis框架的缺点" class="headerlink" title="1.4 、MyBatis框架的缺点?"></a>1.4 、MyBatis框架的缺点?</h3><p>​        （1）SQL语句的编写工作量较大，尤其当字段多、关联表多时，对开发人员编写SQL语句的功底有一定要求。</p>
+<p>​        （2）SQL语句依赖于数据库，导致数据库移植性差，不能随意更换数据库。</p>
+<h3 id="1-5、-和-的区别"><a href="#1-5、-和-的区别" class="headerlink" title="1.5、 #{}和${}的区别?"></a>1.5、 #{}和${}的区别?</h3><p>​        （1）**${}<strong>是properties文件中的</strong>变量占位符**，它可以用于标签属性值和sql内部，属于静态文本替换。</p>
+<p>​        （2）**#{}<strong>是sql的</strong>参数占位符<strong>，Mybatis会将sql中的#{}替换为?号，在sql执行前会使用PreparedStatement的参数设置方法，按序给sql的?号占位符设置参数值。</strong>使用#{}可以有效的防止 SQL 注入**，提高系统安全性。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$&#123;param&#125;传递的参数会被当成<span class="keyword">sql</span>语句中的一部分，</span><br><span class="line">举例：</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> $&#123;param&#125;</span><br><span class="line">则解析成的<span class="keyword">sql</span>为：</span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> id</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#&#123;parm&#125;传入的数据都当成一个字符串，会对自动传入的数据加一个双引号，</span><br><span class="line">举例：</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> name <span class="operator">=</span> #&#123;param&#125;，</span><br><span class="line">则解析成的<span class="keyword">sql</span>为：</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> name <span class="operator">=</span> &quot;id&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-、怎么解决实体类中的属性名和表中的字段名不一样的问题"><a href="#1-6-、怎么解决实体类中的属性名和表中的字段名不一样的问题" class="headerlink" title="1.6 、怎么解决实体类中的属性名和表中的字段名不一样的问题?"></a>1.6 、怎么解决实体类中的属性名和表中的字段名不一样的问题?</h3><p>​        （1）通过在查询的sql语句中定义字段名的<strong>别名</strong>，使字段名的别名和实体类的属性名一致</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectUserById&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;java.lang.Integer&quot;</span> <span class="attr">resultetype</span>=<span class="string">&quot;com.en.entity.user&quot;</span>&gt;</span></span><br><span class="line">    select user_id as id, user_no as no from test where user_id = #&#123;id&#125;;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​        （2）Mybatis和hibernate不同，它不完全是一个ORM框架，因为MyBatis需要程序员自己编写Sql语句。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">type</span>=<span class="string">”me.gacl.domain.order”</span> <span class="attr">id</span>=<span class="string">”orderresultmap”</span>&gt;</span></span><br><span class="line">    &lt;!–用id标签来映射主键字段–&gt;</span><br><span class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span> <span class="attr">column</span>=<span class="string">&quot;user_id&quot;</span>&gt;</span></span><br><span class="line">        &lt;!–用result属性来映射非主键字段，property为实体类属性名，column为数据表中的属性–&gt;</span><br><span class="line">        <span class="tag">&lt;<span class="name">result</span> <span class="attr">property</span>=<span class="string">&quot;no&quot;</span> <span class="attr">column</span>=<span class="string">&quot;user_no&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">reslutMap</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-7、-如何在mapper中传递多个参数"><a href="#1-7、-如何在mapper中传递多个参数" class="headerlink" title="1.7、 如何在mapper中传递多个参数?"></a>1.7、 如何在mapper中传递多个参数?</h3><p>​        （1）使用 <a target="_blank" rel="noopener" href="https://github.com/param">@param</a> 注解：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">user <span class="title">selectUser</span><span class="params">(<span class="meta">@param(&quot;username&quot;)</span> string username,<span class="meta">@param(&quot;password&quot;)</span> string password)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>​        （2）Mapper接口方法的输入参数类型和mapper.xml中定义的每个sql 的parameterType的类型相同；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;String, Object&gt; map = <span class="keyword">new</span> HashMap();</span><br><span class="line">map.put(<span class="string">&quot;start&quot;</span>, start);</span><br><span class="line">map.put(<span class="string">&quot;end&quot;</span>, end);</span><br><span class="line">sqlSession.selectList(<span class="string">&quot;student.selectUser&quot;</span>, map);</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-8、-MyBatis的接口绑定有哪些实现方式？"><a href="#1-8、-MyBatis的接口绑定有哪些实现方式？" class="headerlink" title="1.8、 MyBatis的接口绑定有哪些实现方式？"></a>1.8、 MyBatis的接口绑定有哪些实现方式？</h3><p>​        <strong>接口绑定</strong>有两种实现方式：</p>
+<p>​        （1）一种是<strong>通过注解绑定</strong>，就是在接口的方法上面加上<a target="_blank" rel="noopener" href="https://github.com/Select">@Select</a>、<a target="_blank" rel="noopener" href="https://github.com/Update">@Update</a>等注解里面包含Sql语句来绑定。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Select(&quot;select ID,CODE,NAME from T_SYS_DICT_TYPE &quot;)</span></span><br><span class="line"><span class="meta">@Results(</span></span><br><span class="line"><span class="meta">    	 id = &quot;distTypeMap&quot;,</span></span><br><span class="line"><span class="meta">         value =&#123;</span></span><br><span class="line"><span class="meta">    		@Result(id =true,property=&quot;id&quot;,column=&quot;ID&quot;)，</span></span><br><span class="line"><span class="meta">            @Result(property=&quot;code&quot;,column=&quot;CODE&quot;)，</span></span><br><span class="line"><span class="meta">            @Result(property=&quot;name&quot;,column=&quot;NAME&quot;)，</span></span><br><span class="line"><span class="meta">            @Result(</span></span><br><span class="line"><span class="meta">                property = &quot;dictDtos&quot; ,</span></span><br><span class="line"><span class="meta">                column = &quot;ID&quot;,</span></span><br><span class="line"><span class="meta">                many = @Many(</span></span><br><span class="line"><span class="meta">                    select = &quot;com.santbbd.ams.sysconfig.mapper.SysInitMapper.findByDistTypeId&quot;,</span></span><br><span class="line"><span class="meta">                    fetchType = FetchType.EAGER</span></span><br><span class="line"><span class="meta">                )</span></span><br><span class="line"><span class="meta">            )</span></span><br><span class="line"><span class="meta">    	&#125;</span></span><br><span class="line"><span class="meta">)</span></span><br><span class="line"><span class="function">List&lt;SysDictTypeDto&gt; <span class="title">getAllDist</span><span class="params">()</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>​        （2）另外一种就是<strong>通过xml里面写SQL来绑定</strong>，在这种情况下，要指定xml映射文件里面的namespace必须为接口的全路径名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;mapper namespace=<span class="string">&quot;com.xxx.xxx.modular.batch.mapper.IllegalCollectionMapper&quot;</span>&gt;</span><br><span class="line">&lt;select id=<span class="string">&quot;queryFileDisposeInfo&quot;</span> parameterType=<span class="string">&quot;FileDisposeVo&quot;</span> resultMap=<span class="string">&quot;illegalcollection-map&quot;</span>&gt;</span><br><span class="line">   SELECT </span><br><span class="line">        BATCH_NUMBER,</span><br><span class="line">        FINISH_DATE,</span><br><span class="line">        FILE_NAME,</span><br><span class="line">        FILE_SIZE,</span><br><span class="line">        DATA_SIZE,</span><br><span class="line">        FILE_TYPE,</span><br><span class="line">        ORG_CODE</span><br><span class="line">   FROM </span><br><span class="line">        T_FILE_DISPOSE</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-9、-使用MyBatis-Mapper接口开发时有哪些要求？"><a href="#1-9、-使用MyBatis-Mapper接口开发时有哪些要求？" class="headerlink" title="1.9、 使用MyBatis Mapper接口开发时有哪些要求？"></a>1.9、 <strong>使用MyBatis Mapper接口开发时有哪些要求？</strong></h3><p>​        （1）Mapper接口<strong>方法名</strong>和mapper.xml中定义的每个<strong>sql的id</strong>相同；<br>​        （2）Mapper接口方法的<strong>输入参数类型</strong>和mapper.xml中定义的每个sql 的parameterType的类型相同；<br>​        （3）Mapper接口方法的<strong>输出参数类型</strong>和mapper.xml中定义的每个sql的resultType的类型相同；<br>​        （4）Mapper.xml文件中的namespace即是mapper接口的<strong>类路径</strong>;</p>
+<h2 id="二、源码向的问题"><a href="#二、源码向的问题" class="headerlink" title="二、源码向的问题"></a>二、源码向的问题</h2><h3 id="2-1、-解释下MyBatis面向Mapper编程工作原理？"><a href="#2-1、-解释下MyBatis面向Mapper编程工作原理？" class="headerlink" title="2.1、 解释下MyBatis面向Mapper编程工作原理？"></a>2.1、 解释下<strong>MyBatis面向Mapper编程工作原理？</strong></h3><p>​        Mapper接口是没有实现类的，当调用接口方法时，采用了JDK的<strong>动态代理</strong>，先从Configuration配置类MapperRegistry对象中获取mapper接口和对应的代理对象工厂信息（MapperProxyFactory），然后利用代理对象工厂MapperProxyFactory创建实际代理类（MapperProxy），最后在MapperProxy类中通过MapperMethod类对象内保存的中对应方法的信息，以及对应的sql语句的信息进行分析，最终确定对应的增强方法进行调用。</p>
+<h3 id="2-2、-为什么MyBatis-Mapper接口中的方法不支持重载？"><a href="#2-2、-为什么MyBatis-Mapper接口中的方法不支持重载？" class="headerlink" title="2.2、 为什么MyBatis Mapper接口中的方法不支持重载？"></a>2.2、 为什么<strong>MyBatis Mapper接口中的方法不支持重载？</strong></h3><p>​        在MyBatis源码中有这么几行代码，我们可以看到在解析XML文件创建mappe接口对应方法的时候，采用了<strong>接口全限名+方法名</strong>的方式作为StrictMap(MappedStatement数据存放的Map集合)的key值，而源码对于StrictMap的put方法进行了判断，如果存入的数据key已重复则抛出异常，所以Mapper接口中的方法不支持重载。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">id = applyCurrentNamespace(id, <span class="keyword">false</span>);</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">applyCurrentNamespace</span><span class="params">(String base, <span class="keyword">boolean</span> isReference)</span> </span>&#123;</span><br><span class="line">   ...</span><br><span class="line">   <span class="comment">// 返回值为mapper的全限名(xml中namespace的值)+方法名(xml中Statement id的值)</span></span><br><span class="line">   <span class="keyword">return</span> currentNamespace + <span class="string">&quot;.&quot;</span> + base;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdnimg.cn/20200920171405540.png" alt="img"></p>
+<h3 id="2-3、-Mybatis动态sql执行原理"><a href="#2-3、-Mybatis动态sql执行原理" class="headerlink" title="2.3、 Mybatis动态sql执行原理?"></a>2.3、 Mybatis动态sql执行原理?</h3><p>​        （1）<strong>初始化阶段：</strong>通过XMLConfigBuilder、XMLMapperBuilder、XMLStatementBuilder解析XML文件中的信息存储到Configuration类中；<br>​        （2）<strong>代理阶段：</strong>先从Configuration配置类的MapperRegistry对象中获取mapper接口和对应的代理对象工厂信息，再利用代理对象工厂MapperProxyFactory创建实际代理类，最后在MapperProxy类中通过MapperMethod类对象内保存的中对应方法的信息，以及对应的sql语句的信息进行分析，最终确定对应的增强方法进行调用。<br>​        （3）<strong>数据读写阶段：</strong>通过四种Executor调用四种Handler进行查询和封装数据；</p>
+<h3 id="2-4、-Mybatis的一级、二级缓存实现原理"><a href="#2-4、-Mybatis的一级、二级缓存实现原理" class="headerlink" title="2.4、 Mybatis的一级、二级缓存实现原理?"></a>2.4、 Mybatis的一级、二级缓存实现原理?</h3><p>​        （1）<strong>一级缓存：</strong> 基于 PerpetualCache 的 HashMap 本地缓存，<strong>其存储作用域为 Session</strong>，当 Session flush 或 close 之后，该 Session 中的所有 Cache 就将清空，Mybatis默认打开一级缓存，一级缓存存放在BaseExecutor的localCache变量中：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020092018550771.png" alt="img"></p>
+<p>​        （2）二级缓存与一级缓存其机制相同，默认也是采用 PerpetualCache，HashMap 存储，不同在于<strong>其存储作用域为 Mapper(Namespace)级别</strong>。</p>
+<p>​        Mybatis默认不打开二级缓存，可以在config文件中xml<code> &lt;settings&gt;&lt;setting name=&quot;cacheEnabled&quot; value=&quot;true&quot;/&gt;&lt;/settings&gt;</code>开启全局的二级缓存，但并不会为所有的Mapper设置二级缓存，每个mapper.xml文件中使用标签来开启当前mapper的二级缓存，二级缓存存放在MappedStatement类cache变量中：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200920190114946.png" alt="img"></p>
+<p>​        （3）对于<strong>缓存数据更新机制</strong>，当某一个作用域(一级缓存 Session/二级缓存Namespaces)的进行了C/U/D 操作后，默认该作用域下所有 select 中的缓存将被清除并重新更新，如果开启了二级缓存，则只根据配置判断是否刷新。</p>
+<h3 id="2-5-、Mybatis是如何进行分页的？"><a href="#2-5-、Mybatis是如何进行分页的？" class="headerlink" title="2.5 、Mybatis是如何进行分页的？"></a>2.5 、Mybatis是如何进行分页的？</h3><p>​        （1）<strong>SQL分页</strong>(物理分页)：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;queryStudentsBySql&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;map&quot;</span> <span class="attr">resultMap</span>=<span class="string">&quot;studentmapper&quot;</span>&gt;</span> </span><br><span class="line">    select * from student limit #&#123;start&#125; , #&#123;end&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​        （2）使用<strong>RowBounds</strong>实现分页(逻辑分页)：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Service:</span><br><span class="line">    <span class="function">publicList <span class="title">queryRolesByPage</span><span class="params">(String roleName,<span class="keyword">int</span> start,<span class="keyword">int</span> limit)</span> </span>&#123;</span><br><span class="line">        returnroleDao.queryRolesByPage(roleName,<span class="keyword">new</span> RowBounds(start, limit));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Dao:</span><br><span class="line">	<span class="function"><span class="keyword">public</span> List <span class="title">queryUsersByPage</span><span class="params">(String userName, RowBounds rowBounds)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>​        （3）使用<strong>分页插件PageHelper</strong>：</p>
+<p>​        添加依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--分页--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.pagehelper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>pagehelper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.1.1<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​        在mybatis-config.xml中配置PageInterceptor拦截器:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--2.配置分页插件，此插件必须配置在typeAliases后面--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">     <span class="tag">&lt;<span class="name">plugin</span> <span class="attr">interceptor</span>=<span class="string">&quot;com.github.pagehelper.PageInterceptor&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--分页合理化参数，默认文false；pageNum&lt;=0，查询第一页；pageNum&gt;总页数，查询最后一页--&gt;</span></span><br><span class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;reasonable&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Json <span class="title">queryByPage</span><span class="params">(User userParam,Integer pageNum,Integer pageSize)</span> </span>&#123;</span><br><span class="line">    PageHelper.startPage(pageNum, pageSize);</span><br><span class="line">    List&lt;User&gt; userList = userMapper.queryByPage(userParam);</span><br><span class="line">    Json json = <span class="keyword">new</span> Json();</span><br><span class="line">    <span class="keyword">return</span> json;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6、-Mybatis都有哪些Executor执行器？它们之间的区别是什么？"><a href="#2-6、-Mybatis都有哪些Executor执行器？它们之间的区别是什么？" class="headerlink" title="2.6、 Mybatis都有哪些Executor执行器？它们之间的区别是什么？"></a>2.6、 Mybatis都有哪些Executor执行器？它们之间的区别是什么？</h3><p><img src="https://img-blog.csdnimg.cn/20200917203424287.png" alt="img"></p>
+<p>​        <strong>Executor</strong>是mybatis中的<strong>执行器接口</strong>:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200705193704124.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200705193729573.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>​        <strong>BaseExecutor（基础执行器）：</strong>基础抽象类，实现了executor接口的大部分方法，主要提供了<strong>缓存管理和事务管理</strong>的能力，使用了<strong>模板模式</strong>，doUpdate,doQuery,doQueryCursor 等方法的具体实现交给不同的子类进行实现。BaseExecutor的一级缓存是会话级别的，增、删、改都会清空一级缓存；而CachingExecutor的二级缓存是应用级的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200705193759456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>​        <strong>CachingExecutor（缓存执行器）：</strong>直接实现Executor接口，使用装饰器模式<strong>提供二级缓存能力</strong>。先从二级缓存查，缓存没有命中再从数据库查，最后将结果添加到缓存中。如果在xml文件中配置了cache节点，则会创建CachingExecutor。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200705193914827.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center" alt="image-20200705191437604.png"></p>
+<p>​        <strong>BatchExecutor（批处理执行器）：</strong>BaseExecutor具体子类实现，在doUpdate方法中，<strong>提供批量执行多条SQL语句的能力</strong>；</p>
+<p><img src="https://img-blog.csdnimg.cn/20200705193851637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<p>​        <strong>SimpleExecutor（简单执行器）：</strong>BaseExecutor具体子类实现且为默认配置，在doQuery方法中使用PrepareStatement对象访问数据库， 每次访问都要创建新的 PrepareStatement对象；</p>
+<p>​        <strong>ReuseExecutor（可重用执行器）：</strong>BaseExecutor具体子类实现，与SimpleExecutor不同的是，在doQuery方法中，使用预编译PrepareStatement对象访问数据库，访问时，会重用缓存中的statement对象，而不是每次都创建新的PrepareStatement。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200705193821188.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L0NXMTg1NzM3MDcxMDQ=,size_16,color_FFFFFF,t_70#pic_center" alt="在这里插入图片描述"></p>
+<h3 id="2-7、-Mybatis中如何指定使用哪一种Executor执行器？"><a href="#2-7、-Mybatis中如何指定使用哪一种Executor执行器？" class="headerlink" title="2.7、 Mybatis中如何指定使用哪一种Executor执行器？"></a>2.7、 Mybatis中如何指定使用哪一种Executor执行器？</h3><p>​        在Mybatis配置文件中，可以指定默认的ExecutorType执行器类型，也可以手动给DefaultSqlSessionFactory的创建SqlSession的方法传递ExecutorType类型参数。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200920183713811.png" alt="img"></p>
+<blockquote>
+<p>&lt;class=”reference-link”&gt;</p>
+</blockquote>
+<p><img src="https://img-blog.csdnimg.cn/20200920183657317.png" alt="img"></p>
+<h3 id="2-8、-Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？"><a href="#2-8、-Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？" class="headerlink" title="2.8、 Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？"></a>2.8、 Mybatis的Xml映射文件和Mybatis内部数据结构之间的映射关系？</h3><p><img src="https://img-blog.csdnimg.cn/20200915221915851.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/2020092018294130.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200920183022252.png" alt="img"></p>
+<p>​        Mybatis将所有Xml配置信息都封装到All-In-One重量级对象Configuration内部。在Xml映射文件中，<code>&lt;resultMap&gt;</code>标签会被解析为ResultMap对象，其每个子元素会被解析为ResultMapping对象。每一个<code>&lt;select&gt;、&lt;insert&gt;、&lt;update&gt;、&lt;delete&gt;</code>标签均会被解析为MappedStatement对象，标签内的sql会被解析为BoundSql对象。</p>
+<h3 id="2-9、-Mybatis中用到了哪些设计模式？"><a href="#2-9、-Mybatis中用到了哪些设计模式？" class="headerlink" title="2.9、 Mybatis中用到了哪些设计模式？"></a>2.9、 Mybatis中用到了哪些设计模式？</h3><p>​        日志模块：代理模式、适配器模式</p>
+<p>​        数据源模块：代理模式、工厂模式</p>
+<p>​        缓存模块：装饰器模式</p>
+<p>​        初始化阶段：建造者模式</p>
+<p>​        代理阶段：策略模式</p>
+<p>​        数据读写阶段：模板模式</p>
+<p>​        插件化开发：责任链模式</p>
+<h2 id="三、Mybaits源码结构"><a href="#三、Mybaits源码结构" class="headerlink" title="三、Mybaits源码结构"></a>三、Mybaits源码结构</h2><h3 id="3-1-、源码包功能模块图"><a href="#3-1-、源码包功能模块图" class="headerlink" title="3.1 、源码包功能模块图"></a>3.1 、源码包功能模块图</h3><p><img src="https://img-blog.csdnimg.cn/20200830162428980.png" alt="img"></p>
+<h3 id="3-2-、各包详细功能解析"><a href="#3-2-、各包详细功能解析" class="headerlink" title="3.2 、各包详细功能解析"></a>3.2 、各包详细功能解析</h3><p>​        <strong>org.apache.ibatis.logging：</strong></p>
+<p>​                包含所有mapper 接口中用到的注解</p>
+<p>​        <strong>org.apache.ibatis.binding：</strong></p>
+<p>​                生成mapper 接口的动态代理并进行管理</p>
+<p>​        <strong>org.apache.ibatis.builder：</strong></p>
+<p>​                1、包含Configuration对象所有构建器，主要包括XML、注解2种方式配置解析</p>
+<p>​                2、BaseBuilder 构建器基类</p>
+<p>​                3、XMLConfigBuilder 解析configuration.xml配置文件</p>
+<p>​                4、XMLMapperBuilder 解析Mapper.xml配置文件</p>
+<p>​                5、XMLStatementBuilder 解析selectupdatedelete 标签MapperAnnotationBuilder 注解式Mapper</p>
+<p>​        <strong>org.apache.ibatis.cache：</strong></p>
+<p>​                1、缓存功能实现、包含各种缓存装饰器</p>
+<p>​                2、TransactionalCache 二级缓存功能实现</p>
+<p>​        <strong>org.apache.ibatis.cursor：</strong></p>
+<p>​                实现游标的方式查询数据、游标非常适合处理百万级别的数据查询</p>
+<p>​        <strong>org.apache.ibatis.datasource：</strong></p>
+<p>​                数据源 包括jndi数据源、连接池功能</p>
+<p>​        <strong>org.apache.ibatis.executor：</strong></p>
+<p>​                1、包含SQL语句执行器，核心功能包</p>
+<p>​                2、功能包括：主键生成功能、执行参数解析功能、执行结果集解析功能、SQL执行器、缓存执行器</p>
+<p>​        <strong>org.apache.ibatis.exceptions：</strong></p>
+<p>​                框架异常，常见异常：TooManyResultsException</p>
+<p>​        <strong>org.apache.ibatis.io：</strong></p>
+<p>​                资源文件读取</p>
+<p>​        <strong>org.apache.ibatis.jdbc：</strong></p>
+<p>​                1、JDBC一些操作</p>
+<p>​                2、SqlRunner SQL执行</p>
+<p>​                3、ScriptRunner 脚本执行，可以执行建库语句</p>
+<p>​        <strong>org.apache.ibatis.logging：</strong></p>
+<p>​                1、日志功能，实现多种日志框架的对接</p>
+<p>​                2、org.apache.ibatis.logging.jdbc 代理所有功能JDBC 操作，实现了在debug模式下能够输出SQL</p>
+<p>​        <strong>org.apache.ibatis.mapping：</strong></p>
+<p>​                配置文件与实体对象的映射功能，Mapper映射、参数映射、结果映射等</p>
+<p>​        <strong>org.apache.ibatis.parsing：</strong></p>
+<p>​                1、解析工具包</p>
+<p>​                2、GenericTokenParser：解析#{} ${} 这种占位符</p>
+<p>​                3、XPathParser：XPath形式解析XML</p>
+<p>​                4、PropertyParser: properties解析器</p>
+<p>​        <strong>org.apache.ibatis.scripting：</strong></p>
+<p>​                动态SQL语言实现，配置文件中<code>&lt;if&gt; &lt;where&gt; &lt;set&gt; &lt;foreach&gt; &lt;choose&gt; </code>功能就是在这个包实现，借助OGNL表达式,你也可以扩展自己的语言实现功能</p>
+<p>​        <strong>org.apache.ibatis.session：</strong></p>
+<p>​                1、主要实现SqlSession功能，非常核心包</p>
+<p>​                2、官方注释：SqlSession包含了MyBatis工作的所有的Java接口，通过这些接口你可以 执行SQL命令（insertdeleteupdateselect），获取Mapper，管理实务</p>
+<p>​        <strong>org.apache.ibatis.transaction：</strong></p>
+<p>​                事务功能实现，包装了数据库连接，处理数据库连接生命周期包括：连接创建，预编译，提交回滚和关闭</p>
+<p>​        <strong>org.apache.ibatis.type：</strong></p>
+<p>​                类型处理器，包括所有数据库类型对应Java类型的处理器，如果要实现自己类型处理器就需要实现包下的基础接口</p>
+<h2 id="四、MyBatis初始化阶段"><a href="#四、MyBatis初始化阶段" class="headerlink" title="四、MyBatis初始化阶段"></a>四、MyBatis初始化阶段</h2><p>​        前面几篇分析了MyBatis的日志、数据源和缓存模块的源码，本篇将分析MyBatis核心流程三大阶段的第一阶段：初始化阶段。Mybatis启动初始化的核心就是<strong>将所有xml配置文件信息加载到Configuration对象中，Configuration为单例，生命周期为应用级</strong>。</p>
+<p>MyBatis初始化流程大致有三步：</p>
+<ol>
+<li>加载配置文件</li>
+<li>解析配置文件、将配置文件中的信息装载到Configuration中。</li>
+<li>根据Configuration创建SqlSessionFactory并返回。</li>
+</ol>
+<h3 id="4-1、加载配置文件"><a href="#4-1、加载配置文件" class="headerlink" title="4.1、加载配置文件"></a>4.1、<strong>加载配置文件</strong></h3><p>​        下面我们来看一段经典查询操作：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String resouce = <span class="string">&quot;config/mybatis/mybatis-config.xml&quot;</span>;</span><br><span class="line">InputStream is = Resources.getResourceAsStream(resouce);</span><br><span class="line">SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(is);</span><br><span class="line">SqlSession session = sqlSessionFactory.openSession();</span><br><span class="line">user = session.selectOne(<span class="string">&quot;com.luoxn28.dao.UserDao.getById&quot;</span>, <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>​        以上代码经过了MyBatis初始化、创建sqlSession、执行sql语句3个过程。首先由mybatis-config.xml配置文件创建SqlSessionFactory，然后由session工厂创建SqlSession对象，执行SQL语句。<strong>当然初始化的第一阶段：扫描配置文件所在包路径并加载</strong>。</p>
+<h3 id="4-2、解析配置文件、将配置文件中的信息装载到Configuration中"><a href="#4-2、解析配置文件、将配置文件中的信息装载到Configuration中" class="headerlink" title="4.2、解析配置文件、将配置文件中的信息装载到Configuration中"></a>4.2、解析配置文件、将配置文件中的信息装载到Configuration中</h3><p>​        让我们来看一下梦开始的地方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SqlSessionFactory sqlSessionFactory = <span class="keyword">new</span> SqlSessionFactoryBuilder().build(is);</span><br></pre></td></tr></table></figure>
+
+<p>​        跟进**build()**方法，我们可以看到new了一个XMLConfigBuilder对象并调用了parse()方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(InputStream inputStream, String environment, Properties properties)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">// 创建XMLConfigBuilder对象解析XML配置</span></span><br><span class="line">      XMLConfigBuilder parser = <span class="keyword">new</span> XMLConfigBuilder(inputStream, environment, properties);</span><br><span class="line">      <span class="comment">// 将XML配置解析成Configuration对象，通过Configuration对象创建SqlSessionFactory</span></span><br><span class="line">      <span class="keyword">return</span> build(parser.parse());</span><br><span class="line">    &#125; </span><br><span class="line">    ....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        跟进<strong>parse()<strong>方法，我们可以看到parser.evalNode(“/configuration”)，</strong>evalNode</strong>为xml结点解析器，可以解析指定参数结点的信息，而”**/configuration**”则是mybatis.xml的根节点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Configuration <span class="title">parse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    parseConfiguration(parser.evalNode(<span class="string">&quot;/configuration&quot;</span>));</span><br><span class="line">    <span class="keyword">return</span> configuration;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        看到这，我们就不得不提初始化的三大金刚了，分别是XMLConfigBuilder、XMLMapperBuilder、XMLStatementBuilder。</p>
+<p>​        <strong>XMLConfigBuilder：</strong>主要负责解析mybatis-config.xml</p>
+<p>​        <strong>XMLMapperBuilder：</strong>主要负责解析映射配置文件</p>
+<p>​        <strong>XMLStatementBuilder：</strong>主要负责解析映射配置文件中的sql节点</p>
+<p><strong>三大金刚图解：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200915222654319.png" alt="img"></p>
+<p>MyBatis中的xml文件是由三大金刚读取到Configuration类中，那么我们来看下Configuration类的数据结构：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200915221915851.png" alt="img"></p>
+<p>​        Configuration类的源码实在太多，可以先了解下该类中有哪些成员变量对应存储着些什么数据。下面主要列举几个比较重要的成员变量：</p>
+<p>​        <strong>MapperRegistry：</strong>mapper接口动态代理工厂类的注册中心。通过mapperProxy实现InvocationHandler接口，其中的MapperProxyFactory用于生成动态代理的实例对象；<br>​        <strong>ResultMap：</strong>用于解析mapper.xml文件中的resultMap节点，使用ResultMapping来封装id，result等子元素；<br>​        <strong>MappedStatement：</strong>用于存储mapper.xml文件中select、insert、update和delete节点，同时还包含了这些节点的重要属性；<br>​        <strong>SqlSource：</strong>mapper.xml文件中的sql语句会被解析成SqlSource对象，经过解析SqlSource包含的语句最终仅仅包含?占位符，可以直接提交给数据库执行；</p>
+<p>​        接上面XMLConfigBuilder开始解析”/configuration”节点：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parseConfiguration(parser.evalNode(<span class="string">&quot;/configuration&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">parseConfiguration</span><span class="params">(XNode root)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      propertiesElement(root.evalNode(<span class="string">&quot;properties&quot;</span>));</span><br><span class="line">      Properties settings = settingsAsProperties(root.evalNode(<span class="string">&quot;settings&quot;</span>));</span><br><span class="line">      loadCustomVfs(settings);</span><br><span class="line">      loadCustomLogImpl(settings);</span><br><span class="line">      typeAliasesElement(root.evalNode(<span class="string">&quot;typeAliases&quot;</span>));</span><br><span class="line">      pluginElement(root.evalNode(<span class="string">&quot;plugins&quot;</span>));</span><br><span class="line">      objectFactoryElement(root.evalNode(<span class="string">&quot;objectFactory&quot;</span>));</span><br><span class="line">      objectWrapperFactoryElement(root.evalNode(<span class="string">&quot;objectWrapperFactory&quot;</span>));</span><br><span class="line">      reflectorFactoryElement(root.evalNode(<span class="string">&quot;reflectorFactory&quot;</span>));</span><br><span class="line">      settingsElement(settings);</span><br><span class="line">      <span class="comment">// read it after objectFactory and objectWrapperFactory issue #631</span></span><br><span class="line">      environmentsElement(root.evalNode(<span class="string">&quot;environments&quot;</span>));</span><br><span class="line">      databaseIdProviderElement(root.evalNode(<span class="string">&quot;databaseIdProvider&quot;</span>));</span><br><span class="line">      typeHandlerElement(root.evalNode(<span class="string">&quot;typeHandlers&quot;</span>));</span><br><span class="line">      mapperElement(root.evalNode(<span class="string">&quot;mappers&quot;</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> BuilderException(<span class="string">&quot;Error parsing SQL Mapper Configuration. Cause: &quot;</span> + e, e);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        点进去一看，就是对照着MyBatis官网主配置文件中的元素一个一个的进行解析</p>
+<p><img src="https://img-blog.csdnimg.cn/20200915223612191.png" alt="img"></p>
+<p>​        在解析”mappers”节点的时候，就引入了XMLMapperBuilder开始对映射配置文件进行解析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">XMLMapperBuilder mapperParser = <span class="keyword">new</span> XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());</span><br><span class="line">mapperParser.parse();</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">configurationElement</span><span class="params">(XNode context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      String namespace = context.getStringAttribute(<span class="string">&quot;namespace&quot;</span>);</span><br><span class="line">      ...</span><br><span class="line">      builderAssistant.setCurrentNamespace(namespace);</span><br><span class="line">      cacheRefElement(context.evalNode(<span class="string">&quot;cache-ref&quot;</span>));</span><br><span class="line">      cacheElement(context.evalNode(<span class="string">&quot;cache&quot;</span>));</span><br><span class="line">      parameterMapElement(context.evalNodes(<span class="string">&quot;/mapper/parameterMap&quot;</span>));</span><br><span class="line">      resultMapElements(context.evalNodes(<span class="string">&quot;/mapper/resultMap&quot;</span>));</span><br><span class="line">      sqlElement(context.evalNodes(<span class="string">&quot;/mapper/sql&quot;</span>));</span><br><span class="line">      buildStatementFromContext(context.evalNodes(<span class="string">&quot;select|insert|update|delete&quot;</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> BuilderException(<span class="string">&quot;Error parsing Mapper XML. The XML location is &#x27;&quot;</span> + resource + <span class="string">&quot;&#x27;. Cause: &quot;</span> + e, e);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>一一对应官网提供的节点信息进行解析</p>
+<p><img src="https://img-blog.csdnimg.cn/20200915224121930.png" alt="img"></p>
+<p>​        下面大家猜也猜到了，在解析具体select、insert、update、delete的时候，引入了XMLStatementBuilder对节点数据进行解析：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">buildStatementFromContext</span><span class="params">(List&lt;XNode&gt; list, String requiredDatabaseId)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (XNode context : list) &#123;</span><br><span class="line">      <span class="keyword">final</span> XMLStatementBuilder statementParser = <span class="keyword">new</span> XMLStatementBuilder(configuration, builderAssistant, context, requiredDatabaseId);</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        statementParser.parseStatementNode();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (IncompleteElementException e) &#123;</span><br><span class="line">        configuration.addIncompleteStatement(statementParser);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        继三大金刚分别解析自己负责的xml文件之后，Configuration对象的数据被填充完毕，<strong>初始化的第二阶段：解析配置文件，将数据装载进Configuration对象完成。</strong></p>
+<h3 id="4-3、根据Configuration创建SqlSessionFactory并返回"><a href="#4-3、根据Configuration创建SqlSessionFactory并返回" class="headerlink" title="4.3、根据Configuration创建SqlSessionFactory并返回"></a>4.3、根据Configuration创建SqlSessionFactory并返回</h3><p>​        第三阶段就是根据SqlSessionFactoryBuilder的内部方法直接返回一个DefaultSqlSessionFactory：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SqlSessionFactoryBuilder</span> </span>&#123;</span><br><span class="line">   ...</span><br><span class="line">   <span class="function"><span class="keyword">public</span> SqlSessionFactory <span class="title">build</span><span class="params">(Configuration config)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> DefaultSqlSessionFactory(config);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        此工厂内封装了Configuration对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DefaultSqlSessionFactory</span> <span class="keyword">implements</span> <span class="title">SqlSessionFactory</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Configuration configuration;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DefaultSqlSessionFactory</span><span class="params">(Configuration configuration)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.configuration = configuration;</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        初始化阶段图解：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200915225840294.png" alt="img"></p>
+<p>​        至此，MyBatis初始化阶段完成。</p>
+<h2 id="五、MyBatis代理阶段（binding模块分析）"><a href="#五、MyBatis代理阶段（binding模块分析）" class="headerlink" title="五、MyBatis代理阶段（binding模块分析）"></a>五、MyBatis代理阶段（binding模块分析）</h2><h3 id="5-1、MyBatis是如何做到面向Mapper接口编程？"><a href="#5-1、MyBatis是如何做到面向Mapper接口编程？" class="headerlink" title="5.1、MyBatis是如何做到面向Mapper接口编程？"></a>5.1、MyBatis是如何做到面向Mapper接口编程？</h3><p>​        只有接口，没有实现类，那么我们很容易会想到是通过解析xml配置文件+动态代理来实现的。我们先来说下MyBatis动态代理实际做了一些什么事情，我们正常编写的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SqlSession sqlSession = sqlSessionFactory.openSession();</span><br><span class="line">UserMapper userMapper = sqlSession.getMapper(UserMapper.class);</span><br><span class="line">User uer = userMapper.selectByPrimarKey(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>​        MyBatis动态代理后执行的为下面这段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SqlSession sqlSession = sqlSessionFactory.openSession();</span><br><span class="line">User uer = sqlSession.selectOne(<span class="string">&quot;com.en.iot.mapper.&quot;</span>+<span class="string">&quot;UserMapper.selectByPrimarKey&quot;</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+
+<p>​        我们可以看到MyBatis动态代理主要做的是翻译的工作，主要翻译的内容有三点：</p>
+<p>​        <strong>1、找到Session中对应的方法执行</strong></p>
+<p>​        <strong>2、找到命名空间和方法名</strong></p>
+<p>​        <strong>3、传递参数</strong></p>
+<p>​        这三项工作主要是由MapperMethod这个类来实现的，解读这个类之前，我们有必要对binding模块进行一个整体的分析：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200916211402947.png" alt="img"></p>
+<p>​        <strong>MapperRegistry：</strong>为MyBatis配置类Configuration类中一个重要的属性，它是mapper接口和对应的代理对象工厂的注册中心；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MapperRegistry</span> </span>&#123;</span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> Configuration config;</span><br><span class="line">   <span class="comment">//mapper接口和对应的代理对象工厂之间的关系</span></span><br><span class="line">   <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;Class&lt;?&gt;, MapperProxyFactory&lt;?&gt;&gt; knownMappers = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">   ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        <strong>MapperProxyFactory：</strong>用于生成mapper接口动态代理的实例对象；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MapperProxyFactory</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  ...</span><br><span class="line">  <span class="comment">//key为mapper接口中的某个方法的method对象，value为对应的MapperMethod</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Map&lt;Method, MapperMethodInvoker&gt; methodCache = <span class="keyword">new</span> ConcurrentHashMap&lt;&gt;();</span><br><span class="line">  ...</span><br><span class="line">  <span class="function"><span class="keyword">protected</span> T <span class="title">newInstance</span><span class="params">(MapperProxy&lt;T&gt; mapperProxy)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (T) Proxy.newProxyInstance(mapperInterface.getClassLoader(), <span class="keyword">new</span> Class[] &#123; mapperInterface &#125;, mapperProxy);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        <strong>MapperProxy：</strong>实现InvocationHandler接口，它是增强mapper接口的实现；</p>
+<p><img src="https://img-blog.csdnimg.cn/20200916214700706.png" alt="img"></p>
+<p>​        接着跟进**cachedInvoker(method).invoke(proxy, method, args, sqlSession)**方法</p>
+<p><img src="https://img-blog.csdnimg.cn/20200916213826490.png" alt="img"></p>
+<p>​        我们可以看到在cachedInvoker中判断了一下是选用DefaultMethodInvoker还是PlainMethodInvoker</p>
+<p><img src="https://img-blog.csdnimg.cn/20200916214239389.png" alt="img"></p>
+<p>​        那么我们大胆猜测一下，调用execute的这个MapperMethod类中一定保持着Mapper接口中对应方法以及对应的sql语句的信息。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200916214959863.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200916215029787.png" alt="img"></p>
+<p>​        通过观察这三个对象的构造方法我们可以看到，这三个对象全部是从Configuration类中获取信息，由此证实了我们的猜想，MapperMethod类中通过这三个对象建立mapper接口和配置文件sql语句的联系。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200916215442588.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200916215556263.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200916215523383.png" alt="img"></p>
+<h3 id="5-2、代理阶段流程梳理"><a href="#5-2、代理阶段流程梳理" class="headerlink" title="5.2、代理阶段流程梳理"></a>5.2、代理阶段流程梳理</h3><p>​        1、先从Configuration配置类MapperRegistry对象中获取mapper接口和对应的代理对象工厂信息（MapperProxyFactory）</p>
+<p>​        2、利用代理对象工厂MapperProxyFactory创建实际代理类（MapperProxy）</p>
+<p>​        3、在MapperProxy类中通过MapperMethod类对象内保存的中对应方法的信息，以及对应的sql语句的信息进行分析，最终确定对应的增强方法进行调用。</p>
+<h2 id="六、MyBatis数据读写阶段"><a href="#六、MyBatis数据读写阶段" class="headerlink" title="六、MyBatis数据读写阶段"></a>六、MyBatis数据读写阶段</h2><h3 id="6-1、MyBatis是怎样的封装jdbc操作的"><a href="#6-1、MyBatis是怎样的封装jdbc操作的" class="headerlink" title="6.1、MyBatis是怎样的封装jdbc操作的"></a>6.1、MyBatis是怎样的封装jdbc操作的</h3><p>​        我们先来回忆一下jdbc代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.加载驱动</span></span><br><span class="line">Class.forName(<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>);     </span><br><span class="line"><span class="comment">//2.获取连接conn</span></span><br><span class="line">Connection con=DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://localhost:3306/test&quot;</span>, <span class="string">&quot;root&quot;</span>, <span class="string">&quot;123&quot;</span>);</span><br><span class="line"><span class="comment">//3.创建查询接口</span></span><br><span class="line">Statement sta= con.createStatement();</span><br><span class="line"><span class="comment">//4.执行SQL，返回结果集</span></span><br><span class="line">ResultSet rs= sta.executeQuery(<span class="string">&quot;SELECT * FROM `user`&quot;</span>);</span><br><span class="line"><span class="comment">//5.对结果集数据进行操作</span></span><br><span class="line">User user = <span class="keyword">new</span> User();</span><br><span class="line">user.setUserName(String.valueOf(rs.getObject(<span class="number">1</span>)));</span><br></pre></td></tr></table></figure>
+
+<p>​        其中第一步加载驱动在MyBatis的初始化阶段就已经完成了，数据读写阶段就是处理sqlSession.executeQuery的阶段，对应JDBC第二步获取连接开始，到返回结果集封装对象结束。那MyBatis究竟是怎样封装JDBC操作的呢？我们先从sqlSession的默认实现DefaultSqlSession开始入手：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917203050838.png" alt="img"></p>
+<p>​        可以看到该类包含一个核心组件Executor（执行器），查询相关操作最终都借助该组件实现，那么我们来看一下Executor的关系类图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917203424287.png" alt="img"></p>
+<p>​        <strong>BaseExecutor：</strong>基础抽象类，实现了executor接口的大部分方法，主要提供了缓存管理和事务管理的能力，使用了模板模式，doUpdate,doQuery,doQueryCursor 等方法的具体实现交给不同的子类进行实现</p>
+<p>​        <strong>CachingExecutor：</strong>直接实现Executor接口，使用装饰器模式提供二级缓存能力。先从二级缓存查，缓存没有命中再从数据库查，最后将结果添加到缓存中。如果在xml文件中配置了cache节点，则会创建CachingExecutor。</p>
+<p>​        <strong>BatchExecutor：</strong>BaseExecutor具体子类实现，在doUpdate方法中，提供批量执行多条SQL语句的能力；</p>
+<p>​        <strong>SimpleExecutor：</strong>BaseExecutor具体子类实现且为默认配置，在doQuery方法中使用PrepareStatement对象访问数据库， 每次访问都要创建新的 PrepareStatement对象；</p>
+<p>​        <strong>ReuseExecutor：</strong>BaseExecutor具体子类实现，与SimpleExecutor不同的是，在doQuery方法中，使用预编译PrepareStatement对象访问数据库，访问时，会重用缓存中的statement对象，而不是每次都创建新的PrepareStatement。</p>
+<p>​        一下子丢出来这么多执行器有点蒙，没关系我们跟进一个查询流程走下来就清楚了。首先从DefaultSqlSession开始，我们调用的sqlSession.selectList方法：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917205236272.png" alt="img"></p>
+<p>​        可以看到只有BaseExecutor和CachingExecutor两个类重写了**query()**方法，而CachingExecutor类前面也说过，在Configuration类初始化的时候如果在XML中配置了<code>&lt;cache&gt;</code>节点的话，则会用装饰器模式对基础执行器进行增强，使其拥有二级缓存能力，并且我们也可以看到在初始化Executor时是通过设定的类型来决定初始化哪一个执行器子类。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917205454850.png" alt="img"></p>
+<p>​        好的我们继续跟进BaseExecutor的**query()**方法:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917210415293.png" alt="img"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200917210606702.png" alt="img"></p>
+<p>​        可以看到首先通过MappedStatement拿到对应的SQL信息BoundSql，再封装一级缓存值CacheKey，具体的查询为先从一级缓存拿，如果一级缓存为空，就从数据库加载数据，具体从数据库查询的方法源码：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917210831277.png" alt="img"></p>
+<p>​        我们跟进默认实现SimpleExecutor的**doQuery()**方法：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917211035123.png" alt="img"></p>
+<p>​        这段代码有两点值得我们注意，一个是**prepareStatement(handler, ms.getStatementLog())**这个方法，我们跟进去会发现：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917211124589.png" alt="img"></p>
+<p>​        <strong>终于找到了我们熟悉的JDBC代码，获取Connection，创建Statement查询接口</strong>；再一个是我们看到了四个新面孔，四种不同的处理器，一起来看下StatementHandler体系结构类图：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200919104808424.png" alt="img"></p>
+<p>​        <strong>BaseStatementHandler：</strong> 所有子类的抽象父类，定义了初始化statement的操作顺序，由具体子类实例化不同的statement</p>
+<p>​        <strong>CallableStatementHandler：</strong>调用存储过程</p>
+<p>​        <strong>PreparedStatementHandler：</strong>使用预编译PrepareStatement对象访问数据库</p>
+<p>​        <strong>RoutingStatementHandler：</strong>Excutor组件真正实例化的子类，使用静态代理模式，根据上下文决定创建哪个具体实体类</p>
+<p>​        <strong>SimpleStatementHandler：</strong>直接使用statement对象访问数据库，无须参数化</p>
+<p>​        RoutingStatementHandler类源码，很清晰的静态代理</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917211725203.png" alt="img"></p>
+<p>​        接上文调用SimpleStatementHandler的query方法:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200917211854628.png" alt="img"></p>
+<p>​        <strong>jdbc的execute()方法也找到了</strong>，最后借助DefaultResultSetHandler对数据库返回的结果集进行封装，返回用户指定的实体类型。handleResultSets()方法部分源码：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200919110111271.png" alt="img"></p>
+<p>​        处理结果集的过程略复杂，这里只简单的梳理下MyBaits对于结果集封装的步骤：</p>
+<ol>
+<li>创建multipleResults集合，保存最终返回的结果。</li>
+<li>取出第一个结果集</li>
+<li>获取对应的resultMap</li>
+<li>根据resultMap转化结果集，转换成目标对象后添加到multipleResults集合；</li>
+<li>resultset.close()关闭结果集，将multipleResults集合返回</li>
+</ol>
+<h3 id="6-2、sqlSession查询流程图和Executor内部调用流程图"><a href="#6-2、sqlSession查询流程图和Executor内部调用流程图" class="headerlink" title="6.2、sqlSession查询流程图和Executor内部调用流程图"></a>6.2、sqlSession查询流程图和Executor内部调用流程图</h3><h4 id="6-2-1、sqlSession查询流程图："><a href="#6-2-1、sqlSession查询流程图：" class="headerlink" title="6.2.1、sqlSession查询流程图："></a>6.2.1、sqlSession查询流程图：</h4><p><img src="https://img-blog.csdnimg.cn/2020091911381497.png" alt="img"></p>
+<h4 id="6-2-2、Executor内部调用流程图："><a href="#6-2-2、Executor内部调用流程图：" class="headerlink" title="6.2.2、Executor内部调用流程图："></a>6.2.2、Executor内部调用流程图：</h4><p><img src="https://img-blog.csdnimg.cn/2020091911204922.png" alt="img"></p>
+<p>此MyBatis核心流程最后一个阶段：数据读写阶段完成。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Mybaits%E7%9F%A5%E8%AF%86%E7%82%B9/" data-id="cl0ugl6sq000y2kvsg4h37xt7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Mybaits/Spring%E4%B8%8EMybaits%E6%95%B4%E5%90%88/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Spring整合Mybaits
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringMVC/SpringMVC%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">SpringMVC使用详解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/SSM%E6%95%B4%E5%90%88%E7%AC%94%E8%AE%B0/">SSM整合</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Sping%E6%95%B4%E5%90%88Log4j/">Spring整合Log4j</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">Spring使用详解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2022 Shuyan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
