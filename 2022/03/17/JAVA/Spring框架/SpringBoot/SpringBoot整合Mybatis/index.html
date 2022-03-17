@@ -1,101 +1,214 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en ">
+
 <head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>SpringBoot整合Mybaits | Shuyan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SpringBoot整合Mybatis一、创建项目1.1、选择项目所需要的依赖 1.2、pom.xml&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt; &lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; xmlns:xsi&#x3D;&quot;http">
-<meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot整合Mybaits">
-<meta property="og:url" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E6%95%B4%E5%90%88Mybatis/index.html">
-<meta property="og:site_name" content="Shuyan">
-<meta property="og:description" content="SpringBoot整合Mybatis一、创建项目1.1、选择项目所需要的依赖 1.2、pom.xml&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt; &lt;project xmlns&#x3D;&quot;http:&#x2F;&#x2F;maven.apache.org&#x2F;POM&#x2F;4.0.0&quot; xmlns:xsi&#x3D;&quot;http">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://img-blog.csdn.net/20180926174507971?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2lrdTUyMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:image" content="https://img-blog.csdn.net/20180927092715962?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2lrdTUyMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:image" content="https://img-blog.csdn.net/20180927095234881?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2lrdTUyMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="og:image" content="https://img-blog.csdn.net/20180908114638271?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM4ODcwMDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
-<meta property="article:modified_time" content="2022-03-17T03:46:05.536Z">
-<meta property="article:author" content="Shuyan">
-<meta property="article:tag" content="SpringBoot">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://img-blog.csdn.net/20180926174507971?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2lrdTUyMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70">
-  
-    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuyan || SpringBoot整合Mybaits</title>
+    <meta name="author" content="Shuyan">
+    <meta name="description" content="ShuyanCoding...... ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.png">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/maiden-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Shuyan</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-JAVA/Spring框架/SpringBoot/SpringBoot整合Mybatis" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E6%95%B4%E5%90%88Mybatis/" class="article-date">
-  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      SpringBoot整合Mybaits
-    </h1>
-  
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">Shuyan</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>home</span>
+        </a>
+        
+        <a href="/about">
+            <span>
+                <a-icon type="idcard" theme="filled" />
+            </span>
+            <span>about</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>archives</span>
+        </a>
+        
+        <a href="/like/categories">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>categories</span>
+        </a>
+        
+        <a href="/like/tags">
+            <span>
+                <a-icon type="tags" theme="filled" />
+            </span>
+            <span>tags</span>
+        </a>
+        
+        <a target="_blank" rel="noopener" href="https://en.korilin.com">
+            <span>
+                <a-icon type="compass" theme="filled" />
+            </span>
+            <span>英文博客</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>Shuyan</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">home</div>
+                </div>
+            </a>
+            
+            <a href="/about">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="idcard" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">about</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">archives</div>
+                </div>
+            </a>
+            
+            <a href="/like/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">categories</div>
+                </div>
+            </a>
+            
+            <a href="/like/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">tags</div>
+                </div>
+            </a>
+            
+            <a target="_blank" rel="noopener" href="https://en.korilin.com">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="compass" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">英文博客</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>SpringBoot整合Mybaits </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2022/3/17
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/JAVA">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                JAVA
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/SpringBoot" style=color:#1bccbc>
+                    SpringBoot
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
         <h1 id="SpringBoot整合Mybatis"><a href="#SpringBoot整合Mybatis" class="headerlink" title="SpringBoot整合Mybatis"></a>SpringBoot整合Mybatis</h1><h2 id="一、创建项目"><a href="#一、创建项目" class="headerlink" title="一、创建项目"></a>一、创建项目</h2><h3 id="1-1、选择项目所需要的依赖"><a href="#1-1、选择项目所需要的依赖" class="headerlink" title="1.1、选择项目所需要的依赖"></a>1.1、选择项目所需要的依赖</h3><p><img src="https://img-blog.csdn.net/20180926174507971?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2lrdTUyMDA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="img"></p>
 <h3 id="1-2、pom-xml"><a href="#1-2、pom-xml" class="headerlink" title="1.2、pom.xml"></a>1.2、pom.xml</h3><pre><code class="xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
@@ -675,153 +788,95 @@ public class SessionInterceptor implements WebMvcConfigurer &#123;
 </code></pre>
 <p><img src="https://img-blog.csdn.net/20180908114638271?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM4ODcwMDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="这里写图片描述"></p>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E6%95%B4%E5%90%88Mybatis/" data-id="cl0us61fn0038kovs1gzw6t2o" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
 
-    </footer>
-  </div>
-  
     
-<nav id="article-nav">
-  
-    <a href="/2022/03/17/JAVA/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          JVM虚拟机
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Spring设计模式</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2018 - 2022 Shuyan
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Shuyan
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
     </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JavaWeb/">JavaWeb</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/">配置文件</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 Shuyan<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
 </footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
 
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: 'hexo-theme-particle',      // The repository of store comments,
+        owner: 'korilin',
+        admin: ['korilin'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
 
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
 </body>
+
 </html>

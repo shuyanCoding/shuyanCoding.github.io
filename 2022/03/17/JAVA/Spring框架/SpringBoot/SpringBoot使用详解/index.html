@@ -1,193 +1,214 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en ">
+
 <head>
-  <meta charset="utf-8">
-  
-
-  
-  <title>SpringBoot使用详解 | Shuyan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="SpringBoot使用详解一、SpringBoot简介​        什么是SpringBoot呢，就是一个javaweb的开发框架，和SpringMVC类似，对比其他javaweb框架的好处，官方说是简化开发，约定大于配置，  you can “just run”，能迅速的开发web应用，几行代码开发一个http接口。 ​        所有的技术框架的发展似乎都遵循了一条主线规律：从一个复">
-<meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot使用详解">
-<meta property="og:url" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/index.html">
-<meta property="og:site_name" content="Shuyan">
-<meta property="og:description" content="SpringBoot使用详解一、SpringBoot简介​        什么是SpringBoot呢，就是一个javaweb的开发框架，和SpringMVC类似，对比其他javaweb框架的好处，官方说是简化开发，约定大于配置，  you can “just run”，能迅速的开发web应用，几行代码开发一个http接口。 ​        所有的技术框架的发展似乎都遵循了一条主线规律：从一个复">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L1vFQMnaRIJSmeZ58T2eZiczfno2TOQbfItia25xQzicMFnkicKh5pVD7IrHrUicb03y381CicrLFKXNMw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L1vFQMnaRIJSmeZ58T2eZic03vupvIqMbibWh4aIKyjiaQfwuvDWKo033g9kRvj6aXnJO4brKTdwnvA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L1vFQMnaRIJSmeZ58T2eZicEIZDCZKtTPxQrKTvEdxHFGsG824OkO8XN8CfP2x4OdpC8DwjHYwcFw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L1vFQMnaRIJSmeZ58T2eZicaV7UfSRiaRdCHNmHE1wS10QwbLEVZJLB2sN9ztcvjx7n2dKDJ0HrCmA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L1vFQMnaRIJSmeZ58T2eZicjafiawQLp9u8wc4ic1Mjy6OyfibzfjVofeL5pnS1NSFKVjlIg6neI9ySg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYUjoO9N8358vr0uTf3KR0FP0C5QOC3uQOIrlcuy7v0jmkXw0PPM4U5w/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYFrPO6PAYI7eQAEVzql1Sfic03AbzpiboQLP9eWo5I2McfQ2dicibIibh0fw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYhxNnwKv6bDsrCvMS4OscxxV0EWU7ibUD9G0N164rxEUNfaT9NFTVU4A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYTwpS5awY7ja8vibH3ncyGbgj69gSkKc80UN2AFNvTqotgkYMbw5K6zQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYAyueVvGpddTEkyGqCwbKsJrfQCbkWrZAFdL3ibMwTYhLKE9GclVyQ7A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYAr9nCaBDe8o7JeMWACZicQkicqrVMeiaWFgrTamHjc668RNx4c4z8UcXw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYxFwDQMxmyVQjVPt794RCuhfVOEbqDrpH2u84DT8y01xAhuQh47AFYA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7KtjyIb9NEaYlz0tCWSiboOYjMibiaov73iaTsiaWEPoArDcAB1Ooibx9uR5JxtacIuicHblEtUI9SrySX2A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDYdR5f05BDysj0YVJMxadN0psDJKzXe7zyTrL9wFpTEHoiba0MsM11Fw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDUoiazZ6ehegLG4doZK0uSJHribIqwVKiaNibSaYZSgjZf4kGzhLdGrkzzw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbD4hfI8rrZuGnuFRBjKdaR8mvkyuGfHG1IxBPw0vcTP5LoXIJT9davlA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDGcJRvdK3PtqHPAWYBBmpe1XBVjQJeiatU4vasEaxckHlOga1BV9RPaw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbD3ibDQhiaQib3L94Y8joxBzUfegDicVpSamYoysTZ54lMp3oXw0cprPIPQA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDhebhQQvGxRRLX8FezGo8Qk3bGEQElY6K2SqeDazGUZ6XqLDMvq6RDA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDTPIzxXJqk27EGiaIBJtSpic5NcibXFX2eHXMxezmURLbibFXahiaFk5uW4A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDNLrzEP3HC2HYHicHmmLGian64wdOw3wiauDttoUbQLMdX4XcFV2HqyVvw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDmUxYwOTicxVZGSRD3H93l6SLJCEDGXiaxpO6ciaicUbwiaA9FmJiaQhnhicTw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IPEXZtUAUBhnSZvUmrPzbDTCQ0YaF3yVM8icJ1jKJ6frZibJuegdk4FwEfOUbia4tBABndicA9kV1efg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeuW0A5wz8gu4q4AMoBCoYic2Juyiate9VBZe4S0sgkCZVFV2lD6quLKVZw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeupdhDcaDPRLHgnULFbaJB5kPtC8n5QVLaUbbTRfa4ZyqficzZYrd2llA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeubiciawTdz0tg1EKDjZ1xaIgjRW9CZ4Apr4hvNz3iaQVQIKS3sXy629Lgg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeuaVD6mK3LJrtZ4B6fRKCLDgYicAVGzTUTzWdCNB5lF4tLpbcCT0uq1EA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeuuxN8UrBxIAhgFpAvyQOgKyZLVbPXRhtvVO764zeJpXiaBFTX2e4cYVQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeu14qkV9vFaME5ficcLe7MqPFgOH4iaEicia05eNNkSvhoVhWodykDXMtUcQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeu5TbyjT1Hib2vCDW9988ibXicDcXEnvooGfvNbchJrZ7TUwe3wJm0ktooA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LYLicOHVGnwu7ibGvbwXibYeuaibKTBtqpoSiaZib9WTRdZaZhIYBRLB8Em7a5aLGw88uKjR8UCian11yCg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LheYVC0eZ6Rjt0MVjviaRZ6wt4N51VrTR1uzYBRo97UEoMJSnY1I0475oCajSe50e3tW5j0SXVwRA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LheYVC0eZ6Rjt0MVjviaRZ6JzDrsHnyDZbfzsBxwR77xMoM2ia3ic9b8uyOngzt3aH8QztXugXM2jhA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LheYVC0eZ6Rjt0MVjviaRZ6ugmXIE9bON3P8hrtQAZDLnEaG1OPLNcGsuOZGGPibLGgLBuG5pqgibpQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LheYVC0eZ6Rjt0MVjviaRZ6awkOYiaHoiatBZQrAeAO2MFRWC5kUuyWur0XMIXHAcV8ORgM90fIaVNQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6V42bcomyzTYY0q6ic7AB8lvciaoicxyalNYQYZgslIrIjdXWLFNcOxUmQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6o4dAJHKh0872nmgaPYMaQDJ8KWfHJYWyoMXHW2pmVOtLVnREViaTziaw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6ia0fYFrNsXdHekjLfPlq4ZMpF0rtPzFRBTWsw6K8zic3ywna1LgcM6Gw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6fGYIwv043icVDYuybRJDCGTSNTMEibFzzMdlKS4t07TQoicQJKQAe0slQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6QBbBv34R87hGpeWiaPnuYhBG1FlfdhtZxlIKicA2Y4kHy9XqRicibmQkWQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6NnU4IPDPs8jKYRjDJGia7t3C5YgjCSHuiaxlpthKpBwGh9m6icsF5zuow/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp67xW1M2s2aOnolP1tAedrqAtUuBHRjz7ALePedpHkpz9MXVyLwe6wYw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6zdySrKJPkADN9jtsIpz6QPOyC2nI04l0EiaAOMuU47pwiaPq2RrhUdaA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6smNnW3fpooPSQpiaoMajpXYGDoH0aQnv8awIibPa9eKkJhewdMrTtLTg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp6ic2wzwiaMd6YwOHuK1fcn3ibhuXD60XiarS9NLdTIDJJicFZJt1wQ0ibuUxg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7Idia351qHgmH2vbzurk1Pp68kRH4rPKMyhAdkIL46HW90qsSoyMcNibRxDbfu7iboWM6AMRr5tFSicPA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETgrgicvxqgYPVvcBGBcyId5qbK4pZ6iaFW6DU8DaTibNOqwybhxvvBiapZg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETBiaXib28mib2iaUyqOTW1VXCLK6b55N9Jy2AbA96KRSyQjCkgCibhDaWung/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETozDglSZ32ZAdIRzuqn8NicymJyZQUMXIq0icYPwzNstBJdO3dXL1CbRA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETv0bcvSfWDIdiaTYIoPL7BhLRb8wb0vAbNmMCpxrkAibibAwVtAJV55tEQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETMSkXZicouLDxJiaUbyWRTB3Vib2UBxJWEIqxL5reXbkXT8iaYNQOn2M9Bg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETp6raySXNEHanXLFuq4OsCJOQ0DBKibQyohPUDen5OUYsfYIPD9tFjBQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETru2CdF5btNFhLdCCkusK5VkJRIfnBic8iaScfKkkKfFcBQ90pexU05Gw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETRPAF4T1brBr2pBydUuNjlkkUtThqlJCKN4lQ2rCN0BXrn957u3CdlA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETA91ZDRtZ4hBZ1dtn7CLZ9xzlwfDpUhqT8sTQmCncsLYEH5r0fIFF9w/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETbj7aBK25N5G2NGibmb9LmHGySYic9myjX0pZ7EOcBfYC03c1yBFEBxfQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IliczmpA1zCRu0ia5micU55ETN9iagOo88CAiaDf4d09lGGBsEhzdpsz2libgVuHdeBdWPc6QUMZficxFJA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9ZzSgcwYhS2RhtRXv0Wfg9OkiaE6xDEQibt8TSJTt9OHzFzeq9NrQCJNZQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9Zbja0VwsQkjaNVC5GWsge3SlQeg0jmxdjBMLOoOsqqD6gc6jshv4Qdw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9Zf87yQGBYZKyqCsjP79C67S0NgdOmrQWJ7tkpPsdkrWQeQiaIZia7VD8w/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9Z7k4Y8iaVnHtPd78o82ff8hItej9Cyf0wvbG8u8KgXic7gVh77NoZw4RQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9ZS0qBoaXrHX5r42ic5kUDzv5gaiaVqVeMBne4TDe5JLRPqRShgY3WiaQPg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9ZrYUroibnsmILAYo1PyuaSDAkrqUvlNibxW9S9niaRomPFd9rrD6SY4wjA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9ZxQ9fXkPFt9TtX6PiaPDWWFSCJQK6H0ibiagM2w2f99zqHuOJffyRycCIg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9ZYA6g5VyspYIqFMokAGg7dbx47P2ibC8Z80saA7XdrByPFhgmrduSHbA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7IExpkhknhzRFQicsic8yibm9ZBJPCcHFicV2dklg3l88IuYia3OIFNfNVbWZXpppPS93jghTUJiaeJQx6Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LUziamJeeiaLFt7YwxJtAgSMKLnW0ibMAiaR5yXOER51iaH9WTkrLhr0rSAnAJxJUM9c8eTGaCWXuYOibA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LUziamJeeiaLFt7YwxJtAgSMfyibiaXGFm87zic2Ng3ICjicp4tlAia8MXDafQXZ9UZ7bsreJoTU9VWaBXg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LUziamJeeiaLFt7YwxJtAgSMquaTFVg62FCj7M1T6e08TIF0rhlffjxhTZ1C6Q43eDiceibia600KwoZw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LUziamJeeiaLFt7YwxJtAgSMJsstibaMQuMsAKmickRKVlc1dsicbp7PR8aaFOdwaVukjBoiaqhyJDrZKQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7LUziamJeeiaLFt7YwxJtAgSMx85j2ATOfy0GUeO3l8bLvWaOX0FrY39NljleEIyPOyrgV8gEaLCwbw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshLkKFz4W9TBHVg7cBtxDPTFkU2b9C13K1CHPyLApFyAFFlbjnpcWibIw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshw2ITicetDcFsg41kISOhuyojGB1Z8ics61xtqnicJTXDk7Qw41dkeXK2A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshG4FicWRMjbfStG0Ojr1H9cL1jQ1SbZ0s7rsbsc7w8f3usmdSJog7pHA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshwIkic8EicmCwYGRibdWohmDazEDhonhTeJfVx0dfBNlW4dGGxvOMOk0Gg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshxoCosFhoMzIcbBzjCt6ia9Gr7atHlwNHhL0po4YhyE8WkHXnnpN8Ddg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshVx3xhf4RyUVtia7Tvo4BBs70SFKRonhrPrNsiap2rEAQCn4IWUoS3HZA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshDCibUnIYkolqibQRy7Qlpm9vNibK9IDaFibJoLpIM5pWLe7Yqly7PheYsg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshLSMRQe7NJpvDFrQMChLxI3BqIYQXrZvfs28iadQ1dDB4p84ydyb3KtQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshERcBbh6aAYOxnI1yFCMJ6ia2jsJzW3mIhF9ZUicsOQ2AclNAb2eUCFCg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshQM9ha9wq0nRMhQicxYEyI89HCXwVIxZzPthrPHFDur3VbwtFia6GeAicA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshzuNFWROxUoicw96U1SpicxJNJFedhL6dPzcgpedqIE2XgxZHUpicTYDMA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshmI79TweJ88IvdkKgNxduic3xgVpYeDGHN10Wp27u0dIJoTRa3e7Z9TA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshpsqHHO1fsq3ucpfWQdqyYkOAxxO6mbD7YiczFdyklEG41cuMomRpUCg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshjRW6icsrmFYiavJaLYBa1UXl2FrQtCvxpqdXTtSwyZpcZvqoFnmae7QQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshho9bzkKPPgVQRh3x35ueIYFGEDfygiaXKjOQQFuC2bxc1ImffuOsH2Q/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshjHbZUAW6UOLfJhknMjgemFYgr2hz27iaBE4tiaKA86ZqIhOjd3vttV5w/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshCZQj2L99hIN2HFHNQSzkSQMaUrbib6H4LJiabJur5V7icM0cq7ib8sK0gA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60renshU2j95r3eBhJlZLBEgpoVVHDb8Vm9EU0XB4ZW0xxwhs2q4blguwGcibA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JJjARRqcZibY4ZPv60rensh4rC1ED2BCl07c81gxj3uKN5PtDZXDquz8gWS2yJmib46kib1C0SF3ycw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JolV3xA4rEtxSCgbN76QbXheImAPwVia7gtcx2cNCUXAXbCJpst1geQCOElXLQMMvAibMLmYNqXF5g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JolV3xA4rEtxSCgbN76QbXMBrh9xGQDQjlW4EpV2DscJbUzAMwjqIGGgw8fqWET4swGIue9mbwwQ/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JolV3xA4rEtxSCgbN76QbXSHnC5kd7W2DeryMuzoSOx3evDWoqlVIoGxBA3TEjAF54s4cRQsld0g/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JolV3xA4rEtxSCgbN76QbXqDg8FodHRKUM8K5z79zEghbybrKD6WtqO0B9JBkD6FQNQ6dhARQsTA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JolV3xA4rEtxSCgbN76QbXS8kt9d3jGhJPZGNa5V97ZKVBIUNdHmtPibNia7U59tbfQyzla4mHFtYg/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7JolV3xA4rEtxSCgbN76QbXCxA0YjyGXDmBHOMYfpwolJ5yZxvMAINJRvTx7HBwyTtO4azI2QuqdA/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
-<meta property="article:modified_time" content="2022-03-17T03:49:51.158Z">
-<meta property="article:author" content="Shuyan">
-<meta property="article:tag" content="SpringBoot">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_png/uJDAUKrGC7L1vFQMnaRIJSmeZ58T2eZiczfno2TOQbfItia25xQzicMFnkicKh5pVD7IrHrUicb03y381CicrLFKXNMw/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
-  
-    <link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuyan || SpringBoot使用详解</title>
+    <meta name="author" content="Shuyan">
+    <meta name="description" content="ShuyanCoding...... ">
+    <meta name="keywords" content=" ">
+    <link rel="icon" href="/images/avatar.png">
+    <link rel="stylesheet" href="/css/antd.min.css">
+    
+    <link rel="stylesheet" href="/css/maiden-theme.css">
+    
+    <script src="/js/vue.js"></script>
+    <script src="/js/antd.min.js"></script>
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Shuyan</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-JAVA/Spring框架/SpringBoot/SpringBoot使用详解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" class="article-date">
-  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a>►<a class="article-category-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      SpringBoot使用详解
-    </h1>
-  
+    <div id="loading"
+        style="height: 100vh; width: 100%; position: fixed;display: flex;z-index: 200; justify-content: space-between;">
+        <div id="loadleft" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div id="loadright" style="width: 50%;background-color: #ffffff;transition: width 0.6s ease-out;"></div>
+        <div
+            style="position: fixed; height: 100vh; width: 100%;display: flex;justify-content: center;align-items: center;">
+            <div id="loadcontent"
+                style="width:400px;height:400px;padding:50px;border-radius:50%;display:flex;justify-content:center;align-items:center;border:solid 10px#a3ddfb; text-align:center;opacity:1;transition:opacity 0.3s ease-out;">
+                <div>
+                    <h2>LOADING...</h2>
+                    <p>加载过慢请开启缓存(浏览器默认开启)</p>
+                    <div>
+                        <img src="/dancingkitty.gif" alt="loading">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
+    <div id="layout">
+        <transition name="into">
+            <div v-show="show_page" style="display: none;">
+                <div id="menu_show">
+                     
+<nav id="menu">
+    <div class="desktop-menu">
+        <a href="/">
+            <span class="title">Shuyan</span>
+        </a>
+        
+        <a href="/">
+            <span>
+                <a-icon type="home" theme="filled" />
+            </span>
+            <span>home</span>
+        </a>
+        
+        <a href="/about">
+            <span>
+                <a-icon type="idcard" theme="filled" />
+            </span>
+            <span>about</span>
+        </a>
+        
+        <a href="/archives">
+            <span>
+                <a-icon type="folder" theme="filled" />
+            </span>
+            <span>archives</span>
+        </a>
+        
+        <a href="/like/categories">
+            <span>
+                <a-icon type="book" theme="filled" />
+            </span>
+            <span>categories</span>
+        </a>
+        
+        <a href="/like/tags">
+            <span>
+                <a-icon type="tags" theme="filled" />
+            </span>
+            <span>tags</span>
+        </a>
+        
+        <a target="_blank" rel="noopener" href="https://en.korilin.com">
+            <span>
+                <a-icon type="compass" theme="filled" />
+            </span>
+            <span>英文博客</span>
+        </a>
+        
+    </div>
+
+    <div :class="'phone-menu ' + menu_show" id="phone-menu">
+        <div :class="'title'" @click="menu_show=!menu_show">
+            <span style="margin-right: 10px;">
+                <a-icon type="appstore" theme="filled" />
+            </span>
+            <span>Shuyan</span>
+        </div>
+        <div class="items" v-show="menu_show">
+            
+            <a href="/">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="home" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">home</div>
+                </div>
+            </a>
+            
+            <a href="/about">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="idcard" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">about</div>
+                </div>
+            </a>
+            
+            <a href="/archives">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="folder" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">archives</div>
+                </div>
+            </a>
+            
+            <a href="/like/categories">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="book" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">categories</div>
+                </div>
+            </a>
+            
+            <a href="/like/tags">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="tags" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">tags</div>
+                </div>
+            </a>
+            
+            <a target="_blank" rel="noopener" href="https://en.korilin.com">
+                <div class="item">
+                    <div style="min-width:20px; max-width:50px; width: 10%">
+                        <a-icon type="compass" theme="filled" />
+                    </div>
+                    <div style="min-width:100px;max-width: 150%;width: 20%;">英文博客</div>
+                </div>
+            </a>
+            
+        </div>
+        <div class="curtain" v-show="menu_show"></div>
+    </div>
+
+</nav>
+                </div>
+
+                <div id="main">
+                     
+<link rel="stylesheet" href="/css/post-body.css">
+<div class="article">
+    <div>
+        <h1>SpringBoot使用详解 </h1>
+    </div>
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <a-icon type="calendar" theme="filled" />
+            </span>
+            2022/3/17
+        </span>
+
+        
+        <span class="category">
+            <a href="/categories/JAVA">
+                <span class="icon">
+                    <a-icon type="book" theme="filled" />
+                </span>
+                JAVA
+            </a>
+        </span>
+        
+
+        
+
+        <span class="tags">
+            <span class="icon">
+                <a-icon type="tags" theme="filled" />
+            </span>
+            
+            <span class="tag">
+                
+                <a href="/tags/SpringBoot" style=color:#879cff>
+                    SpringBoot
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+
+    <div class="content" v-pre>
         <h1 id="SpringBoot使用详解"><a href="#SpringBoot使用详解" class="headerlink" title="SpringBoot使用详解"></a>SpringBoot使用详解</h1><h2 id="一、SpringBoot简介"><a href="#一、SpringBoot简介" class="headerlink" title="一、SpringBoot简介"></a>一、SpringBoot简介</h2><p>​        什么是SpringBoot呢，就是一个javaweb的开发框架，和SpringMVC类似，对比其他javaweb框架的好处，官方说是简化开发，约定大于配置，  you can “just run”，能迅速的开发web应用，几行代码开发一个http接口。</p>
 <p>​        所有的技术框架的发展似乎都遵循了一条主线规律：从一个复杂应用场景衍生 一种规范框架，人们只需要进行各种配置而不需要自己去实现它，这时候强大的配置功能成了优点；发展到一定程度之后，人们根据实际生产应用情况，选取其中实用功能和设计精华，重构出一些轻量级的框架；之后为了提高开发效率，嫌弃原先的各类配置过于麻烦，于是开始提倡“约定大于配置”，进而衍生出一些一站式的解决方案。</p>
 <p>​        这就是Java企业级应用-&gt;J2EE-&gt;spring-&gt;springboot的过程。</p>
@@ -4031,153 +4052,95 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter &#123;
 &#125;
 </code></pre>
 
-      
     </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" data-id="cl0us61fr003ckovsbx0l42m0" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li></ul>
 
-    </footer>
-  </div>
-  
     
-<nav id="article-nav">
-  
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/Spring/Spring%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Spring设计模式
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringMVC/SpringMVC%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">SpringMVC使用详解</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+    <div id="comment">
+        <div id="gitalk-container">
+        </div>
+    </div>
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/">“Spring框架”</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Mybaits/">Mybaits</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringBoot/">SpringBoot</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/%E2%80%9CSpring%E6%A1%86%E6%9E%B6%E2%80%9D/SpringMVC/">SpringMVC</a></li></ul></li></ul></li></ul>
+</div>
+                     
+<footer id="footer">
+    <div class="footer-wrap">
+        <div>
+            © 2018 - 2022 Shuyan
+            <span class="footer-icon">
+                <a-icon type="flag" theme="filled" /></span>
+            @Shuyan
+        </div>
+        <div></div>
+        <div>Based on the <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo Engine</a> & <a
+                target="_blank" rel="noopener" href="https://github.com/korilin/hexo-theme-particle">Particle Theme</a></div>
+        
     </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/JavaWeb/" rel="tag">JavaWeb</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mybaits/" rel="tag">Mybaits</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring/" rel="tag">Spring</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringBoot/" rel="tag">SpringBoot</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/SpringMVC/" rel="tag">SpringMVC</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">March 2022</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">January 2022</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/JavaWeb/">JavaWeb</a>
-          </li>
-        
-          <li>
-            <a href="/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/JavaWeb/helloservlet/">配置文件</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2022 Shuyan<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
 </footer>
+
+<script src="/js/highlight.min.js"></script>
+<script src="/js/particle.js"></script>
+                </div>
+            </div>
+        </transition>
     </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script>
+    new Vue({
+        el: "#layout",
+        data: {
+            show_page: false,
+            onload_menu: false,
+            menu_show: false,
+            card_top: 100
+        },
+        created: function () {
+            var that = this
+            window.onload = function () {
+                that.show_page = true
+                document.getElementById("loadcontent").style.opacity = 0
+                setTimeout(function () {
+                    document.getElementById("loadleft").style.width = 0
+                    document.getElementById("loadright").style.width = 0
+                }, 300)
+                setTimeout(function () {
+                    document.getElementById("loading").style = "display:none"
+                }, 600)
+            }
+        },
+        mounted: function () {
+            var that = this
+            window.addEventListener('scroll', function (e) {
+                that.menu_show = false
+            })
+        },
+        methods: {
+            home_click: function () {
+                window.scrollTo({
+                    top: window.innerHeight - 80,
+                    behavior: "smooth",
+                });
+            }
+        }
+    })
+</script>
 
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script>
+    const gitalk = new Gitalk({
+        clientID: '',
+        clientSecret: '',
+        repo: 'hexo-theme-particle',      // The repository of store comments,
+        owner: 'korilin',
+        admin: ['korilin'],
+        language: 'en',
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: true  // Facebook-like distraction free mode
+    })
+    gitalk.render('gitalk-container')
+</script>
 
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
 </body>
+
 </html>
