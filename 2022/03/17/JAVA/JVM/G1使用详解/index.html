@@ -5,14 +5,14 @@
   
 
   
-  <title>JVM Garbage First（G1）使用详解 | Shuyan</title>
+  <title>G1使用详解 | Shuyan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前言​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8&#x2F;9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起">
+  <meta name="description" content="​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8&#x2F;9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JVM Garbage First（G1）使用详解">
-<meta property="og:url" content="http://example.com/2022/01/19/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:title" content="G1使用详解">
+<meta property="og:url" content="http://example.com/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Shuyan">
-<meta property="og:description" content="前言​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8&#x2F;9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起">
+<meta property="og:description" content="​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8&#x2F;9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/2cb2785445d03d6196023b841490a624.png">
 <meta property="og:image" content="https://c1.staticflickr.com/5/4603/28345836579_8dff90eb76_z.jpg">
@@ -26,9 +26,10 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/5a60b80279c1f7a7664f6b54d26e967c.png">
 <meta property="og:image" content="https://c1.staticflickr.com/5/4658/40093686702_9d689b29e9_z.jpg">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/ac554fcaf159d7a7c62511c5e7db19fc.png">
-<meta property="article:published_time" content="2022-01-19T14:32:34.848Z">
-<meta property="article:modified_time" content="2022-03-16T09:31:28.068Z">
+<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
+<meta property="article:modified_time" content="2022-03-17T03:29:45.943Z">
 <meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/2cb2785445d03d6196023b841490a624.png">
   
@@ -81,10 +82,14 @@
       <div class="outer">
         <section id="main"><article id="post-JAVA/JVM/G1使用详解" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2022/01/19/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" class="article-date">
-  <time datetime="2022-01-19T14:32:34.848Z" itemprop="datePublished">2022-01-19</time>
+    <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" class="article-date">
+  <time datetime="2022-03-17T03:29:01.000Z" itemprop="datePublished">2022-03-17</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/JAVA/">JAVA</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -93,7 +98,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JVM Garbage First（G1）使用详解
+      G1使用详解
     </h1>
   
 
@@ -101,7 +106,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8/9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意的优化点。笔者希望通过本文，让有一定JVM基础的读者能尽快掌握G1的知识点。</p>
+        <p>​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8/9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意的优化点。笔者希望通过本文，让有一定JVM基础的读者能尽快掌握G1的知识点。</p>
 <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>​        G1(Garbage First)垃圾收集器是当今<strong>垃圾回收技术</strong>最前沿的成果之一。早在JDK7就已加入JVM的收集器大家庭中，成为HotSpot重点发展的垃圾回收技术。同优秀的CMS垃圾回收器一样，G1也是<strong>关注最小时延</strong>的垃圾回收器，也同样适合大尺寸堆内存的垃圾收集，官方也推荐使用G1来代替选择CMS。G1最大的特点是<strong>引入分区的思路，弱化了分代的概念，合理利用垃圾收集各个周期的资源</strong>，解决了其他收集器甚至CMS的众多缺陷。</p>
 <h2 id="二、JVM-GC收集器的回顾与比较"><a href="#二、JVM-GC收集器的回顾与比较" class="headerlink" title="二、JVM GC收集器的回顾与比较"></a>二、JVM GC收集器的回顾与比较</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/2cb2785445d03d6196023b841490a624.png" alt="JVM GC收集器成员"></p>
 <p>​        从JDK3(1.3)开始，HotSpot团队一直努力朝着**高效收集、减少停顿(STW: Stop The World)**的方向努力，也贡献了从串行到CMS乃至最新的G1在内的一系列优秀的垃圾收集器。上图展示了JDK的垃圾回收大家庭，以及相互之间的组合关系，下面就几种典型的组合应用进行简单的介绍。</p>
@@ -263,26 +268,19 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2022/01/19/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" data-id="cl0uflgt800021wvs0migde3k" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" data-id="cl0ufpzeq00028svsgci75kll" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2022/03/17/C%E8%AF%AD%E8%A8%80/STL%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6%E7%AE%80%E4%BB%8B/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          STL六个组件简介
-        
-      </div>
-    </a>
   
-  
-    <a href="/2022/01/19/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
       <div class="article-nav-title">JVM使用详解</div>
     </a>
@@ -300,16 +298,30 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/C%E8%AF%AD%E8%A8%80/">C语言</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JAVA/">JAVA</a></li></ul>
     </div>
   </div>
 
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/JVM/" rel="tag">JVM</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 10px;">JVM</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -328,19 +340,19 @@
       <ul>
         
           <li>
+            <a href="/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">G1使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
+          </li>
+        
+          <li>
+            <a href="/2022/03/17/JAVA/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">JVM虚拟机</a>
+          </li>
+        
+          <li>
             <a href="/2022/03/17/C%E8%AF%AD%E8%A8%80/STL%E5%85%AD%E5%A4%A7%E7%BB%84%E4%BB%B6%E7%AE%80%E4%BB%8B/">STL六个组件简介</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/19/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM Garbage First（G1）使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/19/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">JVM使用详解</a>
-          </li>
-        
-          <li>
-            <a href="/2022/01/19/JAVA/JVM/JVM%E8%99%9A%E6%8B%9F%E6%9C%BA/">JVM虚拟机</a>
           </li>
         
           <li>
