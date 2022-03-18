@@ -1,26 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 5.4.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+    
+    <title>G1使用详解 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
 
-<link rel="stylesheet" href="/css/main.css">
-
-<link rel="stylesheet" href="//fonts.loli.net/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Lato:300,300italic,400,400italic,700,700italic|Abril Fatface:300,300italic,400,400italic,700,700italic|Vollkorn:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
-  </script>
-
-  <meta name="description" content="​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8&#x2F;9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8&#x2F;9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意">
 <meta property="og:type" content="article">
 <meta property="og:title" content="G1使用详解">
 <meta property="og:url" content="http://example.com/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/index.html">
@@ -40,218 +32,313 @@
 <meta property="og:image" content="https://c1.staticflickr.com/5/4658/40093686702_9d689b29e9_z.jpg">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/ac554fcaf159d7a7c62511c5e7db19fc.png">
 <meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
-<meta property="article:modified_time" content="2022-03-17T03:40:04.219Z">
+<meta property="article:modified_time" content="2022-03-18T11:51:20.482Z">
 <meta property="article:author" content="Shuyan">
 <meta property="article:tag" content="JVM">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://img-blog.csdnimg.cn/img_convert/2cb2785445d03d6196023b841490a624.png">
-
-<link rel="canonical" href="http://example.com/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>G1使用详解 | Shuyan</title>
-  
-
-
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da# <app_id>";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
-
-
-
-
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
-
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
-
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
-
-</head>
-
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
-
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
-    </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Shuyan</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-      <p class="site-subtitle" itemprop="description">微我无酒，以敖以游</p>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-  </ul>
-</nav>
-
-
-
-
-</div>
-    </header>
-
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1647604559618">
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
-            
-
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
     
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/">
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1647604559618">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1647604559618">
+    <link rel="stylesheet" href="/css/style.css?v=1647604559618">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Shuyan">
-      <meta itemprop="description" content="ShuyanCoding......">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Shuyan">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          G1使用详解
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2022-03-17 11:29:01 / Modified: 11:40:04" itemprop="dateCreated datePublished" datetime="2022-03-17T11:29:01+08:00">2022-03-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/" itemprop="url" rel="index"><span itemprop="name">“JVM”</span></a>
-                </span>
-            </span>
-
-          
-
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
         </div>
-      </header>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>23</div>
+        <div><span>Tags</span>6</div>
+        <div><span>Categories</span>9</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">20</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">5</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">17</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
 
     
     
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a>
+    </div>
     
-    <div class="post-body" itemprop="articleBody">
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="https://i.dawnlab.me/c0268c1e6cfd0863d6ba35be1575941a.png" width="150px"></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/iTab-18057.jpg" data-sizes="auto" alt="G1使用详解" class="lazyload">
+              <h1>G1使用详解</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年03月17日</a>
+</div>
 
       
-        <p>​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8/9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意的优化点。笔者希望通过本文，让有一定JVM基础的读者能尽快掌握G1的知识点。</p>
+
+      <p>​        Garbage First(G1)是垃圾收集领域的最新成果，同时也是HotSpot在JVM上力推的垃圾收集器，并赋予取代CMS的使命。如果使用Java 8/9，那么有很大可能希望对G1收集器进行评估。本文详细首先对JVM其他的垃圾收集器进行总结，并与G1进行了简单的对比；然后通过G1的内存模型、G1的活动周期，对G1的工作机制进行了介绍；同时还在介绍过程中，描述了可能需要引起注意的优化点。笔者希望通过本文，让有一定JVM基础的读者能尽快掌握G1的知识点。</p>
 <h2 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h2><p>​        G1(Garbage First)垃圾收集器是当今<strong>垃圾回收技术</strong>最前沿的成果之一。早在JDK7就已加入JVM的收集器大家庭中，成为HotSpot重点发展的垃圾回收技术。同优秀的CMS垃圾回收器一样，G1也是<strong>关注最小时延</strong>的垃圾回收器，也同样适合大尺寸堆内存的垃圾收集，官方也推荐使用G1来代替选择CMS。G1最大的特点是<strong>引入分区的思路，弱化了分代的概念，合理利用垃圾收集各个周期的资源</strong>，解决了其他收集器甚至CMS的众多缺陷。</p>
-<h2 id="二、JVM-GC收集器的回顾与比较"><a href="#二、JVM-GC收集器的回顾与比较" class="headerlink" title="二、JVM GC收集器的回顾与比较"></a>二、JVM GC收集器的回顾与比较</h2><p><img src="https://img-blog.csdnimg.cn/img_convert/2cb2785445d03d6196023b841490a624.png" alt="JVM GC收集器成员"></p>
+<h2 id="二、JVM-GC收集器的回顾与比较"><a href="#二、JVM-GC收集器的回顾与比较" class="headerlink" title="二、JVM GC收集器的回顾与比较"></a>二、JVM GC收集器的回顾与比较</h2><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/2cb2785445d03d6196023b841490a624.png" alt="JVM GC收集器成员" class="lazyload"></p>
 <p>​        从JDK3(1.3)开始，HotSpot团队一直努力朝着**高效收集、减少停顿(STW: Stop The World)**的方向努力，也贡献了从串行到CMS乃至最新的G1在内的一系列优秀的垃圾收集器。上图展示了JDK的垃圾回收大家庭，以及相互之间的组合关系，下面就几种典型的组合应用进行简单的介绍。</p>
-<h3 id="2-1、串行收集器"><a href="#2-1、串行收集器" class="headerlink" title="2.1、串行收集器"></a>2.1、串行收集器</h3><p><img src="https://c1.staticflickr.com/5/4603/28345836579_8dff90eb76_z.jpg" alt="img"></p>
+<h3 id="2-1、串行收集器"><a href="#2-1、串行收集器" class="headerlink" title="2.1、串行收集器"></a>2.1、串行收集器</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4603/28345836579_8dff90eb76_z.jpg" alt="img" class="lazyload"></p>
 <p>​        串行收集器组合 Serial + Serial Old</p>
 <blockquote>
 <p> 开启选项：-XX:+SerialGC</p>
 </blockquote>
 <p>​        串行收集器是最基本、发展时间最长、久经考验的垃圾收集器，也是client模式下的默认收集器配置。</p>
 <p>​        串行收集器采用<strong>单线程stop-the-world</strong>的方式进行收集。<strong>当内存不足时，串行GC设置停顿标识，待所有线程都进入安全点(Safepoint)时，应用线程暂停，串行GC开始工作，采用单线程方式回收空间并整理内存。</strong>单线程也意味着复杂度更低、占用内存更少，但同时也意味着不能有效利用多核优势。事实上，串行收集器特别适合堆内存不高、单核甚至双核CPU的场合。</p>
-<h3 id="2-2、并行收集器"><a href="#2-2、并行收集器" class="headerlink" title="2.2、并行收集器"></a>2.2、并行收集器</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/46f9b4f25c7783fd48a9a7df404e4f5e.png" alt="并行收集器组合"></p>
+<h3 id="2-2、并行收集器"><a href="#2-2、并行收集器" class="headerlink" title="2.2、并行收集器"></a>2.2、并行收集器</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/46f9b4f25c7783fd48a9a7df404e4f5e.png" alt="并行收集器组合" class="lazyload"></p>
 <p>​        并行收集器组合 Parallel Scavenge + Parallel Old</p>
 <blockquote>
 <p> 开启选项：-XX:+UseParallelGC或-XX:+UseParallelOldGC(可互相激活)</p>
@@ -259,7 +346,7 @@
 <p>​        并行收集器是以<strong>关注吞吐量</strong>为目标的垃圾收集器，也是server模式下的默认收集器配置，对吞吐量的关注主要体现在年轻代Parallel Scavenge收集器上。</p>
 <p>​        并行收集器与串行收集器工作模式相似，都是stop-the-world方式，只是暂停时并行地进行垃圾收集。年轻代采用复制算法，老年代采用标记-整理，在回收的同时还会对内存进行压缩。</p>
 <p>​        关注吞吐量主要指年轻代的Parallel Scavenge收集器，通过两个目标参数**-XX:MaxGCPauseMills和-XX:GCTimeRatio**，调整新生代空间大小，来降低GC触发的频率。并行收集器适合对吞吐量要求远远高于延迟要求的场景，并且在满足最差延时的情况下，并行收集器将提供最佳的吞吐量。</p>
-<h3 id="2-3、并发标记清除收集器"><a href="#2-3、并发标记清除收集器" class="headerlink" title="2.3、并发标记清除收集器"></a>2.3、并发标记清除收集器</h3><p><img src="https://c1.staticflickr.com/5/4740/40093687062_7383cd1b49_z.jpg" alt="img"></p>
+<h3 id="2-3、并发标记清除收集器"><a href="#2-3、并发标记清除收集器" class="headerlink" title="2.3、并发标记清除收集器"></a>2.3、并发标记清除收集器</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4740/40093687062_7383cd1b49_z.jpg" alt="img" class="lazyload"></p>
 <p>​        并发标记清除收集器组合 ParNew + CMS + Serial Old</p>
 <blockquote>
 <p> 开启选项：-XX:+UseConcMarkSweepGC</p>
@@ -276,7 +363,7 @@
 <p>​        但是CMS并不完美，它有以下缺点：</p>
 <p>​        由于并发进行，CMS在收集与应用线程会同时会<strong>增加对堆内存的占用</strong>，也就是说，CMS必须要在老年代堆内存用尽之前完成垃圾回收，否则CMS回收失败时，将触发担保机制，串行老年代收集器将会以STW的方式进行一次GC，从而造成较大停顿时间；标记清除算法无法整理空间碎片，老年代空间会随着应用时长被逐步耗尽，最后将不得不通过担保机制对堆内存进行压缩。</p>
 <p>​        CMS也提供了参数**-XX:CMSFullGCsBeForeCompaction**(默认0，即每次都进行内存整理)来指定多少次CMS收集之后，进行一次压缩的Full GC。</p>
-<h3 id="2-4、Garbage-First"><a href="#2-4、Garbage-First" class="headerlink" title="2.4、Garbage First"></a>2.4、Garbage First</h3><p><img src="https://c1.staticflickr.com/5/4655/28345836209_7b70465317_b.jpg" alt="img"></p>
+<h3 id="2-4、Garbage-First"><a href="#2-4、Garbage-First" class="headerlink" title="2.4、Garbage First"></a>2.4、Garbage First</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4655/28345836209_7b70465317_b.jpg" alt="img" class="lazyload"></p>
 <p>​        Garbage First (G1)</p>
 <blockquote>
 <p>开启选项：-XX:+UseG1GC</p>
@@ -294,16 +381,16 @@
 </ul>
 <p>​        G1垃圾收集器也是<strong>以关注延迟为目标</strong>、服务器端应用的垃圾收集器，被HotSpot团队寄予取代CMS的使命，也是一个非常具有调优潜力的垃圾收集器。虽然G1也有类似CMS的收集动作：初始标记、并发标记、重新标记、清除、转移回收，并且也以一个串行收集器做担保机制，但单纯地以类似前三种的过程描述显得并不是很妥当。事实上，G1收集与以上三组收集器有很大不同：</p>
 <p>​        G1的设计原则是”<strong>首先收集尽可能多的垃圾(Garbage First)</strong>“。因此，G1并不会等内存耗尽(串行、并行)或者快耗尽(CMS)的时候开始垃圾收集，而是在内部采用了启发式算法，在老年代找出具有高收集收益的分区进行收集。同时G1可以根据用户设置的暂停时间目标自动调整年轻代和总堆大小，暂停目标越短年轻代空间越小、总空间就越大；<br>​        G1采用<strong>内存分区(Region)<strong>的思路，将内存划分为一个个相等大小的内存分区，回收时则以分区为单位进行回收，存活的对象复制到另一个空闲分区中。由于都是以相等大小的分区为单位进行操作，因此G1天然就是一种压缩方案(局部压缩)；<br>​        G1虽然也是分代收集器，但整个内存分区不存在物理上的年轻代与老年代的区别，也不需要完全独立的survivor(to space)堆做复制准备。G1</strong>只有逻辑上的分代概念</strong>，或者说每个分区都可能随G1的运行在不同代之间前后切换；<br>​        <strong>G1的收集都是STW的</strong>，但年轻代和老年代的收集界限比较模糊，采用了<strong>混合(mixed)收集</strong>的方式。即每次收集既可能只收集年轻代分区(年轻代收集)，也可能在收集年轻代的同时，包含部分老年代分区(混合收集)，这样即使堆内存很大时，也可以限制收集范围，从而降低停顿。</p>
-<h2 id="三、G1的内存模型"><a href="#三、G1的内存模型" class="headerlink" title="三、G1的内存模型"></a>三、G1的内存模型</h2><h3 id="3-1、分区概念"><a href="#3-1、分区概念" class="headerlink" title="3.1、分区概念"></a>3.1、分区概念</h3><p><img src="https://c1.staticflickr.com/5/4678/40093686972_25da5b859f_z.jpg" alt="img"></p>
+<h2 id="三、G1的内存模型"><a href="#三、G1的内存模型" class="headerlink" title="三、G1的内存模型"></a>三、G1的内存模型</h2><h3 id="3-1、分区概念"><a href="#3-1、分区概念" class="headerlink" title="3.1、分区概念"></a>3.1、分区概念</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4678/40093686972_25da5b859f_z.jpg" alt="img" class="lazyload"></p>
 <h4 id="3-1-1、分区-Region"><a href="#3-1-1、分区-Region" class="headerlink" title="3.1.1、分区 Region"></a>3.1.1、分区 Region</h4><p>​        G1采用了分区(Region)的思路，将整个<strong>堆空间</strong>分成若干个大小相等的内存区域，每次分配对象空间将逐段地使用内存。因此，在堆的使用上，G1并不要求对象的存储一定是物理上连续的，只要逻辑上连续即可；每个分区也不会确定地为某个代服务，可以按需在年轻代和老年代之间切换。启动时可以通过参数-XX:G1HeapRegionSize=n可指定分区大小(1MB~32MB，且必须是2的幂)，默认将整堆划分为2048个分区。</p>
 <h4 id="3-1-2、卡片-Card"><a href="#3-1-2、卡片-Card" class="headerlink" title="3.1.2、卡片 Card"></a>3.1.2、卡片 Card</h4><p>​        在每个分区内部又被分成了若干个<strong>大小为512 Byte卡片</strong>(Card)，标识堆内存最小可用粒度所有分区的卡片将会记录在全局卡片表(Global Card Table)中，分配的对象会占用物理上连续的若干个卡片，当查找对分区内对象的引用时便可通过记录卡片来查找该引用对象(见RSet)。每次对内存的回收，都是对指定分区的卡片进行处理。</p>
 <h4 id="3-1-3、堆-Heap"><a href="#3-1-3、堆-Heap" class="headerlink" title="3.1.3、堆 Heap"></a>3.1.3、堆 Heap</h4><p>​        G1同样可以<strong>通过-Xms/-Xmx来指定堆空间大小</strong>。当发生年轻代收集或混合收集时，通过计算GC与应用的耗费时间比，自动调整堆空间大小。如果GC频率太高，则通过增加堆尺寸，来减少GC频率，相应地GC占用的时间也随之降低；目标参数**-XX:GCTimeRatio<strong>即为GC与应用的</strong>耗费时间比<strong>，G1默认为9，而CMS默认为99，因为CMS的设计原则是耗费在GC上的时间尽可能的少。另外，当空间不足，如对象空间分配或转移失败时，G1会首先尝试增加堆空间，如果扩容失败，则发起担保的</strong>Full GC**。Full GC后，堆尺寸计算结果也会调整堆空间。</p>
-<h3 id="3-2、分代模型"><a href="#3-2、分代模型" class="headerlink" title="3.2、分代模型"></a>3.2、分代模型</h3><p><img src="https://c1.staticflickr.com/5/4621/28345836009_65a54854be_z.jpg" alt="img"></p>
+<h3 id="3-2、分代模型"><a href="#3-2、分代模型" class="headerlink" title="3.2、分代模型"></a>3.2、分代模型</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4621/28345836009_65a54854be_z.jpg" alt="img" class="lazyload"></p>
 <h4 id="3-2-1、分代-Generation"><a href="#3-2-1、分代-Generation" class="headerlink" title="3.2.1、分代 Generation"></a>3.2.1、分代 Generation</h4><p>​        分代垃圾收集可以将关注点集中在最近被分配的对象上，而无需整堆扫描，避免长命对象的拷贝，同时独立收集有助于降低响应时间。虽然分区使得内存分配不再要求紧凑的内存空间，但G1依然使用了分代的思想。与其他垃圾收集器类似，G1将内存在逻辑上划分为<strong>年轻代和老年代</strong>，其中年轻代又划分为<strong>Eden空间和Survivor空间</strong>。但年轻代空间并不是固定不变的，当现有年轻代分区占满时，JVM会分配新的空闲分区加入到年轻代空间。</p>
 <p>​        整个年轻代内存会在<strong>初始空间-XX:G1NewSizePercent</strong>(默认整堆5%)与<strong>最大空间-XX:G1MaxNewSizePercent</strong>(默认60%)之间动态变化，且<strong>由参数目标暂停时间-XX:MaxGCPauseMillis</strong>(默认200ms)、需要扩缩容的大小以及分区的已记忆集合(RSet)计算得到。当然，G1依然可以**设置固定的年轻代大小(参数-XX:NewRatio、-Xmn)**，但同时暂停目标将失去意义。</p>
 <h4 id="3-2-2、本地分配缓冲-Lab"><a href="#3-2-2、本地分配缓冲-Lab" class="headerlink" title="3.2.2、本地分配缓冲  Lab"></a>3.2.2、本地分配缓冲  Lab</h4><p>​        值得注意的是，由于分区的思想，每个线程均可以”认领”某个分区用于线程本地的内存分配，而不需要顾及分区是否连续。因此，每个应用线程和GC线程都会独立的使用分区，进而减少同步时间，提升GC效率，这个分区称为本地分配缓冲区(Local allocation buffer)。</p>
 <p>​        其中，应用线程可以独占一个本地缓冲区(TLAB)来创建的对象，而大部分都会落入Eden区域(巨型对象或分配失败除外)，<strong>因此TLAB的分区属于Eden空间</strong>；而每次垃圾收集时，每个GC线程同样可以独占一个本地缓冲区(GCLAB)用来转移对象，每次回收会将对象复制到Suvivor空间或老年代空间；对于从Eden/Survivor空间晋升(Promotion)到Survivor/老年代空间的对象，同样有GC独占的本地缓冲区进行操作，该部分称为**晋升本地缓冲区(PLAB)**。</p>
-<h3 id="3-3、分区模型"><a href="#3-3、分区模型" class="headerlink" title="3.3、分区模型"></a>3.3、分区模型</h3><p><img src="https://c1.staticflickr.com/5/4619/40093686872_ce639c1121_z.jpg" alt="img"></p>
+<h3 id="3-3、分区模型"><a href="#3-3、分区模型" class="headerlink" title="3.3、分区模型"></a>3.3、分区模型</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4619/40093686872_ce639c1121_z.jpg" alt="img" class="lazyload"></p>
 <p>G1对内存的使用以分区(Region)为单位，而对对象的分配则以卡片(Card)为单位。</p>
 <h4 id="3-3-1、巨型对象-Humongous-Region"><a href="#3-3-1、巨型对象-Humongous-Region" class="headerlink" title="3.3.1、巨型对象 Humongous Region"></a>3.3.1、巨型对象 Humongous Region</h4><p>​        <strong>一个大小达到甚至超过分区大小一半的对象称为巨型对象</strong>(Humongous Object)。当线程为巨型分配空间时，不能简单在TLAB进行分配，因为巨型对象的移动成本很高，而且有可能一个分区不能容纳巨型对象。因此，巨型对象会直接在老年代分配，所占用的连续空间称为<strong>巨型分区</strong>(Humongous Region)。G1内部做了一个优化，一旦发现没有引用指向巨型对象，则可直接在年轻代收集周期中被回收。</p>
 <p>​        巨型对象会独占一个、或多个连续分区，其中第一个分区被标记为<u>开始巨型</u>(StartsHumongous)，相邻连续分区被标记为<u>连续巨型</u>(ContinuesHumongous)。由于无法享受Lab带来的优化，并且确定一片连续的内存空间需要扫描整堆，因此确定巨型对象开始位置的成本非常高，如果可以，应用程序应避免生成巨型对象。</p>
@@ -316,7 +403,7 @@
 <li><strong>粗粒度：</strong>只记录引用情况，每个分区对应一个比特位。</li>
 </ul>
 <p>由上可知，粗粒度的PRT只是记录了引用数量，需要通过整堆扫描才能找出所有引用，因此扫描速度也是最慢的。</p>
-<h3 id="3-4、收集集合-CSet"><a href="#3-4、收集集合-CSet" class="headerlink" title="3.4、收集集合 (CSet)"></a>3.4、收集集合 (CSet)</h3><p><img src="https://c1.staticflickr.com/5/4766/40126693251_d74183c2c6.jpg" alt="img"></p>
+<h3 id="3-4、收集集合-CSet"><a href="#3-4、收集集合-CSet" class="headerlink" title="3.4、收集集合 (CSet)"></a>3.4、收集集合 (CSet)</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4766/40126693251_d74183c2c6.jpg" alt="img" class="lazyload"></p>
 <h4 id="3-4-1、收集集合-CSet"><a href="#3-4-1、收集集合-CSet" class="headerlink" title="3.4.1、收集集合 CSet"></a>3.4.1、收集集合 CSet</h4><p>​        收集集合(CSet)代表每次GC暂停时回收的一系列目标分区。在任意一次收集暂停中，CSet所有分区都会被释放，内部存活的对象都会被转移到分配的空闲分区中。因此无论是年轻代收集，还是混合收集，工作的机制都是一致的。年轻代收集CSet只容纳年轻代分区，而混合收集会通过启发式算法，在老年代候选回收分区中，筛选出回收收益最高的分区添加到CSet中。</p>
 <p>​        候选老年代分区的CSet准入条件，可以通过活跃度阈值-XX:G1MixedGCLiveThresholdPercent(默认85%)进行设置，从而拦截那些回收开销巨大的对象；同时，每次混合收集可以包含候选老年代分区，可根据CSet对堆的总大小占比-<strong>XX:G1OldCSetRegionThresholdPercent</strong> (默认10%)<strong>设置数量上限</strong>。</p>
 <p>​        由上述可知，G1的收集都是根据CSet进行操作的，年轻代收集与混合收集没有明显的不同，最大的区别在于两种收集的触发条件。</p>
@@ -326,9 +413,9 @@
 <h4 id="3-4-3、混合收集集合"><a href="#3-4-3、混合收集集合" class="headerlink" title="3.4.3、混合收集集合"></a>3.4.3、混合收集集合</h4><p>混合收集集合 CSet of Mixed Collection</p>
 <p>​        年轻代收集不断活动后，老年代的空间也会被逐渐填充。当老年代占用空间超过<strong>整堆比IHOP阈值-XX:InitiatingHeapOccupancyPercent</strong>(默认45%)时，G1就会启动一次混合垃圾收集周期。为了满足暂停目标，G1可能不能一口气将所有的候选分区收集掉，因此G1可能会产生连续多次的混合收集与应用线程交替执行，每次STW的混合收集与年轻代收集过程相类似。</p>
 <p>​        为了确定包含到年轻代收集集合CSet的老年代分区，JVM通过参数混合周期的最大总次数-XX:G1MixedGCCountTarget(默认8)、堆废物百分比-XX:G1HeapWastePercent(默认5%)。通过候选老年代分区总数与混合周期最大总次数，确定每次包含到CSet的最小分区数量；根据堆废物百分比，当收集达到参数时，不再启动新的混合收集。而每次添加到CSet的分区，则通过计算得到的GC效率进行安排。</p>
-<h1 id="四、G1的活动周期"><a href="#四、G1的活动周期" class="headerlink" title="四、G1的活动周期"></a>四、G1的活动周期</h1><h3 id="4-1、G1垃圾收集活动汇总"><a href="#4-1、G1垃圾收集活动汇总" class="headerlink" title="4.1、G1垃圾收集活动汇总"></a>4.1、G1垃圾收集活动汇总</h3><p><img src="https://img-blog.csdnimg.cn/img_convert/5a60b80279c1f7a7664f6b54d26e967c.png" alt="G1垃圾收集活动周期图"></p>
+<h1 id="四、G1的活动周期"><a href="#四、G1的活动周期" class="headerlink" title="四、G1的活动周期"></a>四、G1的活动周期</h1><h3 id="4-1、G1垃圾收集活动汇总"><a href="#4-1、G1垃圾收集活动汇总" class="headerlink" title="4.1、G1垃圾收集活动汇总"></a>4.1、G1垃圾收集活动汇总</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/5a60b80279c1f7a7664f6b54d26e967c.png" alt="G1垃圾收集活动周期图" class="lazyload"></p>
 <h3 id="4-2、RSet的维护"><a href="#4-2、RSet的维护" class="headerlink" title="4.2、RSet的维护"></a>4.2、RSet的维护</h3><p>​        由于不能整堆扫描，又需要计算分区确切的活跃度，因此，G1需要一个增量式的完全标记并发算法，通过维护RSet，得到准确的分区引用信息。在G1中，RSet的维护主要来源两个方面：<strong>写栅栏</strong>(Write Barrier)和<strong>并发优化线程</strong>(Concurrence Refinement Threads)</p>
-<h3 id="4-3、栅栏-Barrier"><a href="#4-3、栅栏-Barrier" class="headerlink" title="4.3、栅栏 Barrier"></a>4.3、栅栏 Barrier</h3><p><img src="https://c1.staticflickr.com/5/4658/40093686702_9d689b29e9_z.jpg" alt="img">)</p>
+<h3 id="4-3、栅栏-Barrier"><a href="#4-3、栅栏-Barrier" class="headerlink" title="4.3、栅栏 Barrier"></a>4.3、栅栏 Barrier</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://c1.staticflickr.com/5/4658/40093686702_9d689b29e9_z.jpg" alt="img" class="lazyload">)</p>
 <p>​        首先介绍一下栅栏(Barrier)的概念。栅栏是指在原生代码片段中，当某些语句被执行时，栅栏代码也会被执行。而G1主要在赋值语句中，使用写前栅栏(Pre-Write Barrrier)和写后栅栏(Post-Write Barrrier)。事实上，写栅栏的指令序列开销非常昂贵，应用吞吐量也会根据栅栏复杂度而降低。</p>
 <h4 id="4-3-1、写前栅栏-Pre-Write-Barrrier"><a href="#4-3-1、写前栅栏-Pre-Write-Barrrier" class="headerlink" title="4.3.1、写前栅栏 Pre-Write Barrrier"></a>4.3.1、写前栅栏 Pre-Write Barrrier</h4><p>​        <strong>即将执行一段赋值语句时，等式左侧对象将修改引用到另一个对象，那么等式左侧对象原先引用的对象所在分区将因此丧失一个引用，那么JVM就需要在赋值语句生效之前，记录丧失引用的对象</strong>。JVM并不会立即维护RSet，而是通过批量处理，在将来RSet更新(见SATB)。</p>
 <h4 id="4-3-2、写后栅栏-Post-Write-Barrrier"><a href="#4-3-2、写后栅栏-Post-Write-Barrrier" class="headerlink" title="4.3.2、写后栅栏 Post-Write Barrrier"></a>4.3.2、写后栅栏 Post-Write Barrrier</h4><p>​        <strong>当执行一段赋值语句后，等式右侧对象获取了左侧对象的引用，那么等式右侧对象所在分区的RSet也应该得到更新</strong>。同样为了降低开销，写后栅栏发生后，RSet也不会立即更新，同样只是记录此次更新日志，在将来批量处理(见Concurrence Refinement Threads)。</p>
@@ -340,7 +427,7 @@
 <p>​        如果记录增长很快或者来不及处理，那么通过阈值-X:G1ConcRefinementGreenZone/-XX:G1ConcRefinementYellowZone/-XX:G1ConcRefinementRedZone，G1会用分层的方式调度，使更多的线程处理全局列表。如果并发优化线程也不能跟上缓冲区数量，则Mutator线程(Java应用线程)会挂起应用并被加进来帮助处理，直到全部处理完。因此，必须避免此类场景出现。</p>
 <h4 id="4-4-2、并发标记周期-Concurrent-Marking-Cycle"><a href="#4-4-2、并发标记周期-Concurrent-Marking-Cycle" class="headerlink" title="4.4.2、并发标记周期 Concurrent Marking Cycle"></a>4.4.2、并发标记周期 Concurrent Marking Cycle</h4><p>​        并发标记周期是G1中非常重要的阶段，这个阶段将会<strong>为混合收集周期识别垃圾最多的老年代分区</strong>。整个周期完成根标记、识别所有(可能)存活对象，并计算每个分区的活跃度，从而确定GC效率等级。</p>
 <p>​        <strong>当达到IHOP阈值-XX:InitiatingHeapOccupancyPercent(老年代占整堆比，默认45%)时，便会触发并发标记周期</strong>。整个并发标记周期将由初始标记(Initial Mark)、根分区扫描(Root Region Scanning)、并发标记(Concurrent Marking)、重新标记(Remark)、清除(Cleanup)几个阶段组成。其中，<strong>初始标记(随年轻代收集一起活动)、重新标记、清除是STW的</strong>，而并发标记如果来不及标记存活对象，则可能在并发标记过程中，G1又触发了几次年轻代收集。</p>
-<h4 id="4-4-3、并发标记线程-Concurrent-Marking-Threads"><a href="#4-4-3、并发标记线程-Concurrent-Marking-Threads" class="headerlink" title="4.4.3、并发标记线程 Concurrent Marking Threads"></a>4.4.3、并发标记线程 Concurrent Marking Threads</h4><p><img src="https://img-blog.csdnimg.cn/img_convert/ac554fcaf159d7a7c62511c5e7db19fc.png" alt="并发标记位图过程"></p>
+<h4 id="4-4-3、并发标记线程-Concurrent-Marking-Threads"><a href="#4-4-3、并发标记线程-Concurrent-Marking-Threads" class="headerlink" title="4.4.3、并发标记线程 Concurrent Marking Threads"></a>4.4.3、并发标记线程 Concurrent Marking Threads</h4><p><img data-fancybox="gallery" data-sizes="auto" data-src="https://img-blog.csdnimg.cn/img_convert/ac554fcaf159d7a7c62511c5e7db19fc.png" alt="并发标记位图过程" class="lazyload"></p>
 <p>​        要标记存活的对象，每个分区都需要<strong>创建位图(Bitmap)信息来存储标记数据</strong>，来确定标记周期内被分配的对象。G1采用了两个位图Previous Bitmap、Next Bitmap，来存储标记数据，Previous位图存储上次的标记数据，Next位图在标记周期内不断变化更新，同时Previous位图的标记数据也越来越过时，当标记周期结束后Next位图便替换Previous位图，成为上次标记的位图。同时，每个分区通过顶部开始标记(TAMS)，来记录已标记过的内存范围。同样的，G1使用了两个顶部开始标记Previous TAMS(PTAMS)、Next TAMS(NTAMS)，记录已标记的范围。</p>
 <p>​        在并发标记阶段，G1会根据参数-XX:ConcGCThreads(默认GC线程数的1/4，即-XX:ParallelGCThreads/4)，分配并发标记线程(Concurrent Marking Threads)，进行标记活动。<u>每个并发线程一次只扫描一个分区</u>，并通过”手指”指针的方式优化获取分区。并发标记线程是爆发式的，在给定的时间段拼命干活，然后休息一段时间，再拼命干活。</p>
 <p>​        每个并发标记周期，在初始标记STW的最后，G1会分配一个空的Next位图和一个指向分区顶部(Top)的NTAMS标记。Previous位图记录的上次标记数据，上次的标记位置，即PTAMS，在PTAMS与分区底部(Bottom)的范围内，所有的存活对象都已被标记。那么，在PTAMS与Top之间的对象都将是隐式存活(Implicitly Live)对象。在并发标记阶段，Next位图吸收了Previous位图的标记数据，同时每个分区都会有新的对象分配，则Top与NTAMS分离，前往更高的地址空间。在并发标记的一次标记中，并发标记线程将找出NTAMS与PTAMS之间的所有存活对象，将标记数据存储在Next位图中。同时，在NTAMS与Top之间的对象即成为已标记对象。如此不断地更新Next位图信息，并在清除阶段与Previous位图交换角色。</p>
@@ -399,211 +486,123 @@
 <p>由于G1的应用场合往往堆内存都比较大，所以Full GC的收集代价非常昂贵，应该避免Full GC的发生。</p>
 <h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>​        G1是一款非常优秀的垃圾收集器，不仅适合堆内存大的应用，同时也简化了调优的工作。通过主要的参数初始和最大堆空间、以及最大容忍的GC暂停目标，就能得到不错的性能；同时，我们也看到G1对内存空间的浪费较高，但通过**首先收集尽可能多的垃圾(Garbage First)**的设计原则，可以及时发现过期对象，从而让内存占用处于合理的水平。</p>
 
-    </div>
-
-    
-    
-    
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/JVM/" rel="tag"># JVM</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/03/17/JAVA/JVM/JVM%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" rel="prev" title="JVM使用详解">
-      <i class="fa fa-chevron-left"></i> JVM使用详解
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/03/18/about/" rel="next" title="Shuyan">
-      Shuyan <i class="fa fa-chevron-right"></i>
-    </a></div>
-    </div>
-      </footer>
-    
   </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/03/17/JAVA/JVM/G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;17&#x2F;JAVA&#x2F;JVM&#x2F;G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;17&#x2F;JAVA&#x2F;JVM&#x2F;G1%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
   
   
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/">JAVA</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/%E2%80%9CJVM%E2%80%9D/">“JVM”</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/JVM/" rel="tag">JVM</a>
+    
+</div>
+
   
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">一、概述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81JVM-GC%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E5%9B%9E%E9%A1%BE%E4%B8%8E%E6%AF%94%E8%BE%83"><span class="toc-number">2.</span> <span class="toc-text">二、JVM GC收集器的回顾与比较</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E3%80%81%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.1.</span> <span class="toc-text">2.1、串行收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E3%80%81%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">2.2、并行收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%94%B6%E9%9B%86%E5%99%A8"><span class="toc-number">2.3.</span> <span class="toc-text">2.3、并发标记清除收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4%E3%80%81Garbage-First"><span class="toc-number">2.4.</span> <span class="toc-text">2.4、Garbage First</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81G1%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">三、G1的内存模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1%E3%80%81%E5%88%86%E5%8C%BA%E6%A6%82%E5%BF%B5"><span class="toc-number">3.1.</span> <span class="toc-text">3.1、分区概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-1%E3%80%81%E5%88%86%E5%8C%BA-Region"><span class="toc-number">3.1.1.</span> <span class="toc-text">3.1.1、分区 Region</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-2%E3%80%81%E5%8D%A1%E7%89%87-Card"><span class="toc-number">3.1.2.</span> <span class="toc-text">3.1.2、卡片 Card</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-3%E3%80%81%E5%A0%86-Heap"><span class="toc-number">3.1.3.</span> <span class="toc-text">3.1.3、堆 Heap</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2%E3%80%81%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">3.2、分代模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-1%E3%80%81%E5%88%86%E4%BB%A3-Generation"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1、分代 Generation</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-2%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%86%E9%85%8D%E7%BC%93%E5%86%B2-Lab"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2、本地分配缓冲  Lab</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3%E3%80%81%E5%88%86%E5%8C%BA%E6%A8%A1%E5%9E%8B"><span class="toc-number">3.3.</span> <span class="toc-text">3.3、分区模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-1%E3%80%81%E5%B7%A8%E5%9E%8B%E5%AF%B9%E8%B1%A1-Humongous-Region"><span class="toc-number">3.3.1.</span> <span class="toc-text">3.3.1、巨型对象 Humongous Region</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-2%E3%80%81%E5%B7%B2%E8%AE%B0%E5%BF%86%E9%9B%86%E5%90%88-RSet"><span class="toc-number">3.3.2.</span> <span class="toc-text">3.3.2、已记忆集合  RSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-3%E3%80%81Per-Region-Table"><span class="toc-number">3.3.3.</span> <span class="toc-text">3.3.3、Per Region Table</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4%E3%80%81%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88-CSet"><span class="toc-number">3.4.</span> <span class="toc-text">3.4、收集集合 (CSet)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-1%E3%80%81%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88-CSet"><span class="toc-number">3.4.1.</span> <span class="toc-text">3.4.1、收集集合 CSet</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-2%E3%80%81%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88"><span class="toc-number">3.4.2.</span> <span class="toc-text">3.4.2、年轻代收集集合</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-4-3%E3%80%81%E6%B7%B7%E5%90%88%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88"><span class="toc-number">3.4.3.</span> <span class="toc-text">3.4.3、混合收集集合</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81G1%E7%9A%84%E6%B4%BB%E5%8A%A8%E5%91%A8%E6%9C%9F"><span class="toc-number"></span> <span class="toc-text">四、G1的活动周期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1%E3%80%81G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E6%B4%BB%E5%8A%A8%E6%B1%87%E6%80%BB"><span class="toc-number">0.1.</span> <span class="toc-text">4.1、G1垃圾收集活动汇总</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2%E3%80%81RSet%E7%9A%84%E7%BB%B4%E6%8A%A4"><span class="toc-number">0.2.</span> <span class="toc-text">4.2、RSet的维护</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3%E3%80%81%E6%A0%85%E6%A0%8F-Barrier"><span class="toc-number">0.3.</span> <span class="toc-text">4.3、栅栏 Barrier</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-1%E3%80%81%E5%86%99%E5%89%8D%E6%A0%85%E6%A0%8F-Pre-Write-Barrrier"><span class="toc-number">0.3.1.</span> <span class="toc-text">4.3.1、写前栅栏 Pre-Write Barrrier</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-2%E3%80%81%E5%86%99%E5%90%8E%E6%A0%85%E6%A0%8F-Post-Write-Barrrier"><span class="toc-number">0.3.2.</span> <span class="toc-text">4.3.2、写后栅栏 Post-Write Barrrier</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-3-4%E3%80%81%E8%B5%B7%E5%A7%8B%E5%BF%AB%E7%85%A7%E7%AE%97%E6%B3%95-SATB"><span class="toc-number">0.3.3.</span> <span class="toc-text">4.3.4、起始快照算法 SATB</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4%E3%80%81%E5%B9%B6%E5%8F%91%E4%BC%98%E5%8C%96%E7%BA%BF%E7%A8%8B"><span class="toc-number">0.4.</span> <span class="toc-text">4.4、并发优化线程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-1%E3%80%81%E5%B9%B6%E5%8F%91%E4%BC%98%E5%8C%96%E7%BA%BF%E7%A8%8B-Concurrence-Refinement-Threads"><span class="toc-number">0.4.1.</span> <span class="toc-text">4.4.1、并发优化线程 Concurrence Refinement Threads</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-2%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E5%91%A8%E6%9C%9F-Concurrent-Marking-Cycle"><span class="toc-number">0.4.2.</span> <span class="toc-text">4.4.2、并发标记周期 Concurrent Marking Cycle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-4-3%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E7%BA%BF%E7%A8%8B-Concurrent-Marking-Threads"><span class="toc-number">0.4.3.</span> <span class="toc-text">4.4.3、并发标记线程 Concurrent Marking Threads</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5%E3%80%81%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86-%E6%B7%B7%E5%90%88%E6%94%B6%E9%9B%86%E5%91%A8%E6%9C%9F"><span class="toc-number">0.5.</span> <span class="toc-text">4.5、年轻代收集&#x2F;混合收集周期</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-1%E3%80%81GC%E5%B7%A5%E4%BD%9C%E7%BA%BF%E7%A8%8B%E6%95%B0-XX-ParallelGCThreads"><span class="toc-number">0.5.1.</span> <span class="toc-text">4.5.1、GC工作线程数 -XX:ParallelGCThreads</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-2%E3%80%81%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86-Young-Collection"><span class="toc-number">0.5.2.</span> <span class="toc-text">4.5.2、年轻代收集 Young Collection</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-5-3%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E5%91%A8%E6%9C%9F%E5%90%8E%E7%9A%84%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86"><span class="toc-number">0.5.3.</span> <span class="toc-text">4.5.3、并发标记周期后的年轻代收集</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6%E3%80%81%E8%BD%AC%E7%A7%BB%E5%A4%B1%E8%B4%A5%E7%9A%84%E6%8B%85%E4%BF%9D%E6%9C%BA%E5%88%B6-Full-GC"><span class="toc-number">0.6.</span> <span class="toc-text">4.6、转移失败的担保机制 Full GC</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">五、总结</span></a></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1647604559625"></script>
 
 
 
-          </div>
-          
-
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
 <script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
 </script>
 
-        </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
 
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81JVM-GC%E6%94%B6%E9%9B%86%E5%99%A8%E7%9A%84%E5%9B%9E%E9%A1%BE%E4%B8%8E%E6%AF%94%E8%BE%83"><span class="nav-number">2.</span> <span class="nav-text">二、JVM GC收集器的回顾与比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1%E3%80%81%E4%B8%B2%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">2.1.</span> <span class="nav-text">2.1、串行收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2%E3%80%81%E5%B9%B6%E8%A1%8C%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">2.2.</span> <span class="nav-text">2.2、并行收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">2.3、并发标记清除收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4%E3%80%81Garbage-First"><span class="nav-number">2.4.</span> <span class="nav-text">2.4、Garbage First</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81G1%E7%9A%84%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">三、G1的内存模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1%E3%80%81%E5%88%86%E5%8C%BA%E6%A6%82%E5%BF%B5"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、分区概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1%E3%80%81%E5%88%86%E5%8C%BA-Region"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1、分区 Region</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2%E3%80%81%E5%8D%A1%E7%89%87-Card"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2、卡片 Card</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-3%E3%80%81%E5%A0%86-Heap"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.1.3、堆 Heap</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2%E3%80%81%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">3.2、分代模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-1%E3%80%81%E5%88%86%E4%BB%A3-Generation"><span class="nav-number">3.2.1.</span> <span class="nav-text">3.2.1、分代 Generation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-2%E3%80%81%E6%9C%AC%E5%9C%B0%E5%88%86%E9%85%8D%E7%BC%93%E5%86%B2-Lab"><span class="nav-number">3.2.2.</span> <span class="nav-text">3.2.2、本地分配缓冲  Lab</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3%E3%80%81%E5%88%86%E5%8C%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">3.3、分区模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-1%E3%80%81%E5%B7%A8%E5%9E%8B%E5%AF%B9%E8%B1%A1-Humongous-Region"><span class="nav-number">3.3.1.</span> <span class="nav-text">3.3.1、巨型对象 Humongous Region</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-2%E3%80%81%E5%B7%B2%E8%AE%B0%E5%BF%86%E9%9B%86%E5%90%88-RSet"><span class="nav-number">3.3.2.</span> <span class="nav-text">3.3.2、已记忆集合  RSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-3%E3%80%81Per-Region-Table"><span class="nav-number">3.3.3.</span> <span class="nav-text">3.3.3、Per Region Table</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4%E3%80%81%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88-CSet"><span class="nav-number">3.4.</span> <span class="nav-text">3.4、收集集合 (CSet)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-1%E3%80%81%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88-CSet"><span class="nav-number">3.4.1.</span> <span class="nav-text">3.4.1、收集集合 CSet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-2%E3%80%81%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88"><span class="nav-number">3.4.2.</span> <span class="nav-text">3.4.2、年轻代收集集合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-3%E3%80%81%E6%B7%B7%E5%90%88%E6%94%B6%E9%9B%86%E9%9B%86%E5%90%88"><span class="nav-number">3.4.3.</span> <span class="nav-text">3.4.3、混合收集集合</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81G1%E7%9A%84%E6%B4%BB%E5%8A%A8%E5%91%A8%E6%9C%9F"><span class="nav-number"></span> <span class="nav-text">四、G1的活动周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1%E3%80%81G1%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E6%B4%BB%E5%8A%A8%E6%B1%87%E6%80%BB"><span class="nav-number">0.1.</span> <span class="nav-text">4.1、G1垃圾收集活动汇总</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2%E3%80%81RSet%E7%9A%84%E7%BB%B4%E6%8A%A4"><span class="nav-number">0.2.</span> <span class="nav-text">4.2、RSet的维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3%E3%80%81%E6%A0%85%E6%A0%8F-Barrier"><span class="nav-number">0.3.</span> <span class="nav-text">4.3、栅栏 Barrier</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-1%E3%80%81%E5%86%99%E5%89%8D%E6%A0%85%E6%A0%8F-Pre-Write-Barrrier"><span class="nav-number">0.3.1.</span> <span class="nav-text">4.3.1、写前栅栏 Pre-Write Barrrier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-2%E3%80%81%E5%86%99%E5%90%8E%E6%A0%85%E6%A0%8F-Post-Write-Barrrier"><span class="nav-number">0.3.2.</span> <span class="nav-text">4.3.2、写后栅栏 Post-Write Barrrier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-4%E3%80%81%E8%B5%B7%E5%A7%8B%E5%BF%AB%E7%85%A7%E7%AE%97%E6%B3%95-SATB"><span class="nav-number">0.3.3.</span> <span class="nav-text">4.3.4、起始快照算法 SATB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4%E3%80%81%E5%B9%B6%E5%8F%91%E4%BC%98%E5%8C%96%E7%BA%BF%E7%A8%8B"><span class="nav-number">0.4.</span> <span class="nav-text">4.4、并发优化线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-1%E3%80%81%E5%B9%B6%E5%8F%91%E4%BC%98%E5%8C%96%E7%BA%BF%E7%A8%8B-Concurrence-Refinement-Threads"><span class="nav-number">0.4.1.</span> <span class="nav-text">4.4.1、并发优化线程 Concurrence Refinement Threads</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-2%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E5%91%A8%E6%9C%9F-Concurrent-Marking-Cycle"><span class="nav-number">0.4.2.</span> <span class="nav-text">4.4.2、并发标记周期 Concurrent Marking Cycle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-3%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E7%BA%BF%E7%A8%8B-Concurrent-Marking-Threads"><span class="nav-number">0.4.3.</span> <span class="nav-text">4.4.3、并发标记线程 Concurrent Marking Threads</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5%E3%80%81%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86-%E6%B7%B7%E5%90%88%E6%94%B6%E9%9B%86%E5%91%A8%E6%9C%9F"><span class="nav-number">0.5.</span> <span class="nav-text">4.5、年轻代收集&#x2F;混合收集周期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-1%E3%80%81GC%E5%B7%A5%E4%BD%9C%E7%BA%BF%E7%A8%8B%E6%95%B0-XX-ParallelGCThreads"><span class="nav-number">0.5.1.</span> <span class="nav-text">4.5.1、GC工作线程数 -XX:ParallelGCThreads</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-2%E3%80%81%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86-Young-Collection"><span class="nav-number">0.5.2.</span> <span class="nav-text">4.5.2、年轻代收集 Young Collection</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-3%E3%80%81%E5%B9%B6%E5%8F%91%E6%A0%87%E8%AE%B0%E5%91%A8%E6%9C%9F%E5%90%8E%E7%9A%84%E5%B9%B4%E8%BD%BB%E4%BB%A3%E6%94%B6%E9%9B%86"><span class="nav-number">0.5.3.</span> <span class="nav-text">4.5.3、并发标记周期后的年轻代收集</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6%E3%80%81%E8%BD%AC%E7%A7%BB%E5%A4%B1%E8%B4%A5%E7%9A%84%E6%8B%85%E4%BF%9D%E6%9C%BA%E5%88%B6-Full-GC"><span class="nav-number">0.6.</span> <span class="nav-text">4.6、转移失败的担保机制 Full GC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">五、总结</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <img class="site-author-image" itemprop="image" alt="Shuyan"
-      src="/images/avatar.gif">
-  <p class="site-author-name" itemprop="name">Shuyan</p>
-  <div class="site-description" itemprop="description">ShuyanCoding......</div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">23</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">9</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">6</span>
-        <span class="site-state-item-name">tags</span></a>
-      </div>
-  </nav>
-</div>
-  <div class="links-of-author motion-element">
-      <span class="links-of-author-item">
-        <a href="https://github.com/shuyanCoding" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;shuyanCoding" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
-      </span>
-      <span class="links-of-author-item">
-        <a href="/2437197969@qq.com" title="E-Mail → 2437197969@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
-      </span>
-  </div>
-
-
-
-      </div>
-
-    </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
-
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2022</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Shuyan</span>
-</div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
-  </div>
-
-        
+    
 
 
 
 
 
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/pisces.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-  
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
 
 </body>
+
 </html>
