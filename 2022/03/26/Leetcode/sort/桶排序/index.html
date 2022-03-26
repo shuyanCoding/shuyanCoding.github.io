@@ -4,7 +4,7 @@
 
 <head>
     
-    <title>常见排序算法 - Shuyan</title>
+    <title>桶排序 - Shuyan</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,25 +12,25 @@
     
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="快速排序采用左闭右开的二分写法： 1234567891011121314151617181920void quick_sort(vector&lt;int&gt;&amp; nums, int l, int r)&amp;#123;    if(l + 1 &gt;&#x3D; r)&amp;#123;        return ;    &amp;#125;        int first &#x3D; l, last &#x3D; r - 1">
+    <meta name="description" content="力扣347给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。  示例 1: 12输入: nums &#x3D; [1,1,1,2,2,3], k &#x3D; 2输出: [1,2]  示例 2: 12输入: nums &#x3D; [1], k &#x3D; 1输出: [1]   提示： 1 &lt;&#x3D; nums.length &lt;&#x3D; 105 k 的取值范围是 [1,">
 <meta property="og:type" content="article">
-<meta property="og:title" content="常见排序算法">
-<meta property="og:url" content="http://example.com/2022/03/24/Leetcode/sort/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:title" content="桶排序">
+<meta property="og:url" content="http://example.com/2022/03/26/Leetcode/sort/%E6%A1%B6%E6%8E%92%E5%BA%8F/index.html">
 <meta property="og:site_name" content="Shuyan">
-<meta property="og:description" content="快速排序采用左闭右开的二分写法： 1234567891011121314151617181920void quick_sort(vector&lt;int&gt;&amp; nums, int l, int r)&amp;#123;    if(l + 1 &gt;&#x3D; r)&amp;#123;        return ;    &amp;#125;        int first &#x3D; l, last &#x3D; r - 1">
+<meta property="og:description" content="力扣347给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。  示例 1: 12输入: nums &#x3D; [1,1,1,2,2,3], k &#x3D; 2输出: [1,2]  示例 2: 12输入: nums &#x3D; [1], k &#x3D; 1输出: [1]   提示： 1 &lt;&#x3D; nums.length &lt;&#x3D; 105 k 的取值范围是 [1,">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-03-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-03-24T12:07:57.508Z">
+<meta property="article:published_time" content="2022-03-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-03-26T03:47:25.663Z">
 <meta property="article:author" content="Shuyan">
 <meta property="article:tag" content="Leetcode">
 <meta name="twitter:card" content="summary">
-    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1648266552388">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1648266552378">
     
         <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
     
-    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1648266552388">
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1648266552388">
-    <link rel="stylesheet" href="/css/style.css?v=1648266552388">
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1648266552378">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1648266552378">
+    <link rel="stylesheet" href="/css/style.css?v=1648266552378">
      
     
 <meta name="generator" content="Hexo 5.4.0"></head>
@@ -317,48 +317,51 @@
   <article>
       
           <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
-              <img data-src="http://mms1.baidu.com/it/u=3415945643,371077429&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=708&h=500" data-sizes="auto" alt="常见排序算法" class="lazyload">
-              <h1>常见排序算法</h1>
+              <img data-src="img/桶排序.jpg" data-sizes="auto" alt="桶排序" class="lazyload">
+              <h1>桶排序</h1>
           </div>
       
       
       <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
-    <a><i class="nexmoefont icon-calendar-fill"></i>2022年03月24日</a>
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年03月26日</a>
 </div>
 
       
 
-      <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>采用左闭右开的二分写法：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">quick_sort</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r)</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(l + <span class="hljs-number">1</span> &gt;= r)&#123;<br>        <span class="hljs-keyword">return</span> ;<br>    &#125;<br>    <br>    <span class="hljs-keyword">int</span> first = l, last = r - <span class="hljs-number">1</span>, key = nums[first];<br>    <span class="hljs-keyword">while</span>(first &lt; last)&#123;<br>        <span class="hljs-keyword">while</span>(first &lt; last &amp;&amp; nums[last] &gt;= key)&#123;<br>            --last;<br>        &#125;<br>        nums[first] = nums[last];<br>        <span class="hljs-keyword">while</span>(first &lt; last &amp;&amp; nums[first] &lt;= key)&#123;<br>            ++first;<br>        &#125;<br>        nums[last] = nums[first];<br>    &#125;<br>    nums[first] = key;<br>    <span class="hljs-built_in">quick_sort</span>(nums, l, first);<br>    <span class="hljs-built_in">quick_sort</span>(nums, first + <span class="hljs-number">1</span>, r);<br>&#125;<br></code></pre></td></tr></table></figure>
+      <h2 id="力扣347"><a href="#力扣347" class="headerlink" title="力扣347"></a>力扣347</h2><p>给你一个整数数组 nums 和一个整数 k ，请你返回其中出现频率前 k 高的元素。你可以按 任意顺序 返回答案。</p>
+<p> 示例 1:</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入: nums = <span class="hljs-comment">[1,1,1,2,2,3]</span>, k = 2<br>输出: <span class="hljs-comment">[1,2]</span><br></code></pre></td></tr></table></figure>
+
+<p>示例 2:</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">输入: nums = <span class="hljs-comment">[1]</span>, k = 1<br>输出: <span class="hljs-comment">[1]</span><br></code></pre></td></tr></table></figure>
+
+<p> 提示：</p>
+<pre><code>1 &lt;= nums.length &lt;= 105
+k 的取值范围是 [1, 数组中不相同的元素的个数]
+题目数据保证答案唯一，换句话说，数组中前 k 个高频元素的集合是唯一的
+</code></pre>
+<h3 id="题解："><a href="#题解：" class="headerlink" title="题解："></a>题解：</h3><p>​        顾名思义，桶排序的意思是为每个值设立一个桶，桶内记录这个值出现的次数（或其它属 性），然后对桶进行排序。针对样例来说，我们先通过桶排序得到三个桶 [1,2,3,4]，它们的值分别 为 [4,2,1,1]，表示每个数字出现的次数。</p>
+<p>​        紧接着，我们对桶的频次进行排序，前 k 大个桶即是前 k 个频繁的数。这里我们可以使用各种 排序算法，甚至可以再进行一次桶排序，把每个旧桶根据频次放在不同的新桶内。针对样例来说， 因为目前最大的频次是 4，我们建立 [1,2,3,4] 四个新桶，它们分别放入的旧桶为 [[3,4],[2],[],[1]]， 表示不同数字出现的频率。最后，我们从后往前遍历，直到找到 k 个旧桶。</p>
+<h3 id="解答："><a href="#解答：" class="headerlink" title="解答："></a>解答：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br>    <span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">topKFrequent</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> k)</span> </span>&#123;<br>        unordered_map&lt;<span class="hljs-keyword">int</span>, <span class="hljs-keyword">int</span>&gt; counts;<br>        <span class="hljs-keyword">int</span> max_count = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-comment">// 寻找最大频率</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp; num : nums)&#123;<br>            max_count = <span class="hljs-built_in">max</span>(max_count, ++counts[num]);<br>        &#125;<br><br>        <span class="hljs-comment">// 构造桶序列</span><br>        vector&lt;vector&lt;<span class="hljs-keyword">int</span>&gt;&gt; <span class="hljs-built_in">buskets</span>(max_count + <span class="hljs-number">1</span>);<br><br>        <span class="hljs-comment">// 填充桶序列</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span> &amp; p : counts)&#123;<br>            buskets[p.second].<span class="hljs-built_in">push_back</span>(p.first);<br>        &#125;<br><br>        vector&lt;<span class="hljs-keyword">int</span>&gt; res;<br><br>        <span class="hljs-comment">// 按照频率降序遍历桶</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = max_count; i &gt;= <span class="hljs-number">0</span> &amp;&amp; res.<span class="hljs-built_in">size</span>() &lt; k; --i)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> &amp; num : buskets[i])&#123;<br>                res.<span class="hljs-built_in">push_back</span>(num);<br>                <span class="hljs-keyword">if</span>(res.<span class="hljs-built_in">size</span>() == k)&#123;<br>                    <span class="hljs-keyword">break</span>;<br>                &#125;<br>            &#125;<br>        &#125;<br></code></pre></td></tr></table></figure>
 
 
 
+<h2 id="力扣451"><a href="#力扣451" class="headerlink" title="力扣451"></a>力扣451</h2><p>给定一个字符串 s ，根据字符出现的 频率 对其进行 降序排序 。一个字符出现的 频率 是它出现在字符串中的次数。</p>
+<p>返回 已排序的字符串 。如果有多个答案，返回其中任何一个。</p>
+<p>示例 1:</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs 1c">输入: s = <span class="hljs-string">&quot;tree&quot;</span><br>输出: <span class="hljs-string">&quot;eert&quot;</span><br>解释: &#x27;e&#x27;出现两次，&#x27;r&#x27;和&#x27;t&#x27;都只出现一次。<br>因此&#x27;e&#x27;必须出现在&#x27;r&#x27;和&#x27;t&#x27;之前。此外，<span class="hljs-string">&quot;eetr&quot;</span>也是一个有效的答案。<br></code></pre></td></tr></table></figure>
 
+<p>示例 2:</p>
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs 1c">输入: s = <span class="hljs-string">&quot;cccaaa&quot;</span><br>输出: <span class="hljs-string">&quot;cccaaa&quot;</span><br>解释: &#x27;c&#x27;和&#x27;a&#x27;都出现三次。此外，<span class="hljs-string">&quot;aaaccc&quot;</span>也是有效的答案。<br>注意<span class="hljs-string">&quot;cacaca&quot;</span>是不正确的，因为相同的字母必须放在一起。<br></code></pre></td></tr></table></figure>
 
-<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">merge_sort</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> l, <span class="hljs-keyword">int</span> r, vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; temp)</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(l + <span class="hljs-number">1</span> &gt;= r)&#123;<br>        <span class="hljs-keyword">return</span> ;<br>    &#125;<br>    <br>    <span class="hljs-comment">// divide</span><br>    <span class="hljs-keyword">int</span> m = l + (r - l) / <span class="hljs-number">2</span>;<br>    <span class="hljs-built_in">merge_sort</span>(nums, l, m, temp);<br>    <span class="hljs-built_in">merge_sort</span>(nums, m, r, temp);<br>    <br>    <span class="hljs-comment">// conquer</span><br>    <span class="hljs-keyword">int</span> p = <span class="hljs-number">1</span>, q = m, i = l;<br>    <span class="hljs-keyword">while</span>(p &lt; m || q &lt; r)&#123;<br>        <span class="hljs-keyword">if</span>(q &gt;= r || (p &lt; m &amp;&amp; nums[p] &lt;= nums[q]))&#123;<br>            temp[i++] = nums[p++];<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            temp[i++] = nums[q++];<br>        &#125;<br>    &#125;<br>    <br>    <span class="hljs-keyword">for</span>(i = <span class="hljs-number">0</span>; i &lt; r; ++i)&#123;<br>        nums[i] = temp[i];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>示例 3:</p>
+<figure class="highlight vbnet"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs vbnet">输入: s = <span class="hljs-string">&quot;Aabb&quot;</span><br>输出: <span class="hljs-string">&quot;bbAa&quot;</span><br>解释: 此外，<span class="hljs-string">&quot;bbaA&quot;</span>也是一个有效的答案，但<span class="hljs-string">&quot;Aabb&quot;</span>是不正确的。<br>注意<span class="hljs-comment">&#x27;A&#x27;和&#x27;a&#x27;被认为是两种不同的字符。</span><br></code></pre></td></tr></table></figure>
 
-
-
-
-
-<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">insertion_sort</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> n)</span></span>&#123;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i; j &gt; <span class="hljs-number">0</span> &amp;&amp; nums[j] &lt; nums[j - <span class="hljs-number">1</span>]; --j)&#123;<br>            <span class="hljs-built_in">swap</span>(nums[j], nums[j - <span class="hljs-number">1</span>]);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">bubble_sort</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> n)</span></span>&#123;<br>    <span class="hljs-keyword">bool</span> swapped;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; n; ++i)&#123;<br>        swapped = <span class="hljs-literal">false</span>;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">1</span>; j &lt; n - i + <span class="hljs-number">1</span>; ++j)&#123;<br>            <span class="hljs-keyword">if</span>(nums[j], nums[j - <span class="hljs-number">1</span>])&#123;<br>                <span class="hljs-built_in">swap</span>(nums[j], nums[j - <span class="hljs-number">1</span>]);<br>                swapped = <span class="hljs-literal">true</span>;<br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">if</span>(!swapped)&#123;<br>            <span class="hljs-keyword">break</span>;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">selection_sort</span><span class="hljs-params">(vector&lt;<span class="hljs-keyword">int</span>&gt;&amp; nums, <span class="hljs-keyword">int</span> n)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> mid;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n - <span class="hljs-number">1</span>; ++i)&#123;<br>        mid = i;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = i + <span class="hljs-number">1</span>; j &lt; n; ++j)&#123;<br>            <span class="hljs-keyword">if</span>(nums[j] &lt; nums[mid])&#123;<br>                mid = j;<br>            &#125;<br>        &#125;<br>        <span class="hljs-built_in">swap</span>(nums[mid], nums[i]);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-<p>以上排序方法调用为：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sort</span><span class="hljs-params">()</span></span>&#123;<br>    vector&lt;<span class="hljs-keyword">int</span>&gt; nums = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">7</span>,<span class="hljs-number">2</span>,<span class="hljs-number">6</span>,<span class="hljs-number">4</span>,<span class="hljs-number">8</span>,<span class="hljs-number">9</span>,<span class="hljs-number">2</span>,<span class="hljs-number">8</span>,<span class="hljs-number">7</span>,<span class="hljs-number">6</span>,<span class="hljs-number">0</span>,<span class="hljs-number">3</span>,<span class="hljs-number">5</span>,<span class="hljs-number">9</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>,<span class="hljs-number">0</span>&#125;;<br>    <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">temp</span><span class="hljs-params">(nums.size())</span></span>;<br>    <span class="hljs-built_in">sort</span>(nums.<span class="hljs-built_in">begin</span>(), nums.<span class="hljs-built_in">end</span>());<br>    <span class="hljs-built_in">quick_sort</span>(nums, <span class="hljs-number">0</span>, nums.<span class="hljs-built_in">size</span>());<br>    <span class="hljs-built_in">merge_sort</span>(nums, <span class="hljs-number">0</span>, nums.<span class="hljs-built_in">size</span>(), temp);<br>    <span class="hljs-built_in">insertion_sort</span>(nums, nums.<span class="hljs-built_in">size</span>());<br>    <span class="hljs-built_in">bubble_sort</span>(nums, nums.<span class="hljs-built_in">size</span>());<br>    <span class="hljs-built_in">selection_sort</span>(nums, nums.<span class="hljs-built_in">size</span>());<br>&#125;<br></code></pre></td></tr></table></figure>
-
-
+<p>提示:</p>
+<pre><code>1 &lt;= s.length &lt;= 5 * 105
+s 由大小写英文字母和数字组成
+</code></pre>
+<h3 id="解答：-1"><a href="#解答：-1" class="headerlink" title="解答："></a>解答：</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br>    <span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">string <span class="hljs-title">frequencySort</span><span class="hljs-params">(string s)</span> </span>&#123;<br><br>        <span class="hljs-keyword">int</span> n = s.<span class="hljs-built_in">length</span>();<br><br>        <span class="hljs-keyword">if</span>(n &lt;= <span class="hljs-number">2</span>)&#123;<br>            <span class="hljs-keyword">return</span> s;<br>        &#125;<br><br>        unordered_map&lt;<span class="hljs-keyword">char</span>,<span class="hljs-keyword">int</span>&gt; counts;<br>        <span class="hljs-keyword">int</span> max_count = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-comment">// </span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> &amp; c : s)&#123;<br>            counts[c]++;<br>        &#125;<br><br>        vector&lt;vector&lt;<span class="hljs-keyword">char</span>&gt;&gt; <span class="hljs-built_in">buckets</span>(n + <span class="hljs-number">1</span>);<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">auto</span> &amp; p : counts)&#123;<br>            buckets[p.second].<span class="hljs-built_in">push_back</span>(p.first);<br>        &#125;<br><br>        string res;<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = n; i &gt; <span class="hljs-number">0</span>; --i)&#123;<br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; buckets[i].<span class="hljs-built_in">size</span>(); ++j)&#123;<br>                <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt; i; ++k)&#123;<br>                    res += buckets[i][j];<br>                &#125;<br>            &#125;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> res;<br><br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
 
 
 
@@ -371,7 +374,7 @@
       
     <div class="nexmoe-post-copyright">
         <strong>Author：</strong>Shuyan<br>
-        <strong>Link：</strong><a href="http://example.com/2022/03/24/Leetcode/sort/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;24&#x2F;Leetcode&#x2F;sort&#x2F;%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;24&#x2F;Leetcode&#x2F;sort&#x2F;%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95&#x2F;</a><br>
+        <strong>Link：</strong><a href="http://example.com/2022/03/26/Leetcode/sort/%E6%A1%B6%E6%8E%92%E5%BA%8F/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;26&#x2F;Leetcode&#x2F;sort&#x2F;%E6%A1%B6%E6%8E%92%E5%BA%8F&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;26&#x2F;Leetcode&#x2F;sort&#x2F;%E6%A1%B6%E6%8E%92%E5%BA%8F&#x2F;</a><br>
         
             <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
         
@@ -421,7 +424,7 @@
                               <button class="mdui-fab catalog" style="overflow:unset;">
                                   <i class="nexmoefont icon-i-catalog"></i>
                                   <div class="nexmoe-toc">
-                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F"><span class="toc-number">1.</span> <span class="toc-text">快速排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F"><span class="toc-number">2.</span> <span class="toc-text">归并排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F"><span class="toc-number">4.</span> <span class="toc-text">冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="toc-number">5.</span> <span class="toc-text">选择排序</span></a></li></ol>
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9B%E6%89%A3347"><span class="toc-number">1.</span> <span class="toc-text">力扣347</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">题解：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E7%AD%94%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">解答：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%9B%E6%89%A3451"><span class="toc-number">2.</span> <span class="toc-text">力扣451</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E7%AD%94%EF%BC%9A-1"><span class="toc-number">2.1.</span> <span class="toc-text">解答：</span></a></li></ol></li></ol>
                                   </div>
                               </button>
                           
@@ -453,7 +456,7 @@
 
  
 
-<script async src="/js/app.js?v=1648266552397"></script>
+<script async src="/js/app.js?v=1648266552386"></script>
 
 
 
