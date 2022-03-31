@@ -19,7 +19,7 @@
 <meta property="og:site_name" content="Shuyan">
 <meta property="og:description" content="SpringBoot使用详解一、SpringBoot简介​        什么是SpringBoot呢，就是一个javaweb的开发框架，和SpringMVC类似，对比其他javaweb框架的好处，官方说是简化开发，约定大于配置，  you can “just run”，能迅速的开发web应用，几行代码开发一个http接口。 ​        所有的技术框架的发展似乎都遵循了一条主线规律：从一个复">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.com/shuyanCoding/shuyanImage/blob/master/SpringBoot/image-20220325122231350.png">
+<meta property="og:image" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3.assets/image-20220325122231350.png">
 <meta property="og:image" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%5Cimage-20220325122231350.png">
 <meta property="og:image" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%5Cimage-20220325122307400.png">
 <meta property="og:image" content="https://github.com/shuyanCoding/shuyanImage/blob/master/SpringBoot/image-20220325122231350.png">
@@ -79,18 +79,18 @@
 <meta property="og:image" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%5Cimage-20220325130930528.png">
 <meta property="og:image" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%5Cimage-20220325130948441.png">
 <meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
-<meta property="article:modified_time" content="2022-03-31T13:58:10.561Z">
+<meta property="article:modified_time" content="2022-03-31T14:15:18.242Z">
 <meta property="article:author" content="Shuyan">
 <meta property="article:tag" content="SpringBoot">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/shuyanCoding/shuyanImage/blob/master/SpringBoot/image-20220325122231350.png">
-    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1648735110444">
+<meta name="twitter:image" content="http://example.com/2022/03/17/JAVA/Spring%E6%A1%86%E6%9E%B6/SpringBoot/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3.assets/image-20220325122231350.png">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1648736165929">
     
         <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
     
-    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1648735110444">
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1648735110444">
-    <link rel="stylesheet" href="/css/style.css?v=1648735110444">
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1648736165929">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1648736165929">
+    <link rel="stylesheet" href="/css/style.css?v=1648736165929">
      
     
 <meta name="generator" content="Hexo 5.4.0"></head>
@@ -471,7 +471,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloController</span> </span>&#123;<br><br>    <span class="hljs-meta">@RequestMapping(&quot;/hello&quot;)</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">hello</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;Hello World&quot;</span>;<br>    &#125;<br>    <br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>3、编写完毕后，从主程序启动项目，浏览器发起请求，看页面返回；控制台输出了 Tomcat 访问的端口号！</p>
-<h3 id="2-4、打包项目"><a href="#2-4、打包项目" class="headerlink" title="2.4、打包项目"></a>2.4、打包项目</h3><p><img src="https://github.com/shuyanCoding/shuyanImage/blob/master/SpringBoot/image-20220325122231350.png"></p>
+<h3 id="2-4、打包项目"><a href="#2-4、打包项目" class="headerlink" title="2.4、打包项目"></a>2.4、打包项目</h3><p><img data-fancybox="gallery" data-sizes="auto" data-src="SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3.assets/image-20220325122231350.png" alt="shuyanImage/image-20220325122231350.png at master · shuyanCoding/shuyanImage (github.com)" class="lazyload"></p>
 <p><img data-fancybox="gallery" data-sizes="auto" data-src="SpringBoot%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3%5Cimage-20220325122231350.png" alt="image-20220325122231350" class="lazyload"></p>
 <p>如果遇到以上错误，可以配置打包时，跳过项目运行测试用例</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">    在工作中,很多情况下我们打包是不想执行测试用例的</span><br><span class="hljs-comment">    可能是测试用例不完事,或是测试用例会影响数据库数据</span><br><span class="hljs-comment">    跳过测试用例执</span><br><span class="hljs-comment">    --&gt;</span><br><br><span class="hljs-tag">&lt;<span class="hljs-name">plugin</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.apache.maven.plugins<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>maven-surefire-plugin<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--跳过项目运行测试用例--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">skipTests</span>&gt;</span>true<span class="hljs-tag">&lt;/<span class="hljs-name">skipTests</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">plugin</span>&gt;</span><br></code></pre></td></tr></table></figure>
@@ -2115,7 +2115,7 @@
 
  
 
-<script async src="/js/app.js?v=1648735110470"></script>
+<script async src="/js/app.js?v=1648736165954"></script>
 
 
 
