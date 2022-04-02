@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="对称性递归(二叉树)题型分类：可以用对称性递归解决的二叉树问题大多是判断性问题(bool类型函数),这一类问题又可以分为以下两类：  不需要构造辅助函数。这一类题目有两种情况：第一种是单树问题，且不需要用到子树的某一部分(比如根节点左子树的右子树)，只要利用根节点左右子树的对称性即可进行递归。第二种是双树问题，即本身题目要求比较两棵树，那么不需要构造新函数。该类型题目如下：   相同的树    翻">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shuyan">
+<meta property="og:url" content="http://example.com/2022/04/01/Leetcode/%E6%A0%91/%E5%AF%B9%E7%A7%B0%E6%80%A7%E9%80%92%E5%BD%92/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="对称性递归(二叉树)题型分类：可以用对称性递归解决的二叉树问题大多是判断性问题(bool类型函数),这一类问题又可以分为以下两类：  不需要构造辅助函数。这一类题目有两种情况：第一种是单树问题，且不需要用到子树的某一部分(比如根节点左子树的右子树)，只要利用根节点左右子树的对称性即可进行递归。第二种是双树问题，即本身题目要求比较两棵树，那么不需要构造新函数。该类型题目如下：   相同的树    翻">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-01T08:55:29.527Z">
+<meta property="article:modified_time" content="2022-04-02T03:33:32.140Z">
+<meta property="article:author" content="Shuyan">
+<meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1648884529912">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1648884529912">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1648884529912">
+    <link rel="stylesheet" href="/css/style.css?v=1648884529912">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>36</div>
+        <div><span>Tags</span>11</div>
+        <div><span>Categories</span>17</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">20</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">10</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">5</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">17</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 15px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 15px;">JavaWeb</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Mybaits/" style="font-size: 20px;">Mybaits</a> <a href="/tags/STL/" style="font-size: 15px;">STL</a> <a href="/tags/Spring/" style="font-size: 17.5px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 12.5px;">搜索</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 66.66666666666666%;"> 
+              <img data-src="http://mms0.baidu.com/it/u=2467909075,3604847220&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=801&h=500" data-sizes="auto" alt="" class="lazyload">
+              <h1></h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年04月01日</a>
+</div>
+
+      
+
+      <h1 id="对称性递归-二叉树"><a href="#对称性递归-二叉树" class="headerlink" title="对称性递归(二叉树)"></a>对称性递归(二叉树)</h1><h2 id="题型分类："><a href="#题型分类：" class="headerlink" title="题型分类："></a>题型分类：</h2><p>可以用对称性递归解决的二叉树问题大多是判断性问题(bool类型函数),这一类问题又可以分为以下两类：</p>
+<ul>
+<li><p>不需要构造辅助函数。这一类题目有两种情况：第一种是单树问题，且不需要用到子树的某一部分(比如根节点左子树的右子树)，只要利用根节点左右子树的对称性即可进行递归。第二种是双树问题，即本身题目要求比较两棵树，那么不需要构造新函数。该类型题目如下：</p>
+<ul>
+<li><ol start="100">
+<li>相同的树</li>
+</ol>
+</li>
+<li><ol start="226">
+<li>翻转二叉树</li>
+</ol>
+</li>
+<li><ol start="104">
+<li>二叉树的最大深度</li>
+</ol>
+</li>
+<li><ol start="110">
+<li>平衡二叉树</li>
+</ol>
+</li>
+<li><ol start="543">
+<li>二叉树的直径</li>
+</ol>
+</li>
+<li><ol start="617">
+<li>合并二叉树</li>
+</ol>
+</li>
+<li><ol start="572">
+<li>另一个树的子树</li>
+</ol>
+</li>
+<li><ol start="965">
+<li>单值二叉树</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>需要构造辅助函数。这类题目通常只用根节点子树对称性无法完全解决问题，必须要用到子树的某一部分进行递归，即要调用辅助函数比较两个部分子树。形式上主函数参数列表只有一个根节点，辅助函数参数列表有两个节点。该类型题目如下：</p>
+<ul>
+<li>101对称二叉树</li>
+<li>剑指 Offer 26. 树的子结构</li>
+</ul>
+</li>
+</ul>
+<h2 id="解题模板"><a href="#解题模板" class="headerlink" title="解题模板"></a>解题模板</h2><p>下面给出二叉树对称性递归的解题模板<br>1、递归结束条件：特殊情况的判断<br>        如果是<strong>单树问题</strong>，一般来说只要进行以下判断：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">if</span>(!root) <br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>;<br><br><span class="hljs-keyword">if</span>(!root-&gt;left) <br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>/递归函数;<br><br><span class="hljs-keyword">if</span>(!root-&gt;right) <br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>/递归函数;<br></code></pre></td></tr></table></figure>
+
+<p>​        如果是<strong>双树问题</strong>(根节点分别为p,q)，一般来说进行以下判断：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">if</span>(!p &amp;&amp; !q)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>;<br><br><span class="hljs-keyword">if</span>(!p || !q)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>/<span class="hljs-literal">false</span>;<br></code></pre></td></tr></table></figure>
+
+<p>当然也不完全是这些情况，比如有的需要加上节点值的判断，需要具体问题需要具体分析</p>
+<p>2、返回值<br>通常对称性递归的返回值是多个条件的复合判断语句<br>可能是以下几种条件判断的组合：</p>
+<ul>
+<li>节点非空的判断</li>
+<li>节点值比较判断</li>
+<li>(单树)调用根节点左右子树的递归函数进行递归判断</li>
+<li>(双树)调用两棵树的左右子树的递归函数进行判断</li>
+</ul>
+<h2 id="题目解读"><a href="#题目解读" class="headerlink" title="题目解读"></a>题目解读</h2><p>空谈比较抽象，下面我们就对具体题目进行分析以及代码呈现</p>
+<h3 id="100-相同的树"><a href="#100-相同的树" class="headerlink" title="100. 相同的树"></a>100. 相同的树</h3><p>相同的树：比较两棵树是否相同</p>
+<ul>
+<li>特殊判断：<ul>
+<li>如果两棵树都是空树那么必然相同；</li>
+<li>如果两棵树其中只有一棵树为空树那么必不相同</li>
+</ul>
+</li>
+<li>返回值：<ul>
+<li>两棵树都非空 + 根节点值相同 + 左子树相同 + 右子树相同</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSameTree</span><span class="hljs-params">(TreeNode*p, TreeNode*q)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!p &amp;&amp; !q)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">return</span> p &amp;&amp; q &amp;&amp; p-&gt;val == q-&gt;val &amp;&amp; (<span class="hljs-built_in">isSameTree</span>(p-&gt;left, q-&gt;left)) &amp;&amp; (<span class="hljs-built_in">isSameTree</span>(p-&gt;right, q-&gt;right));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="104-二叉树的最大深度"><a href="#104-二叉树的最大深度" class="headerlink" title="104. 二叉树的最大深度"></a>104. 二叉树的最大深度</h3><p>求二叉树最大深度</p>
+<ul>
+<li>特殊判断：空树的最大深度为0</li>
+<li>返回值：树非空，那么最大深度就是左子树最大深度和右子树最大深度的较大者加上根节点的1<br>代码如下：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">height</span><span class="hljs-params">(TreeNode*root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!root)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(root-&gt;left), <span class="hljs-built_in">height</span>(root-&gt;right)) + <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="110-平衡二叉树"><a href="#110-平衡二叉树" class="headerlink" title="110. 平衡二叉树"></a>110. 平衡二叉树</h3><p>判断一棵树是不是平衡二叉树</p>
+<ul>
+<li><p>平衡二叉树定义：左右子树最大高度差&lt;=1</p>
+</li>
+<li><p>特殊判断：空树是平衡树</p>
+</li>
+<li><p>返回值：</p>
+<ul>
+<li>根节点的左右子树高度差 &lt;= 1 + 左子树是平衡二叉树 + 右子树是平衡二叉树</li>
+</ul>
+</li>
+</ul>
+<p>代码如下：(height函数即上一题的代码)</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isBalanced</span><span class="hljs-params">(TreeNode*&amp;root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!root)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">return</span> (<span class="hljs-built_in">abs</span>(<span class="hljs-built_in">height</span>(root-&gt;left) - <span class="hljs-built_in">height</span>(root-&gt;right)) &lt;= <span class="hljs-number">1</span>) &amp;&amp; <span class="hljs-built_in">isBalanced</span>(root-&gt;left) &amp;&amp; <span class="hljs-built_in">isBalanced</span>(root-&gt;right);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">height</span><span class="hljs-params">(TreeNode*root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!root)<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">else</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">max</span>(<span class="hljs-built_in">height</span>(root-&gt;left), <span class="hljs-built_in">height</span>(root-&gt;right)) + <span class="hljs-number">1</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="965-单值二叉树"><a href="#965-单值二叉树" class="headerlink" title="965. 单值二叉树"></a>965. 单值二叉树</h3><p>单值二叉树：所有节点值均相等</p>
+<ul>
+<li>特殊判断：<ul>
+<li>1、空树是单值二叉树 </li>
+<li>2、如果左子树非空且根节点的值异与左子节点值(即根节点与左子节点不同)，返回false，右子树同理</li>
+</ul>
+</li>
+<li>返回值：左子树是单值二叉树+右子树是单值二叉树<br>代码如下：</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isUnivalTree</span><span class="hljs-params">(TreeNode*root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!root) <br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">if</span> ((root-&gt;left &amp;&amp; root-&gt;left-&gt;val != root-&gt;val) || (root-&gt;right &amp;&amp; root-&gt;right-&gt;val != root-&gt;val))<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">isUnivalTree</span>(root-&gt;left) &amp;&amp; <span class="hljs-built_in">isUnivalTree</span>(root-&gt;right);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="572-另一个树的子树"><a href="#572-另一个树的子树" class="headerlink" title="572. 另一个树的子树"></a>572. 另一个树的子树</h3><p>判断一个数是不是另一颗树的子树</p>
+<ul>
+<li>特殊判断：有一颗树为空就不成立</li>
+</ul>
+<p>这道题的思路比较特殊，先判断两棵树是否是相同，如果相同那么就是满足题意的，<br>然后判断一棵树的左子树是否是另一颗树的子树/一棵树的右子树是否是另一颗树的子树</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSubtree</span><span class="hljs-params">(TreeNode*root1, TreeNode*root2)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!root1 || !root2)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">isSameTree</span>(root1, root2))<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">isSubtree</span>(root1-&gt;left, root2) || <span class="hljs-built_in">isSubtree</span>(root1-&gt;right, root2);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSameTree</span><span class="hljs-params">(TreeNode*p, TreeNode*q)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!p &amp;&amp; !q)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">return</span> p &amp;&amp; q &amp;&amp; p-&gt;val == q-&gt;val &amp;&amp; (<span class="hljs-built_in">isSameTree</span>(p-&gt;left, q-&gt;left)) &amp;&amp; (<span class="hljs-built_in">isSameTree</span>(p-&gt;right, q-&gt;right));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="226-翻转二叉树"><a href="#226-翻转二叉树" class="headerlink" title="226. 翻转二叉树"></a>226. 翻转二叉树</h3><p>将一棵二叉树镜像翻转</p>
+<ul>
+<li>特殊判断：空树的镜像翻转树仍然是本身</li>
+<li>思路：<ul>
+<li>翻转左子树后替换右子树，</li>
+<li>翻转右子树后替换左子树</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">TreeNode*<span class="hljs-title">invertTree</span><span class="hljs-params">(TreeNode*root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!root)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br>    TreeNode*left = <span class="hljs-built_in">invertTree</span>(root-&gt;left);<br>    TreeNode*right = <span class="hljs-built_in">invertTree</span>(root-&gt;right);<br>    root-&gt;left = right;<br>    root-&gt;right = left;<br>    <span class="hljs-keyword">return</span> root;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="617-合并二叉树"><a href="#617-合并二叉树" class="headerlink" title="617. 合并二叉树"></a>617. 合并二叉树</h3><p>合并二叉树：将两个二叉树合并<br>思路：</p>
+<ul>
+<li>1、都是空树返回nullptr </li>
+<li>2、其中有一个空返回另一个树的根节点</li>
+<li>3、都不空的话先把两棵树根节点值相加，然后递归合并左右子树(以第一棵树为合并后的树)</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">TreeNode*<span class="hljs-title">mergeTrees</span><span class="hljs-params">(TreeNode*root1, TreeNode*root2)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!root1)<br>        <span class="hljs-keyword">return</span> root2;<br>    <span class="hljs-keyword">if</span> (!root2)<br>        <span class="hljs-keyword">return</span> root1;<br>    <span class="hljs-keyword">if</span> (root1 &amp;&amp; root2)<br>        root1-&gt;val += root2-&gt;val;<br>    root1-&gt;left = <span class="hljs-built_in">mergeTrees</span>(root1-&gt;left, root2-&gt;left);    <span class="hljs-comment">//递归合并左子树</span><br>    root1-&gt;right = <span class="hljs-built_in">mergeTrees</span>(root1-&gt;right, root2-&gt;right); <span class="hljs-comment">//递归合并右子树</span><br>    <span class="hljs-keyword">return</span> root1;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="剑指-Offer-26-树的子结构"><a href="#剑指-Offer-26-树的子结构" class="headerlink" title="剑指 Offer 26. 树的子结构"></a>剑指 Offer 26. 树的子结构</h3><p>判断一棵树是否是另一棵树的子结构，注意子结构与子树的区别<br>子结构不能只利用根节点进行对称性递归，需要构造辅助函数，判断当两棵树根节点值相同时一棵树是否为另一棵树子结构</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// hasSubStructure函数是判断如果A,B根节点相同，B是不是A的子结构</span><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">hasSubStructure</span><span class="hljs-params">(TreeNode*A, TreeNode*B)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!B)        <span class="hljs-comment">//递归结束条件1：A的一个节点B的对应位置没有,可以认为是子结构</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">if</span> (!A || A-&gt;val != B-&gt;val)  <span class="hljs-comment">//递归结束条件2：B的一个节点A的对应位置没有 / A,B对应位置节点值不同，此时必然不可能是子结构</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">hasSubStructure</span>(A-&gt;left, B-&gt;left) &amp;&amp; <span class="hljs-built_in">hasSubStructure</span>(A-&gt;right, B-&gt;right); <span class="hljs-comment">//返回值：继续在对应位置递归判断</span><br>&#125;<br><br><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSubStructure1</span><span class="hljs-params">(TreeNode&lt;T&gt; *A, TreeNode&lt;T&gt; *B)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!A || !B)   <span class="hljs-comment">//特殊判断</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-comment">// 根节点相同的话直接进入比较，根节点不相同看B是不是A的左/右子树的子结构</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">hasSubStructure</span>(A, B) || <span class="hljs-built_in">isSubStructure1</span>(A-&gt;left, B) || <span class="hljs-built_in">isSubStructure1</span>(A-&gt;right, B);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="剑指-Offer-28-对称的二叉树"><a href="#剑指-Offer-28-对称的二叉树" class="headerlink" title="剑指 Offer 28. 对称的二叉树"></a>剑指 Offer 28. 对称的二叉树</h3><p>判断一棵树是否为对称二叉树</p>
+<ul>
+<li>思路：构造一个辅助函数判断两棵树是否是镜像对称的，然后题目只要判断两棵这个树是否镜像对称</li>
+<li>而比较两棵树是否镜像对称<ul>
+<li>即一棵树的左子树和另一棵树的右子树，以及一棵树的右子树和另一棵树的左子树是否镜像对称</li>
+</ul>
+</li>
+<li>特殊判断：都是空树满足条件；其中有一棵空树不满足条件</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isSymmetric</span><span class="hljs-params">(TreeNode*root)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">isMirror</span>(root, root);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMirror</span><span class="hljs-params">(TreeNode*p, TreeNode*q)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">if</span> (!p &amp;&amp; !q)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    <span class="hljs-keyword">if</span> (!p || !q)<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>    <span class="hljs-keyword">return</span> (p-&gt;val == q-&gt;val) &amp;&amp; (<span class="hljs-built_in">isMirror</span>(p-&gt;left, q-&gt;right)) &amp;&amp; (<span class="hljs-built_in">isMirror</span>(p-&gt;right, q-&gt;left));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/04/01/Leetcode/%E6%A0%91/%E5%AF%B9%E7%A7%B0%E6%80%A7%E9%80%92%E5%BD%92/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;01&#x2F;Leetcode&#x2F;%E6%A0%91&#x2F;%E5%AF%B9%E7%A7%B0%E6%80%A7%E9%80%92%E5%BD%92&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;01&#x2F;Leetcode&#x2F;%E6%A0%91&#x2F;%E5%AF%B9%E7%A7%B0%E6%80%A7%E9%80%92%E5%BD%92&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AF%B9%E7%A7%B0%E6%80%A7%E9%80%92%E5%BD%92-%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">对称性递归(二叉树)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E5%9E%8B%E5%88%86%E7%B1%BB%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">题型分类：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%A8%A1%E6%9D%BF"><span class="toc-number">1.2.</span> <span class="toc-text">解题模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E8%A7%A3%E8%AF%BB"><span class="toc-number">1.3.</span> <span class="toc-text">题目解读</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#100-%E7%9B%B8%E5%90%8C%E7%9A%84%E6%A0%91"><span class="toc-number">1.3.1.</span> <span class="toc-text">100. 相同的树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#104-%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%9C%80%E5%A4%A7%E6%B7%B1%E5%BA%A6"><span class="toc-number">1.3.2.</span> <span class="toc-text">104. 二叉树的最大深度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#110-%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.3.</span> <span class="toc-text">110. 平衡二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#965-%E5%8D%95%E5%80%BC%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.4.</span> <span class="toc-text">965. 单值二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#572-%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%A0%91%E7%9A%84%E5%AD%90%E6%A0%91"><span class="toc-number">1.3.5.</span> <span class="toc-text">572. 另一个树的子树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#226-%E7%BF%BB%E8%BD%AC%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.6.</span> <span class="toc-text">226. 翻转二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#617-%E5%90%88%E5%B9%B6%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.7.</span> <span class="toc-text">617. 合并二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%91%E6%8C%87-Offer-26-%E6%A0%91%E7%9A%84%E5%AD%90%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.8.</span> <span class="toc-text">剑指 Offer 26. 树的子结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%91%E6%8C%87-Offer-28-%E5%AF%B9%E7%A7%B0%E7%9A%84%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.3.9.</span> <span class="toc-text">剑指 Offer 28. 对称的二叉树</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1648884529927"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
