@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>联邦学习简介 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="一、前言1.1 联邦学习简介​        联邦学习是谷歌在2016年提出的概念：在分布式的场景下，训练数据分别保存在每个clients中，希望提出一种训练方法：跨多个参与客户端（clients）训练一个共享的全局模型。其中的重点关注的问题包括：   参与的clients数量众多，比如每个人的手机、物联网设备等   clients不能一直保持在线状态，比如只有当手机接入充电器和wifi时才会参与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="联邦学习简介">
+<meta property="og:url" content="http://example.com/2022/04/04/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="一、前言1.1 联邦学习简介​        联邦学习是谷歌在2016年提出的概念：在分布式的场景下，训练数据分别保存在每个clients中，希望提出一种训练方法：跨多个参与客户端（clients）训练一个共享的全局模型。其中的重点关注的问题包括：   参与的clients数量众多，比如每个人的手机、物联网设备等   clients不能一直保持在线状态，比如只有当手机接入充电器和wifi时才会参与">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/04/04/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.assets/image-20220404155320662.png">
+<meta property="og:image" content="http://example.com/2022/04/04/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.assets/image-20220404153928108.png">
+<meta property="og:image" content="http://example.com/2022/04/04/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.assets/image-20220404154120786.png">
+<meta property="article:published_time" content="2022-04-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-04T08:00:49.168Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="联邦学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/04/04/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.assets/image-20220404155320662.png">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1649075797806">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1649075797806">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1649075797806">
+    <link rel="stylesheet" href="/css/style.css?v=1649075797806">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>42</div>
+        <div><span>Tags</span>12</div>
+        <div><span>Categories</span>20</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">20</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">12</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">5</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">17</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 14px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 14px;">JavaWeb</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Mybaits/" style="font-size: 18px;">Mybaits</a> <a href="/tags/STL/" style="font-size: 14px;">STL</a> <a href="/tags/Spring/" style="font-size: 16px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 12px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 12px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/联邦学习简介.jpg" data-sizes="auto" alt="联邦学习简介" class="lazyload">
+              <h1>联邦学习简介</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年04月04日</a>
+</div>
+
+      
+
+      <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><h2 id="1-1-联邦学习简介"><a href="#1-1-联邦学习简介" class="headerlink" title="1.1 联邦学习简介"></a>1.1 联邦学习简介</h2><p>​        联邦学习是谷歌在2016年提出的概念：在分布式的场景下，训练数据分别保存在每个clients中，希望提出一种训练方法：跨多个参与客户端（clients）训练一个共享的全局模型。其中的重点关注的问题包括：</p>
+<ol>
+<li><p> 参与的clients数量众多，比如每个人的手机、物联网设备等</p>
+</li>
+<li><p> clients不能一直保持在线状态，比如只有当手机接入充电器和wifi时才会参与计算</p>
+</li>
+<li><p>clients收集的<strong>本地数据敏感</strong>，比如输入法的输入内容，包含隐私信息，不希望分享给其他人（包括中心节点）</p>
+<p>​    因此，联邦学习希望在保证数据隐私的同时，让众多clients利用自己的数据协同参与训练一个<strong>中心模型</strong>。以移动设备作为clients为例，大致的训练流程如图：</p>
+</li>
+</ol>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.assets/image-20220404155320662.png" alt="image-20220404155320662" class="lazyload"><br>图中，移动设备作为clients，云服务器作为中心server。训练的三个步骤A、B、C是不断循环迭代的，具体含义为：</p>
+<ul>
+<li>  <strong>A步骤</strong>：clients从中心节点获取当前模型参数（蓝色圆），在本地设备上利用自己的local data对模型进行训练，得到新的模型参数（绿色方块）</li>
+<li>  <strong>B步骤</strong>：多个clients分别训练了不同的模型参数（各种颜色的各种形状），融合为一个模型，比如简单地求平均值。注意到图中各种形状的数量是不等的，可以从两方面理解：1）local data的分布不均，即non-i.i.d.的数据，那么训练出来的模型也分布不均。2）不是所有的clients都参与了训练</li>
+<li>  <strong>C步骤</strong>：中心服务器server将新一轮的模型分发给clients，在这个过程中，server可以有选择性地只让一部分clients参与训练</li>
+</ul>
+<h1 id="二、TensorFlow-Federated-Framework"><a href="#二、TensorFlow-Federated-Framework" class="headerlink" title="二、TensorFlow Federated Framework"></a>二、TensorFlow Federated Framework</h1><p>​        在实现方面，Tensorflow专门为联邦学习推出了一个学习<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=%E6%A1%86%E6%9E%B6&spm=1001.2101.3001.7020">框架</a>（TensorFlow Federated，后文简称TFF），现有的TensorFlow（简称TF）或Keras模型代码通过一些转换后就可以变为联邦学习模型。甚至可以加载单机版的预训练的模型，以迁移学习的模式应用到<strong>分散式数据的机器学习</strong>中。</p>
+<p>阅读本文可能需要：</p>
+<ul>
+<li>  一定的Python技能：函数和类、数据类型、装饰器</li>
+<li>  了解TensorFlow的一些概念：non-eager模式、计算图等</li>
+<li>  了解机器学习的一些概念：模型、数据集、训练、梯度等</li>
+</ul>
+<h2 id="2-1-框架设计理念"><a href="#2-1-框架设计理念" class="headerlink" title="2.1 框架设计理念"></a>2.1 框架设计理念</h2><p>​        在一头扎入技术细节之前，最好先了解TFF框架的设计理念，对于理解各种class的意义有很大帮助。联邦学习的参与角色有：客户端（clients）和服务端（server）。</p>
+<h3 id="2-1-1-数据为主"><a href="#2-1-1-数据为主" class="headerlink" title="2.1.1 数据为主"></a>2.1.1 数据为主</h3><p>​        提到clients和server的时候，马上会想到C&amp;S端两套代码、数据交互等分布式的东西。但是在TFF框架中，谷歌并不想让用户去考虑这些东西，它希望用户能够将重点放在<strong>数据处理</strong>上，而不是代码分离上。因此，在编写TFF代码时，我们<strong>不需要</strong>指明是某段代码应该运行在Clients端还是Server端（后文简称C端、S端），但是要显式指出每个数据是储存在C端/S端、是全局唯一的还是有多份拷贝的。需要注意，这里提到的“数据”，可以指代：数据集、变量、常量等所有模型会用到的值（官方文档中所称的<code>value</code>）。</p>
+<p>​        回到上图中的例子：蓝色圆和绿色方块是需要学习的目标模型，因此他们是存放在<strong>S端</strong>、且<strong>全局唯一</strong>的。将S端的值交给clients去更新时（图中C到A步骤），称为广播（对应<code>tff.federated_broadcast</code>函数，但现在不要去关心具体函数内容）。广播操作会将一个S端的<code>value</code>“转化”成C端的<code>value</code>，而其中的“转化”操作的具体实现对TFF用户来说是<strong>隐藏的</strong>，不需要去关心。这是TFF框架与分布式训练理念非常不同的一点，需要加倍理解。</p>
+<p>​        同理，在图中的B步骤，把多个C端的<code>value</code>整合成一个S端的<code>value</code>，称为聚合（Aggregation）操作，TFF也提供了许多种预设函数供用户使用，不需要关心数据到底是咋传输的。</p>
+<h3 id="2-1-2-整体训练"><a href="#2-1-2-整体训练" class="headerlink" title="2.1.2 整体训练"></a>2.1.2 整体训练</h3><p>​        在编写模型、训练代码的时候，clients和server应当是看作一个整体（也就是“联邦”的含义），不需要分割开S端和C端的代码，完全可以写入同一个文件里，C端和S端的区分是在代码逻辑层面的。例如：一个函数，它既能被C端调用，也能同时被S端调用。但是，某些TFF函数只能接受存放在C端的输入，某些只能接受S端的。</p>
+<p>​        类似TF的<code>non-eager</code>模式一样编写完模型代码和训练代码后，TFF会自动地将代码分别放置到clients和server设备上（但是目前还只能单机模拟哈哈）。我们编写代码的首要且唯一的任务就是训练<strong>一个</strong>好的模型，只需要关注模型的架构、C&amp;S交互的数据格式、聚合多clients模型的方式就可以了。至于如何协同多设备、怎么在网络上传输都不是TFF用户需要关注的细节。</p>
+<h3 id="2-1-3-新的语言"><a href="#2-1-3-新的语言" class="headerlink" title="2.1.3 新的语言"></a>2.1.3 新的语言</h3><p>​        类似TF框架，TFF实际运行的代码并不是Python，而是通过Python代码来编写运算逻辑，实际上是编译成另一种语言去执行。Why？因为许多设备（例如手机、传感器）是很难有Python的运行环境的，更不可能去安装几百Mb的TensorFlow框架，那么在这些设备上执行Python代码的难度是非常大的。因此，编写TFF代码时会遇到非常多“反Python逻辑”的要求，例如：要求提供函数的输入参数的类型、要求使用它规定的几种数据类型、要求确定<code>value</code>的存放位置（S端/C端），原生Python逻辑不会在训练时执行等等。所有的这些，都是为了让TFF编写的代码能编译到low-level，让模型能运行在真实分布式场景下所作出的妥协。当然，随着TFF的更新，某些要求会有所放松也是可能的。</p>
+<p>​        所以，学习TFF框架时，应该把它当成<strong>一门新的语言</strong>进行学习：这里有新的数据类型、新的变量声明方式、新的函数定义方式、新的执行方法等。原生Python代码和它进行混用时，要特别注意它是否能在训练时生效，是否有预期的结果。一个很简单的例子：在函数定义中<code>print</code>了一些东西，只会在函数定义的时候输出，而在执行的时候没有输出，就是因为函数已经被“编译”成其他语言了，而<code>print</code>没有被编译进去（类似注释）。如果我们编写的一些函数使用到了不同端的数据，在真正执行的时候，一个函数甚至会被拆分到不同的机器上执行。但是，这些情况停留在逻辑设计层面就可以了，编写代码的时候该咋写函数就咋写，还可以嵌套着用，把拆分执行的事情交给TFF去解决。</p>
+<h3 id="2-1-4-不同层侧的API"><a href="#2-1-4-不同层侧的API" class="headerlink" title="2.1.4 不同层侧的API"></a>2.1.4 不同层侧的API</h3><p>​        又来类比一下：TensorFlow相对于Keras来说，是low-level的接口。编写模型时，TF需要更详细地编写变量之间的运算，而Keras只需要拼接全连接层、卷积层等部件。对应到TFF框架中，也有两个不同层次的接口：</p>
+<ol>
+<li> Federated Learning (FL) API：该层提供了一组高阶接口，使开发者能够将包含的联合训练和评估实现应用于现有的 TensorFlow 模型。</li>
+<li> Federated Core (FC) API：该系统的核心是一组较低阶接口，可以通过在<strong>强类型函数式编程</strong>环境中结合使用 TensorFlow 与分布式通信运算符，简洁地表达新的联合算法。这一层也是我们构建联合学习的基础。</li>
+</ol>
+<p>在本文中，我们将自底向上进行学习，把FC API当作一门新的语言进行学习、实践。</p>
+<h2 id="2-2-安装TFF库-conda"><a href="#2-2-安装TFF库-conda" class="headerlink" title="2.2 安装TFF库(conda)"></a>2.2 安装TFF库(conda)</h2><p>​        详细的安装流程请参见<a target="_blank" rel="noopener" href="https://www.tensorflow.org/federated/install">官方指南</a>，这里我们将使用<a target="_blank" rel="noopener" href="https://docs.conda.io/en/latest/miniconda.html">conda</a>进行安装。假设你已经安装好了conda（Anaconda或Miniconda都行），命令行执行以下命令：新建一个名为<code>tf-fed</code>的环境，并安装python3.7：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">conda create -n tf-fed python=<span class="hljs-number">3.7</span> --yes<br></code></pre></td></tr></table></figure>
+
+<p>​        安装完成后，切换到新建的<code>tf-fed</code>环境（以后每次重启命令行都要切换过来）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">conda activate tf-fed<br></code></pre></td></tr></table></figure>
+
+<p>​        用pip安装TFF，写作时安装版本的是tensorflow_federated==0.13.1：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">pip install --upgrade tensorflow_federated<br></code></pre></td></tr></table></figure>
+<p>​        如果下载太慢，可以切换到<a target="_blank" rel="noopener" href="https://mirror.tuna.tsinghua.edu.cn/help/pypi/">pip清华源</a>再次安装。</p>
+<p>​        等待安装结束后，验证一下是否安装成功：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">python -c <span class="hljs-string">&quot;import tensorflow_federated as tff; print(tff.federated_computation(lambda: &#x27;Hello World&#x27;)())&quot;</span><br></code></pre></td></tr></table></figure>
+<p>​        如果成功输出了<code>&#39;Hello World&#39;</code>（以及一堆Warning），就说明TFF框架已经安装好了。顺便提一下，本文写作时<code>tff.__version__=0.13.1</code>，它还是一个开发版，因此本文提到的API可能会随着版本更新发生变化。</p>
+<p>​        2020/3/31 更新：初次写作时是0.8.0版，最近陆续有读者反馈无法安装或执行出错，与TFF开发者交流后得知这个版本已经被淘汰了，pip也无法下载到。因此需要安装最新版，代码也需要调整才能执行。</p>
+<h1 id="三、数据类型"><a href="#三、数据类型" class="headerlink" title="三、数据类型"></a>三、数据类型</h1><p>​        把TFF当作一门新的编程语言来学习，我们先来了解一下它提供的数据类型有哪些。TFF中，这些数据类型可以分为两类：<strong>端无关</strong>的，和<strong>端有关</strong>的，端无关的类型不需要指明存放位置（S端或C端），另一个则需要。定义类型的时候，可以直接<code>print</code>出来看看它的类型和<code>shape</code>，称为<strong>compact notation</strong>。</p>
+<p>​        为避免误解，请读者先思考这个问题：“<strong>类型</strong>和<strong>变量</strong>的关系是什么？”</p>
+<p>​        执行下面的例子前，请先引入库：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">import</span> tensorflow_federated <span class="hljs-keyword">as</span> tff<br><br>tf.compat.v1.enable_v2_behavior()<br><br><span class="hljs-comment"># tff v0.13.1 新版本需要指定默认executor，否则无法eager执行tff.function</span><br>tff.framework.set_default_executor(tff.framework.ReferenceExecutor())<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="3-1-端无关的类型"><a href="#3-1-端无关的类型" class="headerlink" title="3.1 端无关的类型"></a>3.1 端无关的类型</h2><h3 id="3-1-1-Tensor-types-tff-TensorType"><a href="#3-1-1-Tensor-types-tff-TensorType" class="headerlink" title="3.1.1 Tensor types(tff.TensorType)"></a>3.1.1 Tensor types(tff.TensorType)</h3><p>​        张量类型，需要指定它的元素数据类型<code>dtype</code>和形状<code>shape</code>。其中，<code>dtype</code>的所有可选列表由<a target="_blank" rel="noopener" href="https://www.tensorflow.org/api_docs/python/tf/dtypes/DType">tf.dtypes.DType</a>指定。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(tff.TensorType(tf.string, shape=[<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]))<br><span class="hljs-built_in">print</span>(tff.TensorType(tf.float32, shape=[<span class="hljs-number">6</span>, <span class="hljs-number">7</span>]))<br><span class="hljs-built_in">print</span>(tff.TensorType(tf.int8, shape=<span class="hljs-literal">None</span>))<br><span class="hljs-built_in">print</span>(tff.TensorType(tf.<span class="hljs-built_in">bool</span>))<br></code></pre></td></tr></table></figure>
+
+<p>​        将会输出它们的<strong>compact notation</strong>，代表着类型和形状，而不是输出值（想想<code>numpy.array</code>会输出什么）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">string[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]<br>float32[<span class="hljs-number">6</span>,<span class="hljs-number">7</span>]<br>int8<br><span class="hljs-built_in">bool</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="3-1-2-Sequence-types（tff-SequenceType）"><a href="#3-1-2-Sequence-types（tff-SequenceType）" class="headerlink" title="3.1.2 Sequence types（tff.SequenceType）"></a>3.1.2 Sequence types（tff.SequenceType）</h3><p>​        列表类型，其中的元素类型应当为TFF的<code>tff.Type</code>，或者是能转换成<code>tff.Type</code>的东西。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(tff.SequenceType(tff.TensorType(tf.int8, shape=<span class="hljs-literal">None</span>)))<br><span class="hljs-built_in">print</span>(tff.SequenceType(tf.float32))<br><span class="hljs-built_in">print</span>(tff.SequenceType(tff.TensorType(tf.string, shape=[<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>])))<br></code></pre></td></tr></table></figure>
+
+<p>​        将会输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">int8*<br>float32*<br>string[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]*<br></code></pre></td></tr></table></figure>
+
+<p>​        注：这里的<code>*</code>就代表着它是一个<strong>列表</strong>，<code>*</code>前面的是列表中元素的类型。</p>
+<h3 id="3-1-3-Named-tuple-types（tff-NamedTupleType）"><a href="#3-1-3-Named-tuple-types（tff-NamedTupleType）" class="headerlink" title="3.1.3 Named tuple types（tff.NamedTupleType）"></a>3.1.3 Named tuple types（tff.NamedTupleType）</h3><p>​        如果你用过Python标准库中的<a target="_blank" rel="noopener" href="https://docs.python.org/2/library/collections.html#collections.namedtuple"><code>collection.namedtuple</code></a>，那这个类型就是就是TFF框架下的它。没有用过也没有关系，简单来说，<code>tff.NamedTupleType</code>就是元素可以带有key的tuple。看下例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> collections<br><span class="hljs-built_in">print</span>(tff.NamedTupleType(<span class="hljs-built_in">list</span>((tf.int8, tf.int16))))<br><span class="hljs-built_in">print</span>(tff.NamedTupleType(<span class="hljs-built_in">tuple</span>(((<span class="hljs-string">&#x27;key1&#x27;</span>, tf.float32), (tf.int8), (<span class="hljs-string">&#x27;key3&#x27;</span>, tff.SequenceType(tf.string))))))<br><span class="hljs-built_in">print</span>(tff.NamedTupleType(collections.OrderedDict([(<span class="hljs-string">&#x27;y&#x27;</span>, tf.float32), (<span class="hljs-string">&#x27;x&#x27;</span>, tff.TensorType(tf.string, shape=[<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]))])))<br></code></pre></td></tr></table></figure>
+
+<p>​        <code>tff.NamedTupleType</code>接受三种类型的输入：<code>list</code>，<code>tuple</code>和<code>collections.OrderedDict</code>（也就是<code>collection.namedtuple</code>生成的subclass生成的对象，一种有序的字典<code>dict</code>类型）<br>将会输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;int8,int16&gt;<br>&lt;key1=float32,int8,key3=string*&gt;<br>&lt;y=float32,x=string[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]&gt;<br></code></pre></td></tr></table></figure>
+
+<p>​        其中的尖括号是<strong>named tuple types</strong>的标志。可以注意到，元素的<code>key</code>是<strong>可选的</strong>，有<code>key</code>无<code>key</code>的元素位置也是很随意的。一般来说，这个类可以用于定义模型的参数、输入输出等。</p>
+<h3 id="3-1-4-Function-types（tff-FunctionType）"><a href="#3-1-4-Function-types（tff-FunctionType）" class="headerlink" title="3.1.4 Function  types（tff.FunctionType）"></a>3.1.4 Function  types（tff.FunctionType）</h3><p>​        TFF是函数式编程框架，编写的模型是由一个个<strong>函数</strong>拼接起来的。因此，编写模型代码时，内置函数以及我们编写的函数，作为一个个部件拼凑起来，由TFF后端编译成跨平台的语言进行运算。这些函数具有的类型，就是<code>tff.FunctionType</code>。在编译的过程中，我们需要指定函数的<strong>输入类型</strong>，且只能有一个输入值，和一个函数返回值（不像python函数那样可以输入多个形参、返回多个值）。</p>
+<p>下面举个简单的例子，先不用理解它，后文会详细讲解如何定义函数（也分成端无关和端有关的函数）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><br><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">tff.SequenceType(<span class="hljs-params">tf.int32</span>)</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_up_integeres</span>(<span class="hljs-params">x</span>):</span><br>    <span class="hljs-keyword">return</span> x.reduce(np.int32(<span class="hljs-number">0</span>), <span class="hljs-keyword">lambda</span> x, y: x + y)<br>    <br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">type</span>(add_up_integeres))<br><span class="hljs-built_in">print</span>(add_up_integeres.type_signature)<br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">isinstance</span>(add_up_integeres.type_signature, tff.FunctionType))<br></code></pre></td></tr></table></figure>
+
+<p>得到输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> &#x27;<span class="hljs-title">tensorflow_federated</span>.<span class="hljs-title">python</span>.<span class="hljs-title">core</span>.<span class="hljs-title">impl</span>.<span class="hljs-title">computation_impl</span>.<span class="hljs-title">ComputationImpl</span>&#x27;&gt;</span><br><span class="hljs-class">(<span class="hljs-params">int32* -&gt; int32</span>)</span><br><span class="hljs-class"><span class="hljs-title">True</span></span><br></code></pre></td></tr></table></figure>
+
+<p>​        可以看出，<code>tff.FunctionType</code><strong>不是</strong>经过TFF包装的函数本身，而是函数的签名<code>type_signature</code>。它指明了输入输出的形式，用圆括号和箭头<code>-&gt;</code>表示。同时，只有一个输入和一个输出，但是输入变量可以是复合类型（例如这里的列表类型），因此是能满足各种需求的。</p>
+<h2 id="3-2-端有关的类型"><a href="#3-2-端有关的类型" class="headerlink" title="3.2 端有关的类型"></a>3.2 端有关的类型</h2><p>端有关的类型，是联邦学习逻辑层面的重点。它们主要完成两件任务：</p>
+<ol>
+<li>显式地定义数据值应该存放在C端还是S端（<code>Placement</code>）</li>
+<li>定义这个数据是否全局一致（<code>All equal?</code>）</li>
+</ol>
+<p>​        我们可以把端有关的类型，想象成一个快递盒：里面装的数据类型是上文提到的端无关类型，盒子上贴着两个标签<code>Placement</code>和<code>All equal?</code>。那么联邦学习的流程，可以类比成：快递盒子从S端中心节点发出，交给C端加工厂处理（盒子由S端传输到C端，还可以复制成多份）。加工厂把盒子里的东西拿出来操作（与端无关）。操作完成后再打包发回中心节点（盒子由C端传输到S端），中心点把各个工厂发回的加工品聚合成一个，就完成了一轮加工。</p>
+<h3 id="3-2-1-Placement-type"><a href="#3-2-1-Placement-type" class="headerlink" title="3.2.1 Placement type"></a>3.2.1 Placement type</h3><p>​        顾名思义，就是定义存放位置的类型。目前，我们能用到的有两个：<code>tff.SERVER</code>和<code>tff.CLIENTS</code>，也就是定义了S端和C端，把他们俩当<strong>常数</strong>用就好了。</p>
+<p>​        以后也许可以定义新的Placement，以实现更复杂的场景。具体咋用呢，看下面的联邦类型。</p>
+<h3 id="3-2-2-Federated-types（tff-FederatedType）"><a href="#3-2-2-Federated-types（tff-FederatedType）" class="headerlink" title="3.2.2 Federated types（tff.FederatedType）"></a>3.2.2 Federated types（tff.FederatedType）</h3><p>​        以数据驱动的联邦学习，终于到了定义联邦类型的时候了。联邦类型<code>tff.FederatedType</code>把上面提到的端无关类型包装起来，并增加两个属性：</p>
+<ol>
+<li><code>placement</code>（必填），必须是<code>tff.SERVER</code>和<code>tff.CLIENTS</code>这些<em>Placement type</em></li>
+<li><code>all_equal</code>（可选，默认为<code>None</code>）。类型为<code>bool</code>，代表着这份数据是否全局统一，还是可以有不同的值。如果没有指定<code>all_equal</code>，它会根据<code>placement</code>的值来选择。默认情况下<code>placement=tff.SERVER</code>时<code>all_equal=True</code>，反之为<code>False</code>。</li>
+</ol>
+<p>同样，Federated types也可以输出定义，看下面的例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> collections<br><span class="hljs-built_in">print</span>(tff.FederatedType(tf.int8, tff.CLIENTS))<br><span class="hljs-built_in">print</span>(tff.FederatedType(tff.SequenceType(tf.float32), tff.CLIENTS, all_equal=<span class="hljs-literal">True</span>))<br>ntt = tff.NamedTupleType(collections.OrderedDict([(<span class="hljs-string">&#x27;y&#x27;</span>, tf.float32), (<span class="hljs-string">&#x27;x&#x27;</span>, tff.TensorType(tf.string, shape=[<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]))]))<br><span class="hljs-built_in">print</span>(tff.FederatedType(ntt, tff.SERVER))<br><span class="hljs-built_in">print</span>(tff.FederatedType(tff.TensorType(tf.int8, shape=<span class="hljs-literal">None</span>), tff.SERVER, all_equal=<span class="hljs-literal">False</span>))<br></code></pre></td></tr></table></figure>
+
+<p>将会输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;int8&#125;@CLIENTS<br>float32*@CLIENTS<br>&lt;y=float32,x=string[<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]&gt;@SERVER<br>&#123;int8&#125;@SERVER<br></code></pre></td></tr></table></figure>
+
+<p>​        Federated types的类型表示格式为<code>T@G</code>或<code>&#123;T&#125;@G</code>，其中<code>T</code>为TFF的数据类型，<code>G</code>为存放的位置，花括号<code>&#123;&#125;</code>表示<strong>非全局唯一</strong>，而没有花括号就表示全局唯一，即<code>all_equal=True</code>。仔细看一下，第1、3个例子是没有指定<code>all_equal</code>，他们是根据<code>placement</code>的值来确定的。</p>
+<h3 id="3-2-3-变量声明"><a href="#3-2-3-变量声明" class="headerlink" title="3.2.3 变量声明"></a>3.2.3 变量声明</h3><p>​        解决了类型定义，就可以来声明变量了。每个变量都有一个类型，没错吧？别搞混了类型和变量的概念哈。下面看一下TFF框架里要用到的变量怎么声明：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 定义一个类型</span><br>OUR_TYPE = tff.TensorType(tf.int8, shape=[<span class="hljs-number">10</span>])<br><span class="hljs-comment"># 声明一个变量</span><br>var = tff.utils.create_variables(<span class="hljs-string">&#x27;var_name&#x27;</span>, OUR_TYPE)<br><span class="hljs-comment"># 打印一下</span><br><span class="hljs-built_in">print</span>(OUR_TYPE)<br><span class="hljs-built_in">print</span>(var)<br></code></pre></td></tr></table></figure>
+
+<p>​        和TF很类似，上面的代码声明了一个名为<code>var</code>，在计算图中名为<code>var_name</code>，类型为<code>tff.TensorType(tf.int8, shape=[10])</code>的变量。它可以作为模型参数等进行训练和更新。上面的代码会获得如下输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">int8[<span class="hljs-number">10</span>]<br>&lt;tf.Variable <span class="hljs-string">&#x27;var_name:0&#x27;</span> shape=(<span class="hljs-number">10</span>,) dtype=int8, numpy=array([<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], dtype=int8)&gt;<br></code></pre></td></tr></table></figure>
+
+<p>​        可见，定义的变量实质上是<code>tf.Variable</code>的实例，而不是<code>tff</code>的。那么在实际应用时，如果你对<code>tf</code>比较熟悉，你可以先定义<code>tf</code>的数据<strong>类型</strong>（或python标准库的类型），再导出<code>tff</code>的类型，如下例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 声明一个tf Tensor类型</span><br>ccc = tf.TensorSpec(shape=(<span class="hljs-number">10</span>,), name=<span class="hljs-string">&#x27;const_name&#x27;</span>, dtype=tf.int8)<br><span class="hljs-comment"># 转成类型</span><br>OUR_TYPE2 = tff.to_type(ccc)<br><span class="hljs-comment"># 打印一下</span><br><span class="hljs-built_in">print</span>(ccc)<br><span class="hljs-built_in">print</span>(OUR_TYPE2)<br></code></pre></td></tr></table></figure>
+
+<p>上面的代码会输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">TensorSpec(shape=(<span class="hljs-number">10</span>,), dtype=tf.int8, name=<span class="hljs-string">&#x27;const_name&#x27;</span>)<br>int8[<span class="hljs-number">10</span>]<br></code></pre></td></tr></table></figure>
+
+<p>​        是不是觉得上面的数据类型定义都白学啦？只需要一个函数<code>tff.to_type</code>，里面放进去一个可转换的数据类型，就可以得到<code>tff</code>所需的数据类型。好用是好用，但还是得严谨地学习的嘛。接下来的例子，可能会更多地看到第二种定义类型的方式。</p>
+<h1 id="四、函数定义"><a href="#四、函数定义" class="headerlink" title="四、函数定义"></a>四、函数定义</h1><p>TFF是函数式编程框架，根据函数是否使用到了<strong>不同端</strong>的数据来划分，可以分为两种类型：端无关的函数和端有关的函数。</p>
+<h2 id="4-1-端无关的函数"><a href="#4-1-端无关的函数" class="headerlink" title="4.1 端无关的函数"></a>4.1 端无关的函数</h2><p>​        使用TensorFlow原生计算方式，只需要定义一下输入的类型即可，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">tff.SequenceType(<span class="hljs-params">tf.int32</span>)</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_up_integeres</span>(<span class="hljs-params">x</span>):</span><br>    <span class="hljs-keyword">return</span> x.reduce(np.int32(<span class="hljs-number">0</span>), <span class="hljs-keyword">lambda</span> x, y: x + y)<br></code></pre></td></tr></table></figure>
+
+<p>​        上面这段代码，使用TFF的API<code>tff.tf_computation</code>来包装一个TensorFlow计算函数，其中显式声明了形参<code>x</code>的类型为<code>tff.SequenceType(tf.int32)</code>。在函数内部，<code>x</code>可以当作<code>tf.data.Dataset</code>来使用成员函数<code>reduce()</code>，这也是上文介绍过的。经过这个包装，函数<code>add_up_integeres()</code>已经被<strong>编译</strong>成了一个TFF的强类型函数（返回值类型也自动推算出来了），可供其他TFF函数调用，也可以当成普通python函数调用。例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(add_up_integeres.type_signature)<br><span class="hljs-built_in">print</span>(add_up_integeres([<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>]))<br></code></pre></td></tr></table></figure>
+
+<p>你会得到下面的输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">(int32* -&gt; int32)<br><span class="hljs-number">6</span><br></code></pre></td></tr></table></figure>
+
+<p>注意到两个地方：</p>
+<ol>
+<li>返回值类型是自动推算出来的（<code>int32</code>）</li>
+<li>变量的自动类型转换是可以的（<code>list(int) -&gt; tff.SequenceType(tf.int32)</code>）</li>
+</ol>
+<h2 id="4-2-端有关的函数"><a href="#4-2-端有关的函数" class="headerlink" title="4.2 端有关的函数"></a>4.2 端有关的函数</h2><p>​        我们也可以自己定义端有关的函数，声明输入形参时，不仅需要指明输入的数据类型，还需要指明它的<strong>存放位置</strong>。废话不多说，我们看个例子：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">tff.FederatedType(<span class="hljs-params">tf.float32, tff.CLIENTS</span>)</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_average_temperature</span>(<span class="hljs-params">sensor_readings</span>):</span><br>    <span class="hljs-keyword">return</span> tff.federated_mean(sensor_readings)<br><br><span class="hljs-built_in">print</span>(get_average_temperature.type_signature)<br></code></pre></td></tr></table></figure>
+
+<p>​        这里调用了API<code>tff.federated_computation</code>来包装一个端有关的函数，指定了形参<code>sensor_readings</code>的类型为端有关的类型<code>tff.FederatedType(tf.float32, tff.CLIENTS)</code>。在函数中调用了一个TFF内置函数<code>tff.federated_mean</code>，得到函数的返回值。执行上面那段代码，可以得到输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&#123;float32&#125;@CLIENTS -&gt; float32@SERVER)<br></code></pre></td></tr></table></figure>
+
+<p>​        可以看出，输入的数据是C端的浮点数（且<code>all_equal=False</code>），而输出的是S端的浮点数（且<code>all_equal=True</code>）。这里有个细节：我们一般说到“求平均值”都是对一个列表求一个平均值，但是上面定义的函数并不是输入一个列表（<code>tff.SequenceType</code>），而是一个对“一个”值求一个平均值。Why？请同学们结合联邦学习的场景自行理解。<br><code>tff.federated_computation</code>的输入类型也可以不是端有关的<code>tff.FederatedType</code>，就像<code>tff.tf_computation</code>那样用，例如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">(<span class="hljs-params">tff.FunctionType(<span class="hljs-params">tf.int32, tf.int32</span>), tf.int32</span>)</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">foo</span>(<span class="hljs-params">f, x</span>):</span><br>    <span class="hljs-keyword">return</span> f(f(x))<br><br><span class="hljs-built_in">print</span>(foo.type_signature)<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">(&lt;(int32 -&gt; int32),int32&gt; -&gt; int32)<br></code></pre></td></tr></table></figure>
+
+<p>我们可以这样理解：</p>
+<ol>
+<li><code>tff.tf_computation</code>里定义的是纯TF逻辑</li>
+<li><code>tff.federated_computation</code>里可以是TF逻辑（可以调用<code>tff.tf_computation</code>定义的函数），也可以是联邦训练的逻辑（调用其他<strong>端有关</strong>函数，包括很多TFF内置函数）</li>
+</ol>
+<h2 id="4-3-内置函数"><a href="#4-3-内置函数" class="headerlink" title="4.3 内置函数"></a>4.3 内置函数</h2><p>​        TFF框架还提供了许多内置函数，例如上面用到的<code>tff.federated_mean</code>。它们也可以分为端有关和端无关的，区分的方法非常简单，如果函数是<code>tff.federated_</code>开头的，就是端有关的，会规定输入输出的存放位置。其他的函数即是端无关的，输入输出的类型也是端无关类型（有些也可以用在端有关场景）。具体有哪些函数可以用，请查阅官方文档：<a target="_blank" rel="noopener" href="https://www.tensorflow.org/federated/api_docs/python/tff#functions%E3%80%82">https://www.tensorflow.org/federated/api_docs/python/tff#functions。</a></p>
+<h2 id="4-4-Functions"><a href="#4-4-Functions" class="headerlink" title="4.4 Functions"></a>4.4 Functions</h2><p><img data-fancybox="gallery" data-sizes="auto" data-src="%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.assets/image-20220404153928108.png" alt="image-20220404153928108" class="lazyload"></p>
+<h2 id="4-5-其他注意"><a href="#4-5-其他注意" class="headerlink" title="4.5 其他注意"></a>4.5 其他注意</h2><ol>
+<li>函数调用的语法就和调用普通的python函数一样，但是要注意输入参数的类型是否匹配（或可以自动转换）</li>
+<li><code>tff.tf_computation</code>包装的函数不能调用<code>tff.federated_computation</code>包装的，但反过来可以</li>
+<li><code>tff.federated_computation</code>包装的函数输入参数不一定都是Federated Type，但其中的表达的逻辑是端有关的</li>
+</ol>
+<h1 id="五、训练模型"><a href="#五、训练模型" class="headerlink" title="五、训练模型"></a>五、训练模型</h1><p>​        学习完数据类型、函数定义之后，我们看一下利用TFF的low-level API如何实现一个简单的逻辑回归模型。这一章节内容主要参考官方文档<a target="_blank" rel="noopener" href="https://www.tensorflow.org/federated/tutorials/custom_federated_algorithms_2%EF%BC%8C%E5%A6%82%E6%9E%9C%E8%8B%B1%E8%AF%AD%E9%98%85%E8%AF%BB%E8%83%BD%E5%8A%9BOK%E5%8F%AF%E4%BB%A5%E5%8E%BB%E4%BB%94%E7%BB%86%E7%9C%8B%E4%B8%80%E7%9C%8B%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3%E7%9A%84%E7%BB%86%E8%8A%82%EF%BC%8C%E6%9C%AC%E6%96%87%E7%9A%84%E8%AE%B2%E8%A7%A3%E4%BC%9A%E7%AE%80%E7%BA%A6%E5%BE%88%E5%A4%9A%E3%80%82">https://www.tensorflow.org/federated/tutorials/custom_federated_algorithms_2，如果英语阅读能力OK可以去仔细看一看官方文档的细节，本文的讲解会简约很多。</a></p>
+<h2 id="5-1-导库"><a href="#5-1-导库" class="headerlink" title="5.1 导库"></a>5.1 导库</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> collections<br><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">import</span> tensorflow_federated <span class="hljs-keyword">as</span> tff<br><br>tf.compat.v1.enable_v2_behavior()<br><br><span class="hljs-comment"># TODO(b/148678573,b/148685415): must use the ReferenceExecutor because it</span><br><span class="hljs-comment"># supports unbounded references and tff.sequence_* intrinsics.</span><br>tff.framework.set_default_executor(tff.framework.ReferenceExecutor())<br></code></pre></td></tr></table></figure>
+
+<h2 id="5-2-加载数据集"><a href="#5-2-加载数据集" class="headerlink" title="5.2 加载数据集"></a>5.2 加载数据集</h2><p>​        然后我们加载一下数据集并进行预处理，这里用的是简单的<code>mnist</code>手写数字数据集（第一次加载数据可能需要某些神奇的联网技巧，或提前下载好数据集文件来用，搜一下<code>mnist.npy</code>都会有很多教程）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python">mnist_train, mnist_test = tf.keras.datasets.mnist.load_data()<br><br>NUM_EXAMPLES_PER_USER = <span class="hljs-number">1000</span><br>BATCH_SIZE = <span class="hljs-number">100</span><br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_data_for_digit</span>(<span class="hljs-params">source, digit</span>):</span><br>    output_sequence = []<br>    all_samples = [i <span class="hljs-keyword">for</span> i, d <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(source[<span class="hljs-number">1</span>]) <span class="hljs-keyword">if</span> d == digit]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">min</span>(<span class="hljs-built_in">len</span>(all_samples), NUM_EXAMPLES_PER_USER), BATCH_SIZE):<br>        batch_samples = all_samples[i:i + BATCH_SIZE]<br>        output_sequence.append(&#123;<br>            <span class="hljs-string">&#x27;x&#x27;</span>:<br>                np.array([source[<span class="hljs-number">0</span>][i].flatten() / <span class="hljs-number">255.0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> batch_samples],<br>                         dtype=np.float32),<br>            <span class="hljs-string">&#x27;y&#x27;</span>:<br>                np.array([source[<span class="hljs-number">1</span>][i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> batch_samples], dtype=np.int32)<br>        &#125;)<br>    <span class="hljs-keyword">return</span> output_sequence<br><br><br>federated_train_data = [get_data_for_digit(mnist_train, d) <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]<br><br>federated_test_data = [get_data_for_digit(mnist_test, d) <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]<br><br></code></pre></td></tr></table></figure>
+
+<p>​        <code>mnist</code>数据集是手写数字数据集，每个样本是一张灰阶图片（<code>28x28</code>），代表着0~9之间的某个数字，也就是该样本的标签，所以它是一个10分类数据集。可视化如下图：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B.assets/image-20220404154120786.png" alt="image-20220404154120786" class="lazyload"></p>
+<p>上面预处理的时候，做了几件事情：</p>
+<ol>
+<li>把每个样本从矩阵变成一维向量（长度为<code>28x28=784</code>），元素从灰度（<code>0~255</code>）缩放到<code>0~1</code>的范围</li>
+<li>把同一个数字的样本手动挑出来放到一个list里，并且分了batch</li>
+<li>得到的<code>federated_train_data</code>是一个列表，长度为10，每个元素分别存放了对应下标的数字样本的batch列表</li>
+</ol>
+<p>为了更好的理解，把<code>federated_train_data</code>的长度、元素类型等输出出来即可。</p>
+<h2 id="5-3-定义batch、model的联邦类型"><a href="#5-3-定义batch、model的联邦类型" class="headerlink" title="5.3  定义batch、model的联邦类型"></a>5.3  定义batch、model的联邦类型</h2><p>​        接下来我们定义TFF框架的类型，准备用到模型算法里。首先定义数据集的输入输出类型，使用的是先定义TF类型，再转换成TFF类型的方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">BATCH_SPEC = collections.OrderedDict(<br>    x=tf.TensorSpec(shape=[<span class="hljs-literal">None</span>, <span class="hljs-number">784</span>], dtype=tf.float32),<br>    y=tf.TensorSpec(shape=[<span class="hljs-literal">None</span>], dtype=tf.int32))<br>BATCH_TYPE = tff.to_type(BATCH_SPEC)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(BATCH_TYPE))<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;x=float32[?,<span class="hljs-number">784</span>],y=int32[?]&gt;<br></code></pre></td></tr></table></figure>
+
+<p><code>BATCH_TYPE</code>是一个<code>tff.NamedTupleType</code>类型，其中有两个<code>key</code>，分别是：</p>
+<ul>
+<li><code>x</code>，类型为<code>tff.TensorType(tf.float32, [None, 784])</code>：一个0维长度不确定、1维长度为<code>784</code>的二维浮点数张量。代表输入的样本，0维长度不确定是因为我们可以一批输入任意多个样本，通过矩阵运算来加速模型训练</li>
+<li><code>y</code>，类型为<code>tff.TensorType(tf.int32, [None])</code>：一个0维长度不确定的一维整数张量。代表输出的标签，<code>y</code>的0维长度应当和<code>x</code>的相同，表示样本和标签一一对应。</li>
+</ul>
+<p>接下来定义我们要学习的模型，这里选用简单的逻辑回归模型，包括两个参数：权重（weights）和偏置（bias）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python">MODEL_SPEC = collections.OrderedDict(<br>    weights=tf.TensorSpec(shape=[<span class="hljs-number">784</span>, <span class="hljs-number">10</span>], dtype=tf.float32),<br>    bias=tf.TensorSpec(shape=[<span class="hljs-number">10</span>], dtype=tf.float32))<br>MODEL_TYPE = tff.to_type(MODEL_SPEC)<br><br><span class="hljs-built_in">print</span>(MODEL_TYPE)<br><br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">&lt;weights=float32[<span class="hljs-number">784</span>,<span class="hljs-number">10</span>],bias=float32[<span class="hljs-number">10</span>]&gt;<br></code></pre></td></tr></table></figure>
+
+<p>​        需要注意的是：目前定义的<code>BATCH_TYPE</code>和<code>MODEL_TYPE</code>都是端无关的，还没有指定存放位置。</p>
+<h2 id="5-4-定义loss函数"><a href="#5-4-定义loss函数" class="headerlink" title="5.4 定义loss函数"></a>5.4 定义loss函数</h2><p>​        有了模型参数类型，我们来定义一下损失函数<code>batch_loss</code>。其中，我们把前向传播的计算过程（<code>forward_pass</code>）提取了出来，单独写作一个函数，便于后续复用。<br>​        而且我们注意到，前向传播是用<code>@tf.function</code>来包装的，因为后续我们会在另一个<code>@tf.function</code>里调用<code>forward_pass</code>，而<code>@tf.function</code>不能调用<code>@tff.tf_computation</code>包装的函数，反过来则可以调用（就是下面这个例子）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tf.function</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward_pass</span>(<span class="hljs-params">model, batch</span>):</span><br>    predicted_y = tf.nn.softmax(<br>        tf.matmul(batch[<span class="hljs-string">&#x27;x&#x27;</span>], model[<span class="hljs-string">&#x27;weights&#x27;</span>]) + model[<span class="hljs-string">&#x27;bias&#x27;</span>])<br>    <span class="hljs-keyword">return</span> -tf.reduce_mean(<br>        tf.reduce_sum(<br>            tf.one_hot(batch[<span class="hljs-string">&#x27;y&#x27;</span>], <span class="hljs-number">10</span>) * tf.math.log(predicted_y), axis=[<span class="hljs-number">1</span>]))<br><br><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">MODEL_TYPE, BATCH_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">batch_loss</span>(<span class="hljs-params">model, batch</span>):</span><br>    <span class="hljs-keyword">return</span> forward_pass(model, batch)<br><br></code></pre></td></tr></table></figure>
+
+<p>​        装饰器<code>tff.tf_computation</code>指定了输入参数的类型，而函数的内容就是常见的TF loss定义了。在输入数据batch和模型参数的使用上，其实和Python的<code>dict</code>没什么区别（严格来说是<code>collections.OrderedDict</code>）。所以说，上面定义了一堆TFF的类型，学习模型的主体内容并不会变复杂多少。</p>
+<p>我们可以初始化一个值全为零的模型，喂给它一个batch的数据，计算一下loss：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">initial_model = collections.OrderedDict(<br>    weights=np.zeros([<span class="hljs-number">784</span>, <span class="hljs-number">10</span>], dtype=np.float32),<br>    bias=np.zeros([<span class="hljs-number">10</span>], dtype=np.float32))<br><br>sample_batch = federated_train_data[<span class="hljs-number">5</span>][-<span class="hljs-number">1</span>]<br><br><span class="hljs-built_in">print</span>(batch_loss(initial_model, sample_batch))<br><br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">2.3025854</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-5-定义model优化方法"><a href="#5-5-定义model优化方法" class="headerlink" title="5.5 定义model优化方法"></a>5.5 定义model优化方法</h2><p>​        有了loss函数之后，就可以对模型进行优化对吧？那么接下来，我们定义一个函数，输入一个batch，用TF的随机梯度下降优化器来优化上面那个loss：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">MODEL_TYPE, BATCH_TYPE, tf.float32</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">batch_train</span>(<span class="hljs-params">initial_model, batch, learning_rate</span>):</span><br>    <span class="hljs-comment"># Define a group of model variables and set them to `initial_model`. Must</span><br>    <span class="hljs-comment"># be defined outside the @tf.function.</span><br>    model_vars = collections.OrderedDict([<br>      (name, tf.Variable(name=name, initial_value=value))<br>      <span class="hljs-keyword">for</span> name, value <span class="hljs-keyword">in</span> initial_model.items()<br>    ])<br>    optimizer = tf.keras.optimizers.SGD(learning_rate)<br><br><span class="hljs-meta">    @tf.function</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_train_on_batch</span>(<span class="hljs-params">model_vars, batch</span>):</span><br>        <span class="hljs-comment"># Perform one step of gradient descent using loss from `batch_loss`.</span><br>        <span class="hljs-keyword">with</span> tf.GradientTape() <span class="hljs-keyword">as</span> tape:<br>            loss = forward_pass(model_vars, batch)<br>        grads = tape.gradient(loss, model_vars)<br>        optimizer.apply_gradients(<br>            <span class="hljs-built_in">zip</span>(tf.nest.flatten(grads), tf.nest.flatten(model_vars)))<br>        <span class="hljs-keyword">return</span> model_vars<br><br>    <span class="hljs-keyword">return</span> _train_on_batch(model_vars, batch)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(batch_train.type_signature))<br><br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">(&lt;&lt;weights=float32[<span class="hljs-number">784</span>,<span class="hljs-number">10</span>],bias=float32[<span class="hljs-number">10</span>]&gt;,&lt;x=float32[?,<span class="hljs-number">784</span>],y=int32[?]&gt;,float32&gt; -&gt; &lt;weights=float32[<span class="hljs-number">784</span>,<span class="hljs-number">10</span>],bias=float32[<span class="hljs-number">10</span>]&gt;)<br><br></code></pre></td></tr></table></figure>
+
+<p>​        最先看到，输入参数的类型是有显式声明的。<br>​        函数体中先声明了变量<code>model_vars</code>并赋值，相当于对<code>initial_model</code>做了次深拷贝。再实例化一个SGD优化器<code>optimizer</code>。在<code>_train_on_batch</code>函数中，我们调用了之前定义的前向传播函数<code>forward_pass</code>来计算loss，然后显式地计算反向传播的梯度，再显式地apply梯度到模型变量上，最终返回更新后的模型参数。</p>
+<p>​        简单来说，<code>batch_train</code>就是输入当前模型、一个batch的数据和学习率，返回一组优化后的模型参数。</p>
+<p>​        接下来我们用上面定义的初始模型（参数全为0），随便拿一个batch出来训练一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python">model = initial_model<br>losses = []<br><span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    model = batch_train(model, sample_batch, <span class="hljs-number">0.1</span>)<br>    losses.append(batch_loss(model, sample_batch))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;5 loops loss:&quot;</span>, losses)<br><br></code></pre></td></tr></table></figure>
+
+<p>​        上面的代码中，我们用同一份batch<code>sample_batch</code>去训练一个初始模型。可以发现，每次调用<code>batch_train</code>的过程，就是模型迭代一轮的过程，下一轮输入的模型就是上一轮返回的模型。正常执行的话，应该会看到类似下面的输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">5</span> loops loss: [<span class="hljs-number">0.19690022</span>, <span class="hljs-number">0.13176315</span>, <span class="hljs-number">0.10113226</span>, <span class="hljs-number">0.08273813</span>, <span class="hljs-number">0.07030139</span>]<br></code></pre></td></tr></table></figure>
+
+<p>​        可以看出loss值是在不断下降的。而且重复跑多少次都是类似的结果，因为<code>batch_train</code>函数中有做深拷贝，不会影响函数外的实参。</p>
+<h2 id="5-6-local训练"><a href="#5-6-local训练" class="headerlink" title="5.6 local训练"></a>5.6 local训练</h2><p>​        接下来我们写一个函数，能够对一系列的batch进行学习，并且更新模型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs python">LOCAL_DATA_TYPE = tff.SequenceType(BATCH_TYPE)<br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">MODEL_TYPE, tf.float32, LOCAL_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">local_train</span>(<span class="hljs-params">initial_model, learning_rate, all_batches</span>):</span><br><br>    <span class="hljs-comment"># Mapping function to apply to each batch.</span><br><span class="hljs-meta">    @tff.federated_computation(<span class="hljs-params">MODEL_TYPE, BATCH_TYPE</span>)</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">batch_fn</span>(<span class="hljs-params">model, batch</span>):</span><br>        <span class="hljs-keyword">return</span> batch_train(model, batch, learning_rate)<br><br>    <span class="hljs-keyword">return</span> tff.sequence_reduce(all_batches, initial_model, batch_fn)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(local_train.type_signature))<br><br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">(&lt;&lt;weights=float32[<span class="hljs-number">784</span>,<span class="hljs-number">10</span>],bias=float32[<span class="hljs-number">10</span>]&gt;,float32,&lt;x=float32[?,<span class="hljs-number">784</span>],y=int32[?]&gt;*&gt; -&gt; &lt;weights=float32[<span class="hljs-number">784</span>,<span class="hljs-number">10</span>],bias=float32[<span class="hljs-number">10</span>]&gt;)<br><br></code></pre></td></tr></table></figure>
+
+<p>​        这个函数实现了对当前模型<code>initial_model</code>进行一系列<code>batch</code>的更新。可以看到，<code>local_train</code>输入的参数都不是联邦类型的，但是它却用<code>federated_computation</code>来包装，一是为了表达一种“联邦”的逻辑概念，二是如果内外两个函数都改成<code>tf_computation</code>后也会报错，因为调用了TFF框架的函数<code>tff.sequence_reduce()</code>，不是TF的代码。</p>
+<p>训练一次试试：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">locally_trained_model = local_train(initial_model, <span class="hljs-number">0.1</span>, federated_train_data[<span class="hljs-number">5</span>])<br></code></pre></td></tr></table></figure>
+
+<p>​        这里我们喂给初始模型所有的数字<code>5</code>的训练集，但没有其他数字，我们待会看看这种极度不平衡的训练集分布（non-IID），会带来什么影响。</p>
+<h2 id="5-7-定义评价函数"><a href="#5-7-定义评价函数" class="headerlink" title="5.7 定义评价函数"></a>5.7 定义评价函数</h2><p>我们想知道模型究竟训练得咋样了，我们需要定义一个评价函数，来量化当前模型对数据样本的分类表现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">MODEL_TYPE, LOCAL_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">local_eval</span>(<span class="hljs-params">model, all_batches</span>):</span><br>    <span class="hljs-comment"># TODO(b/120157713): Replace with `tff.sequence_average()` once implemented.</span><br>    <span class="hljs-keyword">return</span> tff.sequence_sum(<br>        tff.sequence_map(<br>            tff.federated_computation(<span class="hljs-keyword">lambda</span> b: batch_loss(model, b), BATCH_TYPE),<br>            all_batches))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(local_eval.type_signature))<br><br></code></pre></td></tr></table></figure>
+
+<p>输出函数定义类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">(&lt;&lt;weights=float32[<span class="hljs-number">784</span>,<span class="hljs-number">10</span>],bias=float32[<span class="hljs-number">10</span>]&gt;,&lt;x=float32[?,<span class="hljs-number">784</span>],y=int32[?]&gt;*&gt; -&gt; float32)<br></code></pre></td></tr></table></figure>
+
+<p>​        函数<code>local_eval</code>对当前模型在所有batch上的loss进行求和计算，我们关注一下<code>tff.federated_computation</code>的函数型调用方式，可以定义一个匿名的联邦计算函数。</p>
+<p>​        对于初始化模型，以及上面训练了一轮的<code>locally_trained_model</code>，我们计算输出它的loss值和评价指标：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;initial_model loss [num 5] =&#x27;</span>, local_eval(initial_model, federated_train_data[<span class="hljs-number">5</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;locally_trained_model loss [num 5] =&#x27;</span>, local_eval(locally_trained_model, federated_train_data[<span class="hljs-number">5</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;initial_model loss [num 0] =&#x27;</span>, local_eval(initial_model, federated_train_data[<span class="hljs-number">0</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;locally_trained_model loss [num 0] =&#x27;</span>, local_eval(locally_trained_model, federated_train_data[<span class="hljs-number">0</span>]))<br></code></pre></td></tr></table></figure>
+
+<p>上面的代码正常执行的话，可以看到如下结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">initial_model loss [num <span class="hljs-number">5</span>] = <span class="hljs-number">23.025854</span><br>locally_trained_model loss [num <span class="hljs-number">5</span>] = <span class="hljs-number">0.4348469</span><br>initial_model loss [num <span class="hljs-number">0</span>] = <span class="hljs-number">23.025854</span><br>locally_trained_model loss [num <span class="hljs-number">0</span>] = <span class="hljs-number">74.500755</span><br></code></pre></td></tr></table></figure>
+
+<p>​        通过结果我们发现，我们的模型<code>locally_trained_model</code>因为在数字<code>5</code>的数据集上进行训练，因此对数字<code>5</code>的识别程度较高，loss降低到了<code>0.4348469</code>。但是因为没有见过数字<code>0</code>，识别度较低，loss反而比初始模型增大了。</p>
+<h2 id="5-8-定义联邦评价函数"><a href="#5-8-定义联邦评价函数" class="headerlink" title="5.8 定义联邦评价函数"></a>5.8 定义联邦评价函数</h2><p>​        为了解决上述问题，我们开始正式的联邦训练：用10个clients分别学习10个数字的样本，得到一个全方面的模型。首先定义联邦学习的模型的评价函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python">SERVER_MODEL_TYPE = tff.FederatedType(MODEL_TYPE, tff.SERVER)<br>CLIENT_DATA_TYPE = tff.FederatedType(LOCAL_DATA_TYPE, tff.CLIENTS)<br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">SERVER_MODEL_TYPE, CLIENT_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">federated_eval</span>(<span class="hljs-params">model, data</span>):</span><br>    <span class="hljs-keyword">return</span> tff.federated_mean(<br>        tff.federated_map(local_eval, [tff.federated_broadcast(model), data]))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(federated_eval.type_signature))<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">(&lt;&lt;weights=float32[<span class="hljs-number">784</span>,<span class="hljs-number">10</span>],bias=float32[<span class="hljs-number">10</span>]&gt;@SERVER,&#123;&lt;x=float32[?,<span class="hljs-number">784</span>],y=int32[?]&gt;*&#125;@CLIENTS&gt; -&gt; float32@SERVER)<br></code></pre></td></tr></table></figure>
+
+<p>​        到了联邦的场景，终于需要显式定义联邦类型了。这里我们定义了两种类型：<code>SERVER_MODEL_TYPE</code>是存放在S端的模型参数，是全局唯一的。<code>CLIENT_DATA_TYPE</code>是存在C端的，默认全局不唯一。<br>​        函数<code>federated_eval</code>把模型丢给clients去计算一下loss。这里体现了联邦学习的一个关键点：在现实场景中，<code>data</code>是存放在C端且很隐私的，因此用<code>data</code>去评价模型只能给C端去做。那么，<code>tff.federated_broadcast</code>函数就负责完成这个S端到C端的传输过程，让我们无需关注网络传输等细节。</p>
+<p>对于初始模型和上面训练了一轮的模型，我们可以跑个全局评价看看：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;initial_model loss =&#x27;</span>, federated_eval(initial_model,<br>                                             federated_train_data))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;locally_trained_model loss =&#x27;</span>,<br>      federated_eval(locally_trained_model, federated_train_data))<br></code></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">initial_model loss = <span class="hljs-number">23.025852</span><br>locally_trained_model loss = <span class="hljs-number">54.43263</span><br></code></pre></td></tr></table></figure>
+
+<p>可以看出，单个节点训练的效果还不如全0初始化。因此，如何整合多方训练，是联邦学习能达到好效果的关键。</p>
+<h2 id="5-9-定义联邦训练"><a href="#5-9-定义联邦训练" class="headerlink" title="5.9 定义联邦训练"></a>5.9 定义联邦训练</h2><p>​        对于联邦训练，我们定义如下训练函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python">SERVER_FLOAT_TYPE = tff.FederatedType(tf.float32, tff.SERVER)<br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">SERVER_MODEL_TYPE, SERVER_FLOAT_TYPE,</span></span><br><span class="hljs-params"><span class="hljs-meta">                           CLIENT_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">federated_train</span>(<span class="hljs-params">model, learning_rate, data</span>):</span><br>    <span class="hljs-keyword">return</span> tff.federated_mean(<br>        tff.federated_map(local_train, [<br>            tff.federated_broadcast(model),<br>            tff.federated_broadcast(learning_rate), data<br>        ]))<br><br></code></pre></td></tr></table></figure>
+
+<p>​        其中，类型<code>SERVER_FLOAT_TYPE</code>的解读交给读者完成。<code>federated_train</code>函数其实是把S端的模型和学习率通过<code>tff.federated_broadcast</code>“转化”为C端的数据，再分别放置到<code>local_train</code>里进行训练，得到10个更新后的模型后，用<code>tff.federated_mean</code>直接求平均值作为全局模型的更新。此时，<code>data</code>所代表的10类数字样本分别给予10个clients去训练，即体现了联邦学习应对non-IID数据的场景。</p>
+<p>​        最后用一段循环，来对S端模型进行迭代训练：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">model = initial_model<br>learning_rate = <span class="hljs-number">0.1</span><br><span class="hljs-keyword">for</span> round_num <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    <span class="hljs-comment"># 每一轮，把大家的模型分别更新一下，取平均之后拿回来（做赋值替换）</span><br>    model = federated_train(model, learning_rate, federated_train_data)<br>    <span class="hljs-comment"># 把学习率减小一点</span><br>    learning_rate = learning_rate * <span class="hljs-number">0.9</span><br>    <span class="hljs-comment"># 算个loss输出一下</span><br>    loss = federated_eval(model, federated_train_data)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;round &#123;&#125;, loss=&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(round_num, loss))<br>    <span class="hljs-comment"># 下一轮S端的模型又发给各位clients去更新</span><br><br></code></pre></td></tr></table></figure>
+
+<p>可以得到类似的输出：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">round</span> <span class="hljs-number">0</span>, loss=<span class="hljs-number">21.60552406311035</span><br><span class="hljs-built_in">round</span> <span class="hljs-number">1</span>, loss=<span class="hljs-number">20.365678787231445</span><br><span class="hljs-built_in">round</span> <span class="hljs-number">2</span>, loss=<span class="hljs-number">19.27480125427246</span><br><span class="hljs-built_in">round</span> <span class="hljs-number">3</span>, loss=<span class="hljs-number">18.31110954284668</span><br><span class="hljs-built_in">round</span> <span class="hljs-number">4</span>, loss=<span class="hljs-number">17.45725440979004</span><br><br></code></pre></td></tr></table></figure>
+
+<p>​        模型迭代训练的流程已经写到代码注释里了。看到了这里，请各位同学结合文章开头的那张图片想象一下这个联邦训练过程，如果能把代码和图片每个部分对应上，那么应该就算入门了。</p>
+<h1 id="六、完整代码"><a href="#六、完整代码" class="headerlink" title="六、完整代码"></a>六、完整代码</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> collections<br><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">import</span> tensorflow_federated <span class="hljs-keyword">as</span> tff<br><br>tf.compat.v1.enable_v2_behavior()<br><br><span class="hljs-comment"># TODO(b/148678573,b/148685415): must use the ReferenceExecutor because it</span><br><span class="hljs-comment"># supports unbounded references and tff.sequence_* intrinsics.</span><br>tff.framework.set_default_executor(tff.framework.ReferenceExecutor())<br><br>mnist_train, mnist_test = tf.keras.datasets.mnist.load_data()<br><br>NUM_EXAMPLES_PER_USER = <span class="hljs-number">1000</span><br>BATCH_SIZE = <span class="hljs-number">100</span><br><br><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_data_for_digit</span>(<span class="hljs-params">source, digit</span>):</span><br>    output_sequence = []<br>    all_samples = [i <span class="hljs-keyword">for</span> i, d <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(source[<span class="hljs-number">1</span>]) <span class="hljs-keyword">if</span> d == digit]<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">0</span>, <span class="hljs-built_in">min</span>(<span class="hljs-built_in">len</span>(all_samples), NUM_EXAMPLES_PER_USER), BATCH_SIZE):<br>        batch_samples = all_samples[i:i + BATCH_SIZE]<br>        output_sequence.append(&#123;<br>            <span class="hljs-string">&#x27;x&#x27;</span>:<br>                np.array([source[<span class="hljs-number">0</span>][i].flatten() / <span class="hljs-number">255.0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> batch_samples],<br>                         dtype=np.float32),<br>            <span class="hljs-string">&#x27;y&#x27;</span>:<br>                np.array([source[<span class="hljs-number">1</span>][i] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> batch_samples], dtype=np.int32)<br>        &#125;)<br>    <span class="hljs-keyword">return</span> output_sequence<br><br><br>federated_train_data = [get_data_for_digit(mnist_train, d) <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]<br><br>federated_test_data = [get_data_for_digit(mnist_test, d) <span class="hljs-keyword">for</span> d <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>)]<br><br>BATCH_SPEC = collections.OrderedDict(<br>    x=tf.TensorSpec(shape=[<span class="hljs-literal">None</span>, <span class="hljs-number">784</span>], dtype=tf.float32),<br>    y=tf.TensorSpec(shape=[<span class="hljs-literal">None</span>], dtype=tf.int32))<br>BATCH_TYPE = tff.to_type(BATCH_SPEC)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(BATCH_TYPE))<br><br>MODEL_SPEC = collections.OrderedDict(<br>    weights=tf.TensorSpec(shape=[<span class="hljs-number">784</span>, <span class="hljs-number">10</span>], dtype=tf.float32),<br>    bias=tf.TensorSpec(shape=[<span class="hljs-number">10</span>], dtype=tf.float32))<br>MODEL_TYPE = tff.to_type(MODEL_SPEC)<br><br><span class="hljs-built_in">print</span>(MODEL_TYPE)<br><br><span class="hljs-meta">@tf.function</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward_pass</span>(<span class="hljs-params">model, batch</span>):</span><br>    predicted_y = tf.nn.softmax(<br>        tf.matmul(batch[<span class="hljs-string">&#x27;x&#x27;</span>], model[<span class="hljs-string">&#x27;weights&#x27;</span>]) + model[<span class="hljs-string">&#x27;bias&#x27;</span>])<br>    <span class="hljs-keyword">return</span> -tf.reduce_mean(<br>        tf.reduce_sum(<br>            tf.one_hot(batch[<span class="hljs-string">&#x27;y&#x27;</span>], <span class="hljs-number">10</span>) * tf.math.log(predicted_y), axis=[<span class="hljs-number">1</span>]))<br><br><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">MODEL_TYPE, BATCH_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">batch_loss</span>(<span class="hljs-params">model, batch</span>):</span><br>    <span class="hljs-keyword">return</span> forward_pass(model, batch)<br><br>initial_model = collections.OrderedDict(<br>    weights=np.zeros([<span class="hljs-number">784</span>, <span class="hljs-number">10</span>], dtype=np.float32),<br>    bias=np.zeros([<span class="hljs-number">10</span>], dtype=np.float32))<br><br>sample_batch = federated_train_data[<span class="hljs-number">5</span>][-<span class="hljs-number">1</span>]<br><br><span class="hljs-built_in">print</span>(batch_loss(initial_model, sample_batch))<br><br><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">MODEL_TYPE, BATCH_TYPE, tf.float32</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">batch_train</span>(<span class="hljs-params">initial_model, batch, learning_rate</span>):</span><br>    <span class="hljs-comment"># Define a group of model variables and set them to `initial_model`. Must</span><br>    <span class="hljs-comment"># be defined outside the @tf.function.</span><br>    model_vars = collections.OrderedDict([<br>      (name, tf.Variable(name=name, initial_value=value))<br>      <span class="hljs-keyword">for</span> name, value <span class="hljs-keyword">in</span> initial_model.items()<br>    ])<br>    optimizer = tf.keras.optimizers.SGD(learning_rate)<br><br><span class="hljs-meta">    @tf.function</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_train_on_batch</span>(<span class="hljs-params">model_vars, batch</span>):</span><br>        <span class="hljs-comment"># Perform one step of gradient descent using loss from `batch_loss`.</span><br>        <span class="hljs-keyword">with</span> tf.GradientTape() <span class="hljs-keyword">as</span> tape:<br>            loss = forward_pass(model_vars, batch)<br>        grads = tape.gradient(loss, model_vars)<br>        optimizer.apply_gradients(<br>            <span class="hljs-built_in">zip</span>(tf.nest.flatten(grads), tf.nest.flatten(model_vars)))<br>        <span class="hljs-keyword">return</span> model_vars<br><br>    <span class="hljs-keyword">return</span> _train_on_batch(model_vars, batch)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(batch_train.type_signature))<br><br>model = initial_model<br>losses = []<br><span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    model = batch_train(model, sample_batch, <span class="hljs-number">0.1</span>)<br>    losses.append(batch_loss(model, sample_batch))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;5 loops loss:&quot;</span>, losses)<br><br>LOCAL_DATA_TYPE = tff.SequenceType(BATCH_TYPE)<br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">MODEL_TYPE, tf.float32, LOCAL_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">local_train</span>(<span class="hljs-params">initial_model, learning_rate, all_batches</span>):</span><br><br>    <span class="hljs-comment"># Mapping function to apply to each batch.</span><br><span class="hljs-meta">    @tff.federated_computation(<span class="hljs-params">MODEL_TYPE, BATCH_TYPE</span>)</span><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">batch_fn</span>(<span class="hljs-params">model, batch</span>):</span><br>        <span class="hljs-keyword">return</span> batch_train(model, batch, learning_rate)<br><br>    <span class="hljs-keyword">return</span> tff.sequence_reduce(all_batches, initial_model, batch_fn)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(local_train.type_signature))<br><br>locally_trained_model = local_train(initial_model, <span class="hljs-number">0.1</span>, federated_train_data[<span class="hljs-number">5</span>])<br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">MODEL_TYPE, LOCAL_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">local_eval</span>(<span class="hljs-params">model, all_batches</span>):</span><br>    <span class="hljs-comment"># TODO(b/120157713): Replace with `tff.sequence_average()` once implemented.</span><br>    <span class="hljs-keyword">return</span> tff.sequence_sum(<br>        tff.sequence_map(<br>            tff.federated_computation(<span class="hljs-keyword">lambda</span> b: batch_loss(model, b), BATCH_TYPE),<br>            all_batches))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(local_eval.type_signature))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;initial_model loss [num 5] =&#x27;</span>, local_eval(initial_model, federated_train_data[<span class="hljs-number">5</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;locally_trained_model loss [num 5] =&#x27;</span>, local_eval(locally_trained_model, federated_train_data[<span class="hljs-number">5</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;initial_model loss [num 0] =&#x27;</span>, local_eval(initial_model, federated_train_data[<span class="hljs-number">0</span>]))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;locally_trained_model loss [num 0] =&#x27;</span>, local_eval(locally_trained_model, federated_train_data[<span class="hljs-number">0</span>]))<br><br><br>SERVER_MODEL_TYPE = tff.FederatedType(MODEL_TYPE, tff.SERVER)<br>CLIENT_DATA_TYPE = tff.FederatedType(LOCAL_DATA_TYPE, tff.CLIENTS)<br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">SERVER_MODEL_TYPE, CLIENT_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">federated_eval</span>(<span class="hljs-params">model, data</span>):</span><br>    <span class="hljs-keyword">return</span> tff.federated_mean(<br>        tff.federated_map(local_eval, [tff.federated_broadcast(model), data]))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-built_in">str</span>(federated_eval.type_signature))<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;initial_model loss =&#x27;</span>, federated_eval(initial_model,<br>                                             federated_train_data))<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;locally_trained_model loss =&#x27;</span>,<br>      federated_eval(locally_trained_model, federated_train_data))<br><br><br>SERVER_FLOAT_TYPE = tff.FederatedType(tf.float32, tff.SERVER)<br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">SERVER_MODEL_TYPE, SERVER_FLOAT_TYPE,</span></span><br><span class="hljs-params"><span class="hljs-meta">                           CLIENT_DATA_TYPE</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">federated_train</span>(<span class="hljs-params">model, learning_rate, data</span>):</span><br>    <span class="hljs-keyword">return</span> tff.federated_mean(<br>        tff.federated_map(local_train, [<br>            tff.federated_broadcast(model),<br>            tff.federated_broadcast(learning_rate), data<br>        ]))<br><br><br>model = initial_model<br>learning_rate = <span class="hljs-number">0.1</span><br><span class="hljs-keyword">for</span> round_num <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>    <span class="hljs-comment"># 每一轮，把大家的模型分别更新一下，取平均之后拿回来（做赋值替换）</span><br>    model = federated_train(model, learning_rate, federated_train_data)<br>    <span class="hljs-comment"># 把学习率减小一点</span><br>    learning_rate = learning_rate * <span class="hljs-number">0.9</span><br>    <span class="hljs-comment"># 算个loss输出一下</span><br>    loss = federated_eval(model, federated_train_data)<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;round &#123;&#125;, loss=&#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(round_num, loss))<br>    <span class="hljs-comment"># 下一轮S端的模型又发给各位clients去更新</span><br><br></code></pre></td></tr></table></figure>
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/04/04/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;04&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;04&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/">联邦学习</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" rel="tag">联邦学习</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">一、前言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 联邦学习简介</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81TensorFlow-Federated-Framework"><span class="toc-number">2.</span> <span class="toc-text">二、TensorFlow Federated Framework</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1%E7%90%86%E5%BF%B5"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 框架设计理念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-%E6%95%B0%E6%8D%AE%E4%B8%BA%E4%B8%BB"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1 数据为主</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-%E6%95%B4%E4%BD%93%E8%AE%AD%E7%BB%83"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2 整体训练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-3-%E6%96%B0%E7%9A%84%E8%AF%AD%E8%A8%80"><span class="toc-number">2.1.3.</span> <span class="toc-text">2.1.3 新的语言</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-4-%E4%B8%8D%E5%90%8C%E5%B1%82%E4%BE%A7%E7%9A%84API"><span class="toc-number">2.1.4.</span> <span class="toc-text">2.1.4 不同层侧的API</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%AE%89%E8%A3%85TFF%E5%BA%93-conda"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 安装TFF库(conda)</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.</span> <span class="toc-text">三、数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E7%AB%AF%E6%97%A0%E5%85%B3%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 端无关的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-1-Tensor-types-tff-TensorType"><span class="toc-number">3.1.1.</span> <span class="toc-text">3.1.1 Tensor types(tff.TensorType)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-2-Sequence-types%EF%BC%88tff-SequenceType%EF%BC%89"><span class="toc-number">3.1.2.</span> <span class="toc-text">3.1.2 Sequence types（tff.SequenceType）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-3-Named-tuple-types%EF%BC%88tff-NamedTupleType%EF%BC%89"><span class="toc-number">3.1.3.</span> <span class="toc-text">3.1.3 Named tuple types（tff.NamedTupleType）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-4-Function-types%EF%BC%88tff-FunctionType%EF%BC%89"><span class="toc-number">3.1.4.</span> <span class="toc-text">3.1.4 Function  types（tff.FunctionType）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E7%AB%AF%E6%9C%89%E5%85%B3%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 端有关的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-1-Placement-type"><span class="toc-number">3.2.1.</span> <span class="toc-text">3.2.1 Placement type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-2-Federated-types%EF%BC%88tff-FederatedType%EF%BC%89"><span class="toc-number">3.2.2.</span> <span class="toc-text">3.2.2 Federated types（tff.FederatedType）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-3-%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E"><span class="toc-number">3.2.3.</span> <span class="toc-text">3.2.3 变量声明</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89"><span class="toc-number">4.</span> <span class="toc-text">四、函数定义</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E7%AB%AF%E6%97%A0%E5%85%B3%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 端无关的函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E7%AB%AF%E6%9C%89%E5%85%B3%E7%9A%84%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 端有关的函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 内置函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-Functions"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 Functions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-%E5%85%B6%E4%BB%96%E6%B3%A8%E6%84%8F"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 其他注意</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B"><span class="toc-number">5.</span> <span class="toc-text">五、训练模型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E5%AF%BC%E5%BA%93"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 导库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 加载数据集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-%E5%AE%9A%E4%B9%89batch%E3%80%81model%E7%9A%84%E8%81%94%E9%82%A6%E7%B1%BB%E5%9E%8B"><span class="toc-number">5.3.</span> <span class="toc-text">5.3  定义batch、model的联邦类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-%E5%AE%9A%E4%B9%89loss%E5%87%BD%E6%95%B0"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 定义loss函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-%E5%AE%9A%E4%B9%89model%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95"><span class="toc-number">5.5.</span> <span class="toc-text">5.5 定义model优化方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-6-local%E8%AE%AD%E7%BB%83"><span class="toc-number">5.6.</span> <span class="toc-text">5.6 local训练</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-7-%E5%AE%9A%E4%B9%89%E8%AF%84%E4%BB%B7%E5%87%BD%E6%95%B0"><span class="toc-number">5.7.</span> <span class="toc-text">5.7 定义评价函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-8-%E5%AE%9A%E4%B9%89%E8%81%94%E9%82%A6%E8%AF%84%E4%BB%B7%E5%87%BD%E6%95%B0"><span class="toc-number">5.8.</span> <span class="toc-text">5.8 定义联邦评价函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-9-%E5%AE%9A%E4%B9%89%E8%81%94%E9%82%A6%E8%AE%AD%E7%BB%83"><span class="toc-number">5.9.</span> <span class="toc-text">5.9 定义联邦训练</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">6.</span> <span class="toc-text">六、完整代码</span></a></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1649075797845"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>

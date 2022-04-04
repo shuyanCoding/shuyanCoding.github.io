@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>位运算 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="位运算​        优先级别由高到低依次为：按位取反( ~ )，按位与( &amp; )，按位异或( ^ )，按位或( | )。 ​        左移(&lt;&lt;)，右移(&gt;&gt;)。 按位取反​        一元运算符，用来对一个二进制数按位取反，即0变1，1变0；  生成与系统无关的常数 n &#x3D; n &amp; (~077)    将n的最低六位置0 (077二进制表示为">
+<meta property="og:type" content="article">
+<meta property="og:title" content="位运算">
+<meta property="og:url" content="http://example.com/2022/04/01/Leetcode/%E7%BA%BF%E6%80%A7%E8%A1%A8/%E4%BD%8D%E8%BF%90%E7%AE%97/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="位运算​        优先级别由高到低依次为：按位取反( ~ )，按位与( &amp; )，按位异或( ^ )，按位或( | )。 ​        左移(&lt;&lt;)，右移(&gt;&gt;)。 按位取反​        一元运算符，用来对一个二进制数按位取反，即0变1，1变0；  生成与系统无关的常数 n &#x3D; n &amp; (~077)    将n的最低六位置0 (077二进制表示为">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-31T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-04T12:32:37.428Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Leetcode">
+<meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1649075797886">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1649075797886">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1649075797886">
+    <link rel="stylesheet" href="/css/style.css?v=1649075797886">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>42</div>
+        <div><span>Tags</span>12</div>
+        <div><span>Categories</span>20</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">20</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">12</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">5</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">17</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/JVM/" style="font-size: 14px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 14px;">JavaWeb</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Mybaits/" style="font-size: 18px;">Mybaits</a> <a href="/tags/STL/" style="font-size: 14px;">STL</a> <a href="/tags/Spring/" style="font-size: 16px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 12px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 12px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/位运算jpg" data-sizes="auto" alt="位运算" class="lazyload">
+              <h1>位运算</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年04月01日</a>
+</div>
+
+      
+
+      <h2 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h2><p>​        优先级别由高到低依次为：按位取反( ~ )，按位与( &amp; )，按位异或( ^ )，按位或( | )。</p>
+<p>​        左移(&lt;&lt;)，右移(&gt;&gt;)。</p>
+<h3 id="按位取反"><a href="#按位取反" class="headerlink" title="按位取反"></a>按位取反</h3><p>​        一元运算符，用来对一个二进制数按位取反，即0变1，1变0；</p>
+<ul>
+<li>生成与系统无关的常数<ul>
+<li><code>n = n &amp; (~077) </code>   将n的最低六位置0 (077二进制表示为111111）</li>
+</ul>
+</li>
+</ul>
+<h3 id="按位与"><a href="#按位与" class="headerlink" title="按位与"></a>按位与</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-number">0</span> &amp; <span class="hljs-number">0</span> = <span class="hljs-number">0</span>   <span class="hljs-number">0</span> &amp; <span class="hljs-number">1</span> = <span class="hljs-number">0</span>   <span class="hljs-number">1</span> &amp; <span class="hljs-number">0</span> = <span class="hljs-number">0</span>  <span class="hljs-number">1</span> &amp; <span class="hljs-number">1</span> =<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>​        即同为1时结果才为1,否则结果为0</p>
+<p>用途：</p>
+<ul>
+<li><code>lowbit(n)</code>  用于计算n的二进制表示中最低位1出现的位置</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">lowbit</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>	<span class="hljs-keyword">return</span> n&amp;(-n);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>计算n的二进制表示中有几个1</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">numOfOne</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>	<span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(n)&#123;<br>		count++;<br>		n=n&amp;(n<span class="hljs-number">-1</span>);<br>	&#125;<br>	<span class="hljs-keyword">return</span> count;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>当然还有另一种计算方法</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">numOfOne</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>	<span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">32</span>;i++)&#123;<br>		<span class="hljs-keyword">if</span>(n&gt;&gt;i&amp;<span class="hljs-number">1</span>) count++;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>可以用来截取n的最低几位</p>
+<ul>
+<li><p><code>n&amp;0177</code> (截取最低7位）  </p>
+</li>
+<li><p><code>n&amp;077</code>（截取最低六位）</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="按位异或"><a href="#按位异或" class="headerlink" title="按位异或"></a>按位异或</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-number">0</span> ^ <span class="hljs-number">0</span> = <span class="hljs-number">0</span>   <span class="hljs-number">0</span> ^ <span class="hljs-number">1</span> = <span class="hljs-number">1</span>    <span class="hljs-number">1</span> ^ <span class="hljs-number">0</span> = <span class="hljs-number">1</span>    <span class="hljs-number">1</span> ^ <span class="hljs-number">1</span> = <span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>即不同为1，相同为0<ul>
+<li>题目有时会要求异或，在博弈论中的尼姆博弈中会用到  </li>
+</ul>
+</li>
+</ul>
+<h3 id="按位或"><a href="#按位或" class="headerlink" title="按位或"></a>按位或</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-number">0</span> | <span class="hljs-number">0</span> = <span class="hljs-number">0</span>   <span class="hljs-number">0</span> | <span class="hljs-number">1</span> = <span class="hljs-number">1</span>    <span class="hljs-number">1</span> | <span class="hljs-number">0</span> = <span class="hljs-number">1</span>    <span class="hljs-number">1</span> | <span class="hljs-number">1</span> = <span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>即只要有1出现结果就是1，否则为0</li>
+</ul>
+<p>用途 ：</p>
+<ul>
+<li>将n的二进制中的某几位置1</li>
+</ul>
+<p>​         如： <code>n = n | 017 </code> （将低4位置1）</p>
+<ul>
+<li>取n的二进制位0的个数（高位补0）</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">numOfZero</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>	<span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(n+<span class="hljs-number">1</span>)&#123;<br>		count++;<br>		n=n|(n+<span class="hljs-number">1</span>);<br>	&#125;<br>	<span class="hljs-keyword">return</span> count;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当然有另一种方法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">numOfZero</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>	<span class="hljs-keyword">int</span> count=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">32</span>;i++)&#123;<br>		<span class="hljs-keyword">if</span>(!(n&gt;&gt;i&amp;<span class="hljs-number">1</span>))count++;<br>	&#125;<br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果想分别求出n的二进制表达中1的个数和0的个数（不包括高位）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">numOf</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>	<span class="hljs-keyword">int</span> count1=<span class="hljs-number">0</span>,count2=<span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">while</span>(n)&#123;<br>		<span class="hljs-keyword">if</span>(n&amp;<span class="hljs-number">1</span>) count1++;<span class="hljs-comment">//1的个数 </span><br>		<span class="hljs-keyword">else</span> count2++;<span class="hljs-comment">//0的个数 </span><br>		n&gt;&gt;=<span class="hljs-number">1</span>; <br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h2><h3 id="1-用于消去-x-最后一位的1"><a href="#1-用于消去-x-最后一位的1" class="headerlink" title="1. 用于消去 x 最后一位的1"></a>1. 用于消去 x 最后一位的1</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++">x &amp; (x<span class="hljs-number">-1</span>)<br>x = <span class="hljs-number">1100</span><br>x - <span class="hljs-number">1</span> = <span class="hljs-number">1011</span><br>x &amp; (x - <span class="hljs-number">1</span>) = <span class="hljs-number">1000</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="1-1-应用一："><a href="#1-1-应用一：" class="headerlink" title="1.1 应用一："></a>1.1 应用一：</h4><p>用O(1)时间检测整数n是否是2的幂次</p>
+<ul>
+<li>思路解析：<ul>
+<li>N如果是2的幂次，则N满足两个条件<ul>
+<li>N &gt; 0</li>
+<li>N 的二进制表示中只有一个 1</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>一位N的二进制表示中只有一个1，所以使用N&amp;(N-1)将唯一的一个1消去。如果N是2的幂次，那么N&amp;(N-1)得到结果为0，即可判断。</p>
+<h4 id="1-2-应用二："><a href="#1-2-应用二：" class="headerlink" title="1.2 应用二："></a>1.2 应用二：</h4><ul>
+<li>思路解析：<br>由 <code>x &amp; (x-1)</code> 消去x最后一位知。循环使用 <code>x &amp; (x-1)</code>消去最后一位1，计算总共消去了多少次即可。</li>
+</ul>
+<h4 id="1-3-将整数A转换为B，需要改变多少个bit位"><a href="#1-3-将整数A转换为B，需要改变多少个bit位" class="headerlink" title="1.3 将整数A转换为B，需要改变多少个bit位"></a>1.3 将整数A转换为B，需要改变多少个bit位</h4><ul>
+<li>思路解析</li>
+<li>思考将整数A转换为B，如果A和B在第i（0 &lt;= i &lt; 32）个位上相等，则不需要改变这个BIT位，如果在第i位上不相等，则需要改变这个BIT位。所以问题转化为了A和B有多少个BIT位不相同。联想到位运算有一个异或操作，相同为0，相异为1，所以问题转变成了计算A异或B之后这个数中1的个数。</li>
+</ul>
+<h3 id="2-使用二进制进行子集枚举"><a href="#2-使用二进制进行子集枚举" class="headerlink" title="2. 使用二进制进行子集枚举"></a>2. 使用二进制进行子集枚举</h3><p>应用：给定一个含不同整数的集合，返回其所有的子集</p>
+<h5 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h5><p>​        如果 S = [1,2,3]，有如下的解：<br>​        <code>[ [3], [1], [2], [1,2,3], [1,3], [2,3], [1,2] ]</code></p>
+<h5 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h5><p>​        思路就是使用一个正整数二进制表示的第i位是1还是0，代表集合的第i个数取或者不取。所以从0到2n-1总共2n个整数，正好对应集合的2^n个子集。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++">S = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;<br>N bit Combination<br><span class="hljs-number">0</span> <span class="hljs-number">000</span> &#123;&#125;<br><span class="hljs-number">1</span> <span class="hljs-number">001</span> &#123;<span class="hljs-number">1</span>&#125;<br><span class="hljs-number">2</span> <span class="hljs-number">010</span> &#123;<span class="hljs-number">2</span>&#125;<br><span class="hljs-number">3</span> <span class="hljs-number">011</span> &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>&#125;<br><span class="hljs-number">4</span> <span class="hljs-number">100</span> &#123;<span class="hljs-number">3</span>&#125;<br><span class="hljs-number">5</span> <span class="hljs-number">101</span> &#123;<span class="hljs-number">1</span>,<span class="hljs-number">3</span>&#125;<br><span class="hljs-number">6</span> <span class="hljs-number">110</span> &#123;<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;<br><span class="hljs-number">7</span> <span class="hljs-number">111</span> &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-a-b-b-a"><a href="#3-a-b-b-a" class="headerlink" title="3. a^b^b=a"></a>3. a^b^b=a</h3><h4 id="3-1-应用一"><a href="#3-1-应用一" class="headerlink" title="3.1 应用一"></a>3.1 应用一</h4><p>数组中，只有一个数出现一次，剩下都出现三次，找出出现一次的。</p>
+<h5 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h5><p>​    <code>Given [1,2,2,1,3,4,3], return 4</code></p>
+<h5 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a><strong>解题思路</strong></h5><p>因为只有一个数恰好出现一个，剩下的都出现过两次，所以只要将所有的数异或起来，就可以得到唯一的那个数。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">int</span> a[<span class="hljs-number">7</span>]=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">3</span>&#125;;<br>    <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">7</span>;i++)&#123;<br>        ans^=a[i];<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,ans);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-2-应用二"><a href="#3-2-应用二" class="headerlink" title="3.2 应用二"></a>3.2 应用二</h4><p>​        数组中，只有一个数出现一次，剩下都出现三次，找出出现一次的。</p>
+<h5 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h5><p>​        <code>Given [1,1,2,3,3,3,2,2,4,1] return 4</code></p>
+<h5 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路"></a>解题思路</h5><p>​        因为数是出现三次的，也就是说，对于每一个二进制位，如果只出现一次的数在该二进制位为1，那么这个二进制位在全部数字中出现次数无法被3整除。<br>​        模3运算只有三种状态：<code>00,01,10</code>，因此我们可以使用两个位来表示当前位%3，对于每一位，我们让Two，One表示当前位的状态，B表示输入数字的对应位，Two+和One+表示输出状态。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span><br><span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span><br><span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span><br><span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">1</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span><br><span class="hljs-number">1</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span><br><span class="hljs-number">1</span> <span class="hljs-number">0</span> <span class="hljs-number">1</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span><br>One+ = (One ^ B) &amp; (~Two)<br>Two+ = (~One+) &amp; (Two ^ B)<br></code></pre></td></tr></table></figure>
+
+<h5 id="C语言解题代码"><a href="#C语言解题代码" class="headerlink" title="C语言解题代码"></a><strong>C语言解题代码</strong></h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">findNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a,<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> one=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> two=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> i,j,k;<br>    <span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        two=two|(one&amp;a[i]);<br>        one=one^a[i];<br>        <span class="hljs-keyword">int</span> three=two&amp;one;<br>        two=two^three;<br>        one=one^three;<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,one|two);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>&#125;;<br>    <span class="hljs-built_in">findNum</span>(a,<span class="hljs-number">10</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>另外一种容易理解的方法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">findNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a,<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> bits[<span class="hljs-number">32</span>]=&#123;<span class="hljs-number">0</span>&#125;;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> j=<span class="hljs-number">0</span>;j&lt;<span class="hljs-number">32</span>;j++)&#123;<br>            bits[j]+=((a[i]&gt;&gt;j)&amp;<span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;<span class="hljs-number">32</span>;i++)&#123;<br>        <span class="hljs-keyword">if</span>(bits[i]%<span class="hljs-number">3</span>==<span class="hljs-number">1</span>) ans+=<span class="hljs-number">1</span>&lt;&lt;i;<br>    &#125;<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d\n&quot;</span>,ans);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">1</span>&#125;;<br>    <span class="hljs-built_in">findNum</span>(a,<span class="hljs-number">10</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="3-3-应用三"><a href="#3-3-应用三" class="headerlink" title="**3.3.应用三 **"></a>**3.3.应用三 **</h4><p>数组中，只有两个数出现一次，剩下都出现两次，找出出现一次的</p>
+<h5 id="问题-2"><a href="#问题-2" class="headerlink" title="问题"></a><strong>问题</strong></h5><p>​        <code>Given [1,2,2,3,4,4,5,3] return 1 and 5</code></p>
+<h5 id="解题思路-2"><a href="#解题思路-2" class="headerlink" title="解题思路"></a><strong>解题思路</strong></h5><p>​        有了第一题的基本的思路，我们不妨假设出现一个的两个元素是x，y，那么最终所有的元素异或的结果就是res = x^y。并且res！=0，那么我们可以找出res二进制表示中的某一位是1，那么这一位1对于这两个数x,y只有一个数的该位置是1。对于原来的数组，我们可以根据这个位置是不是1就可以将数组分成两个部分。求出x,y其中一个，我们就能求出两个了。</p>
+<h5 id="C语言解题代码-1"><a href="#C语言解题代码-1" class="headerlink" title="C语言解题代码"></a><strong>C语言解题代码</strong></h5><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">findNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a,<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> ans=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> pos=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> x=<span class="hljs-number">0</span>,y=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)<br>        ans^=a[i];<br>    <span class="hljs-keyword">int</span> tmp=ans;<br>    <span class="hljs-keyword">while</span>((tmp&amp;<span class="hljs-number">1</span>)==<span class="hljs-number">0</span>)&#123;<br>    <span class="hljs-comment">//终止条件是二进制tmp最低位是1</span><br>            pos++;<br>            tmp&gt;&gt;=<span class="hljs-number">1</span>;<br>    &#125;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-keyword">if</span>((a[i]&gt;&gt;pos)&amp;<span class="hljs-number">1</span>)&#123;<span class="hljs-comment">//取出第pos位的值</span><br>            x^=a[i];<br>        &#125;<br>    &#125;<br>    y=x^ans;<br>    <span class="hljs-keyword">if</span>(x&gt;y) <span class="hljs-built_in">swap</span>(x,y);<span class="hljs-comment">//从大到小输出x,y</span><br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d %d\n&quot;</span>,x,y);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> a[<span class="hljs-number">8</span>]=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">3</span>&#125;;<br>    <span class="hljs-built_in">findNum</span>(a,<span class="hljs-number">8</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>另外一种写法</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">findNum</span><span class="hljs-params">(<span class="hljs-keyword">int</span> *a,<span class="hljs-keyword">int</span> n)</span></span>&#123;<br>    <span class="hljs-keyword">int</span> diff=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">int</span> x=<span class="hljs-number">0</span>,y=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>            diff^=a[i];<br>    &#125;<br>    diff&amp;=-diff;<span class="hljs-comment">//取diff的最后一位1的位置</span><br>    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>;i&lt;n;i++)&#123;<br>        <span class="hljs-keyword">if</span>((a[i]&amp;diff)==<span class="hljs-number">0</span>)&#123;<br>            x^=a[i];<br>        &#125;<span class="hljs-keyword">else</span> y^=a[i];<br>    &#125;<br>    <span class="hljs-keyword">if</span>(x&gt;y) <span class="hljs-built_in">swap</span>(x,y);<br>    <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;%d %d\n&quot;</span>,x,y);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> a[<span class="hljs-number">10</span>]=&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">3</span>&#125;;<br>    <span class="hljs-built_in">findNum</span>(a,<span class="hljs-number">8</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/04/01/Leetcode/%E7%BA%BF%E6%80%A7%E8%A1%A8/%E4%BD%8D%E8%BF%90%E7%AE%97/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;01&#x2F;Leetcode&#x2F;%E7%BA%BF%E6%80%A7%E8%A1%A8&#x2F;%E4%BD%8D%E8%BF%90%E7%AE%97&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;01&#x2F;Leetcode&#x2F;%E7%BA%BF%E6%80%A7%E8%A1%A8&#x2F;%E4%BD%8D%E8%BF%90%E7%AE%97&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Leetcode/">Leetcode</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Leetcode/" rel="tag">Leetcode</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="toc-number">1.</span> <span class="toc-text">位运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E4%BD%8D%E5%8F%96%E5%8F%8D"><span class="toc-number">1.1.</span> <span class="toc-text">按位取反</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E4%BD%8D%E4%B8%8E"><span class="toc-number">1.2.</span> <span class="toc-text">按位与</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E4%BD%8D%E5%BC%82%E6%88%96"><span class="toc-number">1.3.</span> <span class="toc-text">按位异或</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8C%89%E4%BD%8D%E6%88%96"><span class="toc-number">1.4.</span> <span class="toc-text">按位或</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%80%E5%B7%A7"><span class="toc-number">2.</span> <span class="toc-text">技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E7%94%A8%E4%BA%8E%E6%B6%88%E5%8E%BB-x-%E6%9C%80%E5%90%8E%E4%B8%80%E4%BD%8D%E7%9A%841"><span class="toc-number">2.1.</span> <span class="toc-text">1. 用于消去 x 最后一位的1</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-%E5%BA%94%E7%94%A8%E4%B8%80%EF%BC%9A"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1 应用一：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-%E5%BA%94%E7%94%A8%E4%BA%8C%EF%BC%9A"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.2 应用二：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-%E5%B0%86%E6%95%B4%E6%95%B0A%E8%BD%AC%E6%8D%A2%E4%B8%BAB%EF%BC%8C%E9%9C%80%E8%A6%81%E6%94%B9%E5%8F%98%E5%A4%9A%E5%B0%91%E4%B8%AAbit%E4%BD%8D"><span class="toc-number">2.1.3.</span> <span class="toc-text">1.3 将整数A转换为B，需要改变多少个bit位</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%BF%9B%E8%A1%8C%E5%AD%90%E9%9B%86%E6%9E%9A%E4%B8%BE"><span class="toc-number">2.2.</span> <span class="toc-text">2. 使用二进制进行子集枚举</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A0%B7%E4%BE%8B"><span class="toc-number">2.2.0.1.</span> <span class="toc-text">样例</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">2.2.0.2.</span> <span class="toc-text">思路</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-a-b-b-a"><span class="toc-number">2.3.</span> <span class="toc-text">3. a^b^b&#x3D;a</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#3-1-%E5%BA%94%E7%94%A8%E4%B8%80"><span class="toc-number">2.3.1.</span> <span class="toc-text">3.1 应用一</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">2.3.1.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">2.3.1.2.</span> <span class="toc-text">解题思路</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-2-%E5%BA%94%E7%94%A8%E4%BA%8C"><span class="toc-number">2.3.2.</span> <span class="toc-text">3.2 应用二</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-1"><span class="toc-number">2.3.2.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-1"><span class="toc-number">2.3.2.2.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E8%A7%A3%E9%A2%98%E4%BB%A3%E7%A0%81"><span class="toc-number">2.3.2.3.</span> <span class="toc-text">C语言解题代码</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-3-%E5%BA%94%E7%94%A8%E4%B8%89"><span class="toc-number">2.3.3.</span> <span class="toc-text">**3.3.应用三 **</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%97%AE%E9%A2%98-2"><span class="toc-number">2.3.3.1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF-2"><span class="toc-number">2.3.3.2.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#C%E8%AF%AD%E8%A8%80%E8%A7%A3%E9%A2%98%E4%BB%A3%E7%A0%81-1"><span class="toc-number">2.3.3.3.</span> <span class="toc-text">C语言解题代码</span></a></li></ol></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1649075797889"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
