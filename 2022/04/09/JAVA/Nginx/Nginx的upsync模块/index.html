@@ -4,7 +4,7 @@
 
 <head>
     
-    <title>Shuyan</title>
+    <title>Nginx的upsync模块 - Shuyan</title>
     <meta charset="UTF-8">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
@@ -12,24 +12,25 @@
     
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="123456789101112title: Nginx的upsync模块date: 2022-04-09 11:29:01tags: [Nginx]categories: - &quot;JAVA&quot;- “Nginx”comments: true # 是否可评论toc: true # 是否显示文章目录前cover: &#x2F;img&#x2F;Nginx的upsync模块.jpgcoverWidth: 12">
+    <meta name="description" content="一、Nginx reload的问题问题描述​        nginx reload是有一定损耗的，如果你使用的是长连接的话，那么当reload nginx时长连接所有的worker进程会进行优雅退出，并当该worker进程上的所有连接都释放时，进程才真正退出。 解决办法对于社区版nginx目前有三个选择方式：  Tengine 的Dyups模块。 微博的Upsync+Consul 实现动态负载均">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Shuyan">
+<meta property="og:title" content="Nginx的upsync模块">
 <meta property="og:url" content="http://example.com/2022/04/09/JAVA/Nginx/Nginx%E7%9A%84upsync%E6%A8%A1%E5%9D%97/index.html">
 <meta property="og:site_name" content="Shuyan">
-<meta property="og:description" content="123456789101112title: Nginx的upsync模块date: 2022-04-09 11:29:01tags: [Nginx]categories: - &quot;JAVA&quot;- “Nginx”comments: true # 是否可评论toc: true # 是否显示文章目录前cover: &#x2F;img&#x2F;Nginx的upsync模块.jpgcoverWidth: 12">
+<meta property="og:description" content="一、Nginx reload的问题问题描述​        nginx reload是有一定损耗的，如果你使用的是长连接的话，那么当reload nginx时长连接所有的worker进程会进行优雅退出，并当该worker进程上的所有连接都释放时，进程才真正退出。 解决办法对于社区版nginx目前有三个选择方式：  Tengine 的Dyups模块。 微博的Upsync+Consul 实现动态负载均">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2022-04-09T13:07:41.004Z">
-<meta property="article:modified_time" content="2022-04-09T13:11:42.636Z">
+<meta property="article:published_time" content="2022-04-09T03:29:01.000Z">
+<meta property="article:modified_time" content="2022-04-11T14:12:05.236Z">
 <meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary">
-    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1649649770011">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1649686424232">
     
         <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
     
-    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1649649770011">
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1649649770011">
-    <link rel="stylesheet" href="/css/style.css?v=1649649770011">
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1649686424232">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1649686424232">
+    <link rel="stylesheet" href="/css/style.css?v=1649686424232">
      
     
 <meta name="generator" content="Hexo 5.4.0"></head>
@@ -137,7 +138,7 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
-          <span class="category-list-count">29</span>
+          <span class="category-list-count">30</span>
         </li>
 
         
@@ -214,7 +215,7 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
-          <span class="category-list-count">7</span>
+          <span class="category-list-count">8</span>
         </li>
 
         
@@ -399,9 +400,9 @@
 
   <article>
       
-          <div class="nexmoe-post-cover" style="padding-bottom: 66.66666666666666%;"> 
-              <img data-src="http://mms0.baidu.com/it/u=2467909075,3604847220&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=801&h=500" data-sizes="auto" alt="" class="lazyload">
-              <h1></h1>
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/Nginx的upsync模块.jpg" data-sizes="auto" alt="Nginx的upsync模块" class="lazyload">
+              <h1>Nginx的upsync模块</h1>
           </div>
       
       
@@ -411,9 +412,7 @@
 
       
 
-      <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs yaml"><span class="hljs-attr">title:</span> <span class="hljs-string">Nginx的upsync模块</span><br><span class="hljs-attr">date:</span> <span class="hljs-number">2022-04-09 11:29:01</span><br><span class="hljs-attr">tags:</span> [<span class="hljs-string">Nginx</span>]<br><span class="hljs-attr">categories:</span> <br><span class="hljs-bullet">-</span> <span class="hljs-string">&quot;JAVA&quot;</span><br><span class="hljs-bullet">-</span> <span class="hljs-string">“Nginx”</span><br><span class="hljs-attr">comments:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># 是否可评论</span><br><span class="hljs-attr">toc:</span> <span class="hljs-literal">true</span> <span class="hljs-comment"># 是否显示文章目录前</span><br><br><span class="hljs-attr">cover:</span> <span class="hljs-string">/img/Nginx的upsync模块.jpg</span><br><span class="hljs-attr">coverWidth:</span> <span class="hljs-number">1200</span><br><span class="hljs-attr">coverHeight:</span> <span class="hljs-number">750</span><br></code></pre></td></tr></table></figure>
-
-<h2 id="一、Nginx-reload的问题"><a href="#一、Nginx-reload的问题" class="headerlink" title="一、Nginx reload的问题"></a>一、Nginx reload的问题</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>​        nginx reload是有一定损耗的，如果你使用的是长连接的话，那么当reload nginx时长连接所有的worker进程会进行优雅退出，并当该worker进程上的所有连接都释放时，进程才真正退出。</p>
+      <h2 id="一、Nginx-reload的问题"><a href="#一、Nginx-reload的问题" class="headerlink" title="一、Nginx reload的问题"></a>一、Nginx reload的问题</h2><h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>​        nginx reload是有一定损耗的，如果你使用的是长连接的话，那么当reload nginx时长连接所有的worker进程会进行优雅退出，并当该worker进程上的所有连接都释放时，进程才真正退出。</p>
 <h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><p>对于社区版nginx目前有三个选择方式：</p>
 <ol>
 <li>Tengine 的Dyups模块。</li>
@@ -426,12 +425,12 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/xiaokai-wang/nginx_upstream_check_module<br><span class="hljs-comment">## 打补丁包</span><br>patch -p0 &lt; /usr/<span class="hljs-built_in">local</span>/src/nginx_upstream_check_module-master/check_1.9.2+.patch <br></code></pre></td></tr></table></figure>
 
 <p>下载nginx-upsync-module源码</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/weibocom/nginx-upsync-module.git<br>下载nginx源码<br>wget <span class="hljs-string">&#x27;http://nginx.org/download/nginx-1.10.1.tar.gz&#x27;</span><br>tar -xzvf nginx-1.10.1.tar.gz<br><span class="hljs-built_in">cd</span> nginx-1.10.1/<br>开始编译<br>./configure --prefix=/data/app/nginx-1.10.1 --user=nginx --group=nginx  --with-http_ssl_module  --with-http_stub_status_module   --add-module=/usr/<span class="hljs-built_in">local</span>/src/nginx-upsync-module-master/ --add-module=/usr/<span class="hljs-built_in">local</span>/src/nginx_upstream_check_module-master/<br>make<br>make install<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs bash">git <span class="hljs-built_in">clone</span> https://github.com/weibocom/nginx-upsync-module.git<br>下载nginx源码<br><br>wget <span class="hljs-string">&#x27;http://nginx.org/download/nginx-1.10.1.tar.gz&#x27;</span><br><br>tar -xzvf nginx-1.10.1.tar.gz<br><br><span class="hljs-built_in">cd</span> nginx-1.10.1/<br>开始编译<br><br>./configure --prefix=/data/app/nginx-1.10.1 --user=nginx --group=nginx  --with-http_ssl_module  --with-http_stub_status_module   --add-module=/usr/<span class="hljs-built_in">local</span>/src/nginx-upsync-module-master/ --add-module=/usr/<span class="hljs-built_in">local</span>/src/nginx_upstream_check_module-master/<br><br>make<br><br>make install<br></code></pre></td></tr></table></figure>
 
 <h2 id="三、启动consul"><a href="#三、启动consul" class="headerlink" title="三、启动consul"></a>三、启动consul</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget https://releases.hashicorp.com/consul/0.6.4/consul_0.6.4_linux_amd64.zip<br>unzip consul_0.6.4_linux_amd64.zip<br>./consul agent -advertise=x.x.x.x -client=0.0.0.0 -dev<br></code></pre></td></tr></table></figure>
 
 <p>创建nginx配置文件</p>
-<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">mkdir</span> -p /usr/local/nginx/conf/servers<br>/usr/local/nginx/conf/nginx.conf<br>events &#123;<br>    <span class="hljs-attribute">worker_connections</span>  <span class="hljs-number">4096</span>;  <span class="hljs-comment">## Default: 1024</span><br>&#125;<br><br><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">upstream</span> test &#123;<br>        <span class="hljs-comment"># fake server otherwise ngx_http_upstream will report error when startup</span><br>        <span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:11111</span>;<br><br>        <span class="hljs-comment"># all backend server will pull from consul when startup and will delete fake server</span><br>        <span class="hljs-attribute">upsync</span> <span class="hljs-number">127.0.0.1:8500</span>/v1/kv/upstreams/test upsync_timeout=<span class="hljs-number">6m</span> upsync_interval=<span class="hljs-number">500ms</span> upsync_type=consul strong_dependency=<span class="hljs-literal">off</span>;<br>        <span class="hljs-attribute">upsync_dump_path</span> /usr/local/nginx/conf/servers/servers_test.conf;<br>    &#125;<br><br>    <span class="hljs-attribute">upstream</span> bar &#123;<br>        <span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:8090</span> weight=<span class="hljs-number">1</span> fail_timeout=<span class="hljs-number">10</span> max_fails=<span class="hljs-number">3</span>;<br>    &#125;<br><br>    <span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span> <span class="hljs-number">8080</span>;<br><br>        <span class="hljs-attribute">location</span> = /proxy_test &#123;<br>            <span class="hljs-attribute">proxy_pass</span> http://test;<br>        &#125;<br><br>        <span class="hljs-attribute">location</span> = /bar &#123;<br>            <span class="hljs-attribute">proxy_pass</span> http://bar;<br>        &#125;<br><br>        <span class="hljs-attribute">location</span> = /upstream_show &#123;<br>            upstream_show;<br>        &#125;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">mkdir</span> -p /usr/local/nginx/conf/servers<br>/usr/local/nginx/conf/nginx.conf<br><br>events &#123;<br>    <span class="hljs-attribute">worker_connections</span>  <span class="hljs-number">4096</span>;  <span class="hljs-comment">## Default: 1024</span><br>&#125;<br><br><span class="hljs-section">http</span> &#123;<br>    <span class="hljs-attribute">upstream</span> test &#123;<br>        <span class="hljs-comment"># fake server otherwise ngx_http_upstream will report error when startup</span><br>        <span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:11111</span>;<br><br>        <span class="hljs-comment"># all backend server will pull from consul when startup and will delete fake server</span><br>        <span class="hljs-attribute">upsync</span> <span class="hljs-number">127.0.0.1:8500</span>/v1/kv/upstreams/test upsync_timeout=<span class="hljs-number">6m</span> upsync_interval=<span class="hljs-number">500ms</span> upsync_type=consul strong_dependency=<span class="hljs-literal">off</span>;<br>        <span class="hljs-attribute">upsync_dump_path</span> /usr/local/nginx/conf/servers/servers_test.conf;<br>    &#125;<br><br>    <span class="hljs-attribute">upstream</span> bar &#123;<br>        <span class="hljs-attribute">server</span> <span class="hljs-number">127.0.0.1:8090</span> weight=<span class="hljs-number">1</span> fail_timeout=<span class="hljs-number">10</span> max_fails=<span class="hljs-number">3</span>;<br>    &#125;<br><br>    <span class="hljs-section">server</span> &#123;<br>        <span class="hljs-attribute">listen</span> <span class="hljs-number">8080</span>;<br><br>        <span class="hljs-attribute">location</span> = /proxy_test &#123;<br>            <span class="hljs-attribute">proxy_pass</span> http://test;<br>        &#125;<br><br>        <span class="hljs-attribute">location</span> = /bar &#123;<br>            <span class="hljs-attribute">proxy_pass</span> http://bar;<br>        &#125;<br><br>        <span class="hljs-attribute">location</span> = /upstream_show &#123;<br>            upstream_show;<br>        &#125;<br><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="四、测试"><a href="#四、测试" class="headerlink" title="四、测试"></a>四、测试</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> `seq 3`;<span class="hljs-keyword">do</span> mkdir html<span class="hljs-variable">$i</span>/<span class="hljs-built_in">test</span> -p &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span> &gt;html<span class="hljs-variable">$i</span>/<span class="hljs-built_in">test</span>/test.html; <span class="hljs-keyword">done</span>;  <br><br>docker run -d -p 8001:80 -v /root/html1/:/usr/share/nginx/html nginx <br>docker run -d -p 8002:80 -v /root/html2/:/usr/share/nginx/html nginx <br>docker run -d -p 8003:80 -v /root/html3/:/usr/share/nginx/html nginx <br></code></pre></td></tr></table></figure>
 
@@ -470,6 +469,10 @@
   
   <div class="nexmoe-post-meta nexmoe-rainbow">
     
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/">JAVA</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/%E2%80%9CNginx%E2%80%9D/">“Nginx”</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Nginx/" rel="tag">Nginx</a>
     
 </div>
 
@@ -537,7 +540,7 @@
 
  
 
-<script async src="/js/app.js?v=1649649770029"></script>
+<script async src="/js/app.js?v=1649686424238"></script>
 
 
 
