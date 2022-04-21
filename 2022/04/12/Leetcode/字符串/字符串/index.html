@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>LeetCode字符串 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="125. 验证回文字符串题目描述给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。说明：本题中，我们将空字符串定义为有效的回文串。 输入输出样例123456输入:    &quot;A man, a plan, a canal: Panama&quot;输出:    true解释：    &quot;amanaplanacanalpanama&quot; 是回文串">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode字符串">
+<meta property="og:url" content="http://example.com/2022/04/12/Leetcode/%E5%AD%97%E7%AC%A6%E4%B8%B2/%E5%AD%97%E7%AC%A6%E4%B8%B2/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="125. 验证回文字符串题目描述给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。说明：本题中，我们将空字符串定义为有效的回文串。 输入输出样例123456输入:    &quot;A man, a plan, a canal: Panama&quot;输出:    true解释：    &quot;amanaplanacanalpanama&quot; 是回文串">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-21T13:59:08.314Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Leetcode">
+<meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1650551263545">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1650551263545">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1650551263545">
+    <link rel="stylesheet" href="/css/style.css?v=1650551263545">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>63</div>
+        <div><span>Tags</span>15</div>
+        <div><span>Categories</span>25</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">31</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">16</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">5</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">18</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 13.33px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Mybaits/" style="font-size: 16.67px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.33px;">Nginx</a> <a href="/tags/STL/" style="font-size: 13.33px;">STL</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 10px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 10px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.67px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 11.67px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/字符串.jpg" data-sizes="auto" alt="LeetCode字符串" class="lazyload">
+              <h1>LeetCode字符串</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年04月12日</a>
+</div>
+
+      
+
+      <h2 id="125-验证回文字符串"><a href="#125-验证回文字符串" class="headerlink" title="125. 验证回文字符串"></a>125. 验证回文字符串</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个字符串，验证它是否是回文串，只考虑字母和数字字符，可以忽略字母的大小写。<br>说明：本题中，我们将空字符串定义为有效的回文串。</p>
+<h3 id="输入输出样例"><a href="#输入输出样例" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++">输入:<br>    <span class="hljs-string">&quot;A man, a plan, a canal: Panama&quot;</span><br>输出:<br>    <span class="hljs-literal">true</span><br>解释：<br>    <span class="hljs-string">&quot;amanaplanacanalpanama&quot;</span> 是回文串<br></code></pre></td></tr></table></figure>
+
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N)</span><br><span class="hljs-comment">// 空间复杂度O(1)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isPalindrome</span><span class="hljs-params">(string s)</span> </span>&#123;<br>    <br>        <span class="hljs-keyword">int</span> n = s.<span class="hljs-built_in">size</span>();<br>        <span class="hljs-keyword">int</span> l = <span class="hljs-number">0</span>, r = n - <span class="hljs-number">1</span>;<br><br>        <span class="hljs-keyword">while</span>(l &lt; r)&#123;<br>            <span class="hljs-keyword">while</span>(l &lt; r &amp;&amp; !<span class="hljs-built_in">isalnum</span>(s[l]))<br>                l++;<br>            <span class="hljs-keyword">while</span>(l &lt; r &amp;&amp; !<span class="hljs-built_in">isalnum</span>(s[r]))<br>                r--;<br>            <span class="hljs-keyword">if</span>(<span class="hljs-built_in">tolower</span>(s[l]) != <span class="hljs-built_in">tolower</span>(s[r]))&#123;<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>            &#125;<br><br>            l++;<br>            r--;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>注：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs C++"><br><span class="hljs-built_in">isapha</span>()函数<br><span class="hljs-comment">// isalpha()函数用来判断 一个字符是否为字母 ，如果是字母则返回非零，否则返回零。</span><br><br><span class="hljs-built_in">isalnum</span>()函数<br><span class="hljs-comment">// isalnum()函数用来判断 一个字符是否为数字或字母 ，是则输出非零，否则输出零。</span><br><br><span class="hljs-built_in">islower</span>()函数<br><span class="hljs-comment">// islower()函数用来判断一个字符是否为小写字母。</span><br><br><span class="hljs-built_in">isupper</span>()函数<br><span class="hljs-comment">// ispuuer()函数用来判断一个字符是否为大写字母。</span><br><br></code></pre></td></tr></table></figure>
+
+<h2 id="28-strStr"><a href="#28-strStr" class="headerlink" title="28. strStr()"></a>28. strStr()</h2><h3 id="题目描述-1"><a href="#题目描述-1" class="headerlink" title="题目描述"></a>题目描述</h3><p>实现 strStr() 函数。<br>给你两个字符串 haystack 和 needle ，请你在 haystack 字符串中找出 needle 字符串出现的第一个位置（下标从 0 开始）。如果不存在，则返回  -1 。</p>
+<p>说明：</p>
+<ul>
+<li>当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。</li>
+<li>对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与 C 语言的 strstr() 以及 Java 的 indexOf() 定义相符。</li>
+</ul>
+<h3 id="输入输出样例-1"><a href="#输入输出样例-1" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++">输入：<br>    haystack = <span class="hljs-string">&quot;hello&quot;</span>, needle = <span class="hljs-string">&quot;ll&quot;</span><br>输出：<br>    <span class="hljs-number">2</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="题解-1"><a href="#题解-1" class="headerlink" title="题解"></a>题解</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(M + N)</span><br><span class="hljs-comment">// 空间复杂度O(N)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">strStr</span><span class="hljs-params">(string haystack, string needle)</span> </span>&#123;<br>        <span class="hljs-comment">// KMP解法</span><br>        <span class="hljs-keyword">int</span> n = haystack.<span class="hljs-built_in">size</span>(), m = needle.<span class="hljs-built_in">size</span>();<br><br>        <span class="hljs-keyword">if</span>(m == <span class="hljs-number">0</span>)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>        &#125;<br><br>        <span class="hljs-comment">// 设置哨兵</span><br>        haystack.<span class="hljs-built_in">insert</span>(haystack.<span class="hljs-built_in">begin</span>(), <span class="hljs-string">&#x27; &#x27;</span>);<br>        needle.<span class="hljs-built_in">insert</span>(needle.<span class="hljs-built_in">begin</span>(), <span class="hljs-string">&#x27; &#x27;</span>);<br>        <span class="hljs-function">vector&lt;<span class="hljs-keyword">int</span>&gt; <span class="hljs-title">next</span><span class="hljs-params">(m + <span class="hljs-number">1</span>)</span></span>;<br><br>        <span class="hljs-comment">// 预处理 next</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">2</span>, j = <span class="hljs-number">0</span>; i &lt;= m; ++i)&#123;<br>            <span class="hljs-keyword">while</span>(j &amp;&amp; needle[i] != needle[j + <span class="hljs-number">1</span>])<br>                j = next[j];<br>            <span class="hljs-keyword">if</span>(needle[i] == needle[j + <span class="hljs-number">1</span>])<br>                ++j;<br>            next[i] = j;<br>        &#125;<br><br>        <span class="hljs-comment">// 匹配</span><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>, j = <span class="hljs-number">0</span>; i &lt;= n; ++i)&#123;<br>            <span class="hljs-keyword">while</span>(j &amp;&amp; haystack[i] != needle[j + <span class="hljs-number">1</span>])<br>                j = next[j];<br>            <span class="hljs-keyword">if</span>(haystack[i] == needle[j + <span class="hljs-number">1</span>])<br>                ++j;<br>            <span class="hljs-keyword">if</span>(j == m)<br>                <span class="hljs-keyword">return</span> i - m;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="8-字符串转换成整数"><a href="#8-字符串转换成整数" class="headerlink" title="8. 字符串转换成整数"></a>8. 字符串转换成整数</h2><h3 id="题目描述-2"><a href="#题目描述-2" class="headerlink" title="题目描述"></a>题目描述</h3><p>请你来实现一个 myAtoi(string s) 函数，使其能将字符串转换成一个 32 位有符号整数（类似 C/C++ 中的 atoi 函数）。</p>
+<p>函数 myAtoi(string s) 的算法如下：</p>
+<pre><code>读入字符串并丢弃无用的前导空格
+检查下一个字符（假设还未到字符末尾）为正还是负号，读取该字符（如果有）。 确定最终结果是负数还是正数。 如果两者都不存在，则假定结果为正。
+读入下一个字符，直到到达下一个非数字字符或到达输入的结尾。字符串的其余部分将被忽略。
+将前面步骤读入的这些数字转换为整数（即，&quot;123&quot; -&gt; 123， &quot;0032&quot; -&gt; 32）。如果没有读入数字，则整数为 0 。必要时更改符号（从步骤 2 开始）。
+如果整数数超过 32 位有符号整数范围 [−231,  231 − 1] ，需要截断这个整数，使其保持在这个范围内。具体来说，小于 −231 的整数应该被固定为 −231 ，大于 231 − 1 的整数应该被固定为 231 − 1 。
+返回整数作为最终结果。
+</code></pre>
+<p>注意：</p>
+<pre><code>本题中的空白字符只包括空格字符 &#39; &#39; 。
+除前导空格或数字后的其余字符串外，请勿忽略 任何其他字符。
+</code></pre>
+<h3 id="输入输出样例-2"><a href="#输入输出样例-2" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++">输入：<br>    s = <span class="hljs-string">&quot;42&quot;</span><br>输出：<br>    <span class="hljs-number">42</span><br>解释：加粗的字符串为已经读入的字符，插入符号是当前读取的字符。<br>    第 <span class="hljs-number">1</span> 步：<span class="hljs-string">&quot;42&quot;</span>（当前没有读入字符，因为没有前导空格）<br>             ^<br>    第 <span class="hljs-number">2</span> 步：<span class="hljs-string">&quot;42&quot;</span>（当前没有读入字符，因为这里不存在 <span class="hljs-string">&#x27;-&#x27;</span> 或者 <span class="hljs-string">&#x27;+&#x27;</span>）<br>             ^<br>    第 <span class="hljs-number">3</span> 步：<span class="hljs-string">&quot;42&quot;</span>（读入 <span class="hljs-string">&quot;42&quot;</span>）<br>               ^<br>    解析得到整数 <span class="hljs-number">42</span> 。<br>    由于 <span class="hljs-string">&quot;42&quot;</span> 在范围 [<span class="hljs-number">-231</span>, <span class="hljs-number">231</span> - <span class="hljs-number">1</span>] 内，最终结果为 <span class="hljs-number">42</span> 。<br></code></pre></td></tr></table></figure>
+
+<h3 id="题解-2"><a href="#题解-2" class="headerlink" title="题解"></a>题解</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N)</span><br><span class="hljs-comment">// 空间复杂度O(1)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">myAtoi</span><span class="hljs-params">(string s)</span> </span>&#123;<br><br>        <span class="hljs-keyword">long</span> num = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">int</span> sign = <span class="hljs-number">1</span>;<br><br>        <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n = s.<span class="hljs-built_in">size</span>();<br><br>        <span class="hljs-keyword">int</span> i;<br><br>        <span class="hljs-comment">// 去除前导空格</span><br><br>        <span class="hljs-keyword">while</span>(s[i] == <span class="hljs-string">&#x27; &#x27;</span> &amp;&amp; i &lt; n)&#123;<br>            i++;<br>        &#125;  <br><br>        <span class="hljs-comment">// 去除符号</span><br>        <span class="hljs-keyword">if</span>(s[i] == <span class="hljs-string">&#x27;+&#x27;</span>)&#123;<br>            i++;<br>        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(s[i] == <span class="hljs-string">&#x27;-&#x27;</span>)&#123;<br>            sign = <span class="hljs-number">-1</span>;<br>            i++;<br>        &#125;<br><br><br>        <span class="hljs-keyword">for</span>(; i &lt; n; i++)&#123;<br>            <span class="hljs-keyword">if</span>(s[i] &lt; <span class="hljs-string">&#x27;0&#x27;</span> || s[i] &gt; <span class="hljs-string">&#x27;9&#x27;</span>)&#123;<br>                <span class="hljs-keyword">break</span>;<br>            &#125;<br>            <br>            <span class="hljs-keyword">if</span>(num &gt; INT_MAX / <span class="hljs-number">10</span> || (num == INT_MAX / <span class="hljs-number">10</span> &amp;&amp; (s[i] - <span class="hljs-string">&#x27;0&#x27;</span>) &gt; INT_MAX % <span class="hljs-number">10</span>))&#123;<br>                <span class="hljs-keyword">return</span> sign == <span class="hljs-number">-1</span> ? INT_MIN : INT_MAX;<br>            &#125;<br><br>            num = num * <span class="hljs-number">10</span> + s[i] - <span class="hljs-string">&#x27;0&#x27;</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> (<span class="hljs-keyword">int</span>)num * sign;<br>    &#125;<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="67-二进制求和"><a href="#67-二进制求和" class="headerlink" title="67. 二进制求和"></a>67. 二进制求和</h2><h3 id="题目描述-3"><a href="#题目描述-3" class="headerlink" title="题目描述"></a>题目描述</h3><p>给你两个二进制字符串，返回它们的和（用二进制表示）。</p>
+<p>输入为 <strong>非空</strong> 字符串且只包含数字 <code>1</code> 和 <code>0</code>。</p>
+<h3 id="输入输出样例-3"><a href="#输入输出样例-3" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++">输入:<br>    a = <span class="hljs-string">&quot;1010&quot;</span>, b = <span class="hljs-string">&quot;1011&quot;</span><br>输出:<br>    <span class="hljs-string">&quot;10101&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="题解-3"><a href="#题解-3" class="headerlink" title="题解"></a>题解</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N)</span><br><span class="hljs-comment">// 空间复杂度O(1)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function">string <span class="hljs-title">addBinary</span><span class="hljs-params">(string a, string b)</span> </span>&#123;<br><br>        string res;<br><br>        <span class="hljs-keyword">const</span> <span class="hljs-keyword">size_t</span> n = a.<span class="hljs-built_in">size</span>() &gt; b.<span class="hljs-built_in">size</span>() ? a.<span class="hljs-built_in">size</span>() : b.<span class="hljs-built_in">size</span>();<br><br>        <span class="hljs-built_in">reverse</span>(a.<span class="hljs-built_in">begin</span>(), a.<span class="hljs-built_in">end</span>());<br>        <span class="hljs-built_in">reverse</span>(b.<span class="hljs-built_in">begin</span>(), b.<span class="hljs-built_in">end</span>());<br><br>        <span class="hljs-keyword">int</span> carry = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i)&#123;<br><br>            <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> ai = i &lt; a.<span class="hljs-built_in">size</span>() ? a[i] - <span class="hljs-string">&#x27;0&#x27;</span> : <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> bi = i &lt; b.<span class="hljs-built_in">size</span>() ? b[i] - <span class="hljs-string">&#x27;0&#x27;</span> : <span class="hljs-number">0</span>;<br>            <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> val = (ai + bi + carry) % <span class="hljs-number">2</span>;<br><br>            carry = (ai + bi + carry) / <span class="hljs-number">2</span>;<br><br>            res.<span class="hljs-built_in">insert</span>(res.<span class="hljs-built_in">begin</span>(), val + <span class="hljs-string">&#x27;0&#x27;</span>);<br><br>        &#125;<br><br>  <br>        <span class="hljs-keyword">if</span>(carry == <span class="hljs-number">1</span>)&#123;<br>            res.<span class="hljs-built_in">insert</span>(res.<span class="hljs-built_in">begin</span>(), <span class="hljs-string">&#x27;1&#x27;</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> res;<br><br>    &#125;<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-最长回文字符串"><a href="#5-最长回文字符串" class="headerlink" title="5. 最长回文字符串"></a>5. 最长回文字符串</h2><h3 id="题目描述-4"><a href="#题目描述-4" class="headerlink" title="题目描述"></a>题目描述</h3><p>给你一个字符串s，返回s中最长的回文子串</p>
+<h3 id="输入输出样例-4"><a href="#输入输出样例-4" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++">输入：<br>    s = <span class="hljs-string">&quot;babad&quot;</span><br>输出：<br>    <span class="hljs-string">&quot;bab&quot;</span><br>解释：<br>    <span class="hljs-string">&quot;aba&quot;</span> 同样是符合题意的答案。<br></code></pre></td></tr></table></figure>
+
+<h3 id="题解-4"><a href="#题解-4" class="headerlink" title="题解"></a>题解</h3><p>方法一：动态规划<br>设状态为<code>f(i,j)</code>，表示区间<code>[i,j]</code>是否为回文串，则状态转移方程为：<br>$$f(i,j)= \begin{cases}<br>true &amp; i = j \<br>S[i] = S[j] &amp; j = i + 1\<br>S[i] = S[j] and f(i+1, j-1) &amp; j &gt; i + 1<br>\end{cases}$$</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N^2)</span><br><span class="hljs-comment">// 空间复杂度O(N^2)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function">string <span class="hljs-title">longestPalindrome</span><span class="hljs-params">(string s)</span> </span>&#123;<br><br>        <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n = s.<span class="hljs-built_in">size</span>();<br>        vector&lt;vector&lt;<span class="hljs-keyword">bool</span>&gt;&gt; <span class="hljs-built_in">f</span>(n, vector&lt;<span class="hljs-keyword">bool</span>&gt;(n, <span class="hljs-literal">false</span>));<br><br>        <span class="hljs-keyword">size_t</span> max_len = <span class="hljs-number">1</span>, start = <span class="hljs-number">0</span>;<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i)&#123;<br><br>            f[i][i] = <span class="hljs-literal">true</span>;<br><br>            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">size_t</span> j = <span class="hljs-number">0</span>; j &lt; i; ++j)&#123;<br><br>                f[j][i] = (s[j] == s[i] &amp;&amp; (i - j &lt; <span class="hljs-number">2</span> || f[j + <span class="hljs-number">1</span>][i - <span class="hljs-number">1</span>]) );<br><br>                <span class="hljs-keyword">if</span>(f[j][i] &amp;&amp;max_len &lt; (i - j + <span class="hljs-number">1</span>))&#123;<br><br>                    max_len = i - j + <span class="hljs-number">1</span>;<br><br>                    start = j;<br><br>                &#125;<br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> s.<span class="hljs-built_in">substr</span>(start, max_len);<br><br>    &#125;<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+<p>方法二：备忘录<br>记忆化搜索。设<code>f[i][j]</code>表示<code>[i,j]</code>之间最长回文子串，递推方案如下</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++">f[i][j] = <span class="hljs-keyword">if</span>( i == j)  S[i]<br>          <span class="hljs-keyword">if</span>( S[i] == S[j] &amp;&amp; f[i+<span class="hljs-number">1</span>][j<span class="hljs-number">-1</span>] == S[i+<span class="hljs-number">1</span>][j<span class="hljs-number">-1</span>])  <br>              S[i][j]<br>          <span class="hljs-keyword">else</span><br>              <span class="hljs-built_in">max</span>(f[i+<span class="hljs-number">1</span>][j<span class="hljs-number">-1</span>], f[i][j<span class="hljs-number">-1</span>], f[i+<span class="hljs-number">1</span>][j])<br>          <br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N^2)</span><br><span class="hljs-comment">// 空间复杂度O(N^2)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">typedef</span> string:: const_iterator Iterator;<br><br><span class="hljs-keyword">namespace</span> std&#123;<br><span class="hljs-keyword">template</span>&lt;&gt;<br><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">hash</span>&lt;</span>pair&lt;Iterator, Iteator&gt;&gt;&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">size_t</span> <span class="hljs-title">opeartor</span><span class="hljs-params">()</span> <span class="hljs-params">(pair&lt;Iterator, Iterator&gt; <span class="hljs-keyword">const</span>&amp; p)</span> <span class="hljs-keyword">const</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> ((<span class="hljs-keyword">size_t</span>) &amp;(*p.first)) ^ ((<span class="hljs-keyword">size_t</span>) &amp;(*p.second*));<br>    &#125;<br>&#125;;<br>&#125;<br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">string <span class="hljs-title">longestPalindrome</span><span class="hljs-params">(string <span class="hljs-keyword">const</span>&amp; s)</span></span>&#123;<br>        cache.<span class="hljs-built_in">clear</span>();<br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">cachedLongestPalindrome</span>(s.<span class="hljs-built_in">begin</span>(), s.<span class="hljs-built_in">end</span>());<br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br>    unordered_map&lt;pair&lt;Iteratoe, Iterator&gt;, string&gt; cache;<br>    <br>    <span class="hljs-function">string <span class="hljs-title">longestPalindrome</span><span class="hljs-params">(Iterator first, Iteartor last)</span></span>&#123;<br>        <span class="hljs-keyword">size_t</span> length = <span class="hljs-built_in">distance</span>(first, last);<br><br>        <span class="hljs-keyword">if</span>(length &lt; <span class="hljs-number">2</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">string</span>(first, last);<br><br>        <span class="hljs-keyword">auto</span> s = <span class="hljs-built_in">cacheLongestPalindrome</span>(<span class="hljs-built_in">next</span>(first), <span class="hljs-built_in">prev</span>(last));<br>        <br>        <span class="hljs-keyword">if</span>(s.<span class="hljs-built_in">length</span>() == length - <span class="hljs-number">2</span> &amp;&amp; *first == *<span class="hljs-built_in">prev</span>(last))<br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">string</span>(first, last);<br>            <br>        <span class="hljs-keyword">auto</span> s1 = <span class="hljs-built_in">cacheLongestPalindrome</span>(<span class="hljs-built_in">next</span>(first), last);<br>        <span class="hljs-keyword">auto</span> s2 = <span class="hljs-built_in">chacheLongestPalindrome</span>(first, <span class="hljs-built_in">prev</span>(last));<br><br>        <span class="hljs-keyword">if</span>(s.<span class="hljs-built_in">size</span>() &gt; s1.<span class="hljs-built_in">size</span>())<br>            <span class="hljs-keyword">return</span> s.<span class="hljs-built_in">size</span>() &gt; s2.<span class="hljs-built_in">size</span>() ? s : s2;<br>        <span class="hljs-keyword">else</span> <br>            <span class="hljs-keyword">return</span> s1.<span class="hljs-built_in">size</span>() &gt; s2.<span class="hljs-built_in">size</span>() ? s1 : s2;<br>    &#125;<br><br>    <span class="hljs-function">string <span class="hljs-title">cacheLongestPalindrome</span><span class="hljs-params">(Iterator first, Iterator last)</span></span>&#123;<br>        <span class="hljs-keyword">auto</span> key = <span class="hljs-built_in">make_pair</span>(first, last);<br>        <span class="hljs-keyword">auto</span> pos = cache.<span class="hljs-built_in">find</span>(key);<br>        <br>        <span class="hljs-keyword">if</span>(pos != cache.<span class="hljs-built_in">end</span>())<br>            <span class="hljs-keyword">return</span> pos-&gt;second;<br>        <span class="hljs-keyword">else</span><br>            <span class="hljs-keyword">return</span> cache[key] = <span class="hljs-built_in">longestPalindrome</span>(first, last);<br>    &#125;<br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+<p>方法三：Manacher’s Algorithm</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N)</span><br><span class="hljs-comment">// 空间复杂度O(N)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>&#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">string <span class="hljs-title">preProcess</span><span class="hljs-params">(<span class="hljs-keyword">const</span> string&amp; s)</span></span>&#123;<br>        <span class="hljs-keyword">int</span> n = s.<span class="hljs-built_in">length</span>();<br>        <br>        <span class="hljs-keyword">if</span>(n == <span class="hljs-number">0</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;^$&quot;</span>;<br>            <br>        string ret = <span class="hljs-string">&quot;^&quot;</span>;<br>        <br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; ++i)<br>            ret += <span class="hljs-string">&quot;#&quot;</span> + s.<span class="hljs-built_in">substr</span>(i,<span class="hljs-number">1</span>);<br>            <br>        ret += <span class="hljs-string">&quot;#$&quot;</span>;<br>        <span class="hljs-keyword">return</span> ret;<br>    &#125;<br><br>    <span class="hljs-function">string <span class="hljs-title">longestPalindrome</span><span class="hljs-params">(string s)</span></span>&#123;<br>        string T - <span class="hljs-built_in">preProcess</span>(s);<br>        <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> n = T.<span class="hljs-built_in">length</span>();<br>        <br>        <span class="hljs-keyword">int</span> P[n];<br>        <span class="hljs-keyword">int</span> C = <span class="hljs-number">0</span>, R = <span class="hljs-number">0</span>;<br>        <br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n - <span class="hljs-number">1</span>; ++i)&#123;<br>            <span class="hljs-keyword">int</span> i_mirror = <span class="hljs-number">2</span> * C - i;<br>            <br>            P[i] = (R &gt; <span class="hljs-number">1</span>) ? <span class="hljs-built_in">min</span>(R - i, P[i_mirror]) : <span class="hljs-number">0</span>;<br>            <br>            <span class="hljs-keyword">while</span>(T[i + <span class="hljs-number">1</span> + P[i]] == T[i - <span class="hljs-number">1</span> - P[i]])<br>                P[i]++;<br>                <br>            <span class="hljs-keyword">if</span>(i + P[i] &gt; R)&#123;<br>                C = i;<br>                R = i +P[i];<br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">int</span> max_len = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">int</span> center_index = <span class="hljs-number">0</span>;<br>        <br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">1</span>; i &lt; n; ++i)&#123;<br>            <span class="hljs-keyword">if</span>(P[i] &gt; max_len)&#123;<br>                max_len = P[i];<br>                center_index = i;<br>            &#125;<br>        &#125;<br>        <br>        <span class="hljs-keyword">return</span> s.<span class="hljs-built_in">substr</span>((center_index - <span class="hljs-number">1</span> - max_len) / <span class="hljs-number">2</span>, max_len);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<h2 id="10-正则表达式"><a href="#10-正则表达式" class="headerlink" title="10. 正则表达式"></a>10. 正则表达式</h2><h3 id="题目描述-5"><a href="#题目描述-5" class="headerlink" title="题目描述"></a>题目描述</h3><p>给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 ‘.’ 和 ‘*‘ 的正则表达式匹配。</p>
+<pre><code>&#39;.&#39; 匹配任意单个字符
+&#39;*&#39; 匹配零个或多个前面的那一个元素
+</code></pre>
+<p>所谓匹配，是要涵盖 整个 字符串 s的，而不是部分字符串。</p>
+<h3 id="输入输出样例-5"><a href="#输入输出样例-5" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++">输入：<br>    s = <span class="hljs-string">&quot;aa&quot;</span>, p = <span class="hljs-string">&quot;a*&quot;</span><br>输出：<br>    <span class="hljs-literal">true</span><br>解释：<br>    因为 <span class="hljs-string">&#x27;*&#x27;</span> 代表可以匹配零个或多个前面的那一个元素, 在这里前面的元素就是 <span class="hljs-string">&#x27;a&#x27;</span>。因此，字符串 <span class="hljs-string">&quot;aa&quot;</span> 可被视为 <span class="hljs-string">&#x27;a&#x27;</span> 重复了一次。<br></code></pre></td></tr></table></figure>
+
+<h3 id="题解-5"><a href="#题解-5" class="headerlink" title="题解"></a>题解</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N)</span><br><span class="hljs-comment">// 空间复杂度O(1)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMatch</span><span class="hljs-params">(string s, string p)</span> </span>&#123;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">isMatch</span>(s.<span class="hljs-built_in">c_str</span>(), p.<span class="hljs-built_in">c_str</span>());<br><br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMatch</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *p)</span></span>&#123;<br><br>        <span class="hljs-keyword">if</span>(*p == <span class="hljs-string">&#x27;\0&#x27;</span>)<br>            <span class="hljs-keyword">return</span> *s == <span class="hljs-string">&#x27;\0&#x27;</span>;<br><br>        <span class="hljs-keyword">if</span>(*(p + <span class="hljs-number">1</span>) != <span class="hljs-string">&#x27;*&#x27;</span>)&#123;<br><br>            <span class="hljs-keyword">if</span>(*p == *s || (*p == <span class="hljs-string">&#x27;.&#x27;</span> &amp;&amp; *s != <span class="hljs-string">&#x27;\0&#x27;</span>))<br>                <span class="hljs-keyword">return</span> <span class="hljs-built_in">isMatch</span>(s + <span class="hljs-number">1</span>, p + <span class="hljs-number">1</span>);<br>            <span class="hljs-keyword">else</span><br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br><br>        &#125;<span class="hljs-keyword">else</span>&#123;<br><br>            <span class="hljs-keyword">while</span>(*p == *s || (*p == <span class="hljs-string">&#x27;.&#x27;</span> &amp;&amp; *s != <span class="hljs-string">&#x27;\0&#x27;</span>))&#123;<br>                <span class="hljs-keyword">if</span>(<span class="hljs-built_in">isMatch</span>(s, p + <span class="hljs-number">2</span>))&#123;<br>                    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>                &#125;<br><br>                s++;<br>            &#125;<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">isMatch</span>(s, p+<span class="hljs-number">2</span>);<br><br>        &#125; <br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="44-通配符匹配"><a href="#44-通配符匹配" class="headerlink" title="44. 通配符匹配"></a>44. 通配符匹配</h2><h3 id="题目描述-6"><a href="#题目描述-6" class="headerlink" title="题目描述"></a>题目描述</h3><p>给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 ‘?’ 和 ‘*‘ 的通配符匹配。</p>
+<p>‘?’ 可以匹配任何单个字符。<br>‘*‘ 可以匹配任意字符串（包括空字符串）。</p>
+<p>两个字符串完全匹配才算匹配成功。</p>
+<p>说明:</p>
+<pre><code>s 可能为空，且只包含从 a-z 的小写字母。
+p 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
+</code></pre>
+<h3 id="输入输出样例-6"><a href="#输入输出样例-6" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++">输入:<br>    s = <span class="hljs-string">&quot;adceb&quot;</span><br>    p = <span class="hljs-string">&quot;*a*b&quot;</span><br>输出: <br>    <span class="hljs-literal">true</span><br>解释: <br>    第一个 <span class="hljs-string">&#x27;*&#x27;</span> 可以匹配空字符串, 第二个 <span class="hljs-string">&#x27;*&#x27;</span> 可以匹配字符串 <span class="hljs-string">&quot;dce&quot;</span>.<br><br></code></pre></td></tr></table></figure>
+
+<h3 id="题解-6"><a href="#题解-6" class="headerlink" title="题解"></a>题解</h3><p>方法一：递归版</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N!*M!)</span><br><span class="hljs-comment">// 空间复杂度O(N)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMatch</span><span class="hljs-params">(string s, string p)</span> </span>&#123;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">isMatch</span>(s.<span class="hljs-built_in">c_str</span>(), p.<span class="hljs-built_in">c_str</span>());<br><br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMatch</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *p)</span></span>&#123;<br><br>        <span class="hljs-keyword">if</span>(*p == <span class="hljs-string">&#x27;*&#x27;</span>)&#123;<br><br>            <span class="hljs-keyword">while</span>(*p == <span class="hljs-string">&#x27;*&#x27;</span>)<br>                ++p;<br><br>            <span class="hljs-keyword">if</span>(*p == <span class="hljs-string">&#x27;\0&#x27;</span>)<br>                <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br><br>            <span class="hljs-keyword">while</span>(*s != <span class="hljs-string">&#x27;\0&#x27;</span> &amp;&amp; !<span class="hljs-built_in">isMatch</span>(s, p))<br>                ++s;<br><br>            <span class="hljs-keyword">return</span> *s != <span class="hljs-string">&#x27;\0&#x27;</span>;<br><br>        &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(*p == <span class="hljs-string">&#x27;\0&#x27;</span> || *s == <span class="hljs-string">&#x27;\0&#x27;</span>)<br><br>            <span class="hljs-keyword">return</span>  *p == *s;<br><br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(*p == *s || *p == <span class="hljs-string">&#x27;?&#x27;</span>)<br><br>            <span class="hljs-keyword">return</span> <span class="hljs-built_in">isMatch</span>(++s, ++p);<br><br>        <span class="hljs-keyword">else</span><br><br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br><br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="方法二：迭代版"><a href="#方法二：迭代版" class="headerlink" title="方法二：迭代版"></a>方法二：迭代版</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 时间复杂度O(N*M)</span><br><span class="hljs-comment">// 空间复杂度O(1)</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMatch</span><span class="hljs-params">(<span class="hljs-keyword">const</span> string&amp; s, <span class="hljs-keyword">const</span> string&amp; p)</span> </span>&#123;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-built_in">isMatch</span>(s.<span class="hljs-built_in">c_str</span>(), p.<span class="hljs-built_in">c_str</span>());<br><br>    &#125;<br><br><span class="hljs-keyword">private</span>:<br><br>    <span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">isMatch</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *s, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *p)</span> </span>&#123;<br><br>        <span class="hljs-keyword">bool</span> star = <span class="hljs-literal">false</span>;<br><br>        <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *str, *ptr;<br><br>        <span class="hljs-keyword">for</span> (str = s, ptr = p; *str != <span class="hljs-string">&#x27;\0&#x27;</span>; str++, ptr++) &#123;<br><br>            <span class="hljs-built_in"><span class="hljs-keyword">switch</span></span> (*ptr) &#123;<br><br>                <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;?&#x27;</span>:<br><br>                    <span class="hljs-keyword">break</span>;<br><br>                <span class="hljs-keyword">case</span> <span class="hljs-string">&#x27;*&#x27;</span>:<br><br>                    star = <span class="hljs-literal">true</span>;<br>                    s = str, p = ptr;<br><br>                    <span class="hljs-keyword">while</span> (*p == <span class="hljs-string">&#x27;*&#x27;</span>) <br>                        p++; <span class="hljs-comment">//skip continuous &#x27;*&#x27;</span><br><br>                    <span class="hljs-keyword">if</span> (*p == <span class="hljs-string">&#x27;\0&#x27;</span>) <br>                        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br><br>                    str = s - <span class="hljs-number">1</span>;<br>                    ptr = p - <span class="hljs-number">1</span>;<br>                    <br>                    <span class="hljs-keyword">break</span>;<br><br>                <span class="hljs-keyword">default</span>:<br><br>                    <span class="hljs-keyword">if</span> (*str != *ptr) &#123;<br><br>                        <span class="hljs-keyword">if</span> (!star) <br>                            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br><br>                        s++;<br>                        str = s - <span class="hljs-number">1</span>;<br>                        ptr = p - <span class="hljs-number">1</span>;<br><br>                    &#125;<br>            &#125;<br><br>        &#125;<br><br>        <span class="hljs-keyword">while</span> (*ptr == <span class="hljs-string">&#x27;*&#x27;</span>) ptr++;<br><br>        <span class="hljs-keyword">return</span> (*ptr == <span class="hljs-string">&#x27;\0&#x27;</span>);<br><br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h2 id="14-最长公共前缀"><a href="#14-最长公共前缀" class="headerlink" title="14. 最长公共前缀"></a>14. 最长公共前缀</h2><h3 id="题目描述-7"><a href="#题目描述-7" class="headerlink" title="题目描述"></a>题目描述</h3><p>编写一个函数来查找字符串数组中的最长公共前缀。<br>如果不存在公共前缀，返回空字符串 <code>&quot;&quot;</code>。</p>
+<h3 id="输入输出样例-7"><a href="#输入输出样例-7" class="headerlink" title="输入输出样例"></a>输入输出样例</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++">输入：<br>    strs = [<span class="hljs-string">&quot;flower&quot;</span>,<span class="hljs-string">&quot;flow&quot;</span>,<span class="hljs-string">&quot;flight&quot;</span>]<br>输出：<br>    <span class="hljs-string">&quot;fl&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="题解-7"><a href="#题解-7" class="headerlink" title="题解"></a>题解</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-function">string <span class="hljs-title">longestCommonPrefix</span><span class="hljs-params">(vector&lt;string&gt;&amp; strs)</span> </span>&#123;<br><br>        <span class="hljs-keyword">int</span> sz = strs.<span class="hljs-built_in">size</span>();<br><br>        <span class="hljs-keyword">if</span>(sz == <span class="hljs-number">0</span>)<br>            <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>        string ans = strs[<span class="hljs-number">0</span>];<br><br>        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; sz; ++i)&#123;<br>            <br>            <span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>;<br><br>            <span class="hljs-keyword">for</span>(; j &lt; ans.<span class="hljs-built_in">size</span>() &amp;&amp; j &lt; strs[i].<span class="hljs-built_in">size</span>(); ++j)&#123;<br><br>                <span class="hljs-keyword">if</span>(ans[j] != strs[i][j])<br>                    <span class="hljs-keyword">break</span>;<br><br>            &#125;<br><br>            ans = ans.<span class="hljs-built_in">substr</span>(<span class="hljs-number">0</span>, j);<br><br>            <span class="hljs-keyword">if</span>(ans == <span class="hljs-string">&quot;&quot;</span>)<br>                <span class="hljs-keyword">return</span> ans;<br><br>        &#125;<br><br>        <span class="hljs-keyword">return</span> ans;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/04/12/Leetcode/%E5%AD%97%E7%AC%A6%E4%B8%B2/%E5%AD%97%E7%AC%A6%E4%B8%B2/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;12&#x2F;Leetcode&#x2F;%E5%AD%97%E7%AC%A6%E4%B8%B2&#x2F;%E5%AD%97%E7%AC%A6%E4%B8%B2&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;04&#x2F;12&#x2F;Leetcode&#x2F;%E5%AD%97%E7%AC%A6%E4%B8%B2&#x2F;%E5%AD%97%E7%AC%A6%E4%B8%B2&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Leetcode/">Leetcode</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/Leetcode/%E5%AD%97%E7%AC%A6%E4%B8%B2/">字符串</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Leetcode/" rel="tag">Leetcode</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#125-%E9%AA%8C%E8%AF%81%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">1.</span> <span class="toc-text">125. 验证回文字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B"><span class="toc-number">1.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-number">1.3.</span> <span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#28-strStr"><span class="toc-number">2.</span> <span class="toc-text">28. strStr()</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-1"><span class="toc-number">2.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-1"><span class="toc-number">2.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-1"><span class="toc-number">2.3.</span> <span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E6%88%90%E6%95%B4%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">8. 字符串转换成整数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-2"><span class="toc-number">3.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-2"><span class="toc-number">3.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-2"><span class="toc-number">3.3.</span> <span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#67-%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%B1%82%E5%92%8C"><span class="toc-number">4.</span> <span class="toc-text">67. 二进制求和</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-3"><span class="toc-number">4.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-3"><span class="toc-number">4.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-3"><span class="toc-number">4.3.</span> <span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%9C%80%E9%95%BF%E5%9B%9E%E6%96%87%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="toc-number">5.</span> <span class="toc-text">5. 最长回文字符串</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-4"><span class="toc-number">5.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-4"><span class="toc-number">5.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-4"><span class="toc-number">5.3.</span> <span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">6.</span> <span class="toc-text">10. 正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-5"><span class="toc-number">6.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-5"><span class="toc-number">6.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-5"><span class="toc-number">6.3.</span> <span class="toc-text">题解</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#44-%E9%80%9A%E9%85%8D%E7%AC%A6%E5%8C%B9%E9%85%8D"><span class="toc-number">7.</span> <span class="toc-text">44. 通配符匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-6"><span class="toc-number">7.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-6"><span class="toc-number">7.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-6"><span class="toc-number">7.3.</span> <span class="toc-text">题解</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E8%BF%AD%E4%BB%A3%E7%89%88"><span class="toc-number">7.4.</span> <span class="toc-text">方法二：迭代版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E6%9C%80%E9%95%BF%E5%85%AC%E5%85%B1%E5%89%8D%E7%BC%80"><span class="toc-number">8.</span> <span class="toc-text">14. 最长公共前缀</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0-7"><span class="toc-number">8.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E6%A0%B7%E4%BE%8B-7"><span class="toc-number">8.2.</span> <span class="toc-text">输入输出样例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3-7"><span class="toc-number">8.3.</span> <span class="toc-text">题解</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1650551263574"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
