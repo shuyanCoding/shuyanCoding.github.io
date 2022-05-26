@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>Springboot整合Redis - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="整合Redis添加项目依赖 在pom.xml中新增Redis相关依赖  12345&lt;!--redis依赖配置--&gt;&lt;dependency&gt;  &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Springboot整合Redis">
+<meta property="og:url" content="http://example.com/2022/03/17/JAVA/Redis/Springboot%E6%95%B4%E5%90%88Redis/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="整合Redis添加项目依赖 在pom.xml中新增Redis相关依赖  12345&lt;!--redis依赖配置--&gt;&lt;dependency&gt;  &lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;  &lt;artifactId&gt;spring-boot-starter-data-redis&lt;&#x2F;artifac">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-17T03:29:01.000Z">
+<meta property="article:modified_time" content="2022-05-24T02:42:57.118Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Redis">
+<meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1653533884755">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1653533884755">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1653533884755">
+    <link rel="stylesheet" href="/css/style.css?v=1653533884755">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>84</div>
+        <div><span>Tags</span>19</div>
+        <div><span>Categories</span>31</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">41</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">19</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SSM/">SSM</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/">Spring框架</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JAVA基础知识”/">“JAVA基础知识”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Redis”/">“Redis”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/“Security”/">“Security”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/栈和队列/">栈和队列</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 11.67px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 13.33px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Mybaits/" style="font-size: 16.67px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.33px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 13.33px;">STL</a> <a href="/tags/Security/" style="font-size: 11.67px;">Security</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.67px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 13.33px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.67px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/RedisTemplate.jpg" data-sizes="auto" alt="Springboot整合Redis" class="lazyload">
+              <h1>Springboot整合Redis</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年03月17日</a>
+</div>
+
+      
+
+      <h2 id="整合Redis"><a href="#整合Redis" class="headerlink" title="整合Redis"></a>整合Redis</h2><h3 id="添加项目依赖"><a href="#添加项目依赖" class="headerlink" title="添加项目依赖"></a>添加项目依赖</h3><blockquote>
+<p>在pom.xml中新增Redis相关依赖</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--redis依赖配置--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>  <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-redis<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="修改SpringBoot配置文件"><a href="#修改SpringBoot配置文件" class="headerlink" title="#修改SpringBoot配置文件"></a><a target="_blank" rel="noopener" href="https://www.macrozheng.com/mall/architect/mall_arch_03.html#%E4%BF%AE%E6%94%B9springboot%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6">#</a>修改SpringBoot配置文件</h3><blockquote>
+<p>在application.yml中添加Redis的配置及Redis中自定义key的配置。</p>
+</blockquote>
+<h4 id="在spring节点下添加Redis的配置"><a href="#在spring节点下添加Redis的配置" class="headerlink" title="#在spring节点下添加Redis的配置"></a><a target="_blank" rel="noopener" href="https://www.macrozheng.com/mall/architect/mall_arch_03.html#%E5%9C%A8spring%E8%8A%82%E7%82%B9%E4%B8%8B%E6%B7%BB%E5%8A%A0redis%E7%9A%84%E9%85%8D%E7%BD%AE">#</a>在spring节点下添加Redis的配置</h4><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">spring</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">redis</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">host</span>: <span class="hljs-string">localhost # Redis服务器地址</span><br>        <span class="hljs-attr">database</span>: <span class="hljs-string">0 # Redis数据库索引（默认为0）</span><br>        <span class="hljs-attr">port</span>: <span class="hljs-string">6379 # Redis服务器连接端口</span><br>        <span class="hljs-attr">password</span>: <span class="hljs-string"># Redis服务器连接密码（默认为空）</span><br>        <span class="hljs-attr">jedis</span>:<span class="hljs-string"></span><br>          <span class="hljs-attr">pool</span>:<span class="hljs-string"></span><br>            <span class="hljs-meta">max-active</span>: <span class="hljs-string">8 # 连接池最大连接数（使用负值表示没有限制）</span><br>            <span class="hljs-meta">max-wait</span>: <span class="hljs-string">-1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）</span><br>            <span class="hljs-meta">max-idle</span>: <span class="hljs-string">8 # 连接池中的最大空闲连接</span><br>            <span class="hljs-meta">min-idle</span>: <span class="hljs-string">0 # 连接池中的最小空闲连接</span><br>        <span class="hljs-attr">timeout</span>: <span class="hljs-string">3000ms # 连接超时时间（毫秒）</span><br></code></pre></td></tr></table></figure>
+
+
+<h4 id="在根节点下添加Redis自定义key的配置"><a href="#在根节点下添加Redis自定义key的配置" class="headerlink" title="#在根节点下添加Redis自定义key的配置"></a><a target="_blank" rel="noopener" href="https://www.macrozheng.com/mall/architect/mall_arch_03.html#%E5%9C%A8%E6%A0%B9%E8%8A%82%E7%82%B9%E4%B8%8B%E6%B7%BB%E5%8A%A0redis%E8%87%AA%E5%AE%9A%E4%B9%89key%E7%9A%84%E9%85%8D%E7%BD%AE">#</a>在根节点下添加Redis自定义key的配置</h4><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 自定义redis key</span><br><span class="hljs-attr">redis</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">key</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">prefix</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">authCode</span>: <span class="hljs-string">&quot;portal:authCode:&quot;</span><br>    <span class="hljs-attr">expire</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">authCode</span>: <span class="hljs-string">120 # 验证码超期时间</span><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="添加RedisService接口用于定义一些常用Redis操作"><a href="#添加RedisService接口用于定义一些常用Redis操作" class="headerlink" title="#添加RedisService接口用于定义一些常用Redis操作"></a><a target="_blank" rel="noopener" href="https://www.macrozheng.com/mall/architect/mall_arch_03.html#%E6%B7%BB%E5%8A%A0redisservice%E6%8E%A5%E5%8F%A3%E7%94%A8%E4%BA%8E%E5%AE%9A%E4%B9%89%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8redis%E6%93%8D%E4%BD%9C">#</a>添加RedisService接口用于定义一些常用Redis操作</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.macro.mall.tiny.service;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * redis操作Service,</span><br><span class="hljs-comment"> * 对象和数组都以json形式进行存储</span><br><span class="hljs-comment"> * Created by macro on 2018/8/7.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">RedisService</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 存储数据</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(String key, String value)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 获取数据</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">String <span class="hljs-title">get</span><span class="hljs-params">(String key)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 设置超期时间</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">boolean</span> <span class="hljs-title">expire</span><span class="hljs-params">(String key, <span class="hljs-keyword">long</span> expire)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 删除数据</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">remove</span><span class="hljs-params">(String key)</span></span>;<br><br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 自增操作</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> delta 自增步长</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">Long <span class="hljs-title">increment</span><span class="hljs-params">(String key, <span class="hljs-keyword">long</span> delta)</span></span>;<br><br>&#125;<br><br></code></pre></td></tr></table></figure>
+<h3 id="注入StringRedisTemplate，实现RedisService接口"><a href="#注入StringRedisTemplate，实现RedisService接口" class="headerlink" title="注入StringRedisTemplate，实现RedisService接口"></a>注入StringRedisTemplate，实现RedisService接口</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.macro.mall.tiny.service.impl;<br><br><span class="hljs-keyword">import</span> com.macro.mall.tiny.service.RedisService;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.data.redis.core.StringRedisTemplate;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br><br><span class="hljs-keyword">import</span> java.util.concurrent.TimeUnit;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * redis操作Service的实现类</span><br><span class="hljs-comment"> * Created by macro on 2018/8/7.</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">RedisServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">RedisService</span> </span>&#123;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> StringRedisTemplate stringRedisTemplate;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">set</span><span class="hljs-params">(String key, String value)</span> </span>&#123;<br>        stringRedisTemplate.opsForValue().set(key, value);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">get</span><span class="hljs-params">(String key)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> stringRedisTemplate.opsForValue().get(key);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">expire</span><span class="hljs-params">(String key, <span class="hljs-keyword">long</span> expire)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> stringRedisTemplate.expire(key, expire, TimeUnit.SECONDS);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">remove</span><span class="hljs-params">(String key)</span> </span>&#123;<br>        stringRedisTemplate.delete(key);<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> Long <span class="hljs-title">increment</span><span class="hljs-params">(String key, <span class="hljs-keyword">long</span> delta)</span> </span>&#123;<br>        <span class="hljs-keyword">return</span> stringRedisTemplate.opsForValue().increment(key,delta);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/03/17/JAVA/Redis/Springboot%E6%95%B4%E5%90%88Redis/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;17&#x2F;JAVA&#x2F;Redis&#x2F;Springboot%E6%95%B4%E5%90%88Redis&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;17&#x2F;JAVA&#x2F;Redis&#x2F;Springboot%E6%95%B4%E5%90%88Redis&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/">JAVA</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/%E2%80%9CRedis%E2%80%9D/">“Redis”</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Redis/" rel="tag">Redis</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E5%90%88Redis"><span class="toc-number">1.</span> <span class="toc-text">整合Redis</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E9%A1%B9%E7%9B%AE%E4%BE%9D%E8%B5%96"><span class="toc-number">1.1.</span> <span class="toc-text">添加项目依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9SpringBoot%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">修改SpringBoot配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8spring%E8%8A%82%E7%82%B9%E4%B8%8B%E6%B7%BB%E5%8A%A0Redis%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.1.</span> <span class="toc-text">在spring节点下添加Redis的配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E6%A0%B9%E8%8A%82%E7%82%B9%E4%B8%8B%E6%B7%BB%E5%8A%A0Redis%E8%87%AA%E5%AE%9A%E4%B9%89key%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-number">1.2.2.</span> <span class="toc-text">在根节点下添加Redis自定义key的配置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0RedisService%E6%8E%A5%E5%8F%A3%E7%94%A8%E4%BA%8E%E5%AE%9A%E4%B9%89%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8Redis%E6%93%8D%E4%BD%9C"><span class="toc-number">1.3.</span> <span class="toc-text">添加RedisService接口用于定义一些常用Redis操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5StringRedisTemplate%EF%BC%8C%E5%AE%9E%E7%8E%B0RedisService%E6%8E%A5%E5%8F%A3"><span class="toc-number">1.4.</span> <span class="toc-text">注入StringRedisTemplate，实现RedisService接口</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1653533884757"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>

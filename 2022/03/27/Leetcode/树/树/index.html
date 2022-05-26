@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>树 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="[[Leetcode]] 二叉树的序列化与反序列化题目描述设计一个算法，并编写代码来序列化和反序列化二叉树。将树写入一个文件被称为“序列化”，读取文件后重建同样的二叉树被称为“反序列化”。如何反序列化或序列化二叉树是没有限制的，你只需要确保可以将二叉树序列化为一个字符串，并且可以将字符串反序列化为原来的树结构。 思路通过先序遍历建立二叉树的序列化，其中空子树用’#’来表示。反序列化的时候呢，遇到’">
+<meta property="og:type" content="article">
+<meta property="og:title" content="树">
+<meta property="og:url" content="http://example.com/2022/03/27/Leetcode/%E6%A0%91/%E6%A0%91/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="[[Leetcode]] 二叉树的序列化与反序列化题目描述设计一个算法，并编写代码来序列化和反序列化二叉树。将树写入一个文件被称为“序列化”，读取文件后重建同样的二叉树被称为“反序列化”。如何反序列化或序列化二叉树是没有限制的，你只需要确保可以将二叉树序列化为一个字符串，并且可以将字符串反序列化为原来的树结构。 思路通过先序遍历建立二叉树的序列化，其中空子树用’#’来表示。反序列化的时候呢，遇到’">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-05-10T04:18:05.652Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="二叉树">
+<meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1653533884715">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1653533884715">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1653533884715">
+    <link rel="stylesheet" href="/css/style.css?v=1653533884715">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>84</div>
+        <div><span>Tags</span>19</div>
+        <div><span>Categories</span>31</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">41</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">19</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SSM/">SSM</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/">Spring框架</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JAVA基础知识”/">“JAVA基础知识”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Redis”/">“Redis”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/“Security”/">“Security”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/栈和队列/">栈和队列</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 11.67px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 13.33px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Mybaits/" style="font-size: 16.67px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.33px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 13.33px;">STL</a> <a href="/tags/Security/" style="font-size: 11.67px;">Security</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.67px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 13.33px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.67px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/树.jpg" data-sizes="auto" alt="树" class="lazyload">
+              <h1>树</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年03月27日</a>
+</div>
+
+      
+
+      <p>[[Leetcode]]</p>
+<h2 id="二叉树的序列化与反序列化"><a href="#二叉树的序列化与反序列化" class="headerlink" title="二叉树的序列化与反序列化"></a>二叉树的序列化与反序列化</h2><h3 id="题目描述"><a href="#题目描述" class="headerlink" title="题目描述"></a>题目描述</h3><p>设计一个算法，并编写代码来序列化和反序列化二叉树。将树写入一个文件被称为“序列化”，读取文件后重建同样的二叉树被称为“反序列化”。如何反序列化或序列化二叉树是没有限制的，你只需要确保可以将二叉树序列化为一个字符串，并且可以将字符串反序列化为原来的树结构。</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>通过先序遍历建立二叉树的序列化，其中空子树用’#’来表示。反序列化的时候呢，遇到’#’就停止递归构造。另外序列化的时候是将整数通过stringstream转换成字符串，反序列化是将字符串通过stringstream转换成整数。</p>
+<h3 id="题解"><a href="#题解" class="headerlink" title="题解"></a>题解</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><code class="hljs c++"><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Definition of TreeNode:</span><br><span class="hljs-comment"> * class TreeNode &#123;</span><br><span class="hljs-comment"> * public:</span><br><span class="hljs-comment"> *     int val;</span><br><span class="hljs-comment"> *     TreeNode *left, *right;</span><br><span class="hljs-comment"> *     TreeNode(int val) &#123;</span><br><span class="hljs-comment"> *         this-&gt;val = val;</span><br><span class="hljs-comment"> *         this-&gt;left = this-&gt;right = NULL;</span><br><span class="hljs-comment"> *     &#125;</span><br><span class="hljs-comment"> * &#125;</span><br><span class="hljs-comment"> */</span><br><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> &#123;</span><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * This method will be invoked first, you should design your own algorithm </span><br><span class="hljs-comment">     * to serialize a binary tree which denote by a root node to a string which</span><br><span class="hljs-comment">     * can be easily deserialized by your own &quot;deserialize&quot; method later.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">bool</span> first;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> out_type, <span class="hljs-keyword">typename</span> in_value&gt;</span><br><span class="hljs-function">    </span><br><span class="hljs-function">    out_type <span class="hljs-title">convert</span><span class="hljs-params">(<span class="hljs-keyword">const</span> in_value &amp; t)</span></span>&#123;<br>        stringstream stream;<br>        stream&lt;&lt;t;      <span class="hljs-comment">//向流中传值</span><br>        out_type result;<span class="hljs-comment">//这里存储转换结果</span><br>        stream&gt;&gt;result;<span class="hljs-comment">//向result中写入值</span><br>        <span class="hljs-keyword">return</span> result;<br>    &#125;<br>    <br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">pre_order</span><span class="hljs-params">(TreeNode *root, string &amp;s)</span></span>&#123;<br>        <span class="hljs-keyword">if</span>(root)&#123;<br>            string tmp = convert&lt;string&gt;(root-&gt;val);<br>            <span class="hljs-keyword">if</span>(!first)<br>                s+= <span class="hljs-string">&quot; &quot;</span>+tmp;<br>            <span class="hljs-keyword">else</span> &#123;<br>                first = <span class="hljs-literal">false</span>;<br>                s+=tmp;<br>            &#125;<br>            <span class="hljs-built_in">pre_order</span>(root-&gt;left, s);<br>            <span class="hljs-built_in">pre_order</span>(root-&gt;right, s);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">if</span>(first)<br>                s+=<span class="hljs-string">&#x27;#&#x27;</span>;<br>            <span class="hljs-keyword">else</span> &#123;<br>                first = <span class="hljs-literal">false</span>;<br>                s+=<span class="hljs-string">&quot; #&quot;</span>;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-function">string <span class="hljs-title">serialize</span><span class="hljs-params">(TreeNode *root)</span> </span>&#123;<br>        <span class="hljs-comment">// write your code here</span><br>        string s=<span class="hljs-string">&quot;&quot;</span>;<br>        first = <span class="hljs-literal">true</span>;<br>        <span class="hljs-built_in">pre_order</span>(root, s);<span class="hljs-comment">//先序实现序列化</span><br>        <span class="hljs-keyword">return</span> s;<br>    &#125;<br>    <br>    stringstream ss;<br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">buildT</span><span class="hljs-params">(TreeNode * &amp;T)</span></span>&#123;<br>        string s;<br>        ss&gt;&gt;s;<br>        <span class="hljs-keyword">if</span>(s == <span class="hljs-string">&quot;#&quot;</span>) <span class="hljs-keyword">return</span> ;<br>        <span class="hljs-keyword">int</span> val = convert&lt;<span class="hljs-keyword">int</span>&gt;(s);<br>        T = <span class="hljs-keyword">new</span> <span class="hljs-built_in">TreeNode</span>(val);<br>        <span class="hljs-built_in">buildT</span>(T-&gt;left);<br>        <span class="hljs-built_in">buildT</span>(T-&gt;right);<br>    &#125;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * This method will be invoked second, the argument data is what exactly</span><br><span class="hljs-comment">     * you serialized at method &quot;serialize&quot;, that means the data is not given by</span><br><span class="hljs-comment">     * system, it&#x27;s given by your own serialize method. So the format of data is</span><br><span class="hljs-comment">     * designed by yourself, and deserialize it here as you serialize it in </span><br><span class="hljs-comment">     * &quot;serialize&quot; method.</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function">TreeNode *<span class="hljs-title">deserialize</span><span class="hljs-params">(string data)</span> </span>&#123;<br>        <span class="hljs-comment">// write your code here</span><br>        TreeNode *T = <span class="hljs-literal">NULL</span>;<br>        ss.<span class="hljs-built_in">str</span>(<span class="hljs-string">&quot;&quot;</span>);<br>        ss&lt;&lt;data;<br>        <span class="hljs-built_in">buildT</span>(T);<br>        <span class="hljs-keyword">return</span> T;<br>    &#125;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/03/27/Leetcode/%E6%A0%91/%E6%A0%91/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;27&#x2F;Leetcode&#x2F;%E6%A0%91&#x2F;%E6%A0%91&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;03&#x2F;27&#x2F;Leetcode&#x2F;%E6%A0%91&#x2F;%E6%A0%91&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Leetcode/">Leetcode</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/Leetcode/%E4%BA%8C%E5%8F%89%E6%A0%91/">二叉树</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%8E%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="toc-number">1.</span> <span class="toc-text">二叉树的序列化与反序列化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="toc-number">1.1.</span> <span class="toc-text">题目描述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">1.2.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A2%98%E8%A7%A3"><span class="toc-number">1.3.</span> <span class="toc-text">题解</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1653533884716"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
