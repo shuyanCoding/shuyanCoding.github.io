@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>KubeFATE快速部署 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="第一部分 概述：FATE(Federated AI Technology Enabler)是一个联邦学习框架，能有效帮助多个机构在满足用户隐私保护、数据安全和政府法规的要求下，进行数据使用和建模。但由于其系统的分布式特性，导致使用存在一定门槛。鉴于此，微众银行联合VMware一起开发了KubeFATE项目，致力于降低FATE的使用门槛和系统运维成本。本文将首先分析FATE的整体架构，帮助读者理解各">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KubeFATE快速部署">
+<meta property="og:url" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/KubeFATE%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="第一部分 概述：FATE(Federated AI Technology Enabler)是一个联邦学习框架，能有效帮助多个机构在满足用户隐私保护、数据安全和政府法规的要求下，进行数据使用和建模。但由于其系统的分布式特性，导致使用存在一定门槛。鉴于此，微众银行联合VMware一起开发了KubeFATE项目，致力于降低FATE的使用门槛和系统运维成本。本文将首先分析FATE的整体架构，帮助读者理解各">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/KubeFATE%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A002%E8%AF%BE.assets/image-20220404165820070.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/KubeFATE%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A002%E8%AF%BE.assets/image-20220404170220187.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/77ebfe9b88171bda8610b5fd6edd5920.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/76aad99c007f26efd9a7ab4f8d097650.png">
+<meta property="article:published_time" content="2022-05-29T03:11:05.000Z">
+<meta property="article:modified_time" content="2022-06-04T12:29:09.922Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="联邦学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/KubeFATE%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A002%E8%AF%BE.assets/image-20220404165820070.png">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1656038931347">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1656038931347">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656038931347">
+    <link rel="stylesheet" href="/css/style.css?v=1656038931347">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>95</div>
+        <div><span>Tags</span>20</div>
+        <div><span>Categories</span>33</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Docker/">Docker</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">42</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Linux/">Linux</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SSM/">SSM</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">7</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/">Spring框架</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JAVA基础知识”/">“JAVA基础知识”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Redis”/">“Redis”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/“Security”/">“Security”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">22</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/栈和队列/">栈和队列</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 12.86px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 11.43px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 12.86px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 12.86px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/Mybaits/" style="font-size: 15.71px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.57px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 12.86px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 12.86px;">STL</a> <a href="/tags/Security/" style="font-size: 11.43px;">Security</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.86px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.43px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 14.29px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 11.43px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.43px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 18.57px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/联邦学习.jpg" data-sizes="auto" alt="KubeFATE快速部署" class="lazyload">
+              <h1>KubeFATE快速部署</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年05月29日</a>
+</div>
+
+      
+
+      <h1 id="第一部分"><a href="#第一部分" class="headerlink" title="第一部分"></a>第一部分</h1><blockquote>
+<p>概述：<br>FATE(Federated AI Technology Enabler)是一个联邦学习框架，能有效帮助多个机构在满足用户隐私保护、数据安全和政府法规的要求下，进行数据使用和建模。但由于其系统的分布式特性，导致使用存在一定门槛。鉴于此，微众银行联合VMware一起开发了KubeFATE项目，致力于降低FATE的使用门槛和系统运维成本。本文将首先分析FATE的整体架构，帮助读者理解各部件的作用；然后将展示如何从一台Linux机器开始，通过KubeFATE一步一步来搭建联邦学习的实验环境。</p>
+</blockquote>
+<h2 id="FATE整体架构"><a href="#FATE整体架构" class="headerlink" title="FATE整体架构"></a>FATE整体架构</h2><p>一个正常工作的FATE集群里面包含了若干组件，其中有些负责任务调度、有些负责存储，各个组件各司其职，联合起来一起完成任务。一个FATE集群所包含的组件如下图所示：</p>
+<p><img src="%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A002%E8%AF%BE.assets/image-20220404165820070.png"></p>
+<p>各个服务的功能描述如下：</p>
+<ul>
+<li>  FATE Flow：该服务分为Client和Server两部分，其中Client部分由用户使用，用于向FATE集群提交联邦学习任务；FATE Flow Server是FATE集群对外提供服务的入口，同时它也负责调度、执行用户提交的任务请求和协调任务参与方。</li>
+<li>  MySQL：与任务相关的一些元数据，如创建时间，状态都会存在MySQL中。</li>
+<li>  EGG/ROLL：向训练任务提供了分布式计算和存储能力。</li>
+<li>  Meta Service：一组数据或一个文件，可以被切片并分布在不同的Egg上，Meta service负责管理和定位文件的切片信息。</li>
+<li>  Federation：由于联邦学习的特殊性质，在训练中，各个参与方之间往往会进行若干次数据互换。该服务为训练任务提供发送和接受数据的功能。</li>
+<li>  Proxy：该服务是一个反向代理，是FATE集群对外（训练其他参与方）的唯一入口。</li>
+<li>  FATE Board：向用户提供训练任务的可视化。</li>
+<li>  FATE Serving：在线推理服务，用户可以把训练好模型推送到该服务后作在线推理。</li>
+</ul>
+<h2 id="KubeFATE简介"><a href="#KubeFATE简介" class="headerlink" title="KubeFATE简介"></a>KubeFATE简介</h2><p>由于FATE集群包含了众多服务，并且每一个服务的启动都需要不同的配置和依赖，以至于使用存在一定门槛。此外由于多个服务之间有相互依赖，一个服务的失败可能导致整个集群的不可用，这给系统的运维也带来了一定的挑战。基于这个出发点，微众和VMware联合开发了KubeFATE项目，致力于解决联邦学习的使用门槛和降低运维的成本。目前，KubeFATE和FATE最新的版本为1.3.0，本文后续所有与它们相关的操作都将基于此版本。  </p>
+<p>由于KubeFATE使用了容器技术对FATE进行了封装，因此相对于传统的安装部署，使用KubeFATE有以下优点：<br>1.    使用简单，免除缺失依赖软件包的烦恼。<br>2.    配置方便，一个配置文件就能部署多套集群。<br>3.    管理灵活，可按需增减集群规模。<br>4.    适用于云环境。</p>
+<p>目前KubeFATE支持使用Docker-Compose和Kubernetes两种方式来部署和管理FATE集群，分别面向了测试开发和生产这两种使用场景。本文主要关注于测试开发的部署，因此在接下来的部署中会使用Docker-Compose这种方式。Kubernetes的方式将另文叙述。</p>
+<p>KubeFATE的工作流程主要分成两部分，分别是</p>
+<ol>
+<li> 根据用户定义的配置文件生成FATE集群的启动文件。</li>
+<li> 拷贝启动文件到指定机器上，并使用docker-compose命令启动容器。</li>
+</ol>
+<p>通常，负责生成启动文件的服务器称为部署机，而负责运行容器的服务器称为目标机，部署机和目标机是在逻辑上的划分。在本文中，部署机和目标机为同一台机器：</p>
+<p>[[部署机与目标机关系图]]</p>
+<h2 id="节点的联邦学习平台如何部署"><a href="#节点的联邦学习平台如何部署" class="headerlink" title="节点的联邦学习平台如何部署"></a>节点的联邦学习平台如何部署</h2><p><strong>使用KubeFATE和Docker-Compose来部署单节点联邦学习平台</strong>  </p>
+<p>由于KubeFATE使用了容器作为其底层工具，因此在开始使用KubeFATE之前，这里也简单介绍下容器、Docker等相关的概念。</p>
+<p>容器也称Linux Container（简称LXC），它是与系统其他部分隔离开的一系列进程，主要由Namespace和Cgroup两大机制来保证实现。其优点是：<br>1.    高资源利用与隔离<br>2.    轻量级<br>3.    跨Linux发行</p>
+<p>Docker属于 LXC的一种封装，提供简单易用的容器使用接口。它可以将应用程序与依赖，打包在一个文件里面，而当程序要运行的时候，Docker就为这个程进行一些配置，使得该进程与系统中的其他进程隔离。总体来说，Docker向用户提供了一套简单易用的接口，以至于用户可以很方便使用容器。而Docker-Compose 是对Docker 容器进行编排的工具，通过它用户可以很方便的配置和管理多个容器。  </p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>部署一套FATE集群，集群内拥有“FATE整体架构”中描述的所有部件。</p>
+<p>具体部署架构如下所示：</p>
+<p>![[Pasted image 20220529233000.png]]</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>一台机器，虚拟机或者物理机，推荐2CPU，8GB内存，Linux操作系统并且能联网，并以root用户登录。下文中部署机器和目标机器为同一台，IP地址为<code>192.168.1.1</code> 。  </p>
+<p><strong>在目标机上安装Docker</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">curl -fsSL https</span>:<span class="hljs-string">//get.docker.com -o get-docker.sh  </span><br><span class="hljs-meta">sh get-docker.sh</span>  <span class="hljs-string"></span><br><span class="hljs-attr">usermod</span> <span class="hljs-string">-aG docker $(whoami)  </span><br><span class="hljs-meta">exec $SHELL</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>验证安装：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># docker version  </span><br>  <br><span class="hljs-attr">Client</span>:<span class="hljs-string"> Docker Engine - Community  </span><br><span class="hljs-meta"> Version</span>:<span class="hljs-string">           19.03.7  </span><br><span class="hljs-meta"> API version</span>:<span class="hljs-string">       1.40  </span><br><span class="hljs-meta"> Go version</span>:<span class="hljs-string">        go1.12.17  </span><br><span class="hljs-meta"> Git commit</span>:<span class="hljs-string">        7141c199a2  </span><br><span class="hljs-meta"> Built</span>:<span class="hljs-string">             Wed Mar  4 01:22:36 2020  </span><br><span class="hljs-meta"> OS/Arch</span>:<span class="hljs-string">           linux/amd64  </span><br><span class="hljs-meta"> Experimental</span>:<span class="hljs-string">      false  </span><br>  <br><span class="hljs-attr">Server</span>:<span class="hljs-string"> Docker Engine - Community  </span><br><span class="hljs-attr">Engine</span>:  <span class="hljs-string"></span><br><span class="hljs-meta">  Version</span>:<span class="hljs-string">          19.03.7  </span><br><span class="hljs-meta">  API version</span>:<span class="hljs-string">      1.40 (minimum version 1.12)  </span><br><span class="hljs-meta">  Go version</span>:<span class="hljs-string">       go1.12.17  </span><br><span class="hljs-meta">  Git commit</span>:<span class="hljs-string">       7141c199a2  </span><br><span class="hljs-meta">  Built</span>:<span class="hljs-string">            Wed Mar  4 01:21:08 2020  </span><br></code></pre></td></tr></table></figure>
+
+<p><strong>在目标机上安装Docker-Compose</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">curl -L &quot;https</span>:<span class="hljs-string">//github.com/docker/compose/releases/download/1.25.4/docker-compose-#(uname -s)-#(uname -m)&quot; -o /usr/local/bin/docker-compose  </span><br>  <br><span class="hljs-meta">chmod +x /usr/local/bin/docker-compose</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>验证安装：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># docker-compose version  </span><br>  <br><span class="hljs-meta">docker-compose version 1.25.4, build unknown</span>  <span class="hljs-string"></span><br><span class="hljs-meta">docker-py version</span>:<span class="hljs-string"> 4.2.0  </span><br><span class="hljs-meta">CPython version</span>:<span class="hljs-string"> 2.7.17  </span><br><span class="hljs-meta">OpenSSL version</span>:<span class="hljs-string"> OpenSSL 1.1.1  11 Sep 2018  </span><br></code></pre></td></tr></table></figure>
+
+
+<p><strong>在目标机上下载Docker 镜像（可选）</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"></span><br><span class="hljs-comment"># 对于国内用户来说从Dockerhub上下载镜像可能会比较慢，可用以下方式代替：  </span><br><span class="hljs-meta">wget https</span>:<span class="hljs-string">//webank-ai-1251170195.cos.ap-guangzhou.myqcloud.com/fate_1.3.0-images.tar.gz   </span><br>  <br><span class="hljs-attr">docker load -i fate_1.3.0-images.tar.gz </span><br></code></pre></td></tr></table></figure>
+
+
+<p>验证下载镜像：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># docker images</span><br><br><span class="hljs-meta">REPOSITORY                         TAG </span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/egg                    1.3.0-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/fateboard              1.3.0-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/meta-service           1.3.0-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/python                 1.3.0-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/roll                   1.3.0-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/proxy                  1.3.0-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/federation             1.3.0-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/serving-server         1.2.2-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">federatedai/serving-proxy          1.2.2-release</span>  <span class="hljs-string"></span><br><span class="hljs-meta">redis                              5</span>  <span class="hljs-string"></span><br><span class="hljs-meta">mysql                              8</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+
+<p>在部署机上下载并解压Kubefate1.3的<code>kubefate-docker-compose.tar.gz</code>资源包</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">curl -OL https</span>:<span class="hljs-string">//github.com/FederatedAI/KubeFATE/releases/download/v1.3.0/kubefate-docker-compose.tar.gz  </span><br>  <br><span class="hljs-meta">tar -xzf kubefate-docker-compose.tar.gz</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+
+<p><strong>在部署机上定义需要部署的实例数目</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">进入docker-deploy目录</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># cd docker-deploy/  </span><br>  <br><span class="hljs-meta">编辑parties.conf如下</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># vi parties.conf   </span><br>  <br><span class="hljs-attr">user</span>=<span class="hljs-string">root                                     </span><br><span class="hljs-attr">dir</span>=<span class="hljs-string">/data/projects/fate                       </span><br><span class="hljs-attr">partylist</span>=<span class="hljs-string">(10000)                        </span><br><span class="hljs-attr">partyiplist</span>=<span class="hljs-string">(192.168.1.1)       #此处替换为目标机的IP  </span><br><span class="hljs-attr">servingiplist</span>=<span class="hljs-string">(192.168.1.1)     #此处替换为目标机的IP  </span><br><span class="hljs-attr">exchangeip</span>=  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+
+<p><strong>在部署机上执行生成集群启动文件脚本</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">bash generate_config.sh          # 生成部署文件</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p><strong>在部署机上执行启动集群脚本</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">bash docker_deploy.sh all</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>命令输入后需要用户输入两次目标机的root用户的密码  </p>
+<p><strong>在目标机上验证集群状态</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">docker ps</span>  <span class="hljs-string"></span><br>  <br><span class="hljs-meta">CONTAINER ID        IMAGE                                     COMMAND                  CREATED             STATUS              PORTS                                 NAMES</span>  <span class="hljs-string"></span><br><span class="hljs-meta">f8ae11a882ba        fatetest/fateboard</span>:<span class="hljs-string">1.3.0-release      &quot;/bin/sh -c &#x27;cd /dat…&quot;   5 days ago          Up 5 days           0.0.0.0:8080-&gt;8080/tcp                confs-10000_fateboard_1  </span><br><span class="hljs-meta">d72995355962        fatetest/python</span>:<span class="hljs-string">1.3.0-release         &quot;/bin/bash -c &#x27;sourc…&quot;   5 days ago          Up 5 days           9360/tcp, 9380/tcp                    confs-10000_python_1  </span><br><span class="hljs-meta">dffc70fc68ac        fatetest/egg</span>:<span class="hljs-string">1.3.0-release            &quot;/bin/sh -c &#x27;cd /dat…&quot;   7 days ago          Up 7 days           7778/tcp, 7888/tcp, 50001-50004/tcp   confs-10000_egg_1  </span><br><span class="hljs-meta">dc23d75692b0        fatetest/roll</span>:<span class="hljs-string">1.3.0-release           &quot;/bin/sh -c &#x27;cd roll…&quot;   7 days ago          Up 7 days           8011/tcp                              confs-10000_roll_1  </span><br><span class="hljs-meta">7e52b1b06d1a        fatetest/meta-service</span>:<span class="hljs-string">1.3.0-release   &quot;/bin/sh -c &#x27;java -c…&quot;   7 days ago          Up 7 days           8590/tcp                              confs-10000_meta-service_1  </span><br><span class="hljs-meta">50a6323f5cb8        fatetest/proxy</span>:<span class="hljs-string">1.3.0-release          &quot;/bin/sh -c &#x27;cd /dat…&quot;   7 days ago          Up 7 days           0.0.0.0:9370-&gt;9370/tcp                confs-10000_proxy_1  </span><br><span class="hljs-meta">4526f8e57004        redis</span>:<span class="hljs-string">5                                   &quot;docker-entrypoint.s…&quot;   7 days ago          Up 7 days           6379/tcp                              confs-10000_redis_1  </span><br><span class="hljs-meta">586f3f2fe191        fatetest/federation</span>:<span class="hljs-string">1.3.0-release     &quot;/bin/sh -c &#x27;cd /dat…&quot;   7 days ago          Up 7 days           9394/tcp                              confs-10000_federation_1  </span><br><span class="hljs-meta">ec434dcbbff1        mysql</span>:<span class="hljs-string">8                                   &quot;docker-entrypoint.s…&quot;   7 days ago          Up 7 days           3306/tcp, 33060/tcp                   confs-10000_mysql_1  </span><br><span class="hljs-meta">68b1d6c68b6c        federatedai/serving-proxy</span>:<span class="hljs-string">1.2.2-release    &quot;/bin/sh -c &#x27;java -D…&quot;   32 hours ago        Up 32 hours         0.0.0.0:8059-&gt;8059/tcp, 0.0.0.0:8869-&gt;8869/tcp, 8879/tcp   serving-10000_serving-proxy_1  </span><br><span class="hljs-meta">7937ecf2974e        redis</span>:<span class="hljs-string">5                                    &quot;docker-entrypoint.s…&quot;   32 hours ago        Up 32 hours         6379/tcp                                                   serving-10000_redis_1  </span><br><span class="hljs-meta">00a8d98021a6        federatedai/serving-server</span>:<span class="hljs-string">1.2.2-release   &quot;/bin/sh -c &#x27;java -c…&quot;   32 hours ago        Up 32 hours         0.0.0.0:8000-&gt;8000/tcp                                     serving-10000_serving-server_1</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>在目标机上验证集群是否正确安装</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">docker exec -it confs-10000_python_1 bash</span>  <span class="hljs-string"></span><br>  <br><span class="hljs-meta">cd /data/projects/fate/python/examples/toy_example</span>  <span class="hljs-string"></span><br>  <br><span class="hljs-meta">python run_toy_example.py 10000 10000 1</span> <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>如果测试通过，屏幕将显示类似如下消息：  </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:25,353 - secure_add_guest.py[line:96] - INFO: begin to init parameters of secure add example guest&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:25,354 - secure_add_guest.py[line:99] - INFO: begin to make guest data&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:26,225 - secure_add_guest.py[line:102] - INFO: split data into two random parts&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:29,140 - secure_add_guest.py[line:105] - INFO: share one random part data to host&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:29,237 - secure_add_guest.py[line:108] - INFO: get share of one random part data from host&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:33,073 - secure_add_guest.py[line:111] - INFO: begin to get sum of guest and host&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:33,920 - secure_add_guest.py[line:114] - INFO: receive host sum from guest&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:34,118 - secure_add_guest.py[line:121] - INFO: success to calculate secure_sum, it is 2000.0000000000002&quot;  </span><br></code></pre></td></tr></table></figure>
+
+<p>通过上述步骤，一个<code>FATE</code>的实例（单方）部署完成，后续文章将介绍如何部署多方互联进行联邦学习的训练。</p>
+<h2 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h2><p>如果前文的“<code>toy_example</code>”尝试数次后仍没有跑过，可以考虑是否因<code>CPU</code>版本太旧以至于指令集不支持的问题。具体操作如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 1.进入egg容器  </span><br><span class="hljs-meta">docker exec -it confs-xxxx_egg_1 bash</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># 2.查看storage-service日志</span><br><span class="hljs-meta">cat storage-service-cxx/logs/error.log</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>如果日志出现“<code>Illegal instruction (core dumped)</code>”则考虑使用CPU更新点的服务器重新部署。如果该日志没有输出则可以通过docker log的方式逐个查看服务日志以定位具体问题。`</p>
+<h1 id="第二部分"><a href="#第二部分" class="headerlink" title="第二部分"></a>第二部分</h1><p><strong>FATE集群的组网方式</strong></p>
+<p>联邦学习的训练任务需要多方参与，如图1所示，每一个party node都是一方，并且每个party node都有各自的一套FATE集群。而party node和party node之间的发现方式有两种。分别是点对点和星型。默认情况下，使用KubeFATE部署的多方集群会通过点对点的方式组网，但KubeFATE也可以单独部署Exchange服务以支持星型组网。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A002%E8%AF%BE.assets/image-20220404170220187.png" alt="image-20220404170220187" class="lazyload"></p>
+<p>图 1 FATE集群组网方式</p>
+<h3 id="部署两方训练的集群"><a href="#部署两方训练的集群" class="headerlink" title="部署两方训练的集群"></a>部署两方训练的集群</h3><p><strong>使用KubeFATE和Docker-Compose部署两方训练的集群</strong></p>
+<p>KubeFATE的使用分成两部分，第一部分是生成FATE集群的启动文件（docker-compose.yaml），第二个部分是通过docker-compose的方式去启动FATE集群。从逻辑上可将进行这两部分工作的机器分别称为部署机和目标机器。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/77ebfe9b88171bda8610b5fd6edd5920.png"></p>
+<p><em>Figure 1部署机目标机关系图</em></p>
+<h3 id="目标-1"><a href="#目标-1" class="headerlink" title="目标"></a>目标</h3><p>两个可以互通的FATE实例，每个实例均包括FATE所有组件，实例分别部署在不同的两台机器上。</p>
+<h3 id="准备工作-1"><a href="#准备工作-1" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
+<li> 两个主机（物理机或者虚拟机，Ubuntu或Centos7系统，允许以root用户登录）；</li>
+<li> 所有主机安装Docker 版本 : 18+；</li>
+<li> 所有主机安装Docker-Compose 版本: 1.24+；</li>
+<li> 部署机可以联网，所以主机相互之间可以网络互通；</li>
+<li>运行机已经下载FATE 的各组件镜像</li>
+</ol>
+<p>Docker的安装以及FATE镜像的下载请参考前文，接下来我们将把两台主机划分为workspace1和workspace2。其中workspace1既作为部署机也作为目标机，而workspace2则作为目标机，每个机器运行一个FATE实例。这里两台主机的IP分别为192.168.7.1和192.168.7.2。用户需要根据实际情况做出修改。具体部署架构如图2所示。</p>
+<p><img src="https://img-blog.csdnimg.cn/img_convert/76aad99c007f26efd9a7ab4f8d097650.png"></p>
+<p><em>图2 部署架构图</em></p>
+<p>以下操作需在workspace1上并以root用户进行。</p>
+<p>下载并解压Kubefate1.3的kubefate-docker-compose.tar.gz资源包</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">curl -OL</span> <span class="hljs-string">https://github.com/FederatedAI/KubeFATE/releases/download/v1.3.0/kubefate-docker-compose.tar.gz  </span><br>  <br><span class="hljs-attr">tar -xzf kubefate-docker-compose.tar.gz</span><br></code></pre></td></tr></table></figure>
+
+
+<h3 id="定义需要部署的实例数目"><a href="#定义需要部署的实例数目" class="headerlink" title="定义需要部署的实例数目"></a>定义需要部署的实例数目</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 进入docker-deploy目录  </span><br><span class="hljs-meta">cd docker-deploy/</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># 编辑parties.conf如下  </span><br><span class="hljs-meta">vi parties.conf </span>  <span class="hljs-string"></span><br>  <br><span class="hljs-attr">user</span>=<span class="hljs-string">root                                     </span><br><span class="hljs-attr">dir</span>=<span class="hljs-string">/data/projects/fate                       </span><br><span class="hljs-attr">partylist</span>=<span class="hljs-string">(10000 9999)                        </span><br><span class="hljs-attr">partyiplist</span>=<span class="hljs-string">(192.168.7.1 192.168.7.2)         </span><br><span class="hljs-attr">servingiplist</span>=<span class="hljs-string">(192.168.7.1 192.168.7.2)       </span><br><span class="hljs-attr">exchangeip</span>=<span class="hljs-string">  </span><br></code></pre></td></tr></table></figure>
+
+<p>根据以上定义party 10000的集群将部署在workspace1上，而party 9999的集群将部署在workspace2上。</p>
+<h3 id="执行生成集群启动文件脚本"><a href="#执行生成集群启动文件脚本" class="headerlink" title="执行生成集群启动文件脚本"></a>执行生成集群启动文件脚本</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">bash generate_config.sh </span><br></code></pre></td></tr></table></figure>
+
+<h3 id="执行启动集群脚本"><a href="#执行启动集群脚本" class="headerlink" title="执行启动集群脚本"></a>执行启动集群脚本</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">bash docker_deploy.sh all</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>命令输入后需要用户输入4次root用户的密码 </p>
+<h3 id="验证集群基本功能"><a href="#验证集群基本功能" class="headerlink" title="验证集群基本功能"></a>验证集群基本功能</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">docker exec -it confs-10000_python_1 bash</span>  <span class="hljs-string"></span><br>  <br><span class="hljs-meta">cd /data/projects/fate/python/examples/toy_example</span>  <span class="hljs-string"></span><br>  <br><span class="hljs-attr">python run_toy_example.py 10000 9999 1</span><br></code></pre></td></tr></table></figure>
+
+<p><code>如果测试通过，屏幕将显示类似如下消息：</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:25,353 - secure_add_guest.py[line:96] - INFO: begin to init parameters of secure add example guest&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:25,354 - secure_add_guest.py[line:99] - INFO: begin to make guest data&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:26,225 - secure_add_guest.py[line:102] - INFO: split data into two random parts&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:29,140 - secure_add_guest.py[line:105] - INFO: share one random part data to host&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:29,237 - secure_add_guest.py[line:108] - INFO: get share of one random part data from host&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:33,073 - secure_add_guest.py[line:111] - INFO: begin to get sum of guest and host&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:33,920 - secure_add_guest.py[line:114] - INFO: receive host sum from guest&quot;  </span><br><span class="hljs-meta">&quot;2019-08-29 07</span>:<span class="hljs-string">21:34,118 - secure_add_guest.py[line:121] - INFO: success to calculate secure_sum, it is 2000.0000000000002&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="验证Serving-Service功能"><a href="#验证Serving-Service功能" class="headerlink" title="验证Serving-Service功能"></a>验证Serving-Service功能</h3><p>以下内容将会对部署好的两个FATE集群进行简单的训练和推理测试。训练所用到的数据集是”breast”（<a target="_blank" rel="noopener" href="https://www.kaggle.com/yuqing01/breast-cancer%EF%BC%89%EF%BC%8C%E5%85%B6%E4%B8%AD%E2%80%9Dbreast%E2%80%9D%E6%8C%89%E5%88%97%E5%88%86%E4%B8%BA%E2%80%9Dbreast_a%E2%80%9D%E5%92%8C%E2%80%9Dbreast_b%E2%80%9D%E4%B8%A4%E9%83%A8%E5%88%86%EF%BC%8C%E5%8F%82%E4%B8%8E%E8%AE%AD%E7%BB%83%E7%9A%84host%E6%96%B9%E6%8C%81%E6%9C%89%E2%80%9Dbreast_a%E2%80%9D%EF%BC%8C%E8%80%8Cguest%E6%96%B9%E5%88%99%E6%8C%81%E6%9C%89%E2%80%9Dbreast_b%E2%80%9D%E3%80%82guest%E5%92%8Chost%E5%B0%86%E8%81%94%E5%90%88%E8%B5%B7%E6%9D%A5%E5%AF%B9%E6%95%B0%E6%8D%AE%E9%9B%86%E8%BF%9B%E8%A1%8C%E4%B8%80%E4%B8%AA%E5%BC%82%E6%9E%84%E7%9A%84%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E8%AE%AD%E7%BB%83%E3%80%82%E6%9C%80%E5%90%8E%E5%BD%93%E8%AE%AD%E7%BB%83%E5%AE%8C%E6%88%90%E5%90%8E%E8%BF%98%E4%BC%9A%E5%B0%86%E5%BE%97%E5%88%B0%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%8E%A8%E9%80%81%E5%88%B0FATE">https://www.kaggle.com/yuqing01/breast-cancer），其中”breast”按列分为”breast_a”和”breast_b”两部分，参与训练的host方持有”breast_a”，而guest方则持有”breast_b”。guest和host将联合起来对数据集进行一个异构的逻辑回归训练。最后当训练完成后还会将得到的模型推送到FATE</a> Serving作在线推理。</p>
+<p>以下操作在workspace1上进行</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 进入python容器  </span><br><span class="hljs-meta">docker exec -it confs-10000_python_1 bash</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># 进入fate_flow目录  </span><br><span class="hljs-meta">cd fate_flow</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># 修改examples/upload_host.json  </span><br><span class="hljs-meta">vi examples/upload_host.json</span>  <span class="hljs-string"></span><br><span class="hljs-meta">&#123;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">  &quot;file&quot;</span>:<span class="hljs-string"> &quot;examples/data/breast_a.csv&quot;,  </span><br><span class="hljs-meta">  &quot;head&quot;</span>:<span class="hljs-string"> 1,  </span><br><span class="hljs-meta">  &quot;partition&quot;</span>:<span class="hljs-string"> 10,  </span><br><span class="hljs-meta">  &quot;work_mode&quot;</span>:<span class="hljs-string"> 1,  </span><br><span class="hljs-meta">  &quot;namespace&quot;</span>:<span class="hljs-string"> &quot;fate_flow_test_breast&quot;,  </span><br><span class="hljs-meta">  &quot;table_name&quot;</span>:<span class="hljs-string"> &quot;breast&quot;  </span><br><span class="hljs-meta">&#125;</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+
+
+<p>把“breast_a.csv”上传到系统中  </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">python fate_flow_client.py -f upload -c examples/upload_host.json </span><br></code></pre></td></tr></table></figure>
+
+
+<p>以下操作在workspace2上进行</p>
+<p>进入python容器  </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">docker exec -it confs-9999_python_1 bash</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># 进入fate_flow目录  </span><br><span class="hljs-meta">cd fate_flow</span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># 修改examples/upload_guest.json  </span><br><span class="hljs-meta">vi examples/upload_guest.json</span>  <span class="hljs-string"></span><br><span class="hljs-meta">&#123;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">  &quot;file&quot;</span>:<span class="hljs-string"> &quot;examples/data/breast_b.csv&quot;,  </span><br><span class="hljs-meta">  &quot;head&quot;</span>:<span class="hljs-string"> 1,  </span><br><span class="hljs-meta">  &quot;partition&quot;</span>:<span class="hljs-string"> 10,  </span><br><span class="hljs-meta">  &quot;work_mode&quot;</span>:<span class="hljs-string"> 1,  </span><br><span class="hljs-meta">  &quot;namespace&quot;</span>:<span class="hljs-string"> &quot;fate_flow_test_breast&quot;,  </span><br><span class="hljs-meta">  &quot;table_name&quot;</span>:<span class="hljs-string"> &quot;breast&quot;  </span><br><span class="hljs-meta">&#125;</span>  <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>把“breast_b.csv”上传到系统中  </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">python fate_flow_client.py -f upload -c examples/upload_guest.json </span>  <span class="hljs-string"></span><br><span class="hljs-comment">  </span><br><span class="hljs-comment"># 修改examples/test_hetero_lr_job_conf.json  </span><br>  <br><span class="hljs-meta">vi examples/test_hetero_lr_job_conf.json</span>  <span class="hljs-string"></span><br><br><span class="hljs-meta">&#123;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;initiator&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;role&quot;</span>:<span class="hljs-string"> &quot;guest&quot;,  </span><br><span class="hljs-meta">        &quot;party_id&quot;</span>:<span class="hljs-string"> 9999  </span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;job_parameters&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;work_mode&quot;</span>:<span class="hljs-string"> 1  </span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;role&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;guest&quot;</span>:<span class="hljs-string"> [9999],  </span><br><span class="hljs-meta">        &quot;host&quot;</span>:<span class="hljs-string"> [10000],  </span><br><span class="hljs-meta">        &quot;arbiter&quot;</span>:<span class="hljs-string"> [10000]  </span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;role_parameters&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;guest&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">            &quot;args&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">                &quot;data&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">                    &quot;train_data&quot;</span>:<span class="hljs-string"> [&#123;&quot;name&quot;: &quot;breast&quot;, &quot;namespace&quot;: &quot;fate_flow_test_breast&quot;&#125;]  </span><br><span class="hljs-meta">                &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">            &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">            &quot;dataio_0&quot;</span>:<span class="hljs-string">&#123;  </span><br><span class="hljs-meta">                &quot;with_label&quot;</span>:<span class="hljs-string"> [true],  </span><br><span class="hljs-meta">                &quot;label_name&quot;</span>:<span class="hljs-string"> [&quot;y&quot;],  </span><br><span class="hljs-meta">                &quot;label_type&quot;</span>:<span class="hljs-string"> [&quot;int&quot;],  </span><br><span class="hljs-meta">                &quot;output_format&quot;</span>:<span class="hljs-string"> [&quot;dense&quot;]  </span><br><span class="hljs-meta">            &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">        &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">        &quot;host&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">            &quot;args&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">                &quot;data&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">                    &quot;train_data&quot;</span>:<span class="hljs-string"> [&#123;&quot;name&quot;: &quot;breast&quot;, &quot;namespace&quot;: &quot;fate_flow_test_breast&quot;&#125;]  </span><br><span class="hljs-meta">                &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">            &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">             &quot;dataio_0&quot;</span>:<span class="hljs-string">&#123;  </span><br><span class="hljs-meta">                &quot;with_label&quot;</span>:<span class="hljs-string"> [false],  </span><br><span class="hljs-meta">                &quot;output_format&quot;</span>:<span class="hljs-string"> [&quot;dense&quot;]  </span><br><span class="hljs-meta">            &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">        &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    ....</span>  <span class="hljs-string"></span><br><span class="hljs-attr">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><strong><code>提交任务对上传的数据集进行训练</code></strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">python fate_flow_client.py -f submit_job -d examples/test_hetero_lr_job_dsl.json -c examples/test_hetero_lr_job_conf.json</span><br></code></pre></td></tr></table></figure>
+
+<p><code>输出结果：</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">&#123;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;data&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;board_url&quot;</span>:<span class="hljs-string"> &quot;http://fateboard:8080/index.html#/dashboard?job_id=202003060553168191842&amp;role=guest&amp;party_id=9999&quot;,  </span><br><span class="hljs-meta">        &quot;job_dsl_path&quot;</span>:<span class="hljs-string"> &quot;/data/projects/fate/python/jobs/202003060553168191842/job_dsl.json&quot;,  </span><br><span class="hljs-meta">        &quot;job_runtime_conf_path&quot;</span>:<span class="hljs-string"> &quot;/data/projects/fate/python/jobs/202003060553168191842/job_runtime_conf.json&quot;,  </span><br><span class="hljs-meta">        &quot;logs_directory&quot;</span>:<span class="hljs-string"> &quot;/data/projects/fate/python/logs/202003060553168191842&quot;,  </span><br><span class="hljs-meta">        &quot;model_info&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">            &quot;model_id&quot;</span>:<span class="hljs-string"> &quot;arbiter-10000#guest-9999#host-10000#model&quot;,  </span><br><span class="hljs-meta">            &quot;model_version&quot;</span>:<span class="hljs-string"> &quot;202003060553168191842&quot;  </span><br><span class="hljs-meta">        &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;jobId&quot;</span>:<span class="hljs-string"> &quot;202003060553168191842&quot;,  </span><br><span class="hljs-meta">    &quot;retcode&quot;</span>:<span class="hljs-string"> 0,  </span><br><span class="hljs-meta">    &quot;retmsg&quot;</span>:<span class="hljs-string"> &quot;success&quot;  </span><br><span class="hljs-attr">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>训练好的模型会存储在EGG节点中，模型可通过在上述输出中的“model_id” 和 “model_version” 来定位。FATE Serving的加载和绑定模型操作都需要用户提供这两个值。</p>
+<p><code>查看任务状态直到”f_status”为success，把上一步中输出的“jobId”方在“-j”后面。</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">python fate_flow_client.py -f query_task -j 202003060553168191842 | grep f_status</span>  <span class="hljs-string"></span><br>  <br><span class="hljs-meta">output：</span>  <span class="hljs-string"></span><br>  <br><span class="hljs-meta">    &quot;f_status&quot;</span>:<span class="hljs-string"> &quot;success&quot;,  </span><br><span class="hljs-meta">    &quot;f_status&quot;</span>:<span class="hljs-string"> &quot;success&quot;,</span><br></code></pre></td></tr></table></figure>
+
+<p><code>修改加载模型的配置，把上一步中输出的“model_id”和“model_version”与文件中的进行替换。</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">vi examples/publish_load_model.json</span>  <span class="hljs-string"></span><br><br><span class="hljs-meta">&#123;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;initiator&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;party_id&quot;</span>:<span class="hljs-string"> &quot;9999&quot;,  </span><br><span class="hljs-meta">        &quot;role&quot;</span>:<span class="hljs-string"> &quot;guest&quot;  </span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;role&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;guest&quot;</span>:<span class="hljs-string"> [&quot;9999&quot;],  </span><br><span class="hljs-meta">        &quot;host&quot;</span>:<span class="hljs-string"> [&quot;10000&quot;],  </span><br><span class="hljs-meta">        &quot;arbiter&quot;</span>:<span class="hljs-string"> [&quot;10000&quot;]  </span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;job_parameters&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;work_mode&quot;</span>:<span class="hljs-string"> 1,  </span><br><span class="hljs-meta">        &quot;model_id&quot;</span>:<span class="hljs-string"> &quot;arbiter-10000#guest-9999#host-10000#model&quot;,  </span><br><span class="hljs-meta">        &quot;model_version&quot;</span>:<span class="hljs-string"> &quot;202003060553168191842&quot;  </span><br><span class="hljs-meta">    &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-attr">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>加载模型</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs linux">python fate_flow_client.py -f load -c examples/publish_load_model.json<br></code></pre></td></tr></table></figure>
+
+<p><code>修改绑定模型的配置, 替换“model_id”和“model_version”，并给“service_id”赋值“test”。其中“service_id”是推理服务的标识，该标识与一个模型关联。用户向FATE Serving发送请求时需要带上“service_id”，这样FATE Serving才会知道用哪个模型处理用户的推理请求。</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">vi examples/bind_model_service.json</span>  <span class="hljs-string"></span><br><br><span class="hljs-meta">&#123;</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;service_id&quot;</span>:<span class="hljs-string"> &quot;test&quot;,  </span><br><span class="hljs-meta">    &quot;initiator&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;party_id&quot;</span>:<span class="hljs-string"> &quot;9999&quot;,  </span><br><span class="hljs-meta">        &quot;role&quot;</span>:<span class="hljs-string"> &quot;guest&quot;  </span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;role&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;guest&quot;</span>:<span class="hljs-string"> [&quot;9999&quot;],  </span><br><span class="hljs-meta">        &quot;host&quot;</span>:<span class="hljs-string"> [&quot;10000&quot;],  </span><br><span class="hljs-meta">        &quot;arbiter&quot;</span>:<span class="hljs-string"> [&quot;10000&quot;]  </span><br><span class="hljs-meta">    &#125;,</span>  <span class="hljs-string"></span><br><span class="hljs-meta">    &quot;job_parameters&quot;</span>:<span class="hljs-string"> &#123;  </span><br><span class="hljs-meta">        &quot;work_mode&quot;</span>:<span class="hljs-string"> 1,  </span><br><span class="hljs-meta">        &quot;model_id&quot;</span>:<span class="hljs-string"> &quot;arbiter-10000#guest-9999#host-10000#model&quot;,  </span><br><span class="hljs-meta">        &quot;model_version&quot;</span>:<span class="hljs-string"> &quot;202003060553168191842&quot;  </span><br><span class="hljs-meta">    &#125;</span>  <span class="hljs-string"></span><br><span class="hljs-attr">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>绑定模型</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">python fate_flow_client.py -f bind -c examples/bind_model_service.json</span><br></code></pre></td></tr></table></figure>
+
+<p><code>在线测试，通过curl发送以下信息到192.168.7.2:8059/federation/v1/inference</code> </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">curl -X POST -H &#x27;Content-Type</span>:<span class="hljs-string"> application/json&#x27; -d &#x27; &#123;&quot;head&quot;:&#123;&quot;serviceId&quot;:&quot;test&quot;&#125;,&quot;body&quot;:&#123;&quot;featureData&quot;: &#123;&quot;x0&quot;: 0.254879,&quot;x1&quot;: -1.046633,&quot;x2&quot;: 0.209656,&quot;x3&quot;: 0.074214,&quot;x4&quot;: -0.441366,&quot;x5&quot;: -0.377645,&quot;x6&quot;: -0.485934,&quot;x7&quot;: 0.347072,&quot;x8&quot;: -0.287570,&quot;x9&quot;: -0.733474&#125;&#125;&#x27; &#x27;http://192.168.7.2:8059/federation/v1/inference&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>输出结果``:</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">&#123;</span><br>	<span class="hljs-meta">&quot;flag&quot;</span>:<span class="hljs-string">0,</span><br>	<span class="hljs-meta">&quot;data&quot;</span>:<span class="hljs-string">&#123;</span><br>		<span class="hljs-meta">&quot;prob&quot;</span>:<span class="hljs-string">0.30684422824464636,</span><br>		<span class="hljs-meta">&quot;retmsg&quot;</span>:<span class="hljs-string">&quot;success&quot;,</span><br>		<span class="hljs-meta">&quot;retcode&quot;</span>:<span class="hljs-string">0</span><br>		<span class="hljs-attr">&#125;</span><br><span class="hljs-attr">&#125;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<p><strong>若输出结果如上所示，则验证了serving-service的功能是正常的。上述结果说明有以上特征的人确诊概率为30%左右。</strong></p>
+<h3 id="删除部署"><a href="#删除部署" class="headerlink" title="删除部署"></a>删除部署</h3><p><code>如果需要删除部署，则在部署机器上运行以下命令可以停止所有FATE集群：</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">bash docker_deploy.sh --delete all</span><br></code></pre></td></tr></table></figure>
+
+<p><code>如果想要彻底删除在运行机器上部署的FATE，可以分别登录节点，然后运行命令</code>：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd /data/projects/fate/confs-&lt;id&gt;/ # the id of party</span><br><br><span class="hljs-meta">docker-compose down</span>  <span class="hljs-string"></span><br><br><span class="hljs-attr">rm -rf ../confs-&lt;id&gt;/</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/KubeFATE%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;29&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2&#x2F;KubeFATE%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;29&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2&#x2F;KubeFATE%E5%BF%AB%E9%80%9F%E9%83%A8%E7%BD%B2&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/">联邦学习</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" rel="tag">联邦学习</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86"><span class="toc-number">1.</span> <span class="toc-text">第一部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#FATE%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84"><span class="toc-number">1.1.</span> <span class="toc-text">FATE整体架构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#KubeFATE%E7%AE%80%E4%BB%8B"><span class="toc-number">1.2.</span> <span class="toc-text">KubeFATE简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E7%9A%84%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0%E5%A6%82%E4%BD%95%E9%83%A8%E7%BD%B2"><span class="toc-number">1.3.</span> <span class="toc-text">节点的联邦学习平台如何部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87"><span class="toc-number">1.4.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.5.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.6.</span> <span class="toc-text">常见问题</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">第二部分</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2%E4%B8%A4%E6%96%B9%E8%AE%AD%E7%BB%83%E7%9A%84%E9%9B%86%E7%BE%A4"><span class="toc-number">2.0.1.</span> <span class="toc-text">部署两方训练的集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87-1"><span class="toc-number">2.0.2.</span> <span class="toc-text">目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C-1"><span class="toc-number">2.0.3.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E9%9C%80%E8%A6%81%E9%83%A8%E7%BD%B2%E7%9A%84%E5%AE%9E%E4%BE%8B%E6%95%B0%E7%9B%AE"><span class="toc-number">2.0.4.</span> <span class="toc-text">定义需要部署的实例数目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E7%94%9F%E6%88%90%E9%9B%86%E7%BE%A4%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E8%84%9A%E6%9C%AC"><span class="toc-number">2.0.5.</span> <span class="toc-text">执行生成集群启动文件脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4%E8%84%9A%E6%9C%AC"><span class="toc-number">2.0.6.</span> <span class="toc-text">执行启动集群脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81%E9%9B%86%E7%BE%A4%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="toc-number">2.0.7.</span> <span class="toc-text">验证集群基本功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%AA%8C%E8%AF%81Serving-Service%E5%8A%9F%E8%83%BD"><span class="toc-number">2.0.8.</span> <span class="toc-text">验证Serving-Service功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%83%A8%E7%BD%B2"><span class="toc-number">2.0.9.</span> <span class="toc-text">删除部署</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1656038931351"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>

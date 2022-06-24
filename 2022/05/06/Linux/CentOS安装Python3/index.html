@@ -12,33 +12,24 @@
     
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <meta name="description" content="一、下载前准备工作Centos 7操作系统上默认安装了python 2.7.5版本，但是python 2即将成为历史，python 3才是未来的主流，本文记录了笔者在Centos 7上安装python 3.8的过程，该过程在虚拟机和华为云服务器上均有实现，因此复现性应该较高。  首先移动到&#x2F;home&#x2F;python目录下(当然没有python目录需要你自己创建）： 二、下载python 3.8压缩包">
+    <meta name="description" content="Centos7安装Python3.8详细教程安装编译相关工具123yum -y groupinstall &quot;Development tools&quot;yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CentOS安装Python3">
 <meta property="og:url" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/index.html">
 <meta property="og:site_name" content="Shuyan">
-<meta property="og:description" content="一、下载前准备工作Centos 7操作系统上默认安装了python 2.7.5版本，但是python 2即将成为历史，python 3才是未来的主流，本文记录了笔者在Centos 7上安装python 3.8的过程，该过程在虚拟机和华为云服务器上均有实现，因此复现性应该较高。  首先移动到&#x2F;home&#x2F;python目录下(当然没有python目录需要你自己创建）： 二、下载python 3.8压缩包">
+<meta property="og:description" content="Centos7安装Python3.8详细教程安装编译相关工具123yum -y groupinstall &quot;Development tools&quot;yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112204891.png">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112214917.png">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112251003.png">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112316847.png">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112329375.png">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112347395.png">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112403736.png">
-<meta property="og:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112416188.png">
 <meta property="article:published_time" content="2022-05-06T03:29:01.000Z">
-<meta property="article:modified_time" content="2022-05-06T03:25:47.489Z">
+<meta property="article:modified_time" content="2022-06-06T03:27:08.279Z">
 <meta property="article:author" content="Shuyan">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2022/05/06/Linux/CentOS%E5%AE%89%E8%A3%85Python3/CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112204891.png">
-    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1653534086730">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1656038931424">
     
         <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
     
-    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1653534086730">
-    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1653534086730">
-    <link rel="stylesheet" href="/css/style.css?v=1653534086730">
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1656038931424">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656038931424">
+    <link rel="stylesheet" href="/css/style.css?v=1656038931424">
      
     
 <meta name="generator" content="Hexo 5.4.0"></head>
@@ -64,9 +55,9 @@
         </a>
     </div>
     <div class="nexmoe-count">
-        <div><span>Articles</span>84</div>
-        <div><span>Tags</span>19</div>
-        <div><span>Categories</span>31</div>
+        <div><span>Articles</span>95</div>
+        <div><span>Tags</span>20</div>
+        <div><span>Categories</span>33</div>
     </div>
     <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
         
@@ -145,8 +136,15 @@
         
 
         <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Docker/">Docker</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
           <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
-          <span class="category-list-count">41</span>
+          <span class="category-list-count">42</span>
         </li>
 
         
@@ -167,7 +165,14 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
-          <span class="category-list-count">19</span>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Linux/">Linux</a>
+          <span class="category-list-count">2</span>
         </li>
 
         
@@ -195,7 +200,7 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
-          <span class="category-list-count">6</span>
+          <span class="category-list-count">7</span>
         </li>
 
         
@@ -272,14 +277,14 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
-          <span class="category-list-count">21</span>
+          <span class="category-list-count">22</span>
         </li>
 
         
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
-          <span class="category-list-count">3</span>
+          <span class="category-list-count">4</span>
         </li>
 
         
@@ -293,7 +298,7 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
-          <span class="category-list-count">1</span>
+          <span class="category-list-count">2</span>
         </li>
 
         
@@ -342,7 +347,7 @@
 
         <li class="category-list-item">
           <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
-          <span class="category-list-count">4</span>
+          <span class="category-list-count">8</span>
         </li>
 
         
@@ -364,7 +369,7 @@
   <div class="nexmoe-widget-wrap">
     <h3 class="nexmoe-widget-title">Tag Cloud</h3>
     <div id="randomtagcloud" class="nexmoe-widget tagcloud">
-      <a href="/tags/Docker/" style="font-size: 11.67px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 11.67px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 13.33px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 13.33px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Mybaits/" style="font-size: 16.67px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.33px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 13.33px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 13.33px;">STL</a> <a href="/tags/Security/" style="font-size: 11.67px;">Security</a> <a href="/tags/Spring/" style="font-size: 16.67px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 13.33px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.67px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 13.33px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 10px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.67px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 15px;">联邦学习</a>
+      <a href="/tags/Docker/" style="font-size: 12.86px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 11.43px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 12.86px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 12.86px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/Mybaits/" style="font-size: 15.71px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.57px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 12.86px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 12.86px;">STL</a> <a href="/tags/Security/" style="font-size: 11.43px;">Security</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.86px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.43px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 14.29px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 11.43px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.43px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 18.57px;">联邦学习</a>
     </div>
     
   </div>
@@ -476,101 +481,35 @@
 
       
 
-      <h2 id="一、下载前准备工作"><a href="#一、下载前准备工作" class="headerlink" title="一、下载前准备工作"></a>一、下载前准备工作</h2><p>Centos 7操作系统上默认安装了python 2.7.5版本，但是python 2即将成为历史，python 3才是未来的主流，本文记录了笔者在Centos 7上安装python 3.8的过程，该过程在虚拟机和华为云服务器上均有实现，因此复现性应该较高。</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112204891.png" alt="image-20220506112204891" class="lazyload"></p>
-<p>首先移动到/home/python目录下(当然没有python目录需要你自己创建）：<br><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112214917.png" alt="image-20220506112214917" class="lazyload"></p>
-<h2 id="二、下载python-3-8压缩包"><a href="#二、下载python-3-8压缩包" class="headerlink" title="二、下载python 3.8压缩包"></a>二、下载python 3.8压缩包</h2><p>使用如下命令下载python 3.8：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">wget</span> https://www.python.org/ftp/python/<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>/Python-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>.tgz<br></code></pre></td></tr></table></figure>
+      <h1 id="Centos7安装Python3-8详细教程"><a href="#Centos7安装Python3-8详细教程" class="headerlink" title="Centos7安装Python3.8详细教程"></a>Centos7安装Python3.8详细教程</h1><h2 id="安装编译相关工具"><a href="#安装编译相关工具" class="headerlink" title="安装编译相关工具"></a>安装编译相关工具</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">yum</span> <span class="hljs-string">-y groupinstall &quot;Development tools&quot;</span><br><span class="hljs-attr">yum</span> <span class="hljs-string">-y install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gdbm-devel db4-devel libpcap-devel xz-devel</span><br><span class="hljs-attr">yum</span> <span class="hljs-string">install libffi-devel -y</span><br></code></pre></td></tr></table></figure>
 
-<p>如果提示-bash: wget: 未找到命令，需要先使用yum安装wget，命令如下：</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs cmake">yum -y <span class="hljs-keyword">install</span> wget<br></code></pre></td></tr></table></figure>
+<h2 id="下载python安装包"><a href="#下载python安装包" class="headerlink" title="下载python安装包"></a>下载python安装包</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">wget</span> <span class="hljs-string">https://www.python.org/ftp/python/3.8.3/Python-3.8.3.tgz</span><br><span class="hljs-attr">tar</span> <span class="hljs-string">-zxvf  Python-3.8.3.tgz</span><br></code></pre></td></tr></table></figure>
 
-<p>然后再使用wget下载python，耐心等候。下载结果如下：</p>
-<h2 id="三、解压缩安装包"><a href="#三、解压缩安装包" class="headerlink" title="三、解压缩安装包"></a>三、解压缩安装包</h2><p>通过以下命令解压缩下载的文件：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">tar</span> zxf Python-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span>.tgz<br></code></pre></td></tr></table></figure>
+<h2 id="编译安装python"><a href="#编译安装python" class="headerlink" title="编译安装python"></a>编译安装python</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">mkdir</span> <span class="hljs-string">/usr/local/python3 #创建编译安装目录</span><br><span class="hljs-attr">cd</span> <span class="hljs-string">Python-3.8.3</span><br><span class="hljs-meta">./configure</span> <span class="hljs-string">--prefix=/usr/local/python3</span><br><span class="hljs-attr">make</span> <span class="hljs-string">&amp;&amp; make install</span><br></code></pre></td></tr></table></figure>
 
-<p>结果如下：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112251003.png" alt="image-20220506112251003" class="lazyload"></p>
-<p>解压后进入Python-3.8.0目录：</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">cd</span> Python-<span class="hljs-number">3</span>.<span class="hljs-number">8</span>.<span class="hljs-number">0</span><br></code></pre></td></tr></table></figure>
+<p>安装过，出现下面两行就成功了</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">Installing</span> <span class="hljs-string">collected packages: setuptools, pip</span><br><span class="hljs-attr">Successfully</span> <span class="hljs-string">installed pip-19.2.3 setuptools-41.2.0</span><br></code></pre></td></tr></table></figure>
 
+<h2 id="创建软连接"><a href="#创建软连接" class="headerlink" title="创建软连接"></a>创建软连接</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 查看当前python软连接</span><br><span class="hljs-attr">ll</span> <span class="hljs-string">/usr/bin/ |grep python</span><br><br><span class="hljs-attr">lrwxrwxrwx</span>    <span class="hljs-string">1 root root           7 Nov 26  2018 python -&gt; python2</span><br><span class="hljs-attr">lrwxrwxrwx</span>    <span class="hljs-string">1 root root           9 Nov 26  2018 python2 -&gt; python2.7</span><br><span class="hljs-meta">-rwxr-xr-x</span>      <span class="hljs-string">1 root root        7216 Jul 13  2018 python2.7</span><br></code></pre></td></tr></table></figure>
 
+<p>默认系统安装的是python2.7<br>删除python软连接</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">rm</span> <span class="hljs-string">-rf /usr/bin/python</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="四、安装前准备工作"><a href="#四、安装前准备工作" class="headerlink" title="四、安装前准备工作"></a>四、安装前准备工作</h2><p>因为编译 Python 源代码需要依赖于很多工具，所以得先准备一下，依次执行以下命令：</p>
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mipsasm">yum update -y<br>yum groupinstall -y <span class="hljs-string">&#x27;Development Tools&#x27;</span><br>yum <span class="hljs-keyword">install </span>-y gcc openssl-devel <span class="hljs-keyword">bzip2-devel </span>libffi-devel<br></code></pre></td></tr></table></figure>
+<p>配置软连接为python3</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#添加python3的软链接 </span><br><span class="hljs-attr">ln</span> <span class="hljs-string">-s /usr/local/python3/bin/python3 /usr/bin/python</span><br></code></pre></td></tr></table></figure>
 
+<p>这个时候看下python默认版本</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">python</span> <span class="hljs-string">-V</span><br></code></pre></td></tr></table></figure>
 
+<p>删除默认pip软连接，并添加pip3新的软连接</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">rm</span> <span class="hljs-string">-rf /usr/bin/pip</span><br><span class="hljs-comment">#添加 pip3 的软链接 </span><br><span class="hljs-attr">ln</span> <span class="hljs-string">-s /usr/local/python3/bin/pip3 /usr/bin/pip</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="五、安装python-3-8"><a href="#五、安装python-3-8" class="headerlink" title="五、安装python 3.8"></a>五、安装python 3.8</h2><p>现在我们就可以安装python 3.8了，首先执行以下命令（注意，一定要在Python-3.8.0目录下执行该命令）：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">.<span class="hljs-regexp">/configure prefix=/u</span>sr<span class="hljs-regexp">/local/</span>python3 --enable-optimizations<br></code></pre></td></tr></table></figure>
-
-<p>–prefix选项是配置安装的路径，如果不配置该选项，安装后可执行文件默认放在/usr/local/bin，库文件默认放在/usr/local/lib，配置文件默认放在/usr/local/etc，其它的资源文件放在/usr/local/share，比较凌乱。</p>
-<p>如果配置<code>--prefix</code>，如：<code>./configure --prefix=/usr/local/python3</code>可以把所有资源文件放在 /usr/local/python3 的路径中，不会杂乱.用了<code>--prefix</code>选项的另一个好处是卸载软件或移植软件。当某个安装的软件不再需要时，只须简单的删除该安装目录,就可以把软件卸载得干干净净；移植软件只需拷贝整个目录到另外一个相同的操作系统机器即可.当然要卸载程序，也可以在原来的make 目录下用一次<code>make uninstall</code>，但前提是make文件指定过uninstall。</p>
-<p><code>--enable-optimizations</code>是优化选项（LTO,PGO 等）加上这个 flag 编译后，性能有 10% 左右的优化,但是这会明显的增加编译时间。</p>
-<p><code>./configure</code>命令执行完毕之后创建一个文件 <strong>Makefile</strong>, 供下面的<code>make</code>命令使用,执行<code>make install</code>之后就会把程序安装到我们指定的文件夹中去。</p>
-<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gauss"><span class="hljs-built_in">make</span> &amp;&amp; <span class="hljs-built_in">make</span> install<br></code></pre></td></tr></table></figure>
-
-<p>那么现在就安装好python 3了吗？很遗憾，答案是没有。因为系统默认使用的还是python 2。</p>
-<p>注：若有相关报错</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs bash">make build_all CFLAGS_NODIST=<span class="hljs-string">&quot; -fprofile-use -fprofile-correction&quot;</span> LDFLAGS_NODIST=<span class="hljs-string">&quot;&quot;</span><br>make[1]: Entering directory `/usr/<span class="hljs-built_in">local</span>/src/Python-3.8.0<span class="hljs-string">&#x27;</span><br><span class="hljs-string">./python -E -S -m sysconfig --generate-posix-vars ;\</span><br><span class="hljs-string">if test $? -ne 0 ; then \</span><br><span class="hljs-string">	echo &quot;generate-posix-vars failed&quot; ; \</span><br><span class="hljs-string">	rm -f ./pybuilddir.txt ; \</span><br><span class="hljs-string">	exit 1 ; \</span><br><span class="hljs-string">fi</span><br><span class="hljs-string">Could not import runpy module</span><br><span class="hljs-string">Traceback (most recent call last):</span><br><span class="hljs-string">  File &quot;/usr/local/src/Python-3.8.0/Lib/runpy.py&quot;, line 15, in &lt;module&gt;</span><br><span class="hljs-string">    import importlib.util</span><br><span class="hljs-string">  File &quot;/usr/local/src/Python-3.8.0/Lib/importlib/util.py&quot;, line 14, in &lt;module&gt;</span><br><span class="hljs-string">    from contextlib import contextmanager</span><br><span class="hljs-string">  File &quot;/usr/local/src/Python-3.8.0/Lib/contextlib.py&quot;, line 4, in &lt;module&gt;</span><br><span class="hljs-string">    import _collections_abc</span><br><span class="hljs-string">SystemError: &lt;built-in function compile&gt; returned NULL without setting an error</span><br><span class="hljs-string">generate-posix-vars failed</span><br><span class="hljs-string">make[1]: *** [pybuilddir.txt] Error 1</span><br><span class="hljs-string">make[1]: Leaving directory `/usr/local/src/Python-3.8.0&#x27;</span><br>make: *** [profile-opt] Error 2<br></code></pre></td></tr></table></figure>
-
-<h3 id="导致原因"><a href="#导致原因" class="headerlink" title="导致原因"></a>导致原因</h3><ul>
-<li>在低版本的gcc版本中带有 <code>--enable-optimizations </code>参数时会出现上面问题</li>
-<li>gcc 8.1.0修复此问题</li>
-</ul>
-<h3 id="解决方法如下"><a href="#解决方法如下" class="headerlink" title="解决方法如下"></a>解决方法如下</h3><ul>
-<li>1、升级gcc至8.1.0【不推荐】</li>
-<li>2、<code>./configure</code>参数中去掉 <code>--enable-optimizations</code></li>
-</ul>
-<h2 id="六、修改-python-2-链接"><a href="#六、修改-python-2-链接" class="headerlink" title="六、修改 python 2 链接"></a>六、修改 python 2 链接</h2><p>我们首先查看一下 Python 可执行文件的位置：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">which</span> python<br></code></pre></td></tr></table></figure>
-
-<p>然后切换到相应的目录：</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">cd <span class="hljs-regexp">/usr/</span>bin<br></code></pre></td></tr></table></figure>
-
-<p>查看相关的python信息：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs vim"><span class="hljs-keyword">ls</span> -<span class="hljs-keyword">la</span> <span class="hljs-keyword">python</span>*<br></code></pre></td></tr></table></figure>
+<h2 id="更改yum配置"><a href="#更改yum配置" class="headerlink" title="更改yum配置"></a>更改yum配置</h2><p>因为其要用到python2才能执行，否则会导致yum不能正常使用（不管安装 python3的那个版本，都必须要做的）</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">vi</span> <span class="hljs-string">/usr/bin/yum </span><br><span class="hljs-meta">把</span> <span class="hljs-string">#! /usr/bin/python 修改为 #! /usr/bin/python2 </span><br><span class="hljs-attr">vi</span> <span class="hljs-string">/usr/libexec/urlgrabber-ext-down </span><br><span class="hljs-meta">把</span> <span class="hljs-string">#! /usr/bin/python 修改为 #! /usr/bin/python2</span><br><span class="hljs-attr">vi</span> <span class="hljs-string">/usr/bin/yum-config-manager</span><br><span class="hljs-comment">#!/usr/bin/python 改为 #!/usr/bin/python2</span><br></code></pre></td></tr></table></figure>
 
 
 
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112316847.png" alt="image-20220506112316847" class="lazyload"></p>
-<p>发现当我们执行python 命令时，系统指向python 2，然后python 2指向python 2.7，所以系统默认使用的python版本仍然是python 2。</p>
-<p>首先将python 改名为 python.bak</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mv</span> python python<span class="hljs-number">2</span>.bak<br></code></pre></td></tr></table></figure>
-
-<p>再次查看python相关信息：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112329375.png" alt="image-20220506112329375" class="lazyload"></p>
-<h2 id="七、修改yum配置文件"><a href="#七、修改yum配置文件" class="headerlink" title="七、修改yum配置文件"></a>七、修改yum配置文件</h2><p>进入目录<code>/usr/bin</code>，查看有关yum的文件：</p>
-<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs stata"><span class="hljs-keyword">ls</span> -<span class="hljs-keyword">la</span> yum*<br></code></pre></td></tr></table></figure>
-
-
-
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112347395.png" alt="image-20220506112347395" class="lazyload"></p>
-<p>使用vi 进入文本编辑器（如果有多个yum配置文件，都要进去修改）：</p>
-<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">vi yum</span><br></code></pre></td></tr></table></figure>
-
-<p>点击i进入编辑模式之后将#!/usr/bin/python 改为#!/usr/bin/python2，按ESC退出编辑模式，输入<code>:wq!</code>保存修改退出。</p>
-<p>同样进入文件 /usr/libexec/urlgrabber-ext-down 做同样修改。</p>
-<h2 id="八、配置python-3软链接"><a href="#八、配置python-3软链接" class="headerlink" title="八、配置python 3软链接"></a>八、配置python 3软链接</h2><p>进入/usr/bin目录，配置软链接。在我看来，其实软链接就像Windows操作系统里的快捷方式，比如现在桌面上有一个图标叫python，现在你双击打开它，发现它打开的是Python 2，所以我们要配置其指向python 3。</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">ln -s <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3/</span>bin<span class="hljs-regexp">/python3.8 /u</span>sr<span class="hljs-regexp">/bin/</span>python<br></code></pre></td></tr></table></figure>
-
-<p>配置后结果：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112403736.png" alt="image-20220506112403736" class="lazyload"></p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">ln -s <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3/</span>bin<span class="hljs-regexp">/pip3.8 /u</span>sr<span class="hljs-regexp">/bin/</span>pip<br></code></pre></td></tr></table></figure>
-
-<p>如果提示/usr/bin/pip已经存在，可以使用<code>rm</code>删除，然后再进行配置。</p>
-<p>配置后结果：</p>
-<p><img data-fancybox="gallery" data-sizes="auto" data-src="CentOS%E5%AE%89%E8%A3%85Python3.assets/image-20220506112416188.png" alt="image-20220506112416188" class="lazyload"></p>
-<p>当然，也可以配置一个pip3软链接。</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">ln -s <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/python3/</span>bin<span class="hljs-regexp">/pip3.8 /u</span>sr<span class="hljs-regexp">/bin/</span>pip3<br></code></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-
+<h2 id="pip升级"><a href="#pip升级" class="headerlink" title="pip升级"></a>pip升级</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># 升级命令，最好在root用户下</span><br><span class="hljs-attr">pip</span> <span class="hljs-string">install --upgrade pip</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 或者</span><br><span class="hljs-attr">python</span> <span class="hljs-string">-m pip install --upgrade pip</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 查看新版本</span><br><span class="hljs-attr">pip</span> <span class="hljs-string">-V</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"># 若升级之后还是老版本</span><br><span class="hljs-attr">curl</span> <span class="hljs-string">https://bootstrap.pypa.io/get-pip.py -o get-pip.py</span><br><span class="hljs-attr">python</span> <span class="hljs-string">get-pip.py</span><br></code></pre></td></tr></table></figure>
 
 
 
@@ -627,7 +566,7 @@
                               <button class="mdui-fab catalog" style="overflow:unset;">
                                   <i class="nexmoefont icon-i-catalog"></i>
                                   <div class="nexmoe-toc">
-                                      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%8B%E8%BD%BD%E5%89%8D%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.</span> <span class="toc-text">一、下载前准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E4%B8%8B%E8%BD%BDpython-3-8%E5%8E%8B%E7%BC%A9%E5%8C%85"><span class="toc-number">2.</span> <span class="toc-text">二、下载python 3.8压缩包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%A7%A3%E5%8E%8B%E7%BC%A9%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-number">3.</span> <span class="toc-text">三、解压缩安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%AE%89%E8%A3%85%E5%89%8D%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">4.</span> <span class="toc-text">四、安装前准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%AE%89%E8%A3%85python-3-8"><span class="toc-number">5.</span> <span class="toc-text">五、安装python 3.8</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%BC%E8%87%B4%E5%8E%9F%E5%9B%A0"><span class="toc-number">5.1.</span> <span class="toc-text">导致原因</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95%E5%A6%82%E4%B8%8B"><span class="toc-number">5.2.</span> <span class="toc-text">解决方法如下</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E4%BF%AE%E6%94%B9-python-2-%E9%93%BE%E6%8E%A5"><span class="toc-number">6.</span> <span class="toc-text">六、修改 python 2 链接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E4%BF%AE%E6%94%B9yum%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">7.</span> <span class="toc-text">七、修改yum配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%85%8D%E7%BD%AEpython-3%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="toc-number">8.</span> <span class="toc-text">八、配置python 3软链接</span></a></li></ol>
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Centos7%E5%AE%89%E8%A3%85Python3-8%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">Centos7安装Python3.8详细教程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%BC%96%E8%AF%91%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7"><span class="toc-number">1.1.</span> <span class="toc-text">安装编译相关工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDpython%E5%AE%89%E8%A3%85%E5%8C%85"><span class="toc-number">1.2.</span> <span class="toc-text">下载python安装包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85python"><span class="toc-number">1.3.</span> <span class="toc-text">编译安装python</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%BD%AF%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.4.</span> <span class="toc-text">创建软连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%94%B9yum%E9%85%8D%E7%BD%AE"><span class="toc-number">1.5.</span> <span class="toc-text">更改yum配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pip%E5%8D%87%E7%BA%A7"><span class="toc-number">1.6.</span> <span class="toc-text">pip升级</span></a></li></ol></li></ol>
                                   </div>
                               </button>
                           
@@ -659,7 +598,7 @@
 
  
 
-<script async src="/js/app.js?v=1653534086731"></script>
+<script async src="/js/app.js?v=1656038931425"></script>
 
 
 

@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>FATE集群部署 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="一、准备1.1、硬件准备一台至少12核CPU、24G内存、1T硬盘（最好SSD）和一个不低于10MB能上互联网的网络。 1.2、软件 Xshell   VMware Workstation 16 Pro，  Centos，下载地址：http:&#x2F;&#x2F;vault.centos.org&#x2F;7.5.1804&#x2F;isos&#x2F;x86_64&#x2F;CentOS-7-x86_64-DVD-1804.iso   二、安装Cent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FATE集群部署">
+<meta property="og:url" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="一、准备1.1、硬件准备一台至少12核CPU、24G内存、1T硬盘（最好SSD）和一个不低于10MB能上互联网的网络。 1.2、软件 Xshell   VMware Workstation 16 Pro，  Centos，下载地址：http:&#x2F;&#x2F;vault.centos.org&#x2F;7.5.1804&#x2F;isos&#x2F;x86_64&#x2F;CentOS-7-x86_64-DVD-1804.iso   二、安装Cent">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230213630.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230157479.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230138903.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230122326.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230101895.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230029315.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230009394.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603225947853.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230253022.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230323304.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230552388.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230627348.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230722906.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230802304.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230827775.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230852142.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230909488.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210719163044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hoaGhoaGhoaGh3d3d3d3d3d3d3,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603231158314.png">
+<meta property="og:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603231319106.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021071916312217.png">
+<meta property="article:published_time" content="2022-05-29T03:11:05.000Z">
+<meta property="article:modified_time" content="2022-06-03T15:20:06.940Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="联邦学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230213630.png">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1656038931341">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1656038931341">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656038931341">
+    <link rel="stylesheet" href="/css/style.css?v=1656038931341">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>95</div>
+        <div><span>Tags</span>20</div>
+        <div><span>Categories</span>33</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Docker/">Docker</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">42</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Linux/">Linux</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SSM/">SSM</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">7</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/">Spring框架</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JAVA基础知识”/">“JAVA基础知识”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Redis”/">“Redis”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/“Security”/">“Security”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">22</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/栈和队列/">栈和队列</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 12.86px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 11.43px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 12.86px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 12.86px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/Mybaits/" style="font-size: 15.71px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.57px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 12.86px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 12.86px;">STL</a> <a href="/tags/Security/" style="font-size: 11.43px;">Security</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.86px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.43px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 14.29px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 11.43px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.43px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 18.57px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/联邦学习.jpg" data-sizes="auto" alt="FATE集群部署" class="lazyload">
+              <h1>FATE集群部署</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年05月29日</a>
+</div>
+
+      
+
+      <h1 id="一、准备"><a href="#一、准备" class="headerlink" title="一、准备"></a>一、准备</h1><h2 id="1-1、硬件"><a href="#1-1、硬件" class="headerlink" title="1.1、硬件"></a>1.1、硬件</h2><p>准备一台至少12核CPU、24G内存、1T硬盘（最好SSD）和一个不低于10MB能上互联网的网络。</p>
+<h2 id="1-2、软件"><a href="#1-2、软件" class="headerlink" title="1.2、软件"></a>1.2、软件</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Xshell&spm=1001.2101.3001.7020">Xshell</a> </p>
+</li>
+<li><p>VMware Workstation 16 Pro，</p>
+</li>
+<li><p>Centos，下载地址：<a target="_blank" rel="noopener" href="http://vault.centos.org/7.5.1804/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso">http://vault.centos.org/7.5.1804/isos/x86_64/CentOS-7-x86_64-DVD-1804.iso</a></p>
+</li>
+</ul>
+<h1 id="二、安装CentOS"><a href="#二、安装CentOS" class="headerlink" title="二、安装CentOS"></a>二、安装CentOS</h1><h1 id="三、CentOS安装"><a href="#三、CentOS安装" class="headerlink" title="三、CentOS安装"></a>三、CentOS安装</h1><h1 id="四、FATE-AllinOne部署集群"><a href="#四、FATE-AllinOne部署集群" class="headerlink" title="四、FATE AllinOne部署集群"></a>四、FATE AllinOne部署集群</h1><h2 id="1-集群规划"><a href="#1-集群规划" class="headerlink" title="1.集群规划"></a>1.集群规划</h2><table>
+<thead>
+<tr>
+<th>party</th>
+<th>主机名</th>
+<th>IP地址</th>
+<th>操作系统</th>
+<th>安装软件</th>
+<th>服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PartyA</td>
+<td>VM_0_1_centos</td>
+<td>192.168.65.161</td>
+<td>CentOS 7.2/</td>
+<td>fate,eggroll,mysql</td>
+<td>fate_flow，fateboard，clustermanager，nodemanager，rollsite，mysql</td>
+</tr>
+<tr>
+<td>PartyB</td>
+<td>VM_0_2_centos</td>
+<td>192.168.65.162</td>
+<td>CentOS 7.2</td>
+<td>fate,eggroll,mysql</td>
+<td>fate_flow，fateboard，clustermanager，nodemanager，rollsite，m</td>
+</tr>
+</tbody></table>
+<h2 id="2-架构图"><a href="#2-架构图" class="headerlink" title="2.架构图"></a>2.架构图</h2><p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230213630.png" alt="image-20220603230213630" class="lazyload"></p>
+<h2 id="3-组件说明"><a href="#3-组件说明" class="headerlink" title="3.组件说明"></a>3.组件说明</h2><table>
+<thead>
+<tr>
+<th align="center">软件产品</th>
+<th align="center">组件</th>
+<th align="center">端口</th>
+<th align="center">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">fate</td>
+<td align="center">fate_flow</td>
+<td align="center">9360;9380</td>
+<td align="center">联合学习任务流水线管理模块</td>
+</tr>
+<tr>
+<td align="center">fate</td>
+<td align="center">fateboard</td>
+<td align="center">8080</td>
+<td align="center">联合学习过程可视化模块</td>
+</tr>
+<tr>
+<td align="center">eggroll</td>
+<td align="center">clustermanager</td>
+<td align="center">4670</td>
+<td align="center">cluster manager管理集群</td>
+</tr>
+<tr>
+<td align="center">eggroll</td>
+<td align="center">nodemanager</td>
+<td align="center">4671</td>
+<td align="center">node manager管理每台机器资源</td>
+</tr>
+<tr>
+<td align="center">eggroll</td>
+<td align="center">rollsite</td>
+<td align="center">9370</td>
+<td align="center">跨站点或者说跨party通讯组件，相当于以前版本的proxy+federation</td>
+</tr>
+<tr>
+<td align="center">mysql</td>
+<td align="center">mysql</td>
+<td align="center">3306</td>
+<td align="center">数据存储，clustermanager和fateflow依赖</td>
+</tr>
+</tbody></table>
+<h2 id="4、环境配置"><a href="#4、环境配置" class="headerlink" title="4、环境配置"></a>4、环境配置</h2><h3 id="4-1-hostname配置"><a href="#4-1-hostname配置" class="headerlink" title="4.1 hostname配置"></a>4.1 hostname配置</h3><p> <strong>1）修改主机名</strong></p>
+<p>在<code>192.168.65.161 root</code>用户下执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">hostnamectl</span> <span class="hljs-string">set-hostname VM_0_1_centos</span><br></code></pre></td></tr></table></figure>
+
+<p>在<code>192.168.65.162 root</code>用户下执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">hostnamectl</span> <span class="hljs-string">set-hostname VM_0_2_centos</span><br></code></pre></td></tr></table></figure>
+
+<p> <strong>2）加入主机映射</strong></p>
+<p>在目标服务器（<code>192.168.65.161 192.168.65.162</code>）root用户下执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">vi</span> <span class="hljs-string">/etc/hosts</span><br></code></pre></td></tr></table></figure>
+
+<p>添加内容</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">192.168.0.1</span> <span class="hljs-string">VM_0_1_centos</span><br><br><span class="hljs-meta">192.168.0.2</span> <span class="hljs-string">VM_0_2_centos</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230157479.png" alt="image-20220603230157479" class="lazyload"></p>
+<p>添加完成后，执行<code>su root</code>命令重新登录。</p>
+<h3 id="4-2-关闭selinux"><a href="#4-2-关闭selinux" class="headerlink" title="4.2 关闭selinux"></a>4.2 关闭selinux</h3><p><strong>在目标服务器（192.168.65.161 192.168.65.162）root用户下执行：</strong></p>
+<p>确认是否已安装selinux</p>
+<p>centos系统执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">rpm</span> <span class="hljs-string">-qa | grep selinux</span><br></code></pre></td></tr></table></figure>
+
+<p>ubuntu系统执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">apt</span> <span class="hljs-string">list --installed | grep selinux</span><br></code></pre></td></tr></table></figure>
+
+<p>如果已安装了selinux就执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">setenforce</span> <span class="hljs-string">0</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230138903.png" alt="image-20220603230138903" class="lazyload"></p>
+<h3 id="4-3-配置yum仓库"><a href="#4-3-配置yum仓库" class="headerlink" title="4.3 配置yum仓库"></a>4.3 配置yum仓库</h3><p> <strong>在目标服务器（192.168.65.161 192.168.65.162）root用户下执行：</strong></p>
+<p><strong>1）备份CentOS-Base.repo文件</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">mv</span> <span class="hljs-string">/etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.bak</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230122326.png" alt="image-20220603230122326" class="lazyload"></p>
+<p><strong>2）修改yum仓库配置</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">vi</span> <span class="hljs-string">/etc/yum.repos.d/CentOS-Base.repo</span><br></code></pre></td></tr></table></figure>
+
+<p>添加内容： </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment"># CentOS-Base.repo</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># The mirror system uses the connecting IP address of the client and the</span><br><span class="hljs-comment"># update status of each mirror to pick mirrors that are updated to and</span><br><span class="hljs-comment"># geographically close to the client.  You should use this for CentOS updates</span><br><span class="hljs-comment"># unless you are manually picking other mirrors.</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment"># If the mirrorlist= does not work for you, as a fall back you can try the</span><br><span class="hljs-comment"># remarked out baseurl= line instead.</span><br><span class="hljs-comment">#</span><br><span class="hljs-comment">#</span><br><br><span class="hljs-attr">[base]</span><br><span class="hljs-attr">name</span>=<span class="hljs-string">CentOS-$releasever - Base</span><br><span class="hljs-attr">baseurl</span>=<span class="hljs-string">https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/os/$basearch/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=os</span><br><span class="hljs-attr">gpgcheck</span>=<span class="hljs-string">1</span><br><span class="hljs-attr">gpgkey</span>=<span class="hljs-string">file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#released updates</span><br><span class="hljs-attr">[updates]</span><br><span class="hljs-attr">name</span>=<span class="hljs-string">CentOS-$releasever - Updates</span><br><span class="hljs-attr">baseurl</span>=<span class="hljs-string">https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/updates/$basearch/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=updates</span><br><span class="hljs-attr">gpgcheck</span>=<span class="hljs-string">1</span><br><span class="hljs-attr">gpgkey</span>=<span class="hljs-string">file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="hljs-comment"></span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#additional packages that may be useful</span><br><span class="hljs-attr">[extras]</span><br><span class="hljs-attr">name</span>=<span class="hljs-string">CentOS-$releasever - Extras</span><br><span class="hljs-attr">baseurl</span>=<span class="hljs-string">https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/extras/$basearch/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=extras</span><br><span class="hljs-attr">gpgcheck</span>=<span class="hljs-string">1</span><br><span class="hljs-attr">gpgkey</span>=<span class="hljs-string">file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#additional packages that extend functionality of existing packages</span><br><span class="hljs-attr">[centosplus]</span><br><span class="hljs-attr">name</span>=<span class="hljs-string">CentOS-$releasever - Plus</span><br><span class="hljs-attr">baseurl</span>=<span class="hljs-string">https://mirrors.tuna.tsinghua.edu.cn/centos/$releasever/centosplus/$basearch/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mirrorlist=http://mirrorlist.centos.org/?release=$releasever&amp;arch=$basearch&amp;repo=centosplus</span><br><span class="hljs-attr">gpgcheck</span>=<span class="hljs-string">1</span><br><span class="hljs-attr">enabled</span>=<span class="hljs-string">0</span><br><span class="hljs-attr">gpgkey</span>=<span class="hljs-string">file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>3）使新仓库配置生效</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">yum</span> <span class="hljs-string">clean all</span><br><br><span class="hljs-attr">yum</span> <span class="hljs-string">makecache</span><br></code></pre></td></tr></table></figure>
+
+<p> <img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230101895.png" alt="image-20220603230101895" class="lazyload"></p>
+<h3 id="4-4-修改Linux系统参数"><a href="#4-4-修改Linux系统参数" class="headerlink" title="4.4 修改Linux系统参数"></a>4.4 修改Linux系统参数</h3><p>在目标服务器（<code>192.168.65.161 192.168.65.162</code>）root用户下执行：</p>
+<p><strong>1）清理20-nproc.conf文件</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd</span> <span class="hljs-string">/etc/security/limits.d</span><br><br><span class="hljs-attr">ls</span> <span class="hljs-string">-lrt 20-nproc.conf</span><br></code></pre></td></tr></table></figure>
+
+<p>存在则：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">mv</span> <span class="hljs-string">20-nproc.conf 20-nproc.conf_bak</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230029315.png" alt="image-20220603230029315" class="lazyload"></p>
+<p><strong>2）修改limits.conf文件</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">vi</span> <span class="hljs-string">/etc/security/limits.conf</span><br></code></pre></td></tr></table></figure>
+
+<p> 添加下面的信息：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">*</span> <span class="hljs-string">soft nofile 65535</span><br><br><span class="hljs-meta">*</span> <span class="hljs-string">hard nofile 65535</span><br><br><span class="hljs-meta">*</span> <span class="hljs-string">soft nproc 65535</span><br><br><span class="hljs-meta">*</span> <span class="hljs-string">hard nproc 65535</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230009394.png" alt="image-20220603230009394" class="lazyload"></p>
+<p> 重新登陆，<code>ulimit -a</code>查看是否生效</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603225947853.png" alt="image-20220603225947853" class="lazyload"></p>
+<h3 id="4-5-修改系统mysql配置"><a href="#4-5-修改系统mysql配置" class="headerlink" title="4.5 修改系统mysql配置"></a>4.5 <strong>修改系统mysql配置</strong></h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">mv</span> <span class="hljs-string">/etc/my.cnf /etc/my.cnf_bak</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230253022.png" alt="image-20220603230253022" class="lazyload"></p>
+<h3 id="4-6-关闭防火墙-可选"><a href="#4-6-关闭防火墙-可选" class="headerlink" title="4.6 关闭防火墙(可选)"></a>4.6 关闭防火墙(可选)</h3><p><strong>在目标服务器（192.168.65.161 192.168.65.162）root用户下执行</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">systemctl</span> <span class="hljs-string">disable firewalld.service</span><br><br><span class="hljs-attr">systemctl</span> <span class="hljs-string">stop firewalld.service</span><br><br><span class="hljs-attr">systemctl</span> <span class="hljs-string">status firewalld.service</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230323304.png" alt="image-20220603230323304" class="lazyload"></p>
+<h3 id="4-7-创建APP用户"><a href="#4-7-创建APP用户" class="headerlink" title="4.7 创建APP用户"></a>4.7 创建APP用户</h3><p><strong>在目标服务器（192.168.65.161 192.168.65.162）root用户下执行</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">groupadd</span> <span class="hljs-string">-g 6000 apps</span><br><br><span class="hljs-attr">useradd</span> <span class="hljs-string">-s /bin/bash -g apps -d /home/app app</span><br><br><span class="hljs-attr">passwd</span> <span class="hljs-string">app</span><br></code></pre></td></tr></table></figure>
+
+<p>如果存在app用户</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">usermod</span> <span class="hljs-string">-s /bin/bash -g apps -d /home/app app</span><br><br><span class="hljs-attr">passwd</span> <span class="hljs-string">app</span><br></code></pre></td></tr></table></figure>
+
+<p><code>app</code>初识密码设置为<code>123456</code></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230552388.png" alt="image-20220603230552388" class="lazyload"></p>
+<h3 id="4-8-给APP用户配置sudo"><a href="#4-8-给APP用户配置sudo" class="headerlink" title="4.8 给APP用户配置sudo"></a><strong>4.8 给APP用户配置sudo</strong></h3><p> <strong>在目标服务器（192.168.65.161 192.168.65.162）root用户下执行</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">vi</span> <span class="hljs-string">/etc/sudoers.d/app</span><br></code></pre></td></tr></table></figure>
+
+<p>添加内容： </p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">app</span> <span class="hljs-string">ALL=(ALL) ALL</span><br><br><span class="hljs-attr">app</span> <span class="hljs-string">ALL=(ALL) NOPASSWD: ALL</span><br><br><span class="hljs-attr">Defaults</span> <span class="hljs-string">!env_reset</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230627348.png" alt="image-20220603230627348" class="lazyload"></p>
+<p>给文件sudoers文件增加写入权限</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">chmod</span> <span class="hljs-string">u+w /etc/sudoers</span><br></code></pre></td></tr></table></figure>
+
+<p>编辑 sudoers文件</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">vi</span> <span class="hljs-string">/etc/sudoers</span><br></code></pre></td></tr></table></figure>
+
+<p>在root   ALL=(ALL)    ALL下面追加：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">root</span>    <span class="hljs-string">ALL=(ALL)       NOPASSWD: ALL</span><br><br><span class="hljs-attr">app</span>     <span class="hljs-string">ALL=(ALL)       ALL</span><br><br><span class="hljs-attr">app</span>     <span class="hljs-string">ALL=(ALL)       NOPASSWD: ALL</span><br></code></pre></td></tr></table></figure>
+
+<p> 给文件sudoers文件删除写入权限</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">chmod</span> <span class="hljs-string">u-w /etc/sudoers</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230722906.png" alt="image-20220603230722906" class="lazyload"></p>
+<h3 id="4-9-增加虚拟内存"><a href="#4-9-增加虚拟内存" class="headerlink" title="4.9 增加虚拟内存"></a>4.9 增加虚拟内存</h3><p> <strong>在目标服务器（192.168.65.161 192.168.65.162）root用户下执行</strong></p>
+<p>生产环境使用时，因内存计算需要增加128G虚拟内存，执行前需检查存储空间是否足够。</p>
+<p>手工创建，root用户执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd</span> <span class="hljs-string">/data</span><br><br><span class="hljs-attr">dd</span> <span class="hljs-string">if=/dev/zero of=/data/swapfile128G bs=1024 count=134217728</span><br><br><span class="hljs-attr">mkswap</span> <span class="hljs-string">/data/swapfile128G</span><br><br><span class="hljs-attr">swapon</span> <span class="hljs-string">/data/swapfile128G</span><br><br><span class="hljs-attr">cat</span> <span class="hljs-string">/proc/swaps</span><br><br><span class="hljs-attr">echo</span> <span class="hljs-string">&#x27;/data/swapfile128G swap swap defaults 0 0&#x27; &gt;&gt; /etc/fstab</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230802304.png" alt="image-20220603230802304" class="lazyload"></p>
+<h3 id="4-10-设置projects目录"><a href="#4-10-设置projects目录" class="headerlink" title="4.10 设置projects目录"></a><strong>4.10 设置projects目录</strong></h3><p> <strong>在目标服务器（192.168.65.161 192.168.65.162）root用户下执行</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd</span> <span class="hljs-string">/data</span><br><br><span class="hljs-attr">mkdir</span> <span class="hljs-string">projects</span><br><br><span class="hljs-attr">chown</span> <span class="hljs-string">app:apps projects</span><br><br><span class="hljs-attr">ls</span> <span class="hljs-string">-l</span><br><br><span class="hljs-attr">chown</span> <span class="hljs-string">-R app /data</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230827775.png" alt="image-20220603230827775" class="lazyload"></p>
+<h3 id="4-11-配置ssh无密登录"><a href="#4-11-配置ssh无密登录" class="headerlink" title="4.11 配置ssh无密登录"></a>4.11 <strong>配置ssh无密登录</strong></h3><p><strong>1）配置自身免密</strong></p>
+<p><strong>在目标服务器（192.168.65.161 192.168.65.162）app用户下执行</strong></p>
+<p>在虚拟机VM_0_1_centos 上以app用户身份在home目录下执行</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">su</span> <span class="hljs-string">app</span><br><br><span class="hljs-meta">ssh-keygen</span> <span class="hljs-string">-t rsa</span><br><br><span class="hljs-attr">cat</span> <span class="hljs-string">~/.ssh/id_rsa.pub &gt;&gt;/home/app/.ssh/authorized_keys</span><br><br><span class="hljs-attr">chmod</span> <span class="hljs-string">600 ~/.ssh/authorized_keys</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230852142.png" alt="image-20220603230852142" class="lazyload"></p>
+<p> 使用ssh 192.168.65.161命令测试，第一次需要确认yes ,之后应可以不需密码登录为成功。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603230909488.png" alt="image-20220603230909488" class="lazyload"></p>
+<p> 在<code>VM_0_2_centos </code>上执行相同步骤配置<code>VM_0_2_centos</code> 的自身免密登录。</p>
+<p><strong>2）配置VM_0_1_centos 免密登录VM_0_2_centos</strong></p>
+<p>在<strong>VM_0_1_centos</strong> app用户下执行</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">scp</span> <span class="hljs-string">~/.ssh/authorized_keys app@192.168.65.162:/home/app/.ssh</span><br></code></pre></td></tr></table></figure>
+
+<p>输入<strong>VM_0_2_centos</strong>的app密码</p>
+<p>在<strong>VM_0_2_centos</strong> app用户下执行</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cat</span> <span class="hljs-string">~/.ssh/id_rsa.pub &gt;&gt; /home/app/.ssh/authorized_keys</span><br><br><span class="hljs-attr">scp</span> <span class="hljs-string">~/.ssh/authorized_keys app@192.168.65.161:/home/app/.ssh</span><br></code></pre></td></tr></table></figure>
+
+<p>输入<strong>VM_0_1_centos</strong> 的app密码完成文件传输。 </p>
+<p>在<strong>VM_0_1_centos</strong> app用户下执行</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">ssh</span> <span class="hljs-string">192.168.65.162</span><br></code></pre></td></tr></table></figure>
+
+<p>应不需要密码即可登录fate02机。</p>
+<p>到这里我们已经完成环境的配置了。</p>
+<h1 id="五-项目部署"><a href="#五-项目部署" class="headerlink" title="五.项目部署"></a>五.项目部署</h1><h2 id="5-1-获取项目"><a href="#5-1-获取项目" class="headerlink" title="5.1 获取项目"></a>5.1 获取项目</h2><p>在目标服务器（192.168.65.161 具备外网环境）app用户下执行</p>
+<p>进入执行节点的/data/projects/目录，执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/</span><br><br><span class="hljs-attr">wget</span> <span class="hljs-string">https://webank-ai-1251170195.cos.ap-guangzhou.myqcloud.com/fate_cluster_install_1.6.0_release-c7-u18.tar.gz</span><br><br><span class="hljs-attr">tar</span> <span class="hljs-string">xzf fate_cluster_install_1.6.0_release-c7-u18.tar.gz</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-2-部署前检查"><a href="#5-2-部署前检查" class="headerlink" title="5.2 部署前检查"></a>5.2 部署前检查</h2><p><strong>在目标服务器（192.168.65.161 192.168.65.162 ）app用户下执行</strong></p>
+<p>把检查脚本fate-cluster-install/tools-install/check.sh从192.168.65.161拷贝到192.168.65.162</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#在192.168.0.1和192.168.0.2服务器上分别执行检查脚本</span><br><span class="hljs-attr">sh</span> <span class="hljs-string">./check.sh</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#确认app用户已配置sudo</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#虚拟内存，size不低于128G，如不满足需参考4.6章节重新设置</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#文件句柄数，不低于65535，如不满足需参考4.3章节重新设置</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#用户进程数，不低于64000，如不满足需参考4.3章节重新设置</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#确认部署前没有fate进程和端口冲突</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#确认/etc/my.cnf是否存在，存在需要mv；确认是否存在/data/projects/fate目录，存在需把fate目录mv备份。</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-3-配置文件修改和示例"><a href="#5-3-配置文件修改和示例" class="headerlink" title="5.3 配置文件修改和示例"></a>5.3 配置文件修改和示例</h2><p><strong>在目标服务器（192.168.65.161）app用户下执行</strong></p>
+<p>修改配置文件<code>fate-cluster-install/allInone/conf/setup.conf:</code></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">vi</span> <span class="hljs-string">fate-cluster-install/allInone/conf/setup.conf</span><br></code></pre></td></tr></table></figure>
+
+<p>配置文件setup.conf说明：</p>
+<table>
+<thead>
+<tr>
+<th align="center">配置项</th>
+<th align="left">配置项值</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">roles</td>
+<td align="left">默认：”host” “guest”</td>
+<td align="left">部署的角色，有HOST端、GUEST端</td>
+</tr>
+<tr>
+<td align="center">version</td>
+<td align="left">默认：1.5.1</td>
+<td align="left">Fate 版本号</td>
+</tr>
+<tr>
+<td align="center">pbase</td>
+<td align="left">默认： /data/projects</td>
+<td align="left">项目根目录</td>
+</tr>
+<tr>
+<td align="center">lbase</td>
+<td align="left">默认：/data/logs</td>
+<td align="left">保持默认不要修改</td>
+</tr>
+<tr>
+<td align="center">ssh_user</td>
+<td align="left">默认：app</td>
+<td align="left">ssh连接目标机器的用户，也是部署后文件的属主</td>
+</tr>
+<tr>
+<td align="center">ssh_group</td>
+<td align="left">默认：apps</td>
+<td align="left">ssh连接目标的用户的属组，也是部署后文件的属组</td>
+</tr>
+<tr>
+<td align="center">ssh_port</td>
+<td align="left">默认：22,根据实际情况修改</td>
+<td align="left">ssh连接端口，部署前确认好端口，不然会报连接错误</td>
+</tr>
+<tr>
+<td align="center">eggroll_dbname</td>
+<td align="left">默认：eggroll_meta</td>
+<td align="left">eggroll连接的DB名字</td>
+</tr>
+<tr>
+<td align="center">fate_flow_dbname</td>
+<td align="left">默认：fate_flow</td>
+<td align="left">fate_flow、fateboard等连接的DB名字</td>
+</tr>
+<tr>
+<td align="center">mysql_admin_pass</td>
+<td align="left">默认</td>
+<td align="left">mysql的管理员（root）密码</td>
+</tr>
+<tr>
+<td align="center">redis_pass</td>
+<td align="left">默认</td>
+<td align="left">redis密码，暂未使用</td>
+</tr>
+<tr>
+<td align="center">mysql_user</td>
+<td align="left">默认：fate</td>
+<td align="left">msyql的应用连接账号</td>
+</tr>
+<tr>
+<td align="center">mysql_port</td>
+<td align="left">默认：3306，根据实际情况修改</td>
+<td align="left">msql服务监听的端口</td>
+</tr>
+<tr>
+<td align="center">host_id</td>
+<td align="left">默认 : 10000，根据实施规划修改</td>
+<td align="left">HOST端的party id。</td>
+</tr>
+<tr>
+<td align="center">host_ip</td>
+<td align="left">192.168.0.1</td>
+<td align="left">HOST端的ip</td>
+</tr>
+<tr>
+<td align="center">host_mysql_ip</td>
+<td align="left">默认和host_ip保持一致</td>
+<td align="left">HOST端mysql的ip</td>
+</tr>
+<tr>
+<td align="center">host_mysql_pass</td>
+<td align="left">默认</td>
+<td align="left">HOST端msyql的应用连接账号</td>
+</tr>
+<tr>
+<td align="center">guest_id</td>
+<td align="left">默认 : 9999，根据实施规划修改</td>
+<td align="left">GUEST端的party id</td>
+</tr>
+<tr>
+<td align="center">guest_ip</td>
+<td align="left">192.168.0.2</td>
+<td align="left">GUEST端的ip</td>
+</tr>
+<tr>
+<td align="center">guest_mysql_ip</td>
+<td align="left">默认和guest_ip保持一致</td>
+<td align="left">GUEST端mysql的ip</td>
+</tr>
+<tr>
+<td align="center">guest_mysql_pass</td>
+<td align="left">默认</td>
+<td align="left">GUEST端msyql的应用连接账号</td>
+</tr>
+<tr>
+<td align="center">dbmodules</td>
+<td align="left">默认：”mysql”</td>
+<td align="left">DB组件的部署模块列表，如mysql</td>
+</tr>
+<tr>
+<td align="center">basemodules</td>
+<td align="left">默认：”tools” “base” “java” “python” “eggroll” “fate”</td>
+<td align="left">非DB组件的部署模块列表，如 “tools” “base”、 “java”、 “python” 、”eggroll” 、”fate”</td>
+</tr>
+<tr>
+<td align="center">fateflow_grpc_port</td>
+<td align="left">默认：9360</td>
+<td align="left">fateflow grpc服务端口</td>
+</tr>
+<tr>
+<td align="center">fateflow_http_port</td>
+<td align="left">默认：9380</td>
+<td align="left">fateflow http服务端口</td>
+</tr>
+<tr>
+<td align="center">fateboard_port</td>
+<td align="left">默认：8080</td>
+<td align="left">fateboard服务端口</td>
+</tr>
+<tr>
+<td align="center">rollsite_port</td>
+<td align="left">默认：9370</td>
+<td align="left">rollsite服务端口</td>
+</tr>
+<tr>
+<td align="center">clustermanager_port</td>
+<td align="left">默认：4670</td>
+<td align="left">clustermanager服务端口</td>
+</tr>
+<tr>
+<td align="center">nodemanager_port</td>
+<td align="left">默认：4671</td>
+<td align="left">nodemanager服务端口</td>
+</tr>
+</tbody></table>
+<p><strong>1）两台主机partyA+partyB同时部署</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#to install role</span><br><span class="hljs-attr">roles</span>=<span class="hljs-string">( &quot;host&quot; &quot;guest&quot; )</span><br><span class="hljs-attr">version</span>=<span class="hljs-string">&quot;1.6.0&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#project base</span><br><span class="hljs-attr">pbase</span>=<span class="hljs-string">&quot;/data/projects&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#log directory</span><br><span class="hljs-attr">lbase</span>=<span class="hljs-string">&quot;/data/logs&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#user who connects dest machine by ssh</span><br><span class="hljs-attr">ssh_user</span>=<span class="hljs-string">&quot;app&quot;</span><br><span class="hljs-attr">ssh_group</span>=<span class="hljs-string">&quot;apps&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#ssh port</span><br><span class="hljs-attr">ssh_port</span>=<span class="hljs-string">22</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#eggroll_db name</span><br><span class="hljs-attr">eggroll_dbname</span>=<span class="hljs-string">&quot;eggroll_meta&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#fate_flow_db name</span><br><span class="hljs-attr">fate_flow_dbname</span>=<span class="hljs-string">&quot;fate_flow&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mysql init root password</span><br><span class="hljs-attr">mysql_admin_pass</span>=<span class="hljs-string">&quot;fate_dev&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#redis passwd</span><br><span class="hljs-attr">redis_pass</span>=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mysql user</span><br><span class="hljs-attr">mysql_user</span>=<span class="hljs-string">&quot;fate&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mysql port</span><br><span class="hljs-attr">mysql_port</span>=<span class="hljs-string">&quot;3306&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#host party id</span><br><span class="hljs-attr">host_id</span>=<span class="hljs-string">&quot;10000&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#host ip</span><br><span class="hljs-attr">host_ip</span>=<span class="hljs-string">&quot;192.168.65.161&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#host mysql ip</span><br><span class="hljs-attr">host_mysql_ip</span>=<span class="hljs-string">&quot;$&#123;host_ip&#125;&quot;</span><br><span class="hljs-attr">host_mysql_pass</span>=<span class="hljs-string">&quot;fate_deV2999&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#guest party id</span><br><span class="hljs-attr">guest_id</span>=<span class="hljs-string">&quot;9999&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#guest ip</span><br><span class="hljs-attr">guest_ip</span>=<span class="hljs-string">&quot;192.168.65.162&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#guest mysql ip</span><br><span class="hljs-attr">guest_mysql_ip</span>=<span class="hljs-string">&quot;$&#123;guest_ip&#125;&quot;</span><br><span class="hljs-attr">guest_mysql_pass</span>=<span class="hljs-string">&quot;fate_deV2999&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#db module lists</span><br><span class="hljs-attr">dbmodules</span>=<span class="hljs-string">( &quot;mysql&quot; )</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#base module lists</span><br><span class="hljs-attr">basemodules</span>=<span class="hljs-string">( &quot;tools&quot; &quot;base&quot; &quot;java&quot; &quot;python&quot; &quot;eggroll&quot; &quot;fate&quot; )</span><br><span class="hljs-attr">fateflow_grpc_port</span>=<span class="hljs-string">9360</span><br><span class="hljs-attr">fateflow_http_port</span>=<span class="hljs-string">9380</span><br><span class="hljs-attr">fateboard_port</span>=<span class="hljs-string">8080</span><br><span class="hljs-attr">rollsite_port</span>=<span class="hljs-string">9370</span><br><span class="hljs-attr">clustermanager_port</span>=<span class="hljs-string">4670</span><br><span class="hljs-attr">nodemanager_port</span>=<span class="hljs-string">4671</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>2）只部署一个party</strong></p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#to install role</span><br><span class="hljs-attr">roles</span>=<span class="hljs-string">( &quot;host&quot; )</span><br><span class="hljs-attr">version</span>=<span class="hljs-string">&quot;1.6.0&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#project base</span><br><span class="hljs-attr">pbase</span>=<span class="hljs-string">&quot;/data/projects&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#log directory</span><br><span class="hljs-attr">lbase</span>=<span class="hljs-string">&quot;/data/logs&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#user who connects dest machine by ssh</span><br><span class="hljs-attr">ssh_user</span>=<span class="hljs-string">&quot;app&quot;</span><br><span class="hljs-attr">ssh_group</span>=<span class="hljs-string">&quot;apps&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#ssh port</span><br><span class="hljs-attr">ssh_port</span>=<span class="hljs-string">22</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#eggroll_db name</span><br><span class="hljs-attr">eggroll_dbname</span>=<span class="hljs-string">&quot;eggroll_meta&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#fate_flow_db name</span><br><span class="hljs-attr">fate_flow_dbname</span>=<span class="hljs-string">&quot;fate_flow&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mysql init root password</span><br><span class="hljs-attr">mysql_admin_pass</span>=<span class="hljs-string">&quot;fate_dev&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#redis passwd</span><br><span class="hljs-attr">redis_pass</span>=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mysql user</span><br><span class="hljs-attr">mysql_user</span>=<span class="hljs-string">&quot;fate&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#mysql port</span><br><span class="hljs-attr">mysql_port</span>=<span class="hljs-string">&quot;3306&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#host party id</span><br><span class="hljs-attr">host_id</span>=<span class="hljs-string">&quot;10000&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#host ip</span><br><span class="hljs-attr">host_ip</span>=<span class="hljs-string">&quot;192.168.65.161&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#host mysql ip</span><br><span class="hljs-attr">host_mysql_ip</span>=<span class="hljs-string">&quot;$&#123;host_ip&#125;&quot;</span><br><br><span class="hljs-attr">host_mysql_pass</span>=<span class="hljs-string">&quot;fate_deV2999&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#guest party id</span><br><span class="hljs-attr">guest_id</span>=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#guest ip</span><br><span class="hljs-attr">guest_ip</span>=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#guest mysql ip</span><br><span class="hljs-attr">guest_mysql_ip</span>=<span class="hljs-string">&quot;$&#123;guest_ip&#125;&quot;</span><br><br><span class="hljs-attr">guest_mysql_pass</span>=<span class="hljs-string">&quot;&quot;</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#db module lists</span><br><span class="hljs-attr">dbmodules</span>=<span class="hljs-string">( &quot;mysql&quot; )</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#base module lists</span><br><span class="hljs-attr">basemodules</span>=<span class="hljs-string">( &quot;tools&quot; &quot;base&quot; &quot;java&quot; &quot;python&quot; &quot;eggroll&quot; &quot;fate&quot; )</span><br><span class="hljs-attr">fateflow_grpc_port</span>=<span class="hljs-string">9360</span><br><span class="hljs-attr">fateflow_http_port</span>=<span class="hljs-string">9380</span><br><span class="hljs-attr">fateboard_port</span>=<span class="hljs-string">8080</span><br><span class="hljs-attr">rollsite_port</span>=<span class="hljs-string">9370</span><br><span class="hljs-attr">clustermanager_port</span>=<span class="hljs-string">4670</span><br><span class="hljs-attr">nodemanager_port</span>=<span class="hljs-string">4671</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-4-部署"><a href="#5-4-部署" class="headerlink" title="5.4 部署"></a>5.4 部署</h2><p> 按照上述配置含义修改<code>setup.conf</code>文件对应的配置项后，然后在<code>fate-cluster-install/allInone</code>目录下执行部署脚本：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd</span> <span class="hljs-string">fate-cluster-install/allInone</span><br><br><span class="hljs-attr">nohup</span> <span class="hljs-string">sh ./deploy.sh &gt; logs/boot.log 2&gt;&amp;1 &amp;</span><br></code></pre></td></tr></table></figure>
+
+<p>部署日志输出在<code>fate-cluster-install/allInone/logs</code>目录下,实时查看是否有报错：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">tail</span> <span class="hljs-string">-f ./logs/deploy.log （部署结束，查看一下即可）</span><br><br><span class="hljs-attr">tail</span> <span class="hljs-string">-f ./logs/deploy-guest.log （实时打印GUEST端的部署情况）</span><br><br><span class="hljs-attr">tail</span> <span class="hljs-string">-f ./logs/deploy-mysql-guest.log  （实时打印GUEST端mysql的部署情况）</span><br><br><span class="hljs-attr">tail</span> <span class="hljs-string">-f ./logs/deploy-host.log    （实时打印HOST端的部署情况）</span><br><br><span class="hljs-attr">tail</span> <span class="hljs-string">-f ./logs/deploy-mysql-host.log    （实时打印HOST端mysql的部署情况）</span><br></code></pre></td></tr></table></figure>
+
+<p><code>deploy.log</code>出现以下内容说明安装完成</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">init</span> <span class="hljs-string">over</span><br><span class="hljs-attr">deploy</span> <span class="hljs-string">guest mysql  172.16.132.190  over</span><br><span class="hljs-attr">deploy</span> <span class="hljs-string">guest 172.16.132.190  over</span><br><span class="hljs-attr">deploy</span> <span class="hljs-string">host mysql 172.16.132.189  over</span><br><span class="hljs-attr">deploy</span> <span class="hljs-string">host 172.16.132.189  over</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="5-5-问题定位"><a href="#5-5-问题定位" class="headerlink" title="5.5 问题定位"></a>5.5 问题定位</h2><p>1）<code>eggroll</code>日志</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">/data/projects/fate/eggroll/logs/eggroll/bootstrap.clustermanager.err</span><br><br><span class="hljs-attr">/data/projects/fate/eggroll/logs/eggroll/clustermanager.jvm.err.log</span><br><br><span class="hljs-attr">/data/projects/fate/eggroll/logs/eggroll/nodemanager.jvm.err.log</span><br><br><span class="hljs-attr">/data/projects/fate/eggroll/logs/eggroll/bootstrap.nodemanager.err</span><br><br><span class="hljs-attr">/data/projects/fate/eggroll/logs/eggroll/bootstrap.rollsite.err</span><br><br><span class="hljs-attr">/data/projects/fate/eggroll/logs/eggroll/rollsite.jvm.err.log</span><br></code></pre></td></tr></table></figure>
+
+<p>2）<code>fateflow</code>日志</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">/data/projects/fate/python/logs/fate_flow/</span><br></code></pre></td></tr></table></figure>
+
+<p>3）<code>fateboard</code>日志</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">/data/projects/fate/fateboard/logs</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="6-测试"><a href="#6-测试" class="headerlink" title="6.测试"></a>6.测试</h1><h2 id="6-1-Toy-example部署验证"><a href="#6-1-Toy-example部署验证" class="headerlink" title="6.1 Toy_example部署验证"></a>6.1 Toy_example部署验证</h2><p>此测试您需要设置3个参数：</p>
+<ul>
+<li>guest_partyid</li>
+<li>host_partyid</li>
+<li>work_mode</li>
+</ul>
+<h3 id="6-1-1-单边测试"><a href="#6-1-1-单边测试" class="headerlink" title="6.1.1 单边测试"></a>6.1.1 单边测试</h3><p><strong>1）</strong>192.168.65.161上执行，<code>guest_partyid</code>和<code>host_partyid</code>都设为10000：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">source</span> <span class="hljs-string">/data/projects/fate/bin/init_env.sh</span><br><br><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/examples/toy_example/</span><br><br><span class="hljs-attr">python</span> <span class="hljs-string">run_toy_example.py 10000 10000 1</span><br></code></pre></td></tr></table></figure>
+
+<p>注：执行<code>source /data/projects/fate/bin/init_env.sh</code>命令时，会进入一个虚拟环境，但是很多人不知道怎么退出，退出的命令是：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">deactivate</span> <span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>类似如下结果表示成功：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">&quot;2020-04-28</span> <span class="hljs-string">18:26:20,789 - secure_add_guest.py[line:126] - INFO: success to calculate secure_sum, it is 1999.9999999999998&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://img-blog.csdnimg.cn/20210719163044844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2hoaGhoaGhoaGh3d3d3d3d3d3d3,size_16,color_FFFFFF,t_70" alt="img" class="lazyload"></p>
+<p><strong>提示：</strong>如出现<code>max cores per job is 1, please modify job parameters</code>报错提示，需要修改当前目录下文件<code>toy_example_conf.json</code>中参数<code>task_cores</code>为1.</p>
+<p><strong>2）</strong>192.168.65.162上执行，guest_partyid和host_partyid都设为9999：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">source</span> <span class="hljs-string">/data/projects/fate/bin/init_env.sh</span><br><br><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/examples/toy_example/</span><br><br><span class="hljs-attr">python</span> <span class="hljs-string">run_toy_example.py 9999 9999 1</span><br></code></pre></td></tr></table></figure>
+
+<p>类似如下结果表示成功：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">&quot;2020-04-28</span> <span class="hljs-string">18:26:20,789 - secure_add_guest.py[line:126] - INFO: success to calculate secure_sum, it is 1999.9999999999998&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-1-2-双边测试"><a href="#6-1-2-双边测试" class="headerlink" title="6.1.2 双边测试"></a>6.1.2 双边测试</h3><p>选定9999为guest方，在192.168.65.162上执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">source</span> <span class="hljs-string">/data/projects/fate/bin/init_env.sh</span><br><br><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/examples/toy_example/</span><br><br><span class="hljs-attr">python</span> <span class="hljs-string">run_toy_example.py 9999 10000 1</span><br></code></pre></td></tr></table></figure>
+
+<p>类似如下结果表示成功：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">&quot;2020-04-28</span> <span class="hljs-string">18:26:20,789 - secure_add_guest.py[line:126] - INFO: success to calculate secure_sum, it is 1999.9999999999998&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603231158314.png" alt="image-20220603231158314" class="lazyload"></p>
+<h2 id="6-2-最小化测试"><a href="#6-2-最小化测试" class="headerlink" title="6.2 最小化测试"></a>6.2 最小化测试</h2><h3 id="6-2-1-上传预设数据："><a href="#6-2-1-上传预设数据：" class="headerlink" title="6.2.1 上传预设数据："></a><strong>6.2.1 上传预设数据：</strong></h3><p>分别在192.168.65.161和192.168.65.162上执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">source</span> <span class="hljs-string">/data/projects/fate/bin/init_env.sh</span><br><br><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/examples/scripts/</span><br><br><span class="hljs-attr">python</span> <span class="hljs-string">upload_default_data.py -m 1</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="6-2-2-快速模式："><a href="#6-2-2-快速模式：" class="headerlink" title="6.2.2 快速模式："></a><strong>6.2.2 快速模式：</strong></h3><p>请确保guest和host两方均已分别通过给定脚本上传了预设数据。</p>
+<p>快速模式下，最小化测试脚本将使用一个相对较小的数据集，即包含了569条数据的breast数据集。</p>
+<p>选定9999为guest方，在192.168.65.162上执行：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">source</span> <span class="hljs-string">/data/projects/fate/bin/init_env.sh</span><br><br><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/examples/min_test_task/</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#单边测试</span><br><span class="hljs-attr">python</span> <span class="hljs-string">run_task.py -m 1 -gid 9999 -hid 9999 -aid 9999 -f fast</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#双边测试</span><br><span class="hljs-attr">python</span> <span class="hljs-string">run_task.py -m 1 -gid 9999 -hid 10000 -aid 10000 -f fast</span><br></code></pre></td></tr></table></figure>
+
+<p>其他一些可能有用的参数包括：</p>
+<ul>
+<li><p><strong>-f:</strong> 使用的文件类型. “fast” 代表 breast数据集, “normal” 代表 default credit 数据集.</p>
+</li>
+<li><p><strong>–add_sbt:</strong> 如果被设置为1, 将在运行完lr以后，启动secureboost任务，设置为0则不启动secureboost任务，不设置此参数系统默认为1。</p>
+</li>
+</ul>
+<p>若数分钟后在结果中显示了“success”字样则表明该操作已经运行成功了。若出现“FAILED”或者程序卡住，则意味着测试失败。</p>
+<h3 id="6-2-3-正常模式："><a href="#6-2-3-正常模式：" class="headerlink" title="6.2.3 正常模式："></a><strong>6.2.3 正常模式</strong>：</h3><p>只需在命令中将“fast”替换为“normal”，其余部分与快速模式相同。</p>
+<h2 id="6-3-Fateboard-testing"><a href="#6-3-Fateboard-testing" class="headerlink" title="6.3 Fateboard testing"></a>6.3 Fateboard testing</h2><p>Fateboard是一项Web服务。如果成功启动了fateboard服务，则可以通过访问 <a target="_blank" rel="noopener" href="http://192.168.0.1:8080/">http://192.168.65.161:8080</a> 和 <a target="_blank" rel="noopener" href="http://192.168.0.2:8080/">http://192.168.65.162:8080</a> 来查看任务信息，如果有防火墙需开通。</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE.assets/image-20220603231319106.png" alt="image-20220603231319106" class="lazyload"></p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="https://img-blog.csdnimg.cn/2021071916312217.png" alt="img" class="lazyload"></p>
+<h1 id="7-系统运维"><a href="#7-系统运维" class="headerlink" title="7.系统运维"></a>7.系统运维</h1><h2 id="7-1-服务管理"><a href="#7-1-服务管理" class="headerlink" title="7.1 服务管理"></a>7.1 服务管理</h2><p><strong>在目标服务器（192.168.65.161 192.168.65.162）app用户下执行</strong></p>
+<h3 id="7-1-1-Eggroll服务管理"><a href="#7-1-1-Eggroll服务管理" class="headerlink" title="7.1.1 Eggroll服务管理"></a>7.1.1 Eggroll服务管理</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">source</span> <span class="hljs-string">/data/projects/fate/bin/init_env.sh</span><br><br><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/eggroll</span><br></code></pre></td></tr></table></figure>
+
+<p>启动/关闭/查看/重启所有：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">sh</span> <span class="hljs-string">./bin/eggroll.sh all start/stop/status/restart</span><br></code></pre></td></tr></table></figure>
+
+<p>启动/关闭/查看/重启单个模块(可选：clustermanager，nodemanager，rollsite)：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">sh</span> <span class="hljs-string">./bin/eggroll.sh clustermanager start/stop/status/restart</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="7-1-2-Mysql服务管理"><a href="#7-1-2-Mysql服务管理" class="headerlink" title="7.1.2 Mysql服务管理"></a>7.1.2 Mysql服务管理</h3><p>启动/关闭/查看/重启mysql服务</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/common/mysql/mysql-8.0.13</span><br><br><span class="hljs-attr">sh</span> <span class="hljs-string">./service.sh start|stop|status|restart</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="7-1-3-Fate服务管理"><a href="#7-1-3-Fate服务管理" class="headerlink" title="7.1.3 Fate服务管理"></a>7.1.3 Fate服务管理</h3><ol>
+<li>启动/关闭/查看/重启fate_flow服务</li>
+</ol>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">source</span> <span class="hljs-string">/data/projects/fate/bin/init_env.sh</span><br><br><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/python/fate_flow</span><br><br><span class="hljs-attr">sh</span> <span class="hljs-string">service.sh start|stop|status|restart</span><br></code></pre></td></tr></table></figure>
+
+<p>如果逐个模块启动，需要先启动eggroll和mysql再启动fateflow，fateflow依赖eggroll的启动。</p>
+<ol start="2">
+<li>启动/关闭/重启fateboard服务</li>
+</ol>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">cd</span> <span class="hljs-string">/data/projects/fate/fateboard</span><br><br><span class="hljs-attr">sh</span> <span class="hljs-string">service.sh start|stop|status|restart</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="7-2-查看进程和端口"><a href="#7-2-查看进程和端口" class="headerlink" title="7.2 查看进程和端口"></a>7.2 查看进程和端口</h2><p><strong>在目标服务器（192.168.65.161 192.168.65.162 ）app用户下执行</strong></p>
+<h3 id="7-2-1-查看进程"><a href="#7-2-1-查看进程" class="headerlink" title="7.2.1 查看进程"></a>7.2.1 查看进程</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#根据部署规划查看进程是否启动</span><br><span class="hljs-attr">ps</span> <span class="hljs-string">-ef | grep -i clustermanager</span><br><br><span class="hljs-attr">ps</span> <span class="hljs-string">-ef | grep -i nodemanager</span><br><br><span class="hljs-attr">ps</span> <span class="hljs-string">-ef | grep -i rollsite</span><br><br><span class="hljs-attr">ps</span> <span class="hljs-string">-ef | grep -i fate_flow_server.py</span><br><br><span class="hljs-attr">ps</span> <span class="hljs-string">-ef | grep -i fateboard</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="7-2-2-查看进程端口"><a href="#7-2-2-查看进程端口" class="headerlink" title="7.2.2 查看进程端口"></a>7.2.2 查看进程端口</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-comment">#根据部署规划查看进程端口是否存在</span><br><span class="hljs-comment">#clustermanager</span><br><span class="hljs-attr">netstat</span> <span class="hljs-string">-tlnp | grep 4670</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#nodemanager</span><br><span class="hljs-attr">netstat</span> <span class="hljs-string">-tlnp | grep 4671</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#rollsite</span><br><span class="hljs-attr">netstat</span> <span class="hljs-string">-tlnp | grep 9370</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#fate_flow_server</span><br><span class="hljs-attr">netstat</span> <span class="hljs-string">-tlnp | grep 9360</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">#fateboard</span><br><span class="hljs-attr">netstat</span> <span class="hljs-string">-tlnp | grep 8080</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="7-3-服务日志"><a href="#7-3-服务日志" class="headerlink" title="7.3 服务日志"></a>7.3 服务日志</h2><table>
+<thead>
+<tr>
+<th align="left">服务</th>
+<th align="left">日志路径</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">eggroll</td>
+<td align="left">/data/projects/fate/eggroll/logs</td>
+</tr>
+<tr>
+<td align="left">fate_flow&amp;任务日志</td>
+<td align="left">/data/projects/fate/python/logs</td>
+</tr>
+<tr>
+<td align="left">fateboard</td>
+<td align="left">/data/projects/fate/fateboard/logs</td>
+</tr>
+<tr>
+<td align="left">mysql</td>
+<td align="left">/data/logs/mysql/</td>
+</tr>
+</tbody></table>
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/05/29/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2/FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;29&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2&#x2F;FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;29&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E6%A1%86%E6%9E%B6%E9%83%A8%E7%BD%B2&#x2F;FATE%E9%9B%86%E7%BE%A4%E9%85%8D%E7%BD%AE&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/">联邦学习</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" rel="tag">联邦学习</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%87%86%E5%A4%87"><span class="toc-number">1.</span> <span class="toc-text">一、准备</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1%E3%80%81%E7%A1%AC%E4%BB%B6"><span class="toc-number">1.1.</span> <span class="toc-text">1.1、硬件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2%E3%80%81%E8%BD%AF%E4%BB%B6"><span class="toc-number">1.2.</span> <span class="toc-text">1.2、软件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85CentOS"><span class="toc-number">2.</span> <span class="toc-text">二、安装CentOS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81CentOS%E5%AE%89%E8%A3%85"><span class="toc-number">3.</span> <span class="toc-text">三、CentOS安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81FATE-AllinOne%E9%83%A8%E7%BD%B2%E9%9B%86%E7%BE%A4"><span class="toc-number">4.</span> <span class="toc-text">四、FATE AllinOne部署集群</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E9%9B%86%E7%BE%A4%E8%A7%84%E5%88%92"><span class="toc-number">4.1.</span> <span class="toc-text">1.集群规划</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="toc-number">4.2.</span> <span class="toc-text">2.架构图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E7%BB%84%E4%BB%B6%E8%AF%B4%E6%98%8E"><span class="toc-number">4.3.</span> <span class="toc-text">3.组件说明</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.4.</span> <span class="toc-text">4、环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-hostname%E9%85%8D%E7%BD%AE"><span class="toc-number">4.4.1.</span> <span class="toc-text">4.1 hostname配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%85%B3%E9%97%ADselinux"><span class="toc-number">4.4.2.</span> <span class="toc-text">4.2 关闭selinux</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E9%85%8D%E7%BD%AEyum%E4%BB%93%E5%BA%93"><span class="toc-number">4.4.3.</span> <span class="toc-text">4.3 配置yum仓库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E4%BF%AE%E6%94%B9Linux%E7%B3%BB%E7%BB%9F%E5%8F%82%E6%95%B0"><span class="toc-number">4.4.4.</span> <span class="toc-text">4.4 修改Linux系统参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-5-%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9Fmysql%E9%85%8D%E7%BD%AE"><span class="toc-number">4.4.5.</span> <span class="toc-text">4.5 修改系统mysql配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-6-%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99-%E5%8F%AF%E9%80%89"><span class="toc-number">4.4.6.</span> <span class="toc-text">4.6 关闭防火墙(可选)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-7-%E5%88%9B%E5%BB%BAAPP%E7%94%A8%E6%88%B7"><span class="toc-number">4.4.7.</span> <span class="toc-text">4.7 创建APP用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-8-%E7%BB%99APP%E7%94%A8%E6%88%B7%E9%85%8D%E7%BD%AEsudo"><span class="toc-number">4.4.8.</span> <span class="toc-text">4.8 给APP用户配置sudo</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-9-%E5%A2%9E%E5%8A%A0%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98"><span class="toc-number">4.4.9.</span> <span class="toc-text">4.9 增加虚拟内存</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-10-%E8%AE%BE%E7%BD%AEprojects%E7%9B%AE%E5%BD%95"><span class="toc-number">4.4.10.</span> <span class="toc-text">4.10 设置projects目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-11-%E9%85%8D%E7%BD%AEssh%E6%97%A0%E5%AF%86%E7%99%BB%E5%BD%95"><span class="toc-number">4.4.11.</span> <span class="toc-text">4.11 配置ssh无密登录</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%94-%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2"><span class="toc-number">5.</span> <span class="toc-text">五.项目部署</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#5-1-%E8%8E%B7%E5%8F%96%E9%A1%B9%E7%9B%AE"><span class="toc-number">5.1.</span> <span class="toc-text">5.1 获取项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-2-%E9%83%A8%E7%BD%B2%E5%89%8D%E6%A3%80%E6%9F%A5"><span class="toc-number">5.2.</span> <span class="toc-text">5.2 部署前检查</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-3-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BF%AE%E6%94%B9%E5%92%8C%E7%A4%BA%E4%BE%8B"><span class="toc-number">5.3.</span> <span class="toc-text">5.3 配置文件修改和示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-4-%E9%83%A8%E7%BD%B2"><span class="toc-number">5.4.</span> <span class="toc-text">5.4 部署</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-5-%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D"><span class="toc-number">5.5.</span> <span class="toc-text">5.5 问题定位</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E6%B5%8B%E8%AF%95"><span class="toc-number">6.</span> <span class="toc-text">6.测试</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#6-1-Toy-example%E9%83%A8%E7%BD%B2%E9%AA%8C%E8%AF%81"><span class="toc-number">6.1.</span> <span class="toc-text">6.1 Toy_example部署验证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-1-%E5%8D%95%E8%BE%B9%E6%B5%8B%E8%AF%95"><span class="toc-number">6.1.1.</span> <span class="toc-text">6.1.1 单边测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-2-%E5%8F%8C%E8%BE%B9%E6%B5%8B%E8%AF%95"><span class="toc-number">6.1.2.</span> <span class="toc-text">6.1.2 双边测试</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-2-%E6%9C%80%E5%B0%8F%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="toc-number">6.2.</span> <span class="toc-text">6.2 最小化测试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-1-%E4%B8%8A%E4%BC%A0%E9%A2%84%E8%AE%BE%E6%95%B0%E6%8D%AE%EF%BC%9A"><span class="toc-number">6.2.1.</span> <span class="toc-text">6.2.1 上传预设数据：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-2-%E5%BF%AB%E9%80%9F%E6%A8%A1%E5%BC%8F%EF%BC%9A"><span class="toc-number">6.2.2.</span> <span class="toc-text">6.2.2 快速模式：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-3-%E6%AD%A3%E5%B8%B8%E6%A8%A1%E5%BC%8F%EF%BC%9A"><span class="toc-number">6.2.3.</span> <span class="toc-text">6.2.3 正常模式：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-3-Fateboard-testing"><span class="toc-number">6.3.</span> <span class="toc-text">6.3 Fateboard testing</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E7%B3%BB%E7%BB%9F%E8%BF%90%E7%BB%B4"><span class="toc-number">7.</span> <span class="toc-text">7.系统运维</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#7-1-%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-number">7.1.</span> <span class="toc-text">7.1 服务管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-1-Eggroll%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-number">7.1.1.</span> <span class="toc-text">7.1.1 Eggroll服务管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-2-Mysql%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-number">7.1.2.</span> <span class="toc-text">7.1.2 Mysql服务管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-3-Fate%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="toc-number">7.1.3.</span> <span class="toc-text">7.1.3 Fate服务管理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-2-%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%AB%AF%E5%8F%A3"><span class="toc-number">7.2.</span> <span class="toc-text">7.2 查看进程和端口</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-1-%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B"><span class="toc-number">7.2.1.</span> <span class="toc-text">7.2.1 查看进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-2-%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B%E7%AB%AF%E5%8F%A3"><span class="toc-number">7.2.2.</span> <span class="toc-text">7.2.2 查看进程端口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-3-%E6%9C%8D%E5%8A%A1%E6%97%A5%E5%BF%97"><span class="toc-number">7.3.</span> <span class="toc-text">7.3 服务日志</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1656038931345"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>

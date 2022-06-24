@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>Docker-compose教程 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="Docker-compose教程1.Compose介绍​        DockerCompose是一个用来定义和运行复杂应用的Docker工具。一个使用Docker容器的应用，通常由多个容器组成。使用Docker Compose不再需要使用shell脚本来启动容器。​        Compose 通过一个配置文件来管理多个Docker容器，在配置文件中，所有的容器通过services来定义，然">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker-compose教程">
+<meta property="og:url" content="http://example.com/2022/05/29/JAVA/Docker/Docker-compose%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="Docker-compose教程1.Compose介绍​        DockerCompose是一个用来定义和运行复杂应用的Docker工具。一个使用Docker容器的应用，通常由多个容器组成。使用Docker Compose不再需要使用shell脚本来启动容器。​        Compose 通过一个配置文件来管理多个Docker容器，在配置文件中，所有的容器通过services来定义，然">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-05-29T03:11:05.000Z">
+<meta property="article:modified_time" content="2022-06-03T04:19:45.819Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1656038931321">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1656038931321">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656038931321">
+    <link rel="stylesheet" href="/css/style.css?v=1656038931321">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>95</div>
+        <div><span>Tags</span>20</div>
+        <div><span>Categories</span>33</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Docker/">Docker</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">42</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Linux/">Linux</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SSM/">SSM</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">7</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/">Spring框架</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JAVA基础知识”/">“JAVA基础知识”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Redis”/">“Redis”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/“Security”/">“Security”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">22</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/栈和队列/">栈和队列</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 12.86px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 11.43px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 12.86px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 12.86px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 11.43px;">Linux</a> <a href="/tags/Mybaits/" style="font-size: 15.71px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 18.57px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 12.86px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 12.86px;">STL</a> <a href="/tags/Security/" style="font-size: 11.43px;">Security</a> <a href="/tags/Spring/" style="font-size: 17.14px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.86px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.43px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 14.29px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 11.43px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.43px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 18.57px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/Docker-compose教程.jpg" data-sizes="auto" alt="Docker-compose教程" class="lazyload">
+              <h1>Docker-compose教程</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年05月29日</a>
+</div>
+
+      
+
+      <h1 id="Docker-compose教程"><a href="#Docker-compose教程" class="headerlink" title="Docker-compose教程"></a>Docker-compose教程</h1><h2 id="1-Compose介绍"><a href="#1-Compose介绍" class="headerlink" title="1.Compose介绍"></a>1.Compose介绍</h2><p>​        DockerCompose是一个用来定义和运行复杂应用的Docker工具。一个使用Docker容器的应用，通常由多个容器组成。使用Docker Compose不再需要使用shell脚本来启动容器。<br>​        Compose 通过一个配置文件来管理多个Docker容器，在配置文件中，所有的容器通过services来定义，然后使用docker-compose脚本来启动，停止和重启应用，和应用中的服务以及所有依赖服务的容器，非常适合组合使用多个容器进行开发的场景。</p>
+<h2 id="2-Compose和Docker兼容性"><a href="#2-Compose和Docker兼容性" class="headerlink" title="2.Compose和Docker兼容性"></a>2.Compose和Docker兼容性</h2><table>
+<thead>
+<tr>
+<th align="center">compose文件格式版本</th>
+<th align="center">docker版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">3.4</td>
+<td align="center">17.09.0+</td>
+</tr>
+<tr>
+<td align="center">3.3</td>
+<td align="center">17.06.0+</td>
+</tr>
+<tr>
+<td align="center">3.2</td>
+<td align="center">17.04.0+</td>
+</tr>
+<tr>
+<td align="center">3.1</td>
+<td align="center">1.13.1+</td>
+</tr>
+<tr>
+<td align="center">3.0</td>
+<td align="center">1.13.0+</td>
+</tr>
+<tr>
+<td align="center">2.3</td>
+<td align="center">17.06.0+</td>
+</tr>
+<tr>
+<td align="center">2.2</td>
+<td align="center">1.13.0+</td>
+</tr>
+<tr>
+<td align="center">2.1</td>
+<td align="center">1.12.0+</td>
+</tr>
+<tr>
+<td align="center">2.0</td>
+<td align="center">1.10.0+</td>
+</tr>
+<tr>
+<td align="center">1.0</td>
+<td align="center">1.9.1.+</td>
+</tr>
+</tbody></table>
+<p><strong>Docker版本变化说明</strong>：</p>
+<p>​        Docker从1.13.x版本开始，版本分为企业版EE和社区版CE，版本号也改为按照时间线来发布，比如17.03就是2017年3月。</p>
+<p>​        Docker的linux发行版的软件仓库从以前的<code>https://apt.dockerproject.org</code>和<code>https://[yum](https://so.csdn.net/so/search?q=yum&amp;spm=1001.2101.3001.7020).dockerproject.org</code>变更为目前的<code>https://download.docker.com</code>, 软件包名字改为docker-ce和docker-ee。</p>
+<h2 id="3-安装docker"><a href="#3-安装docker" class="headerlink" title="3.安装docker"></a>3.安装docker</h2><p>​        Docker的社区版（Docker Community Edition）叫做docker-ce。老版本的Docker包叫做docker或者docker-engine，如果安装了老版本的docker得先卸载然后再安装新版本的docker。docker的发展非常迅速，apt源的更新往往比较滞后。所以docker官网推荐的安装方式都是下载docker安装脚本安装。 </p>
+<p>卸载老旧的版本（若未安装过可省略此步）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ sudo apt-get remove docker docker-engine docker.io<br></code></pre></td></tr></table></figure>
+
+<p>安装最新的docker：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ curl -fsSL get.docker.com -o get-docker.sh<br><br>$ sudo sh get-docker.sh<br></code></pre></td></tr></table></figure>
+
+<p>shell会提示你输入sudo的密码，然后开始执行最新的docker过程 ，或者</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ curl -sSL https://get.docker.com/ | sh <br></code></pre></td></tr></table></figure>
+
+<p>确认Docker成功最新的docker：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ sudo docker run hello-world<br></code></pre></td></tr></table></figure>
+
+<h2 id="4-安装docker-compose"><a href="#4-安装docker-compose" class="headerlink" title="4.安装docker-compose"></a>4.安装docker-compose</h2><p>两种最新的docker安装方式</p>
+<h3 id="1-从github上下载docker-compose二进制文件安装"><a href="#1-从github上下载docker-compose二进制文件安装" class="headerlink" title="1.从github上下载docker-compose二进制文件安装"></a>1.从github上下载docker-compose二进制文件安装</h3><ul>
+<li>下载最新版的docker-compose文件 </li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">sudo</span> <span class="hljs-string">curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose</span><br></code></pre></td></tr></table></figure>
+
+<p> 若是github访问太慢，可以用daocloud下载</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">sudo</span> <span class="hljs-string">curl -L https://get.daocloud.io/docker/compose/releases/download/1.25.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>添加可执行权限</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">sudo</span> <span class="hljs-string">chmod +x /usr/local/bin/docker-compose</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>测试安装结果</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">$</span> <span class="hljs-string">docker-compose --version</span><br><br><span class="hljs-meta">docker-compose</span> <span class="hljs-string">version 1.16.1, build 1719ceb</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="2-pip安装"><a href="#2-pip安装" class="headerlink" title="2.pip安装"></a>2.pip安装</h3><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">sudo</span> <span class="hljs-string">pip install docker-compose</span><br></code></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-docker-compose文件结构和示例"><a href="#5-docker-compose文件结构和示例" class="headerlink" title="5.docker-compose文件结构和示例"></a>5.docker-compose文件结构和示例</h2><h3 id="docker-compose文件结构"><a href="#docker-compose文件结构" class="headerlink" title="docker-compose文件结构"></a>docker-compose文件结构</h3><p>docker-compose.yml:</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">version</span>: <span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-attr">services</span>:<span class="hljs-string"></span><br>  <br>  <span class="hljs-attr">redis</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">redis:alpine</span><br>    <span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">&quot;6379&quot;</span><br>    <span class="hljs-attr">networks</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">frontend</span><br>    <span class="hljs-attr">deploy</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">replicas</span>: <span class="hljs-string">2</span><br>      <span class="hljs-attr">update_config</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">parallelism</span>: <span class="hljs-string">2</span><br>        <span class="hljs-attr">delay</span>: <span class="hljs-string">10s</span><br>      <span class="hljs-attr">restart_policy</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">condition</span>: <span class="hljs-string">on-failure</span><br>  <br>  <span class="hljs-attr">db</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">postgres:9.4</span><br>    <span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">db-data:/var/lib/postgresql/data</span><br>    <span class="hljs-attr">networks</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">backend</span><br>    <span class="hljs-attr">deploy</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">placement</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">constraints</span>: <span class="hljs-string">[node.role == manager]</span><br><br> <span class="hljs-attr">vote</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">dockersamples/examplevotingapp_vote:before</span><br>    <span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">5000:80</span><br>    <span class="hljs-attr">networks</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">frontend</span><br>    <span class="hljs-attr">depends_on</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">redis</span><br>    <span class="hljs-attr">deploy</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">replicas</span>: <span class="hljs-string">2</span><br>      <span class="hljs-attr">update_config</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">parallelism</span>: <span class="hljs-string">2</span><br>      <span class="hljs-attr">restart_policy</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">condition</span>: <span class="hljs-string">on-failure</span><br><br>  <span class="hljs-attr">result</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">dockersamples/examplevotingapp_result:before</span><br>    <span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">5001:80</span><br>    <span class="hljs-attr">networks</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">backend</span><br>    <span class="hljs-attr">depends_on</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">db</span><br>    <span class="hljs-attr">deploy</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">replicas</span>: <span class="hljs-string">1</span><br>      <span class="hljs-attr">update_config</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">parallelism</span>: <span class="hljs-string">2</span><br>        <span class="hljs-attr">delay</span>: <span class="hljs-string">10s</span><br>      <span class="hljs-attr">restart_policy</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">condition</span>: <span class="hljs-string">on-failure</span><br><br>  <span class="hljs-attr">worker</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">dockersamples/examplevotingapp_worker</span><br>    <span class="hljs-attr">networks</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">frontend</span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">backend</span><br>    <span class="hljs-attr">deploy</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">mode</span>: <span class="hljs-string">replicated</span><br>      <span class="hljs-attr">replicas</span>: <span class="hljs-string">1</span><br>      <span class="hljs-attr">labels</span>: <span class="hljs-string">[APP=VOTING]</span><br>      <span class="hljs-attr">restart_policy</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">condition</span>: <span class="hljs-string">on-failure</span><br>        <span class="hljs-attr">delay</span>: <span class="hljs-string">10s</span><br>        <span class="hljs-attr">max_attempts</span>: <span class="hljs-string">3</span><br>        <span class="hljs-attr">window</span>: <span class="hljs-string">120s</span><br>      <span class="hljs-attr">placement</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">constraints</span>: <span class="hljs-string">[node.role == manager]</span><br><br>  <span class="hljs-attr">visualizer</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">dockersamples/visualizer:stable</span><br>    <span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">&quot;8080:8080&quot;</span><br>    <span class="hljs-attr">stop_grace_period</span>: <span class="hljs-string">1m30s</span><br>    <span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">&quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span><br>    <span class="hljs-attr">deploy</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">placement</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">constraints</span>: <span class="hljs-string">[node.role == manager]</span><br><br><span class="hljs-attr">networks</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">frontend</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">backend</span>:<span class="hljs-string"></span><br>  <br><span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>  <span class="hljs-meta">db-data</span>:<span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="docker-compose使用示例"><a href="#docker-compose使用示例" class="headerlink" title="docker-compose使用示例"></a>docker-compose使用示例</h3><p>通过docker-compose构建一个在docker中运行的基于python flask框架的web应用。</p>
+<blockquote>
+<p><strong>注意：</strong>确保你已经安装了Docker Engine和Docker Compose。 您不需要安装Python或Redis，因为这两个都是由Docker镜像提供的。</p>
+</blockquote>
+<p><strong>Step 1: 定义python应用</strong></p>
+<ul>
+<li>1 .创建工程目录</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ mkdir compose_test<br><br>$ <span class="hljs-built_in">cd</span> compose_test<br><br>$ mkdir src      <span class="hljs-comment"># 源码文件夹</span><br><br>$ mkdir docker  <span class="hljs-comment"># docker配置文件夹</span><br></code></pre></td></tr></table></figure>
+
+<p>目录结构如下： </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">└── compose_test<br>    ├── docker<br>    │   └── docker-compose.yml<br>    ├── Dockerfile<br>    └── src<br>        ├── app.py<br>        └── requirements.txt<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>2 .在compose_test/src/目录下创建python flask应用 compose_test/src/app.py文件。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask<br><span class="hljs-keyword">from</span> redis <span class="hljs-keyword">import</span> Redis<br><br>app = Flask(__name__)<br>redis = Redis(host=<span class="hljs-string">&#x27;redis&#x27;</span>, port=<span class="hljs-number">6379</span>)<br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello</span>():</span><br>    count = redis.incr(<span class="hljs-string">&#x27;hits&#x27;</span>)<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Hello World! I have been seen &#123;&#125; times.\n&#x27;</span>.<span class="hljs-built_in">format</span>(count)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    app.run(host=<span class="hljs-string">&quot;0.0.0.0&quot;</span>, debug=<span class="hljs-literal">True</span>)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>3 .创建python 需求文件 compose_test/src/requirements.txt</li>
+</ul>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">flask</span><br><span class="hljs-attr">redis</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>Step 2: 创建容器的Dockerfile文件</strong></p>
+<p>一个容器一个Dockerfile文件，在compose_test/目录中创建Dockerfile文件：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">FROM</span> <span class="hljs-string">python:3.7</span><br><br><span class="hljs-attr">COPY</span> <span class="hljs-string">src/ /opt/src</span><br><span class="hljs-attr">WORKDIR</span> <span class="hljs-string">/opt/src</span><br><br><span class="hljs-attr">RUN</span> <span class="hljs-string">pip install -r requirements.txt</span><br><span class="hljs-attr">CMD</span> <span class="hljs-string">[&quot;python&quot;, &quot;app.py&quot;]</span><br></code></pre></td></tr></table></figure>
+
+<p>Dockerfile文件告诉docker了如下信息：</p>
+<p>从Python 3.7的镜像开始构建一个容器镜像。 </p>
+<p>复制src（即compose_test/src）目录到容器中的/opt/src目录。 </p>
+<p>将容器的工作目录设置为/opt/src（通过docker exec -it your_docker_container_id bash 进入容器后的默认目录）。<br>安装Python依赖关系。<br>将容器的默认命令设置为python app.py。</p>
+<p><strong>Step 3: 定义docker-compose脚本</strong></p>
+<p>在compose_test/docker/目录下创建docker-compose.yml文件，并在里面定义服务，内容如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">version</span>: <span class="hljs-string">&#x27;3&#x27;</span><br><span class="hljs-attr">services</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">web</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">build</span>: <span class="hljs-string">../</span><br>    <span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br>     <span class="hljs-meta">-</span> <span class="hljs-string">&quot;5000:5000&quot;</span><br>  <span class="hljs-attr">redis</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">redis:3.0.7</span><br></code></pre></td></tr></table></figure>
+
+<p>这个compose文件定义了两个服务，即定义了web和redis两个容器。<br><strong>web容器：</strong> </p>
+<ul>
+<li>使用当前<code>docker-compose.yml</code>文件所在目录的上级目录（compose_test/Dockerfile）中的Dockerfile构建映像。 </li>
+<li>将容器上的暴露端口5000映射到主机上的端口5000。 我们使用Flask Web服务器的默认端口5000。 </li>
+</ul>
+<p><strong>redis容器：</strong> </p>
+<ul>
+<li>redis服务使用从Docker Hub提取的官方redis镜像3.0.7版本。</li>
+</ul>
+<p><strong>Step 4: 使用Compose构建并运行您的应用程序</strong></p>
+<p>在<code>compose_test/docker/</code>目录下执行<code>docker-compose.yml</code>文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ docker-compose up<br><br><span class="hljs-comment"># 若是要后台运行： $ docker-compose up -d</span><br><br><span class="hljs-comment"># 若不使用默认的docker-compose.yml 文件名：</span><br><br>$ docker-compose -f server.yml up -d <br></code></pre></td></tr></table></figure>
+
+<p>然后在浏览器中输入<code>http://0.0.0.0:5000/</code>查看运行的应用程序。</p>
+<p><strong>Step 5: 编辑compose文件以添加文件绑定挂载</strong></p>
+<p>​        上面的代码是在构建时静态复制到容器中的，即通过Dockerfile文件中的COPY src /opt/src命令实现物理主机中的源码复制到容器中，这样在后续物理主机src目录中代码的更改不会反应到容器中。<br>​        可以通过volumes 关键字实现物理主机目录挂载到容器中的功能（同时删除Dockerfile中的COPY指令，不需要创建镜像时将代码打包进镜像，而是通过volums动态挂载，容器和物理host共享数据卷）：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">version</span>: <span class="hljs-string">&#x27;3&#x27;</span><br><span class="hljs-attr">services</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">web</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">build</span>: <span class="hljs-string">../</span><br>    <span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br>     <span class="hljs-meta">-</span> <span class="hljs-string">&quot;5000:5000&quot;</span><br>    <span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>     <span class="hljs-meta">-</span> <span class="hljs-string">../src:/opt/src</span><br>  <span class="hljs-attr">redis</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">&quot;redis:3.0.7&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>通过volumes（卷）将主机上的项目目录（compose_test/src）挂载到容器中的/opt/src目录，允许您即时修改代码，而无需重新构建镜像。</p>
+<p><strong>Step 6: 重新构建和运行应用程序</strong></p>
+<p>使用更新的compose文件构建应用程序，然后运行它。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ docker-compose up -d<br></code></pre></td></tr></table></figure>
+
+<h2 id="6-compose常用服务配置参考"><a href="#6-compose常用服务配置参考" class="headerlink" title="6.compose常用服务配置参考"></a>6.compose常用服务配置参考</h2><p>​        Compose文件是一个定义服务，网络和卷的YAML文件。 Compose文件的默认文件名为docker-compose.yml。</p>
+<blockquote>
+<p>提示：您可以对此文件使用.yml或.yaml扩展名。 他们都工作。</p>
+</blockquote>
+<p>​        与docker运行一样，默认情况下，Dockerfile中指定的选项（例如，CMD，EXPOSE，VOLUME，ENV）都被遵守，你不需要在docker-compose.yml中再次指定它们。</p>
+<p>​        同时你可以使用类似Bash的$ {VARIABLE} 语法在配置值中使用环境变量，有关详细信息，请参阅<a target="_blank" rel="noopener" href="https://docs.docker.com/compose/compose-file/#variable-substitution">变量替换</a>。</p>
+<p>​        本节包含版本3中服务定义支持的所有配置选项。</p>
+<h3 id="build"><a href="#build" class="headerlink" title="build"></a>build</h3><p>​        build 可以指定包含构建上下文的路径：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">version</span>: <span class="hljs-string">&#x27;2&#x27;</span><br><span class="hljs-attr">services</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">webapp</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">build</span>: <span class="hljs-string">./dir</span><br></code></pre></td></tr></table></figure>
+
+<p>或者，作为一个对象，该对象具有上下文路径和指定的Dockerfile文件以及args参数值：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">version</span>: <span class="hljs-string">&#x27;2&#x27;</span><br><span class="hljs-attr">services</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">webapp</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">build</span>:<span class="hljs-string"></span><br>      <span class="hljs-attr">context</span>: <span class="hljs-string">./dir</span><br>      <span class="hljs-attr">dockerfile</span>: <span class="hljs-string">Dockerfile-alternate</span><br>      <span class="hljs-attr">args</span>:<span class="hljs-string"></span><br>        <span class="hljs-attr">buildno</span>: <span class="hljs-string">1</span><br></code></pre></td></tr></table></figure>
+
+<p>webapp服务将会通过./dir目录下的Dockerfile-alternate文件构建容器镜像。 </p>
+<p>如果你同时指定image和build，则compose会通过build指定的目录构建容器镜像，而构建的镜像名为image中指定的镜像名和标签。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">build</span>: <span class="hljs-string">./dir</span><br><span class="hljs-attr">image</span>: <span class="hljs-string">webapp:tag</span><br></code></pre></td></tr></table></figure>
+
+<p>这将由./dir构建的名为webapp和标记为tag的镜像。</p>
+<p><strong>context</strong></p>
+<p>​        包含Dockerfile文件的目录路径，或者是git仓库的URL。<br>​        当提供的值是相对路径时，它被解释为相对于当前compose文件的位置。 该目录也是发送到Docker守护程序构建镜像的上下文。</p>
+<p><strong>dockerfile</strong></p>
+<p>​        备用Docker文件。Compose将使用备用文件来构建。 还必须指定构建路径。</p>
+<p><strong>args</strong></p>
+<p>​        添加构建镜像的参数，环境变量只能在构建过程中访问。<br>​        首先，在Dockerfile中指定要使用的参数：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">ARG</span> <span class="hljs-string">buildno</span><br><span class="hljs-attr">ARG</span> <span class="hljs-string">password</span><br><br><span class="hljs-attr">RUN</span> <span class="hljs-string">echo &quot;Build number: $buildno&quot;</span><br><span class="hljs-attr">RUN</span> <span class="hljs-string">script-requiring-password.sh &quot;$password&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>​        然后在args键下指定参数。 你可以传递映射或列表：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">build</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">context</span>: <span class="hljs-string">.</span><br>  <span class="hljs-attr">args</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">buildno</span>: <span class="hljs-string">1</span><br>    <span class="hljs-attr">password</span>: <span class="hljs-string">secret</span><br><br><span class="hljs-attr">build</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">context</span>: <span class="hljs-string">.</span><br>  <span class="hljs-attr">args</span>:<span class="hljs-string"></span><br>    <span class="hljs-meta">-</span> <span class="hljs-string">buildno=1</span><br>    <span class="hljs-meta">-</span> <span class="hljs-string">password=secret</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：YAML布尔值（true，false，yes，no，on，off）必须用引号括起来，以便解析器将它们解释为字符串。</p>
+</blockquote>
+<h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>​        指定启动容器的镜像，可以是镜像仓库/标签或者镜像id（或者id的前一部分）</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">image</span>: <span class="hljs-string">redis</span><br><span class="hljs-attr">image</span>: <span class="hljs-string">ubuntu:14.04</span><br><span class="hljs-attr">image</span>: <span class="hljs-string">tutum/influxdb</span><br><span class="hljs-attr">image</span>: <span class="hljs-string">example-registry.com:4000/postgresql</span><br><span class="hljs-attr">image</span>: <span class="hljs-string">a4bc65fd</span><br></code></pre></td></tr></table></figure>
+
+<p>​        如果镜像不存在，Compose将尝试从官方镜像仓库将其pull下来，如果你还指定了build，在这种情况下，它将使用指定的build选项构建它，并使用image指定的名字和标记对其进行标记。</p>
+<h3 id="container-name"><a href="#container-name" class="headerlink" title="container_name"></a>container_name</h3><p>​        指定一个自定义容器名称，而不是生成的默认名称。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">container_name</span>: <span class="hljs-string">my-web-container</span><br></code></pre></td></tr></table></figure>
+
+<p>由于Docker容器名称必须是唯一的，因此如果指定了自定义名称，则无法将服务扩展到多个容器。</p>
+<h3 id="volumes"><a href="#volumes" class="headerlink" title="volumes"></a>volumes</h3><p>​        卷挂载路径设置。可以设置宿主机路径 （HOST:CONTAINER） 或加上访问模式 （HOST:CONTAINER:ro）,挂载数据卷的默认权限是读写（rw），可以通过ro指定为只读。<br>​        用户可以在主机上挂载相对路径，该路径将相对于当前正在使用的Compose配置文件的目录进行扩展。 相对路径应始终以 . 或者 .. 开始。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br><span class="hljs-comment">  # 只需指定一个路径，让引擎创建一个卷</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">/var/lib/mysql</span><br><span class="hljs-comment">  # 指定绝对路径映射</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">/opt/data:/var/lib/mysql</span><br><span class="hljs-comment">  # 相对于当前compose文件的相对路径</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">./cache:/tmp/cache</span><br><span class="hljs-comment">  # 用户家目录相对路径</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">~/configs:/etc/configs/:ro</span><br><span class="hljs-comment">  # 命名卷</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">datavolume:/var/lib/mysql</span><br></code></pre></td></tr></table></figure>
+
+<p>但是，如果要跨多个服务并重用挂载卷，请在顶级volumes关键字中命名挂在卷，但是并不强制，如下的示例亦有重用挂载卷的功能，但是不提倡。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">version</span>: <span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-attr">services</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">web1</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">build</span>: <span class="hljs-string">./web/</span><br>    <span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">../code:/opt/web/code</span><br><br>  <span class="hljs-attr">web2</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">build</span>: <span class="hljs-string">./web/</span><br>    <span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">../code:/opt/web/code</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：通过顶级volumes定义一个挂载卷，并从每个服务的卷列表中引用它， 这会替换早期版本的Compose文件格式中volumes_from。</p>
+</blockquote>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">version</span>: <span class="hljs-string">&quot;3&quot;</span><br><span class="hljs-attr">services</span>:<span class="hljs-string"></span><br><br>  <span class="hljs-attr">db</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">db</span><br>    <span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">data-volume:/var/lib/db</span><br><br>  <span class="hljs-attr">backup</span>:<span class="hljs-string"></span><br>    <span class="hljs-attr">image</span>: <span class="hljs-string">backup-service</span><br>    <span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>      <span class="hljs-meta">-</span> <span class="hljs-string">data-volume:/var/lib/backup/data</span><br><br><span class="hljs-attr">volumes</span>:<span class="hljs-string"></span><br>  <span class="hljs-meta">data-volume</span>:<span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>覆盖容器启动后默认执行的命令。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">command</span>: <span class="hljs-string">bundle exec thin -p 3000</span><br></code></pre></td></tr></table></figure>
+
+<p>该命令也可以是一个类似于dockerfile的列表：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">command</span>: <span class="hljs-string">[&quot;bundle&quot;, &quot;exec&quot;, &quot;thin&quot;, &quot;-p&quot;, &quot;3000&quot;]</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="links"><a href="#links" class="headerlink" title="links"></a>links</h3><p>链接到另一个服务中的容器。 请指定服务名称和链接别名（SERVICE：ALIAS），或者仅指定服务名称。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">web</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">links</span>:<span class="hljs-string"></span><br>   <span class="hljs-meta">-</span> <span class="hljs-string">db</span><br>   <span class="hljs-meta">-</span> <span class="hljs-string">db:database</span><br>   <span class="hljs-meta">-</span> <span class="hljs-string">redis</span><br></code></pre></td></tr></table></figure>
+
+<p>在当前的web服务的容器中可以通过链接的db服务的别名database访问db容器中的数据库应用，如果没有指定别名，则可直接使用服务名访问。</p>
+<p>链接不需要启用服务进行通信 - 默认情况下，任何服务都可以以该服务的名称到达任何其他服务。 （实际是通过设置/etc/hosts的域名解析，从而实现容器间的通信。故可以像在应用中使用localhost一样使用服务的别名链接其他容器的服务，前提是多个服务容器在一个网络中可路由联通）</p>
+<p>links也可以起到和depends_on相似的功能，即定义服务之间的依赖关系，从而确定服务启动的顺序。</p>
+<h3 id="external-links"><a href="#external-links" class="headerlink" title="external_links"></a>external_links</h3><p>链接到docker-compose.yml 外部的容器，甚至并非 Compose 管理的容器。参数格式跟 links 类似。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">external_links</span>:<span class="hljs-string"></span><br> <span class="hljs-meta">-</span> <span class="hljs-string">redis_1</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">project_db_1:mysql</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">project_db_1:postgresql</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="expose"><a href="#expose" class="headerlink" title="expose"></a>expose</h3><p>暴露端口，但不映射到宿主机，只被连接的服务访问。<br>仅可以指定内部端口为参数</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">expose</span>:<span class="hljs-string"></span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;3000&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;8000&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="ports"><a href="#ports" class="headerlink" title="ports"></a>ports</h3><p>暴露端口信息。<br>常用的简单格式：使用宿主：容器 （HOST:CONTAINER）格式或者仅仅指定容器的端口（宿主将会随机选择端口）都可以。</p>
+<blockquote>
+<p>注意：当使用 HOST:CONTAINER 格式来映射端口时，如果你使用的容器端口小于 60 你可能会得到错误得结果，因为 YAML 将会解析 xx:yy 这种数字格式为 60 进制。所以建议采用字符串格式。</p>
+</blockquote>
+<p>简单的短格式：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;3000&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;3000-3005&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;8000:8000&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;9090-9091:8080-8081&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;49100:22&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;127.0.0.1:8001:8001&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;127.0.0.1:5000-5010:5000-5010&quot;</span><br> <span class="hljs-meta">-</span> <span class="hljs-string">&quot;6060:6060/udp&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>在v3.2中ports的长格式的语法允许配置不能用短格式表示的附加字段。<br>长格式：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">ports</span>:<span class="hljs-string"></span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">target: 80</span><br>    <span class="hljs-attr">published</span>: <span class="hljs-string">8080</span><br>    <span class="hljs-attr">protocol</span>: <span class="hljs-string">tcp</span><br>    <span class="hljs-attr">mode</span>: <span class="hljs-string">host</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>target：容器内的端口 </li>
+<li>published：物理主机的端口 </li>
+<li>protocol：端口协议（tcp或udp） </li>
+<li>mode：host 和ingress 两总模式，host用于在每个节点上发布主机端口，ingress 用于被负载平衡的swarm模式端口。</li>
+</ul>
+<h3 id="restart"><a href="#restart" class="headerlink" title="restart"></a>restart</h3><p>no是默认的重启策略，在任何情况下都不会重启容器。 指定为always时，容器总是重新启动。 如果退出代码指示出现故障错误，则on-failure将重新启动容器。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">restart</span>: <span class="hljs-string">&quot;no&quot;</span><br><br><span class="hljs-attr">restart</span>: <span class="hljs-string">always</span><br><br><span class="hljs-attr">restart</span>: <span class="hljs-string">on-failure</span><br><br><span class="hljs-attr">restart</span>: <span class="hljs-string">unless-stopped</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="environment"><a href="#environment" class="headerlink" title="environment"></a>environment</h3><p>添加环境变量。 你可以使用数组或字典两种形式。 任何布尔值; true，false，yes，no需要用引号括起来，以确保它们不被YML解析器转换为True或False。<br>只给定名称的变量会自动获取它在 Compose 主机上的值，可以用来防止泄露不必要的数据。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">environment</span>:<span class="hljs-string"></span><br>  <span class="hljs-attr">RACK_ENV</span>: <span class="hljs-string">development</span><br>  <span class="hljs-attr">SHOW</span>: <span class="hljs-string">&#x27;true&#x27;</span><br>  <span class="hljs-attr">SESSION_SECRET</span>:<span class="hljs-string"></span><br><br><span class="hljs-attr">environment</span>:<span class="hljs-string"></span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">RACK_ENV=development</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">SHOW=true</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">SESSION_SECRET</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：如果你的服务指定了build选项，那么在构建过程中通过environment定义的环境变量将不会起作用。 将使用build的args子选项来定义构建时的环境变量。</p>
+</blockquote>
+<h3 id="pid"><a href="#pid" class="headerlink" title="pid"></a>pid</h3><p>将PID模式设置为主机PID模式。 这就打开了容器与主机操作系统之间的共享PID地址空间。 使用此标志启动的容器将能够访问和操作裸机的命名空间中的其他容器，反之亦然。即打开该选项的容器可以相互通过进程 ID 来访问和操作。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">pid</span>: <span class="hljs-string">&quot;host&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="dns"><a href="#dns" class="headerlink" title="dns"></a>dns</h3><p>配置 DNS 服务器。可以是一个值，也可以是一个列表。</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">dns</span>: <span class="hljs-string">8.8.8.8</span><br><br><span class="hljs-attr">dns</span>:<span class="hljs-string"></span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">8.8.8.8</span><br>  <span class="hljs-meta">-</span> <span class="hljs-string">9.9.9.9</span><br></code></pre></td></tr></table></figure>
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/05/29/JAVA/Docker/Docker-compose%E6%95%99%E7%A8%8B/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;29&#x2F;JAVA&#x2F;Docker&#x2F;Docker-compose%E6%95%99%E7%A8%8B&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;05&#x2F;29&#x2F;JAVA&#x2F;Docker&#x2F;Docker-compose%E6%95%99%E7%A8%8B&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/Docker/">Docker</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/Docker/" rel="tag">Docker</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Docker-compose%E6%95%99%E7%A8%8B"><span class="toc-number">1.</span> <span class="toc-text">Docker-compose教程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Compose%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">1.Compose介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Compose%E5%92%8CDocker%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="toc-number">1.2.</span> <span class="toc-text">2.Compose和Docker兼容性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85docker"><span class="toc-number">1.3.</span> <span class="toc-text">3.安装docker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%AE%89%E8%A3%85docker-compose"><span class="toc-number">1.4.</span> <span class="toc-text">4.安装docker-compose</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%8Egithub%E4%B8%8A%E4%B8%8B%E8%BD%BDdocker-compose%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.1.</span> <span class="toc-text">1.从github上下载docker-compose二进制文件安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-pip%E5%AE%89%E8%A3%85"><span class="toc-number">1.4.2.</span> <span class="toc-text">2.pip安装</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-docker-compose%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84%E5%92%8C%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.5.</span> <span class="toc-text">5.docker-compose文件结构和示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-compose%E6%96%87%E4%BB%B6%E7%BB%93%E6%9E%84"><span class="toc-number">1.5.1.</span> <span class="toc-text">docker-compose文件结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-compose%E4%BD%BF%E7%94%A8%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.5.2.</span> <span class="toc-text">docker-compose使用示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-compose%E5%B8%B8%E7%94%A8%E6%9C%8D%E5%8A%A1%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83"><span class="toc-number">1.6.</span> <span class="toc-text">6.compose常用服务配置参考</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#build"><span class="toc-number">1.6.1.</span> <span class="toc-text">build</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#image"><span class="toc-number">1.6.2.</span> <span class="toc-text">image</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#container-name"><span class="toc-number">1.6.3.</span> <span class="toc-text">container_name</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#volumes"><span class="toc-number">1.6.4.</span> <span class="toc-text">volumes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#command"><span class="toc-number">1.6.5.</span> <span class="toc-text">command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#links"><span class="toc-number">1.6.6.</span> <span class="toc-text">links</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#external-links"><span class="toc-number">1.6.7.</span> <span class="toc-text">external_links</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#expose"><span class="toc-number">1.6.8.</span> <span class="toc-text">expose</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ports"><span class="toc-number">1.6.9.</span> <span class="toc-text">ports</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#restart"><span class="toc-number">1.6.10.</span> <span class="toc-text">restart</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#environment"><span class="toc-number">1.6.11.</span> <span class="toc-text">environment</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pid"><span class="toc-number">1.6.12.</span> <span class="toc-text">pid</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dns"><span class="toc-number">1.6.13.</span> <span class="toc-text">dns</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1656038931327"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
