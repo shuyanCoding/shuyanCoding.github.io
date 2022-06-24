@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>发送mail邮件 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="一、邮件基础概念1.1 邮件服务器和电子邮箱​        要在Internet上提供电子邮件功能，必须有专门的电子邮件服务器。例如现在Internet很多提供邮件服务的厂商：sina、sohu、163等等他们都有自己的邮件服务器。 ​        这些邮件服务器类似于现实生活中的邮局，它主要负责接收用户投递过来的邮件，并把邮件投递到邮件接收者的电子邮箱中。 ​        电子邮箱(E-M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="发送mail邮件">
+<meta property="og:url" content="http://example.com/2022/06/24/JAVA/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="一、邮件基础概念1.1 邮件服务器和电子邮箱​        要在Internet上提供电子邮件功能，必须有专门的电子邮件服务器。例如现在Internet很多提供邮件服务的厂商：sina、sohu、163等等他们都有自己的邮件服务器。 ​        这些邮件服务器类似于现实生活中的邮局，它主要负责接收用户投递过来的邮件，并把邮件投递到邮件接收者的电子邮箱中。 ​        电子邮箱(E-M">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/2022/06/24/JAVA/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.assets/image-20220624105415748.png">
+<meta property="og:image" content="http://example.com/2022/06/24/JAVA/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.assets/image-20220624105828887.png">
+<meta property="og:image" content="http://example.com/2022/06/24/JAVA/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.assets/image-20220624110050989.png">
+<meta property="article:published_time" content="2022-06-24T03:11:05.000Z">
+<meta property="article:modified_time" content="2022-06-24T03:40:52.649Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="JAVA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2022/06/24/JAVA/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.assets/image-20220624105415748.png">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1656085042878">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1656085042878">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1656085042878">
+    <link rel="stylesheet" href="/css/style.css?v=1656085042878">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>98</div>
+        <div><span>Tags</span>20</div>
+        <div><span>Categories</span>34</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Docker/">Docker</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">43</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Linux/">Linux</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SSM/">SSM</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">7</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/">Spring框架</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JAVA基础知识”/">“JAVA基础知识”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Redis”/">“Redis”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/“Security”/">“Security”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">22</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/栈和队列/">栈和队列</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/网络编程/">网络编程</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">11</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 12.5px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 12.5px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 12.5px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 12.5px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 11.25px;">Linux</a> <a href="/tags/Mybaits/" style="font-size: 15px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 17.5px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 12.5px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/Security/" style="font-size: 11.25px;">Security</a> <a href="/tags/Spring/" style="font-size: 16.25px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.25px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 13.75px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 11.25px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.25px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 18.75px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2022 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/Docker-compose教程.jpg" data-sizes="auto" alt="发送mail邮件" class="lazyload">
+              <h1>发送mail邮件</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年06月24日</a>
+</div>
+
+      
+
+      <h1 id="一、邮件基础概念"><a href="#一、邮件基础概念" class="headerlink" title="一、邮件基础概念"></a>一、邮件基础概念</h1><h2 id="1-1-邮件服务器和电子邮箱"><a href="#1-1-邮件服务器和电子邮箱" class="headerlink" title="1.1 邮件服务器和电子邮箱"></a>1.1 邮件服务器和电子邮箱</h2><p>​        要在Internet上提供电子邮件功能，必须有专门的电子邮件服务器。例如现在Internet很多提供邮件服务的厂商：sina、sohu、163等等他们都有自己的邮件服务器。</p>
+<p>​        这些邮件服务器类似于现实生活中的邮局，它主要负责接收用户投递过来的邮件，并把邮件投递到邮件接收者的电子邮箱中。</p>
+<p>​        电子邮箱(E-Mail地址)的获得需要在邮件服务器上进行申请，确切地说，电子邮箱其实就是用户在邮件服务器上申请的一个账户，用户在邮件服务器上申请了一个帐号后，邮件服务器就会为这个账号分配一定的空间，用户从而可以使用这个帐号以及空间发送电子邮件和保存别人发送过来的电子邮件。</p>
+<h2 id="1-2-邮件相关的协议"><a href="#1-2-邮件相关的协议" class="headerlink" title="1.2 邮件相关的协议"></a>1.2 邮件相关的协议</h2><ul>
+<li><strong>简单邮件传输协议</strong>(Simple Mail Transfer PRotocol,SMTP)是一个运行在TCP/ip之上的协议，用它发送和接收电子邮件。SMTP 服务器在默认端口25上监听。SMTP客户使用一组简单的、基于文本的命令与SMTP服务器进行通信。在建立了一个连接后，为了接收响应，SMTP客户首先发出一个命令来标识它们的电子邮件地址。假如SMTP服务器接受了发送者发出的文本命令，它就利用一个OK响应和整数代码确认每一个命令。客户发送的另一个命令意味着电子邮件消息体的开始，消息体以一个圆点“.”加上回车符终止。</li>
+<li><strong>邮局协议</strong>(Post Office Protocol Version 3,POP3)提供了一种对邮件消息进行排队的标准机制，这样接收者以后才能检索邮件。POP3服务器也运行在TCP/IP之上，并且在默认端口110上监听。在客户和服务器之间进行了初始的会话之后，基于文本的命令序列可以被交换。POP3客户利用用户名和口令向POP3服务器认证。POP3中的认证是在一种未加密的会话基础之上进行的。POP3客户发出一系列命令发送给POP3服务器，如：请求客户邮箱队列的状态、请求列出的邮箱队列的内容和请求检索实际的消息。POP3代表一种存储转发类型的消息传递服务。现在，大部分邮件服务器都采用SMTP发送邮件，同时使用POP3接收电子邮件消息。</li>
+<li><strong>Internet 消息访问协议</strong>(Internet Message access Protocol,IMAP)是一种电子邮件消息排队服务，它对POP3的存储转发限制提供了重要的改进。IMAP也使用基于文本命令的语法在TCP/IP上运行，IMAP服务器一般在默认端口143监听。IMAP服务器答应IMAP客户下载一个电子邮件的头信息，并且不要求将整个消息从服务器下载至客户，这一点与POP3是相同的。IMAP服务器提供了一种排队机制以接收消息，同时必须与SMTP相结合在一起才能发送消息。</li>
+</ul>
+<p>这三种协议都有对应SSL加密传输的协议，分别是 SMTPS，POP3S 和 IMAPS 。</p>
+<blockquote>
+<p>MIME（Multipurpose Internet Mail Extensions）<br>：即多用途因特网邮件扩展标准。它不是邮件传输协议。但对传输内容的消息、附件及其它的内容定义了格式。</p>
+</blockquote>
+<h2 id="1-3-电子邮件的发送和接收过程"><a href="#1-3-电子邮件的发送和接收过程" class="headerlink" title="1.3 电子邮件的发送和接收过程"></a>1.3 电子邮件的发送和接收过程</h2><p>通过一张图来说明一封邮件的发送和接收过程，如下图所示：</p>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.assets/image-20220624105415748.png" alt="image-20220624105415748" class="lazyload"></p>
+<p>简单说一下这个邮件收发过程：</p>
+<p>1、<a href="mailto:&#120;&#100;&#x70;&#64;&#x73;&#111;&#104;&#x75;&#46;&#x63;&#111;&#109;">&#120;&#100;&#x70;&#64;&#x73;&#111;&#104;&#x75;&#46;&#x63;&#111;&#109;</a> 用户写好一封Email发送到sohu的Smtp服务器。对应于上图的步骤①</p>
+<p>2、sohu的Smtp服务器开始处理<a href="mailto:&#x78;&#100;&#x70;&#64;&#115;&#111;&#x68;&#117;&#46;&#x63;&#111;&#109;">&#x78;&#100;&#x70;&#64;&#115;&#111;&#x68;&#117;&#46;&#x63;&#111;&#109;</a> 用户的请求，它会根据收件人的地址判断，当前收件人是不是自己管辖的用户，如果是，就直接将Email存放到为该收件人的分配的邮箱空间当中。sohu的Smtp服务器判断收件人地址发现，这一封Email的收件人<a href="mailto:&#103;&#97;&#99;&#108;&#x40;&#x73;&#105;&#x6e;&#97;&#46;&#x63;&#x6f;&#109;">&#103;&#97;&#99;&#108;&#x40;&#x73;&#105;&#x6e;&#97;&#46;&#x63;&#x6f;&#109;</a> 是Sina的邮件服务器管理的，于是又将Email转发给Sina的Smtp服务器。对应于上图的步骤②</p>
+<p>3、Sina的Smtp服务器开始处理sohu的Smtp服务器发送过来的Email，Sina的Smtp服务器根据收件人的地址判断，发现收件人自己管辖的用户，于是就直接将Email存放到为<a href="mailto:&#103;&#x61;&#x63;&#108;&#x40;&#115;&#x69;&#x6e;&#97;&#x2e;&#99;&#111;&#109;">&#103;&#x61;&#x63;&#108;&#x40;&#115;&#x69;&#x6e;&#97;&#x2e;&#99;&#111;&#109;</a> 用户的分配的邮箱空间当中。对应于上图的步骤③。</p>
+<p>4、<a href="mailto:&#x78;&#x64;&#x70;&#x40;&#115;&#111;&#104;&#117;&#x2e;&#99;&#111;&#109;">&#x78;&#x64;&#x70;&#x40;&#115;&#111;&#104;&#117;&#x2e;&#99;&#111;&#109;</a> 用户将邮件发出去之后，就通知<a href="mailto:&#103;&#x61;&#99;&#x6c;&#x40;&#x73;&#x69;&#110;&#97;&#x2e;&#99;&#x6f;&#x6d;">&#103;&#x61;&#99;&#x6c;&#x40;&#x73;&#x69;&#110;&#97;&#x2e;&#99;&#x6f;&#x6d;</a> 用户去收取。<a href="mailto:&#x67;&#97;&#x63;&#108;&#64;&#115;&#x69;&#110;&#97;&#x2e;&#x63;&#x6f;&#x6d;">&#x67;&#97;&#x63;&#108;&#64;&#115;&#x69;&#110;&#97;&#x2e;&#x63;&#x6f;&#x6d;</a> 用户于是就连接上Sina的POP3服务器收取邮件，对应于上图的步骤④。</p>
+<p>5、POP3服务器从<a href="mailto:&#x67;&#x61;&#99;&#108;&#x40;&#x73;&#x69;&#x6e;&#97;&#46;&#x63;&#111;&#x6d;">&#x67;&#x61;&#99;&#108;&#x40;&#x73;&#x69;&#x6e;&#97;&#46;&#x63;&#111;&#x6d;</a> 用户的邮箱空间当中取出Email，对应于步骤⑤。</p>
+<p>6、POP3服务器将取出来的Email发给<a href="mailto:&#103;&#97;&#99;&#108;&#64;&#x73;&#105;&#110;&#x61;&#x2e;&#x63;&#x6f;&#x6d;">&#103;&#97;&#99;&#108;&#64;&#x73;&#105;&#110;&#x61;&#x2e;&#x63;&#x6f;&#x6d;</a> 用户，对应于步骤⑥。</p>
+<h1 id="二、Java-Mail-API"><a href="#二、Java-Mail-API" class="headerlink" title="二、Java Mail API"></a>二、Java Mail API</h1><p>JavaMail 是由 Sun 发布的用来处理 email 的 API 。它并没有包含在 Java SE 中，而是作为 Java EE 的一部分。</p>
+<ul>
+<li><p>mail.jar ：此 JAR 文件包含 JavaMail API 和 Sun 提供的 SMTP 、 IMAP 和 POP3 服务提供程序；</p>
+</li>
+<li><p>activation.jar ：此 JAR 文件包含 JAF API 和 Sun 的实现。</p>
+</li>
+<li><p>JavaMail 包中用于处理电子邮件的核心类是： <strong>Properties 、 Session 、 Message 、 Address 、 Authenticator 、 Transport 、 Store</strong> 等。</p>
+</li>
+</ul>
+<h2 id="2-1、Java-mail-传输过程"><a href="#2-1、Java-mail-传输过程" class="headerlink" title="2.1、Java mail 传输过程"></a>2.1、Java mail 传输过程</h2><p><img data-fancybox="gallery" data-sizes="auto" data-src="%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.assets/image-20220624105828887.png" alt="image-20220624105828887" class="lazyload"></p>
+<p>如上图，电子邮件的处理步骤如下：</p>
+<ul>
+<li>创建一个 Session 对象。</li>
+<li>Session 对象创建一个 Transport 对象 /Store 对象，用来发送 / 保存邮件。</li>
+<li>Transport 对象 /Store 对象连接邮件服务器。</li>
+<li>Transport 对象 /Store 对象创建一个 Message 对象 ( 也就是邮件内容 ) 。</li>
+<li>Transport 对象发送邮件； Store 对象获取邮箱的邮件。</li>
+</ul>
+<h2 id="2-2、JavaMail-的核心类"><a href="#2-2、JavaMail-的核心类" class="headerlink" title="2.2、JavaMail 的核心类"></a>2.2、JavaMail 的核心类</h2><p>​        JavaMail 对收发邮件进行了高级的抽象，形成了一些关键的的接口和类，它们构成了程序的基础，下面我们分别来了解一下这些最常见的对象。</p>
+<h3 id="2-2-1-java-util-Properties-类-属性对象"><a href="#2-2-1-java-util-Properties-类-属性对象" class="headerlink" title="2.2.1 java.util.Properties 类 ( 属性对象 )"></a>2.2.1 java.util.Properties 类 ( 属性对象 )</h3><p>​        <code>java.util.Properties </code>类代表一组属性集合。</p>
+<p>​        它的每一个键和值都是 String 类型。</p>
+<p>​        由于 JavaMail 需要和邮件服务器进行通信，这就要求程序提供许多诸如服务器地址、端口、用户名、密码等信息， JavaMail 通过 Properties 对象封装这些属性信息。</p>
+<p>例： 如下面的代码封装了几个属性信息：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">Properties prop = <span class="hljs-keyword">new</span> Properties();<br>prop.setProperty(<span class="hljs-string">&quot;mail.debug&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>prop.setProperty(<span class="hljs-string">&quot;mail.host&quot;</span>, <span class="hljs-string">&quot;[email protected]&quot;</span>);<br>prop.setProperty(<span class="hljs-string">&quot;mail.transport.protocol&quot;</span>, <span class="hljs-string">&quot;smtp&quot;</span>);<br>prop.setProperty(<span class="hljs-string">&quot;mail.smtp.auth&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>​        针对不同的的邮件协议， JavaMail 规定了服务提供者必须支持一系列属性，</p>
+<p>​        下表是一些常见属性（属性值都以 String 类型进行设置，属性类型栏仅表示属性是如何被解析的）：</p>
+<table>
+<thead>
+<tr>
+<th>关键词</th>
+<th>类型</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>mail.debug</td>
+<td>boolean</td>
+<td>debug开关</td>
+</tr>
+<tr>
+<td>mail.host</td>
+<td>String</td>
+<td>指定发送、接受邮件的默认邮箱服务器</td>
+</tr>
+<tr>
+<td>mail.store.protocol</td>
+<td>String</td>
+<td>指定接收邮件的协议</td>
+</tr>
+<tr>
+<td>mail.transport.ptotocol</td>
+<td>String</td>
+<td>指定发送邮件的协议</td>
+</tr>
+<tr>
+<td>mail.debug.auth</td>
+<td>boolean</td>
+<td>debug输出中是否包含认证命令，默认为false</td>
+</tr>
+</tbody></table>
+<h3 id="2-2-2、javax-mail-Session-类-会话对象"><a href="#2-2-2、javax-mail-Session-类-会话对象" class="headerlink" title="2.2.2、javax.mail.Session 类 ( 会话对象 )"></a>2.2.2、javax.mail.Session 类 ( 会话对象 )</h3><p>Session 表示一个邮件会话。</p>
+<p>Session 的主要作用包括两个方面：</p>
+<p>接收各种配置属性信息：通过 Properties 对象设置的属性信息；</p>
+<p>初始化 JavaMail 环境：根据 JavaMail 的配置文件，初始化 JavaMail 环境，以便通过 Session 对象创建其他重要类的实例。</p>
+<p>JavaMail 在 Jar 包的 META-INF 目录下，通过以下文件提供了基本配置信息，以便 session 能够根据这个配置文件加载提供者的实现类：</p>
+<ul>
+<li><p>javamail.default.providers ；</p>
+</li>
+<li><p>javamail.default.address.map 。</p>
+</li>
+</ul>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">Properties props = <span class="hljs-keyword">new</span> Properties();<br>props.setProperty(<span class="hljs-string">&quot;mail.transport.protocol&quot;</span>, <span class="hljs-string">&quot;smtp&quot;</span>);<br>Session session = Session.getInstance(props);<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-3、javax-mail-Transport-类-邮件传输"><a href="#2-2-3、javax-mail-Transport-类-邮件传输" class="headerlink" title="2.2.3、javax.mail.Transport 类 ( 邮件传输 )"></a>2.2.3、javax.mail.Transport 类 ( 邮件传输 )</h3><p>邮件操作只有发送或接收两种处理方式。</p>
+<ul>
+<li><p><code>JavaMai</code>l 将这两种不同操作描述为传输（ <code>javax.mail.Transport </code>）和存储（<code> javax.mail.Store</code> ），传输对应邮件的发送，而存储对应邮件的接收。</p>
+</li>
+<li><p>getTransport ： Session 类中的 <code>getTransport()</code> 有多个重载方法，可以用来创建 Transport 对象。</p>
+</li>
+<li><p>connect ： 如果设置了认证命令—— <code>mail.smtp.auth</code> ，那么使用 Transport 类的 connect 方法连接服务器时，则必须加上用户名和密码。</p>
+</li>
+<li><p>sendMessage ： Transport 类的 <code>sendMessage()</code> 方法用来发送邮件消息。</p>
+</li>
+<li><p>close ： Transport 类的 close 方法用来关闭和邮件服务器的连接。</p>
+</li>
+</ul>
+<h3 id="2-2-4、javax-mail-Store-类-邮件存储"><a href="#2-2-4、javax-mail-Store-类-邮件存储" class="headerlink" title="2.2.4、javax.mail.Store 类 ( 邮件存储 )"></a>2.2.4、javax.mail.Store 类 ( 邮件存储 )</h3><ul>
+<li><p>getStore ： Session 类中的 <code>getStore () </code>有多个重载方法，可以用来创建 Store 对象。</p>
+</li>
+<li><p>connect ： 如果设置了认证命令—— <code>mail.smtp.auth </code>，那么使用 Store 类的 connect 方法连接服务器时，则必须加上用户名和密码。</p>
+</li>
+<li><p>getFolder : Store 类的<code> getFolder()</code>方法可以 获取邮箱内的邮件夹 Folder 对象</p>
+</li>
+<li><p>close ： Store 类的 close 方法用来关闭和邮件服务器的连接。</p>
+</li>
+</ul>
+<h3 id="2-2-5、javax-mail-Message-消息对象"><a href="#2-2-5、javax-mail-Message-消息对象" class="headerlink" title="2.2.5、javax.mail.Message( 消息对象 )"></a>2.2.5、javax.mail.Message( 消息对象 )</h3><p><code>javax.mail.Message</code> 是个<strong>抽象类</strong>，只能用子类去实例化，多数情况下为<code> javax.mail.internet.MimeMessage</code> 。</p>
+<p><code>MimeMessage </code>代表 MIME 类型的电子邮件消息。</p>
+<p>要创建一个 Message ，需要将 Session 对象传递给<code>MimeMessage</code>构造器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">MimeMessage message = <span class="hljs-keyword">new</span> MimeMessage(session);<br></code></pre></td></tr></table></figure>
+
+<p>注意：还存在其它构造器，如用按 RFC822 格式的输入流来创建消息。</p>
+<ul>
+<li><p>setFrom ：设置邮件的发件人</p>
+</li>
+<li><p>setRecipient ：设置邮件的发送人、抄送人、密送人</p>
+<ul>
+<li>三种预定义的地址类型是：<ul>
+<li><code>Message.RecipientType.TO</code>：收件人</li>
+<li><code>Message.RecipientType.CC</code> ：抄送人</li>
+<li><code>Message.RecipientType.BCC</code> ：密送人</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>setSubject ：设置邮件的主题</p>
+</li>
+<li><p>setContent ：设置邮件内容</p>
+</li>
+<li><p>setText ：如果邮件内容是纯文本，可以使用此接口设置文本内容。</p>
+</li>
+</ul>
+<p><strong>MimeMessage结构介绍：</strong></p>
+<ul>
+<li><p>MimeMessage 类：代表整封邮件。</p>
+</li>
+<li><p>MimeBodyPart 类：代表邮件的一个 MIME 信息。</p>
+</li>
+<li><p>MimeMultipart 类：代表一个由多个 MIME 信息组合成的组合 MIME 信息。</p>
+</li>
+</ul>
+<p><img data-fancybox="gallery" data-sizes="auto" data-src="%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6.assets/image-20220624110050989.png" alt="image-20220624110050989" class="lazyload"></p>
+<h3 id="2-2-6、javax-mail-Address-地址"><a href="#2-2-6、javax-mail-Address-地址" class="headerlink" title="2.2.6、javax.mail.Address( 地址 )"></a>2.2.6、javax.mail.Address( 地址 )</h3><p>​        一旦您创建了 Session 和 Message ，并将内容填入消息后，就可以用 Address 确定信件地址了。和 Message 一样， Address 也是个<strong>抽象类</strong>。您用的是 <code>javax.mail.internet.InternetAddress</code> 类。</p>
+<p>​        若创建的地址只包含电子邮件地址，只要传递电子邮件地址到构造器就行了。</p>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">Address address = <span class="hljs-keyword">new</span> InternetAddress(<span class="hljs-string">&quot;[email protected]&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-7、-Authenticator-：认证者"><a href="#2-2-7、-Authenticator-：认证者" class="headerlink" title="2.2.7、 Authenticator ：认证者"></a>2.2.7、 Authenticator ：认证者</h3><p>​        与 <a target="_blank" rel="noopener" href="http://java.net/">java.net</a> 类一样，<code>JavaMail API</code> 也可以利用 Authenticator 通过用户名和密码访问受保护的资源。对于 <code>JavaMail API</code> 来说，这些资源就是邮件服务器。 <code>JavaMail Authenticator</code> 在<code>javax.mail</code> 包中，而且它和 <a target="_blank" rel="noopener" href="http://java.net/">java.net</a> 中同名的类 Authenticator 不同。两者并不共享同一个<code> Authenticator</code> ，因为 <code>JavaMail API </code>用于 Java 1.1 ，它没有 <a target="_blank" rel="noopener" href="http://java.net/">java.net</a> 类别。</p>
+<p>​        要使用 <code>Authenticator</code> ，先创建一个抽象类的子类，并从 <code>getPasswordAuthentication() </code>方法中返回 <code>PasswordAuthentication </code>实例。创建完成后，您必需向 session 注册 Authenticator 。然后，在需要认证的时候，就会通知 Authenticator 。您可以弹出窗口，也可以从配置文件中（虽然没有加密是不安全的）读取用户名和密码，将它们作为 <code>PasswordAuthentication </code>对象返回给调用程序。</p>
+<p>例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">Properties props = <span class="hljs-keyword">new</span> Properties();<br>Authenticator auth = <span class="hljs-keyword">new</span> MyAuthenticator();<br>Session session = Session.getDefaultInstance(props, auth)<br></code></pre></td></tr></table></figure>
+
+<h1 id="三、收发邮件代码示例"><a href="#三、收发邮件代码示例" class="headerlink" title="三、收发邮件代码示例"></a>三、收发邮件代码示例</h1><h2 id="3-1-发送文本邮件"><a href="#3-1-发送文本邮件" class="headerlink" title="3.1 发送文本邮件"></a>3.1 发送文本邮件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <br>    Properties prop = <span class="hljs-keyword">new</span> Properties();<br>    prop.setProperty(<span class="hljs-string">&quot;mail.debug&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.host&quot;</span>, MAIL_SERVER_HOST);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.transport.protocol&quot;</span>, <span class="hljs-string">&quot;smtp&quot;</span>);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.smtp.auth&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    <br>    <span class="hljs-comment">// 1、创建session</span><br>    Session session = Session.getInstance(prop);<br>    Transport ts = <span class="hljs-keyword">null</span>;<br>    <br>    <span class="hljs-comment">// 2、通过session得到transport对象</span><br>    ts = session.getTransport();<br>    <br>    <span class="hljs-comment">// 3、连上邮件服务器</span><br>    ts.connect(MAIL_SERVER_HOST, USER, PASSWORD);<br>    <br>    <span class="hljs-comment">// 4、创建邮件</span><br>    MimeMessage message = <span class="hljs-keyword">new</span> MimeMessage(session);<br>    <br>    <span class="hljs-comment">// 邮件消息头</span><br>    message.setFrom(<span class="hljs-keyword">new</span> InternetAddress(MAIL_FROM)); <span class="hljs-comment">// 邮件的发件人</span><br>    message.setRecipient(Message.RecipientType.TO, <span class="hljs-keyword">new</span> InternetAddress(MAIL_TO)); <span class="hljs-comment">// 邮件的收件人</span><br>    message.setRecipient(Message.RecipientType.CC, <span class="hljs-keyword">new</span> InternetAddress(MAIL_CC)); <span class="hljs-comment">// 邮件的抄送人</span><br>    message.setRecipient(Message.RecipientType.BCC, <span class="hljs-keyword">new</span> InternetAddress(MAIL_BCC)); <span class="hljs-comment">// 邮件的密送人</span><br>    message.setSubject(<span class="hljs-string">&quot;测试文本邮件&quot;</span>); <span class="hljs-comment">// 邮件的标题</span><br>    <span class="hljs-comment">// 邮件消息体</span><br>    message.setText(<span class="hljs-string">&quot;shuyanCoding...&quot;</span>);<br>    <br>    <span class="hljs-comment">// 5、发送邮件</span><br>    ts.sendMessage(message, message.getAllRecipients());<br>    ts.close();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-2-发送-HTML-格式的邮件"><a href="#3-2-发送-HTML-格式的邮件" class="headerlink" title="3.2 发送 HTML 格式的邮件"></a>3.2 发送 HTML 格式的邮件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <br>    Properties prop = <span class="hljs-keyword">new</span> Properties();<br>    prop.setProperty(<span class="hljs-string">&quot;mail.debug&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.host&quot;</span>, MAIL_SERVER_HOST);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.transport.protocol&quot;</span>, <span class="hljs-string">&quot;smtp&quot;</span>);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.smtp.auth&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    <br>    <span class="hljs-comment">// 1、创建session</span><br>    Session session = Session.getInstance(prop);<br>    Transport ts = <span class="hljs-keyword">null</span>;<br>    <br>    <span class="hljs-comment">// 2、通过session得到transport对象</span><br>    ts = session.getTransport();<br>    <br>    <span class="hljs-comment">// 3、连上邮件服务器</span><br>    ts.connect(MAIL_SERVER_HOST, USER, PASSWORD);<br>    <br>    <span class="hljs-comment">// 4、创建邮件</span><br>    MimeMessage message = <span class="hljs-keyword">new</span> MimeMessage(session);<br>    <br>    <span class="hljs-comment">// 邮件消息头</span><br>    message.setFrom(<span class="hljs-keyword">new</span> InternetAddress(MAIL_FROM)); 								<span class="hljs-comment">// 邮件的发件人</span><br>    message.setRecipient(Message.RecipientType.TO, <span class="hljs-keyword">new</span> InternetAddress(MAIL_TO)); 	<span class="hljs-comment">// 邮件的收件人</span><br>    message.setRecipient(Message.RecipientType.CC, <span class="hljs-keyword">new</span> InternetAddress(MAIL_CC)); 	<span class="hljs-comment">// 邮件的抄送人</span><br>    message.setRecipient(Message.RecipientType.BCC, <span class="hljs-keyword">new</span> InternetAddress(MAIL_BCC)); <span class="hljs-comment">// 邮件的密送人</span><br>    message.setSubject(<span class="hljs-string">&quot;测试HTML邮件&quot;</span>); 											 <span class="hljs-comment">// 邮件的标题</span><br>    <br>    String htmlContent = <span class="hljs-string">&quot;&lt;h1&gt;Hello&lt;/h1&gt;&quot;</span> + <span class="hljs-string">&quot;&lt;p&gt;显示图片&lt;img src=&#x27;cid:abc.jpg&#x27;&gt;1.jpg&lt;/p&gt;&quot;</span>;<br>    MimeBodyPart text = <span class="hljs-keyword">new</span> MimeBodyPart();<br>    text.setContent(htmlContent, <span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>);<br>    <br>    MimeBodyPart image = <span class="hljs-keyword">new</span> MimeBodyPart();<br>    DataHandler dh = <span class="hljs-keyword">new</span> DataHandler(<span class="hljs-keyword">new</span> FileDataSource(<span class="hljs-string">&quot;D://[04]Temp//img//1.jpg&quot;</span>));<br>    image.setDataHandler(dh);<br>    image.setContentID(<span class="hljs-string">&quot;abc.jpg&quot;</span>);<br>    <br>    <span class="hljs-comment">// 描述数据关系</span><br>    MimeMultipart mm = <span class="hljs-keyword">new</span> MimeMultipart();<br>    mm.addBodyPart(text);<br>    mm.addBodyPart(image);<br>    mm.setSubType(<span class="hljs-string">&quot;related&quot;</span>);<br>    message.setContent(mm);<br>    message.saveChanges();<br>    <br>    <span class="hljs-comment">// 5、发送邮件</span><br>    ts.sendMessage(message, message.getAllRecipients());<br>    ts.close();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-3-发送带附件的邮件"><a href="#3-3-发送带附件的邮件" class="headerlink" title="3.3 发送带附件的邮件"></a>3.3 发送带附件的邮件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <br>    Properties prop = <span class="hljs-keyword">new</span> Properties();<br>    prop.setProperty(<span class="hljs-string">&quot;mail.debug&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.host&quot;</span>, MAIL_SERVER_HOST);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.transport.protocol&quot;</span>, <span class="hljs-string">&quot;smtp&quot;</span>);<br>    prop.setProperty(<span class="hljs-string">&quot;mail.smtp.auth&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    <br>    <span class="hljs-comment">// 1、创建session</span><br>    Session session = Session.getInstance(prop);<br>    Transport ts = <span class="hljs-keyword">null</span>;<br>    <br>    <span class="hljs-comment">// 2、通过session得到transport对象</span><br>    ts = session.getTransport();<br>    <br>    <span class="hljs-comment">// 3、连上邮件服务器</span><br>    ts.connect(MAIL_SERVER_HOST, USER, PASSWORD);<br>    <br>    <span class="hljs-comment">// 4、创建邮件</span><br>    MimeMessage message = <span class="hljs-keyword">new</span> MimeMessage(session);<br>    <br>    <span class="hljs-comment">// 邮件消息头</span><br>    message.setFrom(<span class="hljs-keyword">new</span> InternetAddress(MAIL_FROM)); 								<span class="hljs-comment">// 邮件的发件人</span><br>    message.setRecipient(Message.RecipientType.TO, <span class="hljs-keyword">new</span> InternetAddress(MAIL_TO)); 	<span class="hljs-comment">// 邮件的收件人</span><br>    message.setRecipient(Message.RecipientType.CC, <span class="hljs-keyword">new</span> InternetAddress(MAIL_CC)); 	<span class="hljs-comment">// 邮件的抄送人</span><br>    message.setRecipient(Message.RecipientType.BCC, <span class="hljs-keyword">new</span> InternetAddress(MAIL_BCC)); <span class="hljs-comment">// 邮件的密送人</span><br>    message.setSubject(<span class="hljs-string">&quot;测试带附件邮件&quot;</span>); 												<span class="hljs-comment">// 邮件的标题</span><br>    <br>    MimeBodyPart text = <span class="hljs-keyword">new</span> MimeBodyPart();<br>    text.setContent(<span class="hljs-string">&quot;邮件中有两个附件。&quot;</span>, <span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>);<br>    <br>    <span class="hljs-comment">// 描述数据关系</span><br>    MimeMultipart mm = <span class="hljs-keyword">new</span> MimeMultipart();<br>    mm.setSubType(<span class="hljs-string">&quot;related&quot;</span>);<br>    mm.addBodyPart(text);<br>    String[] files = &#123;<br>        <span class="hljs-string">&quot;D://[04]Temp//img//1.jpg&quot;</span>, <span class="hljs-string">&quot;D://[04]Temp//img//2.jpg&quot;</span><br>    &#125;;<br>    <br>    <span class="hljs-comment">// 添加邮件附件</span><br>    <span class="hljs-keyword">for</span> (String filename : files) &#123;<br>        MimeBodyPart attachPart = <span class="hljs-keyword">new</span> MimeBodyPart();<br>        attachPart.attachFile(filename);<br>        mm.addBodyPart(attachPart);<br>    &#125;<br>    message.setContent(mm);<br>    message.saveChanges();<br>    <br>    <span class="hljs-comment">// 5、发送邮件</span><br>    ts.sendMessage(message, message.getAllRecipients());<br>    ts.close();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-4-获取邮箱中的邮件"><a href="#3-4-获取邮箱中的邮件" class="headerlink" title="3.4 获取邮箱中的邮件"></a>3.4 获取邮箱中的邮件</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">StoreMail</span> </span>&#123;<br>    <br>    <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String USER = <span class="hljs-string">&quot;robot&quot;</span>; <span class="hljs-comment">// 用户名</span><br>    <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String PASSWORD = <span class="hljs-string">&quot;password520&quot;</span>; <span class="hljs-comment">// 密码</span><br>    <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String MAIL_SERVER_HOST = <span class="hljs-string">&quot;mail.***.com&quot;</span>; <span class="hljs-comment">// 邮箱服务器</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String TYPE_HTML = <span class="hljs-string">&quot;text/html;charset=UTF-8&quot;</span>; <span class="hljs-comment">// 文本内容类型</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String MAIL_FROM = <span class="hljs-string">&quot;[email protected]&quot;</span>; <span class="hljs-comment">// 发件人</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String MAIL_TO = <span class="hljs-string">&quot;[email protected]&quot;</span>; <span class="hljs-comment">// 收件人</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String MAIL_CC = <span class="hljs-string">&quot;[email protected]&quot;</span>; <span class="hljs-comment">// 抄送人</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> String MAIL_BCC = <span class="hljs-string">&quot;[email protected]&quot;</span>; <span class="hljs-comment">// 密送人</span><br>   <br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>        <br>        <span class="hljs-comment">// 创建一个有具体连接信息的Properties对象</span><br>        Properties prop = <span class="hljs-keyword">new</span> Properties();<br>        prop.setProperty(<span class="hljs-string">&quot;mail.debug&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>        prop.setProperty(<span class="hljs-string">&quot;mail.store.protocol&quot;</span>, <span class="hljs-string">&quot;pop3&quot;</span>);<br>        prop.setProperty(<span class="hljs-string">&quot;mail.pop3.host&quot;</span>, MAIL_SERVER_HOST);<br>        <br>        <span class="hljs-comment">// 1、创建session</span><br>        Session session = Session.getInstance(prop);<br>        <br>        <span class="hljs-comment">// 2、通过session得到Store对象</span><br>        Store store = session.getStore();<br>        <br>        <span class="hljs-comment">// 3、连上邮件服务器</span><br>        store.connect(MAIL_SERVER_HOST, USER, PASSWORD);<br>        <br>        <span class="hljs-comment">// 4、获得邮箱内的邮件夹</span><br>        Folder folder = store.getFolder(<span class="hljs-string">&quot;inbox&quot;</span>);<br>        folder.open(Folder.READ_ONLY);<br>        <br>        <span class="hljs-comment">// 获得邮件夹Folder内的所有邮件Message对象</span><br>        Message[] messages = folder.getMessages();<br>        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; messages.length; i++) &#123;<br>            String subject = messages[i].getSubject();<br>            String from = (messages[i].getFrom()[<span class="hljs-number">0</span>]).toString();<br>            System.out.println(<span class="hljs-string">&quot;第 &quot;</span> + (i + <span class="hljs-number">1</span>) + <span class="hljs-string">&quot;封邮件的主题：&quot;</span> + subject);<br>            System.out.println(<span class="hljs-string">&quot;第 &quot;</span> + (i + <span class="hljs-number">1</span>) + <span class="hljs-string">&quot;封邮件的发件人地址：&quot;</span> + from);<br>        &#125;<br>        <br>        <span class="hljs-comment">// 5、关闭</span><br>        folder.close(<span class="hljs-keyword">false</span>);<br>        store.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-5-转发邮件"><a href="#3-5-转发邮件" class="headerlink" title="3.5 转发邮件"></a>3.5 转发邮件</h2><p>例：获取指定邮件夹下的第一封邮件并转发</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;<br>    <br>    Properties prop = <span class="hljs-keyword">new</span> Properties();<br>    prop.put(<span class="hljs-string">&quot;mail.store.protocol&quot;</span>, <span class="hljs-string">&quot;pop3&quot;</span>);<br>    prop.put(<span class="hljs-string">&quot;mail.pop3.host&quot;</span>, MAIL_SERVER_HOST);<br>    prop.put(<span class="hljs-string">&quot;mail.pop3.starttls.enable&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    prop.put(<span class="hljs-string">&quot;mail.smtp.auth&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>    prop.put(<span class="hljs-string">&quot;mail.smtp.host&quot;</span>, MAIL_SERVER_HOST);<br>    <br>    <span class="hljs-comment">// 1、创建session</span><br>    Session session = Session.getDefaultInstance(prop);<br>    <br>    <span class="hljs-comment">// 2、读取邮件夹</span><br>    Store store = session.getStore(<span class="hljs-string">&quot;pop3&quot;</span>);<br>    store.connect(MAIL_SERVER_HOST, USER, PASSWORD);<br>    Folder folder = store.getFolder(<span class="hljs-string">&quot;inbox&quot;</span>);<br>    folder.open(Folder.READ_ONLY);<br>    <br>    <span class="hljs-comment">// 获取邮件夹中第1封邮件信息</span><br>    Message[] messages = folder.getMessages();<br>    <span class="hljs-keyword">if</span> (messages.length &lt;= <span class="hljs-number">0</span>) &#123;<br>        <span class="hljs-keyword">return</span>;<br>    &#125;<br>    Message message = messages[<span class="hljs-number">0</span>];<br>    <br>    <span class="hljs-comment">// 打印邮件关键信息</span><br>    String from = InternetAddress.toString(message.getFrom());<br>    <span class="hljs-keyword">if</span> (from != <span class="hljs-keyword">null</span>) &#123;<br>        System.out.println(<span class="hljs-string">&quot;From: &quot;</span> + from);<br>    &#125;<br>    String replyTo = InternetAddress.toString(message.getReplyTo());<br>    <span class="hljs-keyword">if</span> (replyTo != <span class="hljs-keyword">null</span>) &#123;<br>        System.out.println(<span class="hljs-string">&quot;Reply-to: &quot;</span> + replyTo);<br>    &#125;<br>    String to = InternetAddress.toString(message.getRecipients(Message.RecipientType.TO));<br>    <span class="hljs-keyword">if</span> (to != <span class="hljs-keyword">null</span>) &#123;<br>        System.out.println(<span class="hljs-string">&quot;To: &quot;</span> + to);<br>    &#125;<br>    String subject = message.getSubject();<br>    <span class="hljs-keyword">if</span> (subject != <span class="hljs-keyword">null</span>) &#123;<br>        System.out.println(<span class="hljs-string">&quot;Subject: &quot;</span> + subject);<br>    &#125;<br>    Date sent = message.getSentDate();<br>    <span class="hljs-keyword">if</span> (sent != <span class="hljs-keyword">null</span>) &#123;<br>        System.out.println(<span class="hljs-string">&quot;Sent: &quot;</span> + sent);<br>    &#125;<br>    <br>    <span class="hljs-comment">// 设置转发邮件信息头</span><br>    Message forward = <span class="hljs-keyword">new</span> MimeMessage(session);<br>    forward.setFrom(<span class="hljs-keyword">new</span> InternetAddress(MAIL_FROM));<br>    forward.setRecipient(Message.RecipientType.TO, <span class="hljs-keyword">new</span> InternetAddress(MAIL_TO));<br>    forward.setSubject(<span class="hljs-string">&quot;Fwd: &quot;</span> + message.getSubject());<br>    <br>    <span class="hljs-comment">// 设置转发邮件内容</span><br>    MimeBodyPart bodyPart = <span class="hljs-keyword">new</span> MimeBodyPart();<br>    bodyPart.setContent(message, <span class="hljs-string">&quot;message/rfc822&quot;</span>);<br>    Multipart multipart = <span class="hljs-keyword">new</span> MimeMultipart();<br>    multipart.addBodyPart(bodyPart);<br>    forward.setContent(multipart);<br>    forward.saveChanges();<br>    Transport ts = session.getTransport(<span class="hljs-string">&quot;smtp&quot;</span>);<br>    ts.connect(USER, PASSWORD);<br>    ts.sendMessage(forward, forward.getAllRecipients());<br>    folder.close(<span class="hljs-keyword">false</span>);<br>    store.close();<br>    <br>    ts.close();<br>    System.out.println(<span class="hljs-string">&quot;message forwarded successfully....&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-6-收发完整示例"><a href="#3-6-收发完整示例" class="headerlink" title="3.6 收发完整示例"></a>3.6 收发完整示例</h2><h3 id="3-6-1-邮件服务器-MailServer-java"><a href="#3-6-1-邮件服务器-MailServer-java" class="headerlink" title="3.6.1 邮件服务器 MailServer.java"></a>3.6.1 邮件服务器 MailServer.java</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.List;<br><span class="hljs-keyword">import</span> java.util.Properties;<br> <br><span class="hljs-keyword">import</span> javax.mail.Authenticator;<br><span class="hljs-keyword">import</span> javax.mail.MessagingException;<br><span class="hljs-keyword">import</span> javax.mail.PasswordAuthentication;<br><span class="hljs-keyword">import</span> javax.mail.Session;<br><span class="hljs-keyword">import</span> javax.mail.Transport;<br><span class="hljs-keyword">import</span> javax.mail.internet.AddressException;<br><span class="hljs-keyword">import</span> javax.mail.internet.InternetAddress;<br><span class="hljs-keyword">import</span> javax.mail.internet.MimeMessage;<br><span class="hljs-keyword">import</span> javax.mail.internet.MimeMessage.RecipientType;<br> <br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 简单邮件发送器，可单发，群发。</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailServer</span> </span>&#123;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 发送邮件的props文件</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">transient</span> Properties props = System.getProperties();<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 邮件服务器登录验证</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> MailAuthenticator authenticator;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 邮箱session</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">transient</span> Session session;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 初始化邮件发送器</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> smtpHostName SMTP邮件服务器地址</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> username 发送邮件的用户名(地址)</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> password 发送邮件的密码</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MailServer</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String smtpHostName, <span class="hljs-keyword">final</span> String username,</span></span><br><span class="hljs-params"><span class="hljs-function">			<span class="hljs-keyword">final</span> String password)</span> </span>&#123;<br>		init(username, password, smtpHostName);<br>	&#125;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 初始化邮件发送器</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> username 发送邮件的用户名(地址)，并以此解析SMTP服务器地址</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> password 发送邮件的密码</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MailServer</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String username, <span class="hljs-keyword">final</span> String password)</span> </span>&#123;<br>		<span class="hljs-comment">// 通过邮箱地址解析出smtp服务器，对大多数邮箱都管用</span><br>		<span class="hljs-keyword">final</span> String smtpHostName = <span class="hljs-string">&quot;smtp.&quot;</span> + username.split(<span class="hljs-string">&quot;@&quot;</span>)[<span class="hljs-number">1</span>];<br>		init(username, password, smtpHostName);<br> <br>	&#125;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 初始化</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> username 发送邮件的用户名(地址)</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> password 密码</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> smtpHostName SMTP主机地址</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(String username, String password, String smtpHostName)</span> </span>&#123;<br>		<span class="hljs-comment">// 初始化props</span><br>		props.put(<span class="hljs-string">&quot;mail.smtp.auth&quot;</span>, <span class="hljs-string">&quot;true&quot;</span>);<br>		props.put(<span class="hljs-string">&quot;mail.smtp.host&quot;</span>, smtpHostName);<br>		<span class="hljs-keyword">if</span>(smtpHostName==<span class="hljs-keyword">null</span>)props.put(<span class="hljs-string">&quot;mail.smtp.host&quot;</span>, smtpHostName);<br>		<span class="hljs-comment">// 验证</span><br>		authenticator = <span class="hljs-keyword">new</span> MailAuthenticator(username, password);<br>		<span class="hljs-comment">// 创建session</span><br>		session = Session.getInstance(props, authenticator);<br>	&#125;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 发送邮件</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> recipient 收件人邮箱地址</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> subject 邮件主题</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> content 邮件内容</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@throws</span> AddressException</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@throws</span> MessagingException</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">send</span><span class="hljs-params">(String recipient, String subject, Object content)</span></span><br><span class="hljs-function">			<span class="hljs-keyword">throws</span> AddressException, MessagingException </span>&#123;<br>		<span class="hljs-comment">// 创建mime类型邮件</span><br>		<span class="hljs-keyword">final</span> MimeMessage message = <span class="hljs-keyword">new</span> MimeMessage(session);<br>		<span class="hljs-comment">// 设置发信人</span><br>		message.setFrom(<span class="hljs-keyword">new</span> InternetAddress(authenticator.getUsername()));<br>		<span class="hljs-comment">// 设置收件人</span><br>		<span class="hljs-keyword">if</span>(recipient!=<span class="hljs-keyword">null</span>&amp;&amp;recipient.indexOf(<span class="hljs-string">&quot;;&quot;</span>)!=-<span class="hljs-number">1</span>)&#123;<br>			<span class="hljs-comment">//多收件人</span><br>			String[] rec = recipient.split(<span class="hljs-string">&quot;;&quot;</span>);<br>			<span class="hljs-keyword">int</span> len = rec.length;<br>			InternetAddress[] iad = <span class="hljs-keyword">new</span> InternetAddress[len];<br>			<span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;len; i++)&#123;<br>				iad[i] =  <span class="hljs-keyword">new</span> InternetAddress(rec[i]);<br>			&#125;<br>			message.setRecipients(RecipientType.TO, iad);<br>		&#125;<span class="hljs-keyword">else</span>&#123;<br>			<span class="hljs-comment">//单收件人</span><br>			message.setRecipient(RecipientType.TO, <span class="hljs-keyword">new</span> InternetAddress(recipient));<br>		&#125;<br>		<span class="hljs-comment">// 设置主题</span><br>		message.setSubject(subject);<br>		<span class="hljs-comment">// 设置邮件内容</span><br>		message.setContent(content.toString(), <span class="hljs-string">&quot;text/html;charset=utf-8&quot;</span>);<br><span class="hljs-comment">//		message.setText(content.toString(), &quot;GBK&quot;);</span><br>		<span class="hljs-comment">// 发送</span><br>		Transport.send(message);<br>	&#125;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 群发邮件</span><br><span class="hljs-comment">	 * </span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> recipients 收件人们</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> subject 主题</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> content 内容</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@throws</span> AddressException</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@throws</span> MessagingException</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">send</span><span class="hljs-params">(List&lt;String&gt; recipients, String subject, Object content)</span></span><br><span class="hljs-function">			<span class="hljs-keyword">throws</span> AddressException, MessagingException </span>&#123;<br>		<span class="hljs-comment">// 创建mime类型邮件</span><br>		<span class="hljs-keyword">final</span> MimeMessage message = <span class="hljs-keyword">new</span> MimeMessage(session);<br>		<span class="hljs-comment">// 设置发信人</span><br>		message.setFrom(<span class="hljs-keyword">new</span> InternetAddress(authenticator.getUsername()));<br>		<span class="hljs-comment">// 设置收件人们</span><br>		<span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> num = recipients.size();<br>		InternetAddress[] addresses = <span class="hljs-keyword">new</span> InternetAddress[num];<br>		<span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; num; i++) &#123;<br>			addresses[i] = <span class="hljs-keyword">new</span> InternetAddress(recipients.get(i));<br>		&#125;<br>		message.setRecipients(RecipientType.TO, addresses);<br>		<span class="hljs-comment">// 设置主题</span><br>		message.setSubject(subject);<br>		<span class="hljs-comment">// 设置邮件内容</span><br>		message.setContent(content.toString(), <span class="hljs-string">&quot;text/html;charset=utf-8&quot;</span>);<br>		<span class="hljs-comment">// 发送</span><br>		Transport.send(message);<br>	&#125;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * 服务器邮箱登录验证 </span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailAuthenticator</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Authenticator</span> </span>&#123;<br> <br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * 用户名（登录邮箱）</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">private</span> String username;<br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * 密码</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-keyword">private</span> String password;<br> <br>		<span class="hljs-comment">/**</span><br><span class="hljs-comment">		 * 初始化邮箱和密码</span><br><span class="hljs-comment">		 * </span><br><span class="hljs-comment">		 * <span class="hljs-doctag">@param</span> username 邮箱</span><br><span class="hljs-comment">		 * <span class="hljs-doctag">@param</span> password 密码</span><br><span class="hljs-comment">		 */</span><br>		<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MailAuthenticator</span><span class="hljs-params">(String username, String password)</span> </span>&#123;<br>			<span class="hljs-keyword">this</span>.username = username;<br>			<span class="hljs-keyword">this</span>.password = password;<br>		&#125;<br> <br>		<span class="hljs-function">String <span class="hljs-title">getPassword</span><span class="hljs-params">()</span> </span>&#123;<br>			<span class="hljs-keyword">return</span> password;<br>		&#125;<br> <br>		<span class="hljs-meta">@Override</span><br>		<span class="hljs-function"><span class="hljs-keyword">protected</span> PasswordAuthentication <span class="hljs-title">getPasswordAuthentication</span><span class="hljs-params">()</span> </span>&#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> PasswordAuthentication(username, password);<br>		&#125;<br> <br>		<span class="hljs-function">String <span class="hljs-title">getUsername</span><span class="hljs-params">()</span> </span>&#123;<br>			<span class="hljs-keyword">return</span> username;<br>		&#125;<br> <br>		<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPassword</span><span class="hljs-params">(String password)</span> </span>&#123;<br>			<span class="hljs-keyword">this</span>.password = password;<br>		&#125;<br> <br>		<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUsername</span><span class="hljs-params">(String username)</span> </span>&#123;<br>			<span class="hljs-keyword">this</span>.username = username;<br>		&#125;<br> <br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="3-6-2-SendClient"><a href="#3-6-2-SendClient" class="headerlink" title="3.6.2 SendClient"></a>3.6.2 SendClient</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.mail.MessagingException;<br><span class="hljs-keyword">import</span> javax.mail.internet.AddressException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailSender</span> </span>&#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 服务邮箱</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> MailServer mailServer = <span class="hljs-keyword">null</span>;<br> <br>	<span class="hljs-comment">//</span><br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String userName;<br> <br>	<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String password;<br> <br>	<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String stmp;<br> <br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> userName the userName to set</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUserName</span><span class="hljs-params">(String userName)</span> </span>&#123;<br>		<span class="hljs-keyword">if</span>(MailSender.userName==<span class="hljs-keyword">null</span>)<br>			MailSender.userName = userName;<br>	&#125;<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> password the password to set</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setPassword</span><span class="hljs-params">(String password)</span> </span>&#123;<br>		<span class="hljs-keyword">if</span>(MailSender.password==<span class="hljs-keyword">null</span>)<br>			MailSender.password = password;<br>	&#125;<br>	<span class="hljs-comment">/**</span><br><span class="hljs-comment">	 * <span class="hljs-doctag">@param</span> stmp the stmp to set</span><br><span class="hljs-comment">	 */</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setStmp</span><span class="hljs-params">(String stmp)</span> </span>&#123;<br>		<span class="hljs-keyword">if</span>(MailSender.stmp==<span class="hljs-keyword">null</span>)<br>			MailSender.stmp = stmp;<br>	&#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用默认的用户名和密码发送邮件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> recipient</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> subject</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> content</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> MessagingException </span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> AddressException </span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendHtml</span><span class="hljs-params">(String recipient, String subject, Object content)</span> <span class="hljs-keyword">throws</span> AddressException, MessagingException</span>&#123;<br>    	<span class="hljs-keyword">if</span> (mailServer == <span class="hljs-keyword">null</span>) <br>        	mailServer = <span class="hljs-keyword">new</span> MailServer(stmp,userName,password);<br>    	mailServer.send(recipient, subject, content);<br>    &#125;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 使用指定的用户名和密码发送邮件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> server</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> password</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> recipient</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> subject</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> content</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> MessagingException </span><br><span class="hljs-comment">     * <span class="hljs-doctag">@throws</span> AddressException </span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendHtml</span><span class="hljs-params">(String server,String password,String stmpIp, String recipient, String subject, Object content)</span> <span class="hljs-keyword">throws</span> AddressException, MessagingException</span>&#123;<br>    	 <span class="hljs-keyword">new</span> MailServer(stmpIp,server,password).send(recipient, subject, content);<br>    &#125;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(String[] args)</span> </span>&#123;<br>    	<span class="hljs-keyword">try</span> &#123;<br>    		String s = <span class="hljs-string">&quot;ceshi2:&lt;br/&gt;您好,我在给你们演示发邮件看见了没.&quot;</span>;<br>			sendHtml(<span class="hljs-string">&quot;humf@vip.qq.com&quot;</span>,<span class="hljs-string">&quot;password&quot;</span>,<span class="hljs-string">&quot;IP&quot;</span>, <span class="hljs-string">&quot;humf@vip.qq.com&quot;</span>, <span class="hljs-string">&quot;我是是是&quot;</span>, s);<br>		&#125; <span class="hljs-keyword">catch</span> (AddressException e) &#123;<br>			<span class="hljs-comment">// TODO Auto-generated catch block</span><br>			e.printStackTrace();<br>		&#125; <span class="hljs-keyword">catch</span> (MessagingException e) &#123;<br>			<span class="hljs-comment">// TODO Auto-generated catch block</span><br>			e.printStackTrace();<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="四、Spring实现mail"><a href="#四、Spring实现mail" class="headerlink" title="四、Spring实现mail"></a>四、Spring实现mail</h1><p> 在多数的企业中采用了MQ的消费模式来进行处理。这里对于应用级别未达到使用tasker+redis实现邮件重发。具体实现：如果邮件发送出现异常，就将该条记录存储到Redis中，定时任务查询，如果有就发送，发送正常就删除该条K。</p>
+<h2 id="4-1-pom引入"><a href="#4-1-pom引入" class="headerlink" title="4.1 pom引入"></a>4.1 pom引入</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs xml"> <span class="hljs-comment">&lt;!--springboot为2.0.6--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-mail<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span><br> <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="4-2-yml配置"><a href="#4-2-yml配置" class="headerlink" title="4.2 yml配置"></a>4.2 yml配置</h2><figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-meta">spring.mail.host</span>=<span class="hljs-string">smtp.qq.com   </span><br><span class="hljs-meta">spring.mail.password</span>=<span class="hljs-string">123455</span><br><span class="hljs-meta">spring.mail.username</span>=<span class="hljs-string">123456@qq.com</span><br><span class="hljs-meta">spring.mail.properties.mail.smtp.auth</span>=<span class="hljs-string">true</span><br><span class="hljs-meta">spring.mail.properties.mail.smtp.starttls.enable</span>=<span class="hljs-string">true</span><br><span class="hljs-meta">spring.mail.properties.mail.smtp.starttls.required</span>=<span class="hljs-string">true</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-3-方法接口"><a href="#4-3-方法接口" class="headerlink" title="4.3 方法接口"></a>4.3 方法接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">import</span> org.slf4j.Logger;<br><span class="hljs-keyword">import</span> org.slf4j.LoggerFactory;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.mail.MailProperties;<br><span class="hljs-keyword">import</span> org.springframework.core.io.FileSystemResource;<br><span class="hljs-keyword">import</span> org.springframework.mail.SimpleMailMessage;<br><span class="hljs-keyword">import</span> org.springframework.mail.javamail.JavaMailSender;<br><span class="hljs-keyword">import</span> org.springframework.mail.javamail.MimeMessageHelper;<br><span class="hljs-keyword">import</span> org.springframework.scheduling.annotation.Async;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br> <br><span class="hljs-keyword">import</span> com.config.mail.model.MyMailProperties;<br><span class="hljs-keyword">import</span> com.config.mail.service.MailConService;<br> <br><span class="hljs-keyword">import</span> javax.mail.internet.MimeMessage;<br> <br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 实现类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-meta">@Service</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailConServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">MailConService</span> </span>&#123;<br> <br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">static</span> Logger logger = LoggerFactory.getLogger(MailConServiceImpl.class);<br> <br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> MailProperties mailProperties;<br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> JavaMailSender javaMailSender;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 发送简单文本的邮件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> to</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> subject</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> content</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">send</span><span class="hljs-params">(String to, String subject, String content)</span> </span>&#123;<br>        logger.info(<span class="hljs-string">&quot;## Ready to send mail ...&quot;</span>);<br> <br>        SimpleMailMessage simpleMailMessage = <span class="hljs-keyword">new</span> SimpleMailMessage();<br>        <br>        <span class="hljs-comment">// 邮件发送来源</span><br>        simpleMailMessage.setFrom(mailProperties.getUsername());<br>        <br>        <span class="hljs-comment">// 邮件发送目标</span><br>        simpleMailMessage.setTo(to);<br>        <br>        <span class="hljs-comment">// 设置标题</span><br>        simpleMailMessage.setSubject(subject);<br>        <br>        <span class="hljs-comment">// 设置内容</span><br>        simpleMailMessage.setText(content);<br> <br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 发送</span><br>            javaMailSender.send(simpleMailMessage);<br>            logger.info(<span class="hljs-string">&quot;=====================&gt;Send the mail success ...&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            logger.error(<span class="hljs-string">&quot;Send mail error: &quot;</span>, e);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br> <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br> <br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-meta">@Async(&quot;taskExecutor&quot;)</span><br>	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendToSome</span><span class="hljs-params">(String[] tos, String subject, String content)</span> </span>&#123;<br>		<span class="hljs-keyword">for</span>(String snedTo:tos) &#123;<br>			<span class="hljs-keyword">this</span>.send(snedTo, subject, content);<br>		&#125;<br>		<span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>	&#125;<br>    <br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 发送 html 的邮件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> to</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> subject</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> html</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendWithHtml</span><span class="hljs-params">(String to, String subject, String html)</span> </span>&#123;<br>        logger.info(<span class="hljs-string">&quot;## Ready to send mail ...&quot;</span>);<br>        MimeMessage mimeMessage = javaMailSender.createMimeMessage();<br> <br>        MimeMessageHelper mimeMessageHelper = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            mimeMessageHelper = <span class="hljs-keyword">new</span> MimeMessageHelper(mimeMessage, <span class="hljs-keyword">true</span>);<br>            <span class="hljs-comment">// 邮件发送来源</span><br>            mimeMessageHelper.setFrom(mailProperties.getUsername());<br>            <span class="hljs-comment">// 邮件发送目标</span><br>            mimeMessageHelper.setTo(to);<br>            <span class="hljs-comment">// 设置标题</span><br>            mimeMessageHelper.setSubject(subject);<br>            <span class="hljs-comment">// 设置内容，并设置内容 html 格式为 true</span><br>            mimeMessageHelper.setText(html, <span class="hljs-keyword">true</span>);<br> <br>            javaMailSender.send(mimeMessage);<br>            logger.info(<span class="hljs-string">&quot;## Send the mail with html success ...&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>            logger.error(<span class="hljs-string">&quot;Send html mail error: &quot;</span>, e);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br><br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 发送带有图片的 html 的邮件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> to</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> subject</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> html</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> cids</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> filePaths</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendWithImageHtml</span><span class="hljs-params">(String to, String subject, String html, String[] cids, String[] filePaths)</span> </span>&#123;<br>        logger.info(<span class="hljs-string">&quot;## Ready to send mail ...&quot;</span>);<br>        MimeMessage mimeMessage = javaMailSender.createMimeMessage();<br> <br>        MimeMessageHelper mimeMessageHelper = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            mimeMessageHelper = <span class="hljs-keyword">new</span> MimeMessageHelper(mimeMessage, <span class="hljs-keyword">true</span>);<br>            <span class="hljs-comment">// 邮件发送来源</span><br>            mimeMessageHelper.setFrom(mailProperties.getUsername());<br>            <span class="hljs-comment">// 邮件发送目标</span><br>            mimeMessageHelper.setTo(to);<br>            <span class="hljs-comment">// 设置标题</span><br>            mimeMessageHelper.setSubject(subject);<br>            <span class="hljs-comment">// 设置内容，并设置内容 html 格式为 true</span><br>            mimeMessageHelper.setText(html, <span class="hljs-keyword">true</span>);<br> <br>            <span class="hljs-comment">// 设置 html 中内联的图片</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; cids.length; i++) &#123;<br>                FileSystemResource file = <span class="hljs-keyword">new</span> FileSystemResource(filePaths[i]);<br>                mimeMessageHelper.addInline(cids[i], file);<br>            &#125;<br> <br>            javaMailSender.send(mimeMessage);<br>            logger.info(<span class="hljs-string">&quot;## Send the mail with image success ...&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            e.printStackTrace();<br>            logger.error(<span class="hljs-string">&quot;Send html mail error: &quot;</span>, e);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br> <br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 发送带有附件的邮件</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> to</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> subject</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> content</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> filePaths</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span></span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendWithWithEnclosure</span><span class="hljs-params">(String to, String subject, String content, String[] filePaths)</span> </span>&#123;<br>        logger.info(<span class="hljs-string">&quot;## Ready to send mail ...&quot;</span>);<br>        MimeMessage mimeMessage = javaMailSender.createMimeMessage();<br> <br>        MimeMessageHelper mimeMessageHelper = <span class="hljs-keyword">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            mimeMessageHelper = <span class="hljs-keyword">new</span> MimeMessageHelper(mimeMessage, <span class="hljs-keyword">true</span>);<br>            <span class="hljs-comment">// 邮件发送来源</span><br>            mimeMessageHelper.setFrom(mailProperties.getUsername());<br>            <span class="hljs-comment">// 邮件发送目标</span><br>            mimeMessageHelper.setTo(to);<br>            <span class="hljs-comment">// 设置标题</span><br>            mimeMessageHelper.setSubject(subject);<br>            <span class="hljs-comment">// 设置内容</span><br>            mimeMessageHelper.setText(content);<br> <br>            <span class="hljs-comment">// 添加附件</span><br>            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; filePaths.length; i++) &#123;<br>                FileSystemResource file = <span class="hljs-keyword">new</span> FileSystemResource(filePaths[i]);<br>                String attachementFileName = <span class="hljs-string">&quot;附件&quot;</span> + (i + <span class="hljs-number">1</span>);<br>                mimeMessageHelper.addAttachment(attachementFileName, file);<br>            &#125;<br> <br>            javaMailSender.send(mimeMessage);<br>            logger.info(<span class="hljs-string">&quot;## Send the mail with enclosure success ...&quot;</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>            logger.error(<span class="hljs-string">&quot;Send html mail error: &quot;</span>, e);<br>            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;<br>    &#125;	<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-4-测试用例"><a href="#4-4-测试用例" class="headerlink" title="4.4 测试用例"></a>4.4 测试用例</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><code class="hljs java"> <br><span class="hljs-keyword">import</span> org.junit.Assert;<br><span class="hljs-keyword">import</span> org.junit.Test;<br><span class="hljs-keyword">import</span> org.junit.runner.RunWith;<br><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;<br><span class="hljs-keyword">import</span> org.springframework.boot.test.context.SpringBootTest;<br><span class="hljs-keyword">import</span> org.springframework.test.context.ContextConfiguration;<br><span class="hljs-keyword">import</span> org.springframework.test.context.junit4.SpringRunner;<br> <br><span class="hljs-keyword">import</span> com.Application;<br><span class="hljs-keyword">import</span> com.config.mail.service.MailConService;<br> <br><span class="hljs-meta">@RunWith(SpringRunner.class)</span><br><span class="hljs-meta">@SpringBootTest</span><br><span class="hljs-meta">@ContextConfiguration(classes = Application.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailTests</span> </span>&#123;<br> <br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> MailConService  mailService;<br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 测试简单文本邮件发送</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">send</span><span class="hljs-params">()</span> </span>&#123;<br>        String to = <span class="hljs-string">&quot;123456@qq.com&quot;</span>;<br>        String title = <span class="hljs-string">&quot;标题: 简单文本邮件发送测试&quot;</span>;<br>        String content = <span class="hljs-string">&quot;简单文本 ...&quot;</span>;<br>        Assert.assertTrue(mailService.send(to, title, content));<br>    &#125;<br> <br><span class="hljs-comment">//    /**</span><br><span class="hljs-comment">//     * 测试html邮件发送</span><br><span class="hljs-comment">//     */</span><br><span class="hljs-comment">//    @Test</span><br><span class="hljs-comment">//    public void sendHtml() &#123;</span><br><span class="hljs-comment">//        String to = &quot;123456@qq.com&quot;;</span><br><span class="hljs-comment">//        String title = &quot;标题: html邮件发送测试&quot;;</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//        String htmlContent = &quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;欢迎关注微信公众号: 小哈学Java&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;;</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//        Assert.assertTrue(mailService.sendWithHtml(to, title, htmlContent));</span><br><span class="hljs-comment">//    &#125;</span><br> <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 测试html邮件发送</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@Test</span><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendImageHtml</span><span class="hljs-params">()</span> </span>&#123;<br>        String to = <span class="hljs-string">&quot;123456@qq.com&quot;</span>;<br>        String title = <span class="hljs-string">&quot;标题: 带图片的html邮件发送测试&quot;</span>;<br> <br>        String htmlContent = <span class="hljs-string">&quot;&lt;html&gt;&lt;body&gt;&quot;</span> +<br>                <span class="hljs-string">&quot;&lt;h1&gt;欢迎关注微信公众号: 小哈学Java&lt;/h1&gt;&quot;</span> +<br>                <span class="hljs-string">&quot;&lt;p&gt;&lt;h2 style=&#x27;color: red;&#x27;&gt;图片1&lt;/h2&gt;&lt;img style=&#x27;width: 280px; height: 280px;&#x27; src=&#x27;cid:test&#x27;&gt;&lt;/p&gt;&quot;</span> +<br>                <span class="hljs-string">&quot;&lt;p&gt;&lt;h2 style=&#x27;color: red;&#x27;&gt;图片2&lt;/h2&gt;&lt;img style=&#x27;width: 280px; height: 280px;&#x27; src=&#x27;cid:test2&#x27;&gt;&lt;/p&gt;&quot;</span> +<br>                <span class="hljs-string">&quot;&lt;/body&gt;&lt;/html&gt;&quot;</span>;<br> <br>        <span class="hljs-comment">// cid 要与上面 html 中的 cid 对应，否则设置图片不成功</span><br>        String[] cids = <span class="hljs-keyword">new</span> String[]&#123;<br>                <span class="hljs-string">&quot;test&quot;</span>,<br>               <br>        &#125;;<br> <br>        <span class="hljs-comment">// 文件路径</span><br>        String[] filePaths = <span class="hljs-keyword">new</span> String[]&#123;<br>                <span class="hljs-string">&quot;D:\\1.jpg&quot;</span>,<br>               <br>        &#125;;<br> <br>        Assert.assertTrue(mailService.sendWithImageHtml(to, title, htmlContent, cids, filePaths));<br>    &#125;<br> <br><span class="hljs-comment">//    /**</span><br><span class="hljs-comment">//     * 测试添加附件的邮件发送</span><br><span class="hljs-comment">//     */</span><br><span class="hljs-comment">//    @Test</span><br><span class="hljs-comment">//    public void sendWithWithEnclosure() &#123;</span><br><span class="hljs-comment">//        String to = &quot;123456@qq.com&quot;;</span><br><span class="hljs-comment">//        String title = &quot;标题: 带有附件的邮件发送测试&quot;;</span><br><span class="hljs-comment">//        String content = &quot;带有附件的邮件发送测试&quot;;</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//        // 添加两个附件</span><br><span class="hljs-comment">//        String[] filePaths = new String[]&#123;</span><br><span class="hljs-comment">//                &quot;D:\\1.jpg&quot;</span><br><span class="hljs-comment">//               </span><br><span class="hljs-comment">//        &#125;;</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//        Assert.assertTrue(mailService.sendWithWithEnclosure(to, title, content, filePaths));</span><br><span class="hljs-comment">//    &#125;</span><br> <br> <br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-5-自定义加载数据库中的发送人信息"><a href="#4-5-自定义加载数据库中的发送人信息" class="headerlink" title="4.5 自定义加载数据库中的发送人信息"></a>4.5 自定义加载数据库中的发送人信息</h2><p> 一般企业级邮箱，都是用的企业邮箱来发送的，那么配置文件中写死了也没有关系，但是如果我们需要后面在数据库中动态配置发送人邮箱，怎么办？我们来看一下源码，这方法视线中有这样一个Bean：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Autowired</span><br><span class="hljs-keyword">private</span> MailProperties mailProperties;<br></code></pre></td></tr></table></figure>
+
+<p>这个bean的源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ConfigrationProperties(prefix = &quot;spring.mail&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MailProperties</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Charsetr DEFAULT_CHARSET = StandardCharsets.UTF_8;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * SMTP server host. For instance, smtp.example.com</span><br><span class="hljs-comment">    */</span><br>    <span class="hljs-keyword">private</span> String host;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * SMTP server port.</span><br><span class="hljs-comment">    */</span><br>    <span class="hljs-keyword">private</span> Integer port;<br>    <br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">    * Login user of the SMTP server.</span><br><span class="hljs-comment">    */</span><br>    <span class="hljs-keyword">private</span> String username;<br>        <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其流程是从Yml配置文件中读取spting mail先关的配置信息，那么我们重写一个子类重写其方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-keyword">import</span> org.springframework.boot.autoconfigure.mail.MailProperties;<br><span class="hljs-keyword">import</span> org.springframework.context.annotation.Primary;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Service;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 自定义加载邮箱配置，重写加载配置文件，一般都从数据库读取</span><br><span class="hljs-comment"> */</span><br><br><span class="hljs-meta">@Service</span><br><span class="hljs-meta">@Primary</span><br><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyMailProperties</span> <span class="hljs-keyword">extends</span>  <span class="hljs-title">MailProperties</span> </span>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUsername</span><span class="hljs-params">(String username)</span> </span>&#123;<br>        <span class="hljs-keyword">super</span>.setUsername(<span class="hljs-string">&quot;624046837@163.com&quot;</span>);<br>    &#125;	<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>也可以从数据库或者缓存中加载过来，发送方法接口修改为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//    @Autowired</span><br><span class="hljs-comment">//    private MailProperties mailProperties;</span><br>    <span class="hljs-meta">@Autowired</span><br>    <span class="hljs-keyword">private</span> MyMailProperties  mailProperties;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/06/24/JAVA/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86/%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;JAVA&#x2F;%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86&#x2F;%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;06&#x2F;24&#x2F;JAVA&#x2F;%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E7%9F%A5%E8%AF%86&#x2F;%E5%88%A9%E7%94%A8mail%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/">JAVA</a><a class="nexmoefont icon-appstore-fill -link" href="/categories/JAVA/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/JAVA/" rel="tag">JAVA</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E9%82%AE%E4%BB%B6%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">一、邮件基础概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%92%8C%E7%94%B5%E5%AD%90%E9%82%AE%E7%AE%B1"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 邮件服务器和电子邮箱</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E9%82%AE%E4%BB%B6%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 邮件相关的协议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E7%9A%84%E5%8F%91%E9%80%81%E5%92%8C%E6%8E%A5%E6%94%B6%E8%BF%87%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 电子邮件的发送和接收过程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Java-Mail-API"><span class="toc-number">2.</span> <span class="toc-text">二、Java Mail API</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1%E3%80%81Java-mail-%E4%BC%A0%E8%BE%93%E8%BF%87%E7%A8%8B"><span class="toc-number">2.1.</span> <span class="toc-text">2.1、Java mail 传输过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2%E3%80%81JavaMail-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%B1%BB"><span class="toc-number">2.2.</span> <span class="toc-text">2.2、JavaMail 的核心类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-java-util-Properties-%E7%B1%BB-%E5%B1%9E%E6%80%A7%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 java.util.Properties 类 ( 属性对象 )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2%E3%80%81javax-mail-Session-%E7%B1%BB-%E4%BC%9A%E8%AF%9D%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2、javax.mail.Session 类 ( 会话对象 )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3%E3%80%81javax-mail-Transport-%E7%B1%BB-%E9%82%AE%E4%BB%B6%E4%BC%A0%E8%BE%93"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3、javax.mail.Transport 类 ( 邮件传输 )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-4%E3%80%81javax-mail-Store-%E7%B1%BB-%E9%82%AE%E4%BB%B6%E5%AD%98%E5%82%A8"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.2.4、javax.mail.Store 类 ( 邮件存储 )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-5%E3%80%81javax-mail-Message-%E6%B6%88%E6%81%AF%E5%AF%B9%E8%B1%A1"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.2.5、javax.mail.Message( 消息对象 )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-6%E3%80%81javax-mail-Address-%E5%9C%B0%E5%9D%80"><span class="toc-number">2.2.6.</span> <span class="toc-text">2.2.6、javax.mail.Address( 地址 )</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-7%E3%80%81-Authenticator-%EF%BC%9A%E8%AE%A4%E8%AF%81%E8%80%85"><span class="toc-number">2.2.7.</span> <span class="toc-text">2.2.7、 Authenticator ：认证者</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%94%B6%E5%8F%91%E9%82%AE%E4%BB%B6%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">三、收发邮件代码示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%8F%91%E9%80%81%E6%96%87%E6%9C%AC%E9%82%AE%E4%BB%B6"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 发送文本邮件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E5%8F%91%E9%80%81-HTML-%E6%A0%BC%E5%BC%8F%E7%9A%84%E9%82%AE%E4%BB%B6"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 发送 HTML 格式的邮件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E5%8F%91%E9%80%81%E5%B8%A6%E9%99%84%E4%BB%B6%E7%9A%84%E9%82%AE%E4%BB%B6"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 发送带附件的邮件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E8%8E%B7%E5%8F%96%E9%82%AE%E7%AE%B1%E4%B8%AD%E7%9A%84%E9%82%AE%E4%BB%B6"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 获取邮箱中的邮件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E8%BD%AC%E5%8F%91%E9%82%AE%E4%BB%B6"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 转发邮件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-6-%E6%94%B6%E5%8F%91%E5%AE%8C%E6%95%B4%E7%A4%BA%E4%BE%8B"><span class="toc-number">3.6.</span> <span class="toc-text">3.6 收发完整示例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-1-%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8-MailServer-java"><span class="toc-number">3.6.1.</span> <span class="toc-text">3.6.1 邮件服务器 MailServer.java</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-2-SendClient"><span class="toc-number">3.6.2.</span> <span class="toc-text">3.6.2 SendClient</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Spring%E5%AE%9E%E7%8E%B0mail"><span class="toc-number">4.</span> <span class="toc-text">四、Spring实现mail</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-pom%E5%BC%95%E5%85%A5"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 pom引入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-yml%E9%85%8D%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 yml配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-3-%E6%96%B9%E6%B3%95%E6%8E%A5%E5%8F%A3"><span class="toc-number">4.3.</span> <span class="toc-text">4.3 方法接口</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-4-%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="toc-number">4.4.</span> <span class="toc-text">4.4 测试用例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-5-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E5%8F%91%E9%80%81%E4%BA%BA%E4%BF%A1%E6%81%AF"><span class="toc-number">4.5.</span> <span class="toc-text">4.5 自定义加载数据库中的发送人信息</span></a></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1656085042921"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
