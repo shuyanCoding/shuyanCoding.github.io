@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    
+    <title>联邦学习分类emnist数据集 - Shuyan</title>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    
+    
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <meta name="description" content="项目介绍使用联邦学习算法对 emnist 数据集进行分类。 首先要先明确一个知识点，就是修饰符 @tff.tf_computation 和 @tff.federated_computation 的区别：  tensorflow_federated (TFF) 操作处理的是联邦值； 每个联邦值都有一个联邦类型，联邦类型包括 type (如 tf.float32) 和 placement (如 tff">
+<meta property="og:type" content="article">
+<meta property="og:title" content="联邦学习分类emnist数据集">
+<meta property="og:url" content="http://example.com/2022/08/09/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%88%86%E7%B1%BBemnist%E6%95%B0%E6%8D%AE%E9%9B%86/index.html">
+<meta property="og:site_name" content="Shuyan">
+<meta property="og:description" content="项目介绍使用联邦学习算法对 emnist 数据集进行分类。 首先要先明确一个知识点，就是修饰符 @tff.tf_computation 和 @tff.federated_computation 的区别：  tensorflow_federated (TFF) 操作处理的是联邦值； 每个联邦值都有一个联邦类型，联邦类型包括 type (如 tf.float32) 和 placement (如 tff">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-08-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-08-09T14:23:17.546Z">
+<meta property="article:author" content="Shuyan">
+<meta property="article:tag" content="联邦学习">
+<meta name="twitter:card" content="summary">
+    <link rel="stylesheet" href="/lib/jquery.fancybox.min.css?v=1695524863866">
+    
+        <link rel="stylesheet" href="//at.alicdn.com/t/font_1038733_0xvrvpg9c0r.css">
+    
+    <link rel="stylesheet" href="/lib/mdui_043tiny/css/mdui.css?v=1695524863866">
+    <link rel="stylesheet" href="/lib/iconfont/iconfont.css?v=1695524863866">
+    <link rel="stylesheet" href="/css/style.css?v=1695524863866">
+     
+    
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="mdui-drawer-body-left">
+    
+    <div id="nexmoe-background">
+        <div class="nexmoe-bg" style="background-image: url(http://mms0.baidu.com/it/u=2467909075,3604847220&amp;fm=253&amp;app=138&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=801&amp;h=500)"></div>
+        <div class="mdui-appbar mdui-shadow-0">
+            <div class="mdui-toolbar">
+                <a mdui-drawer="{target: '#drawer', swipe: true}" title="menu" class="mdui-btn mdui-btn-icon mdui-ripple"><i class="mdui-icon nexmoefont icon-menu"></i></a>
+                <div class="mdui-toolbar-spacer"></div>
+                <!--<a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">search</i></a>-->
+                <a href="/" title="Shuyan" class="mdui-btn mdui-btn-icon"><img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan"></a>
+            </div>
+        </div>
+    </div>
+    <div id="nexmoe-header">
+        <div class="nexmoe-drawer mdui-drawer" id="drawer">
+    <div class="nexmoe-avatar mdui-ripple">
+        <a href="/" title="Shuyan">
+            <img src="http://mms2.baidu.com/it/u=1730774443,2723245118&amp;fm=253&amp;app=120&amp;f=JPEG&amp;fmt=auto&amp;q=75?w=500&amp;h=500" alt="Shuyan" alt="Shuyan">
+        </a>
+    </div>
+    <div class="nexmoe-count">
+        <div><span>Articles</span>102</div>
+        <div><span>Tags</span>20</div>
+        <div><span>Categories</span>34</div>
+    </div>
+    <div class="nexmoe-list mdui-list" mdui-collapse="{accordion: true}">
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/" title="回到首页">
+            <i class="mdui-list-item-icon nexmoefont icon-home"></i>
+            <div class="mdui-list-item-content">
+                回到首页
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/categories" title="文章归档">
+            <i class="mdui-list-item-icon nexmoefont icon-container"></i>
+            <div class="mdui-list-item-content">
+                文章归档
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/about" title="梦华录">
+            <i class="mdui-list-item-icon nexmoefont icon-info-circle"></i>
+            <div class="mdui-list-item-content">
+                梦华录
+            </div>
+        </a>
+        
+        <a class="nexmoe-list-item mdui-list-item mdui-ripple false" href="/PY.html" title="我的朋友">
+            <i class="mdui-list-item-icon nexmoefont icon-unorderedlist"></i>
+            <div class="mdui-list-item-content">
+                我的朋友
+            </div>
+        </a>
+        
+    </div>
+    <aside id="nexmoe-sidebar">
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-search">
+         
+            <form id="search_form" action_e="https://cn.bing.com/search?q=site:nexmoe.com" onsubmit="return search();">
+                <label><input id="search_value" name="q" type="search" placeholder="Search"></label>
+            </form>
+         
+    </div>
+</div>
+    
+    <div class="nexmoe-widget-wrap">
+    <div class="nexmoe-widget nexmoe-social">
+        <a class="mdui-ripple" href="https://qm.qq.com/cgi-bin/qm/qr?k=rd1wdMWxpIZJe5AIruJkY7xD8d68h031&noverify=0" target="_blank" mdui-tooltip="{content: 'QQ'}" style="color: rgb(249, 174, 8);background-color: rgba(249, 174, 8, .1);">
+            <i class="nexmoefont icon-QQ"></i>
+        </a><a class="mdui-ripple" href="https://space.bilibili.com/400417888" target="_blank" mdui-tooltip="{content: '哔哩哔哩'}" style="color: rgb(231, 106, 141);background-color: rgba(231, 106, 141, .15);">
+            <i class="nexmoefont icon-bilibili"></i>
+        </a><a class="mdui-ripple" href="https://github.com/nexmoe/" target="_blank" mdui-tooltip="{content: 'GitHub'}" style="color: rgb(25, 23, 23);background-color: rgba(25, 23, 23, .15);">
+            <i class="nexmoefont icon-github"></i>
+        </a>
+    </div>
+</div>
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Categories</h3>
+    <div class="nexmoe-widget">
+
+      <ul class="category-list">
+
+        
+
+
+        
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/">C语言</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Docker/">Docker</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/">JAVA</a>
+          <span class="category-list-count">43</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/JavaWeb/">JavaWeb</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/LaTex/">LaTex</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/">Leetcode</a>
+          <span class="category-list-count">21</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Linux/">Linux</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Mybaits/">Mybaits</a>
+          <span class="category-list-count">6</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SSM/">SSM</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/C语言/STL/">STL</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/Spring/">Spring</a>
+          <span class="category-list-count">7</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringBoot/">SpringBoot</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/SpringMVC/">SpringMVC</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/">Spring框架</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/sort/">sort</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Docker”/">“Docker”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JAVA基础知识”/">“JAVA基础知识”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“JVM”/">“JVM”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Nginx”/">“Nginx”</a>
+          <span class="category-list-count">8</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Redis”/">“Redis”</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/Spring框架/“Security”/">“Security”</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/“Spring框架”/">“Spring框架”</a>
+          <span class="category-list-count">22</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/二叉树/">二叉树</a>
+          <span class="category-list-count">4</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/剑指offer/">剑指offer</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/动态规划/">动态规划</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/单链表/">单链表</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/字符串/">字符串</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/数组/">数组</a>
+          <span class="category-list-count">2</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/栈和队列/">栈和队列</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/算法/">算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/线性表/">线性表</a>
+          <span class="category-list-count">3</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/JAVA/网络编程/">网络编程</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/联邦学习/">联邦学习</a>
+          <span class="category-list-count">12</span>
+        </li>
+
+        
+
+        <li class="category-list-item">
+          <a class="category-list-link" href="/categories/Leetcode/贪心算法/">贪心算法</a>
+          <span class="category-list-count">1</span>
+        </li>
+
+        
+      </ul>
+
+    </div>
+  </div>
+
+
+    
+    
+  <div class="nexmoe-widget-wrap">
+    <h3 class="nexmoe-widget-title">Tag Cloud</h3>
+    <div id="randomtagcloud" class="nexmoe-widget tagcloud">
+      <a href="/tags/Docker/" style="font-size: 12.5px;">Docker</a> <a href="/tags/JAVA/" style="font-size: 12.5px;">JAVA</a> <a href="/tags/JVM/" style="font-size: 12.5px;">JVM</a> <a href="/tags/JavaWeb/" style="font-size: 12.5px;">JavaWeb</a> <a href="/tags/LaTex/" style="font-size: 10px;">LaTex</a> <a href="/tags/Leetcode/" style="font-size: 20px;">Leetcode</a> <a href="/tags/Linux/" style="font-size: 11.25px;">Linux</a> <a href="/tags/Mybaits/" style="font-size: 15px;">Mybaits</a> <a href="/tags/Nginx/" style="font-size: 17.5px;">Nginx</a> <a href="/tags/Redis/" style="font-size: 12.5px;">Redis</a> <a href="/tags/SSM/" style="font-size: 10px;">SSM</a> <a href="/tags/STL/" style="font-size: 12.5px;">STL</a> <a href="/tags/Security/" style="font-size: 11.25px;">Security</a> <a href="/tags/Spring/" style="font-size: 16.25px;">Spring</a> <a href="/tags/SpringBoot/" style="font-size: 12.5px;">SpringBoot</a> <a href="/tags/SpringMVC/" style="font-size: 11.25px;">SpringMVC</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" style="font-size: 13.75px;">二叉树</a> <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" style="font-size: 11.25px;">动态规划</a> <a href="/tags/%E6%90%9C%E7%B4%A2/" style="font-size: 11.25px;">搜索</a> <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" style="font-size: 18.75px;">联邦学习</a>
+    </div>
+    
+  </div>
+  <style>
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: rgba(255,78,106,0.8);
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-header .nexmoe-widget-wrap .tagcloud a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta {
+    margin: 25px 0px;
+    font-size: 0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a {
+    border-radius: 20px;
+    padding: 10px 18px;
+    color: #fff;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a .nexmoefont {
+    font-size: 14px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:before,
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta i:before {
+    margin-right: 5px;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+1) {
+    background-color: rgba(255,78,106,0.15);
+    color: #ff4e6a;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+2) {
+    background-color: rgba(255,170,115,0.15);
+    color: #ffaa73;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+3) {
+    background-color: rgba(254,212,102,0.15);
+    color: #fed466;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+4) {
+    background-color: rgba(60,220,130,0.15);
+    color: #3cdc82;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+5) {
+    background-color: rgba(100,220,240,0.15);
+    color: #64dcf0;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+6) {
+    background-color: rgba(100,185,255,0.15);
+    color: #64b9ff;
+    }
+    #nexmoe-content .nexmoe-post .nexmoe-post-meta a:nth-child(7n+7) {
+    background-color: rgba(180,180,255,0.15);
+    color: #b4b4ff;
+    }
+  </style>
+
+
+    
+</aside>
+    <div class="nexmoe-copyright">
+        &copy; 2023 Shuyan
+        Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+        & <a href="https://github.com/theme-nexmoe/hexo-theme-nexmoe" target="_blank">Nexmoe</a>
+        <br><a target="_blank" href=" "><img src="http://mms0.baidu.com/it/u=991445098,3809803602&fm=253&app=138&f=JPEG&fmt=auto&q=75?w=500&h=500" width="100px" ></a><script data-ad-client="ca-pub-2058306854838448" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    </div>
+</div><!-- .nexmoe-drawer -->
+    </div>
+    <div id="nexmoe-content">
+        <div class="nexmoe-primary">
+            <div class="nexmoe-post">
+
+  <article>
+      
+          <div class="nexmoe-post-cover" style="padding-bottom: 62.5%;"> 
+              <img data-src="/img/联邦学习简介.jpg" data-sizes="auto" alt="联邦学习分类emnist数据集" class="lazyload">
+              <h1>联邦学习分类emnist数据集</h1>
+          </div>
+      
+      
+      <div class="nexmoe-post-meta nexmoe-rainbow" style="margin:10px 0!important;">
+    <a><i class="nexmoefont icon-calendar-fill"></i>2022年08月09日</a>
+</div>
+
+      
+
+      <h1 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h1><p>使用联邦学习算法对 emnist 数据集进行分类。</p>
+<p>首先要先明确一个知识点，就是修饰符 <strong>@tff.tf_computation</strong> 和 <strong>@tff.federated_computation</strong> 的区别：</p>
+<ul>
+<li>tensorflow_federated (TFF) 操作处理的是联邦值；</li>
+<li>每个联邦值都有一个联邦类型，联邦类型包括 type (如 tf.float32) 和 placement (如 tff.CLIENTS)；</li>
+<li>联邦值可以被移动（客户端–&gt;服务端），这必须通过 @tff.federated_computation 和一个联邦类型完成；</li>
+<li>传入 @tff.tf_computation 修饰符的参数类型只能是<code>SequenceType</code>, <code>NamedTupleType</code> 和 <code>TensorType</code>中的一种，从 @tff.tf_computation 修饰的函数的 type signatures 中只能看出 type 的变化；</li>
+<li>传入 @tff.federated_computation 修饰符的参数类型可以带 placement，也可以只有 type；</li>
+<li>TF 运算必须在 @tff.tf_computation 中实现，然后再被整合到 @tff.federated_computation 中。</li>
+</ul>
+<p>举例来说：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">tf.float32</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_half</span>(<span class="hljs-params">x</span>):</span><br>    <span class="hljs-keyword">return</span> tf.add(x, <span class="hljs-number">0.5</span>)<br><span class="hljs-built_in">str</span>(add_half.type_signature)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;(float32 -&gt; float32)&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">tff.FederatedType(<span class="hljs-params">tf.float32, tff.CLIENTS</span>)</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_average_temperature</span>(<span class="hljs-params">client_temperatures</span>):</span><br>    <span class="hljs-keyword">return</span> tff.federated_mean(client_temperatures)<br><span class="hljs-built_in">str</span>(get_average_temperature.type_signature)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;(&#123;float32&#125;@CLIENTS -&gt; float32@SERVER)&#x27;</span><br></code></pre></td></tr></table></figure>
+
+
+<p>这表明 get_average_temperature() 这个函数的输入是 {float32}@CLIENTS，输出是 {float32}@SERVER，@ 后面的称为 placements。</p>
+<p>另外，传入 @tff.tf_computation 的只需要数据类型 type，而传入 @tff.federated_computation 的需要联邦类型，即 type 和 placement。</p>
+<h1 id="代码说明"><a href="#代码说明" class="headerlink" title="代码说明"></a>代码说明</h1><h2 id="1、导入需要的库"><a href="#1、导入需要的库" class="headerlink" title="1、导入需要的库"></a>1、导入需要的库</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> collections<br><span class="hljs-keyword">import</span> attr<br><span class="hljs-keyword">import</span> functools<br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> tensorflow <span class="hljs-keyword">as</span> tf<br><span class="hljs-keyword">import</span> tensorflow_federated <span class="hljs-keyword">as</span> tff<br><br>np.random.seed(<span class="hljs-number">0</span>)<br><br><span class="hljs-keyword">import</span> nest_asyncio<br>nest_asyncio.apply()<br></code></pre></td></tr></table></figure>
+
+<h2 id="2、导入数据集"><a href="#2、导入数据集" class="headerlink" title="2、导入数据集"></a>2、导入数据集</h2><p>emnist 数据集可以直接在 tensorflow_federated 库中下载。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">emnist_train, emnist_test = tff.simulation.datasets.emnist.load_data()<br></code></pre></td></tr></table></figure>
+
+<h2 id="3、处理数据集"><a href="#3、处理数据集" class="headerlink" title="3、处理数据集"></a>3、处理数据集</h2><p>我们需要做的有两件事：<br>Step 1：将刚下好的 emnist_train 数据集中需要用到的客户端中的数据转化成可以训练的 Dataset 格式；<br>Step 2：将样本（pixels）和标签（label）的形状 reshape 成模型需要输入的形状。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python">NUM_CLIENTS = <span class="hljs-number">10</span>  <span class="hljs-comment"># 10个客户端</span><br>BATCH_SIZE = <span class="hljs-number">20</span> <span class="hljs-comment"># 批次大小为20</span><br><br><span class="hljs-comment"># 定义预处理函数用于 reshape 数据形状</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">preprocess</span>(<span class="hljs-params">dataset</span>):</span><br><br>    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">batch_format_fn</span>(<span class="hljs-params">element</span>):</span><br>        <span class="hljs-string">&quot;&quot;&quot;Flatten a batch of EMNIST data and return a (features, label) tuple.&quot;&quot;&quot;</span><br>        <span class="hljs-keyword">return</span> (tf.reshape(element[<span class="hljs-string">&#x27;pixels&#x27;</span>], [-<span class="hljs-number">1</span>, <span class="hljs-number">784</span>]), <br>                tf.reshape(element[<span class="hljs-string">&#x27;label&#x27;</span>], [-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>]))<br><br>    <span class="hljs-keyword">return</span> dataset.batch(BATCH_SIZE).<span class="hljs-built_in">map</span>(batch_format_fn)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python">client_ids = np.random.choice(emnist_train.client_ids, size=NUM_CLIENTS, replace=<span class="hljs-literal">False</span>) <span class="hljs-comment"># 随机选择原始数据中的 10 个客户端数据</span><br><br>federated_train_data = [preprocess(emnist_train.create_tf_dataset_for_client(x))<br>  <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> client_ids<br>]  <span class="hljs-comment"># 将这些选到的数据预处理</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="4、创建模型"><a href="#4、创建模型" class="headerlink" title="4、创建模型"></a>4、创建模型</h2><p>这里也有两步工作要做：<br>Step 1：利用 tf.keras 创建模型；<br>Step 2：利用 tff.learning.from_keras_model 将刚创建的模型转换成联邦学习可以用的模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">create_keras_model</span>():</span><br>    <span class="hljs-keyword">return</span> tf.keras.models.Sequential([<br>        tf.keras.layers.Input(shape=(<span class="hljs-number">784</span>,)),<br>        tf.keras.layers.Dense(<span class="hljs-number">10</span>, kernel_initializer=<span class="hljs-string">&#x27;zeros&#x27;</span>),<br>        tf.keras.layers.Softmax(),<br>    ])<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">model_fn</span>():</span><br>    keras_model = create_keras_model()<br>    <span class="hljs-keyword">return</span> tff.learning.from_keras_model(<br>        keras_model,<br>        input_spec=federated_train_data[<span class="hljs-number">0</span>].element_spec,<br>        loss=tf.keras.losses.SparseCategoricalCrossentropy(),<br>        metrics=[tf.keras.metrics.SparseCategoricalAccuracy()])<br></code></pre></td></tr></table></figure>
+
+<h2 id="5、定义初始化模型函数"><a href="#5、定义初始化模型函数" class="headerlink" title="5、定义初始化模型函数"></a>5、定义初始化模型函数</h2><p>这里要定义 initialize_fn() 来让服务端的模型参数初始化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># initialize_fn() 函数</span><br><span class="hljs-meta">@tff.tf_computation</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">server_init</span>():</span><br>    model = model_fn()<br>    <span class="hljs-keyword">return</span> model.trainable_variables<br><br><span class="hljs-meta">@tff.federated_computation</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">initialize_fn</span>():</span><br>    <span class="hljs-keyword">return</span> tff.federated_value(server_init(), tff.SERVER)  <span class="hljs-comment"># 返回一个联邦值，将 model.trainable_variables 放到服务器端</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="6、定义迭代函数"><a href="#6、定义迭代函数" class="headerlink" title="6、定义迭代函数"></a>6、定义迭代函数</h2><p>这里要定义 next_fn() 来通过每次训练对服务端的模型参数进行更新。具体来说，这个过程由四步组成：<br>Step 1：将服务端的模型权重传给客户端；<br>Step 2：每个客户端分别训练更新权重；<br>Step 3：计算所有客户端的权重均值；<br>Step 4：将算出的均值作为服务端模型的权重上传到服务端。</p>
+<h3 id="6-1-客户端更新权重函数"><a href="#6-1-客户端更新权重函数" class="headerlink" title="6.1 客户端更新权重函数"></a>6.1 客户端更新权重函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tf.function</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">client_update</span>(<span class="hljs-params">model, dataset, server_weights, client_optimizer</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;Performs training (using the server model weights) on the client&#x27;s dataset.&quot;&quot;&quot;</span><br>    <span class="hljs-comment"># 用服务端模型权重初始化客户端模型</span><br>    client_weights = model.trainable_variables<br>    tf.nest.map_structure(<span class="hljs-keyword">lambda</span> x, y: x.assign(y),<br>                          client_weights, server_weights)<br><br>    <span class="hljs-comment"># 更新客户端模型</span><br>    <span class="hljs-keyword">for</span> batch <span class="hljs-keyword">in</span> dataset:<br>        <span class="hljs-keyword">with</span> tf.GradientTape() <span class="hljs-keyword">as</span> tape:<br>        outputs = model.forward_pass(batch) <span class="hljs-comment"># 前向传播</span><br><br>        <span class="hljs-comment"># 梯度计算</span><br>        grads = tape.gradient(outputs.loss, client_weights)<br>        grads_and_vars = <span class="hljs-built_in">zip</span>(grads, client_weights)<br>        <br>        client_optimizer.apply_gradients(grads_and_vars) <span class="hljs-comment"># 更新权重</span><br><br>    <span class="hljs-keyword">return</span> client_weights<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-2-服务端更新权重函数"><a href="#6-2-服务端更新权重函数" class="headerlink" title="6.2 服务端更新权重函数"></a>6.2 服务端更新权重函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-meta">@tf.function</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">server_update</span>(<span class="hljs-params">model, mean_client_weights</span>):</span><br>    <span class="hljs-string">&quot;&quot;&quot;Updates the server model weights as the average of the client model weights.&quot;&quot;&quot;</span><br>    model_weights = model.trainable_variables<br>    <span class="hljs-comment"># 将客户端模型均值赋给服务端模型</span><br>    tf.nest.map_structure(<span class="hljs-keyword">lambda</span> x, y: x.assign(y),<br>                          model_weights, mean_client_weights)<br>    <span class="hljs-keyword">return</span> model_weights<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-3-使用-tff-tf-computation-修饰以上两个更新函数"><a href="#6-3-使用-tff-tf-computation-修饰以上两个更新函数" class="headerlink" title="6.3 使用 tff.tf_computation 修饰以上两个更新函数"></a>6.3 使用 tff.tf_computation 修饰以上两个更新函数</h3><p>需要先得到数据集类型和模型权重类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 需要相应的类型，可以直接从我们的模型中提取服务器权重的类型</span><br>whimsy_model = model_fn()<br>tf_dataset_type = tff.SequenceType(whimsy_model.input_spec)<br><span class="hljs-built_in">str</span>(tf_dataset_type)<br><br><span class="hljs-comment"># 使用之前定义的 server_init 函数直接提取模型权重类型</span><br>model_weights_type = server_init.type_signature.result<br><span class="hljs-built_in">str</span>(model_weights_type)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 将客户端更新函数用 tff.tf_computation 修饰</span><br><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">tf_dataset_type, model_weights_type</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">client_update_fn</span>(<span class="hljs-params">tf_dataset, server_weights</span>):</span><br>    model = model_fn()<br>    client_optimizer = tf.keras.optimizers.SGD(learning_rate=<span class="hljs-number">0.01</span>)<br>    <span class="hljs-keyword">return</span> client_update(model, tf_dataset, server_weights, client_optimizer)<br><br><span class="hljs-comment"># 将服务端更新函数用 tff.tf_computation 修饰</span><br><span class="hljs-meta">@tff.tf_computation(<span class="hljs-params">model_weights_type</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">server_update_fn</span>(<span class="hljs-params">mean_client_weights</span>):</span><br>    model = model_fn()<br>    <span class="hljs-keyword">return</span> server_update(model, mean_client_weights)<br></code></pre></td></tr></table></figure>
+
+<h3 id="6-4-使用-tff-federated-computation-修饰-next-fn-函数"><a href="#6-4-使用-tff-federated-computation-修饰-next-fn-函数" class="headerlink" title="6.4 使用 tff.federated_computation 修饰 next_fn() 函数"></a>6.4 使用 tff.federated_computation 修饰 next_fn() 函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python">federated_server_type = tff.FederatedType(model_weights_type, tff.SERVER)  <span class="hljs-comment"># 服务端模型参数联邦类型</span><br>federated_dataset_type = tff.FederatedType(tf_dataset_type, tff.CLIENTS)  <span class="hljs-comment"># 数据集联邦类型</span><br><br><span class="hljs-meta">@tff.federated_computation(<span class="hljs-params">federated_server_type, federated_dataset_type</span>)</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next_fn</span>(<span class="hljs-params">server_weights, federated_dataset</span>):</span><br>    <span class="hljs-comment"># Broadcast the server weights to the clients.</span><br>    server_weights_at_client = tff.federated_broadcast(server_weights)<br><br>    <span class="hljs-comment"># Each client computes their updated weights.</span><br>    client_weights = tff.federated_map(<br>      client_update_fn, (federated_dataset, server_weights_at_client))<br><br>    <span class="hljs-comment"># The server averages these updates.</span><br>    mean_client_weights = tff.federated_mean(client_weights)<br><br>    <span class="hljs-comment"># The server updates its model.</span><br>    server_weights = tff.federated_map(server_update_fn, mean_client_weights)<br><br>    <span class="hljs-keyword">return</span> server_weights<br></code></pre></td></tr></table></figure>
+
+<h2 id="7、将算法封装到-tff-templates-IterativeProcess-中"><a href="#7、将算法封装到-tff-templates-IterativeProcess-中" class="headerlink" title="7、将算法封装到 tff.templates.IterativeProcess 中"></a>7、将算法封装到 tff.templates.IterativeProcess 中</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">federated_algorithm = tff.templates.IterativeProcess(<br>    initialize_fn=initialize_fn,<br>    next_fn=next_fn<br>)<br></code></pre></td></tr></table></figure>
+
+<p>这里可以看我们传入的两个函数的类型签名：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">str</span>(federated_algorithm.initialize.type_signature)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;( -&gt; &lt;float32[784,10],float32[10]&gt;@SERVER)&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>结果表明 federated_algorithm.initialize 是一个不带参数的函数，而且返回了一个单层模型。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">str</span>(federated_algorithm.<span class="hljs-built_in">next</span>.type_signature)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-string">&#x27;(&lt;&lt;float32[784,10],float32[10]&gt;@SERVER,&#123;&lt;float32[?,784],int32[?,1]&gt;*&#125;@CLIENTS&gt; -&gt; &lt;float32[784,10],float32[10]&gt;@SERVER)&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>结果表明 federated_algorithm.next 输入是一个服务器模型和客户端数据，返回一个更新后的服务器模型。</p>
+<h2 id="8、处理测试集数据"><a href="#8、处理测试集数据" class="headerlink" title="8、处理测试集数据"></a>8、处理测试集数据</h2><p>这里和处理训练集数据方法是一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">central_emnist_test = emnist_test.create_tf_dataset_from_all_clients().take(<span class="hljs-number">1000</span>)<br>central_emnist_test = preprocess(central_emnist_test)<br></code></pre></td></tr></table></figure>
+
+<h2 id="9、测试集准确率"><a href="#9、测试集准确率" class="headerlink" title="9、测试集准确率"></a>9、测试集准确率</h2><h3 id="9-1-测试函数"><a href="#9-1-测试函数" class="headerlink" title="9.1 测试函数"></a>9.1 测试函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">evaluate</span>(<span class="hljs-params">server_state</span>):</span><br>    keras_model = create_keras_model()<br>    keras_model.<span class="hljs-built_in">compile</span>(<br>        loss=tf.keras.losses.SparseCategoricalCrossentropy(),<br>        metrics=[tf.keras.metrics.SparseCategoricalAccuracy()]  <br>    )<br>    keras_model.set_weights(server_state)<br>    keras_model.evaluate(central_emnist_test)<br></code></pre></td></tr></table></figure>
+
+<h3 id="9-2-模型初始化"><a href="#9-2-模型初始化" class="headerlink" title="9.2 模型初始化"></a>9.2 模型初始化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">server_state = federated_algorithm.initialize()<br><br><span class="hljs-comment"># 不训练，直接测试</span><br>evaluate(server_state)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">50</span>/<span class="hljs-number">50</span> [==============================] - 1s 17ms/step - loss: <span class="hljs-number">2.3026</span> - sparse_categorical_accuracy: <span class="hljs-number">0.1130</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="9-3-模型训练"><a href="#9-3-模型训练" class="headerlink" title="9.3 模型训练"></a>9.3 模型训练</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 训练 15 次</span><br><span class="hljs-keyword">for</span> <span class="hljs-built_in">round</span> <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">15</span>):<br>    server_state = federated_algorithm.<span class="hljs-built_in">next</span>(server_state, federated_train_data)<br><br>evaluate(server_state)<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-number">50</span>/<span class="hljs-number">50</span> [==============================] - 1s 15ms/step - loss: <span class="hljs-number">2.1630</span> - sparse_categorical_accuracy: <span class="hljs-number">0.2570</span><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </article>
+
+  
+      
+    <div class="nexmoe-post-copyright">
+        <strong>Author：</strong>Shuyan<br>
+        <strong>Link：</strong><a href="http://example.com/2022/08/09/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%88%86%E7%B1%BBemnist%E6%95%B0%E6%8D%AE%E9%9B%86/" title="http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;08&#x2F;09&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%88%86%E7%B1%BBemnist%E6%95%B0%E6%8D%AE%E9%9B%86&#x2F;" target="_blank" rel="noopener">http:&#x2F;&#x2F;example.com&#x2F;2022&#x2F;08&#x2F;09&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%AE%9E%E6%88%98&#x2F;%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0%E5%88%86%E7%B1%BBemnist%E6%95%B0%E6%8D%AE%E9%9B%86&#x2F;</a><br>
+        
+            <strong>版权声明：</strong>本文采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/cn/deed.zh" target="_blank">CC BY-NC-SA 3.0 CN</a> 协议进行许可
+        
+    </div>
+
+
+  
+  
+  <div class="nexmoe-post-meta nexmoe-rainbow">
+    
+        <a class="nexmoefont icon-appstore-fill -link" href="/categories/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/">联邦学习</a>
+    
+    
+        <a class="nexmoefont icon-tag-fill -none-link" href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" rel="tag">联邦学习</a>
+    
+</div>
+
+  
+      <div class="nexmoe-post-footer">
+          <section class="nexmoe-comment">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.css">
+<div id="gitalk"></div>
+<script src="https://cdn.jsdelivr.net/npm/gitalk@latest/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+    var gitalk = new Gitalk({
+        clientID: '80b2453b6d5f37ad6225',
+        clientSecret: '43e99fa852795c9a7b3eb924b2558c64b84bbdeb',
+        id: window.location.pathname,
+        repo: 'nexmoe.github.io',
+        owner: 'nexmoe',
+        admin: 'nexmoe'
+    })
+    gitalk.render('gitalk')
+</script>
+</section>
+      </div>
+  
+</div>
+            <div class="nexmoe-post-right">
+              <div class="nexmoe-fixed">
+                  <div class="nexmoe-tool"> 
+                    
+                      
+                        
+                          
+                          
+                              <button class="mdui-fab catalog" style="overflow:unset;">
+                                  <i class="nexmoefont icon-i-catalog"></i>
+                                  <div class="nexmoe-toc">
+                                      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.</span> <span class="toc-text">项目介绍</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E8%AF%B4%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">代码说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1%E3%80%81%E5%AF%BC%E5%85%A5%E9%9C%80%E8%A6%81%E7%9A%84%E5%BA%93"><span class="toc-number">2.1.</span> <span class="toc-text">1、导入需要的库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2%E3%80%81%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">2.2.</span> <span class="toc-text">2、导入数据集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3%E3%80%81%E5%A4%84%E7%90%86%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">2.3.</span> <span class="toc-text">3、处理数据集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4%E3%80%81%E5%88%9B%E5%BB%BA%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.4.</span> <span class="toc-text">4、创建模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5%E3%80%81%E5%AE%9A%E4%B9%89%E5%88%9D%E5%A7%8B%E5%8C%96%E6%A8%A1%E5%9E%8B%E5%87%BD%E6%95%B0"><span class="toc-number">2.5.</span> <span class="toc-text">5、定义初始化模型函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6%E3%80%81%E5%AE%9A%E4%B9%89%E8%BF%AD%E4%BB%A3%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.</span> <span class="toc-text">6、定义迭代函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%9B%B4%E6%96%B0%E6%9D%83%E9%87%8D%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.1.</span> <span class="toc-text">6.1 客户端更新权重函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%9B%B4%E6%96%B0%E6%9D%83%E9%87%8D%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.2.</span> <span class="toc-text">6.2 服务端更新权重函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E4%BD%BF%E7%94%A8-tff-tf-computation-%E4%BF%AE%E9%A5%B0%E4%BB%A5%E4%B8%8A%E4%B8%A4%E4%B8%AA%E6%9B%B4%E6%96%B0%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.3.</span> <span class="toc-text">6.3 使用 tff.tf_computation 修饰以上两个更新函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-4-%E4%BD%BF%E7%94%A8-tff-federated-computation-%E4%BF%AE%E9%A5%B0-next-fn-%E5%87%BD%E6%95%B0"><span class="toc-number">2.6.4.</span> <span class="toc-text">6.4 使用 tff.federated_computation 修饰 next_fn() 函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7%E3%80%81%E5%B0%86%E7%AE%97%E6%B3%95%E5%B0%81%E8%A3%85%E5%88%B0-tff-templates-IterativeProcess-%E4%B8%AD"><span class="toc-number">2.7.</span> <span class="toc-text">7、将算法封装到 tff.templates.IterativeProcess 中</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8%E3%80%81%E5%A4%84%E7%90%86%E6%B5%8B%E8%AF%95%E9%9B%86%E6%95%B0%E6%8D%AE"><span class="toc-number">2.8.</span> <span class="toc-text">8、处理测试集数据</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9%E3%80%81%E6%B5%8B%E8%AF%95%E9%9B%86%E5%87%86%E7%A1%AE%E7%8E%87"><span class="toc-number">2.9.</span> <span class="toc-text">9、测试集准确率</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#9-1-%E6%B5%8B%E8%AF%95%E5%87%BD%E6%95%B0"><span class="toc-number">2.9.1.</span> <span class="toc-text">9.1 测试函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-2-%E6%A8%A1%E5%9E%8B%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">2.9.2.</span> <span class="toc-text">9.2 模型初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-3-%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83"><span class="toc-number">2.9.3.</span> <span class="toc-text">9.3 模型训练</span></a></li></ol></li></ol></li></ol>
+                                  </div>
+                              </button>
+                          
+                          
+                      
+                    
+                      <a href="#nexmoe-content" class="toc-link" aria-label="回到顶部" title="top"><button class="mdui-fab mdui-ripple"><i class="nexmoefont icon-caret-top"></i></button></a>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </div>
+     
+    <div id="nexmoe-search-space">
+        <div class="search-container">
+            <div class="search-header">
+                <div class="search-input-container">
+                    <input class="search-input" type="text" placeholder="Search" oninput="sinput();">
+                </div>
+                <a class="search-close" onclick="sclose();">×</a>
+            </div>
+            <div class="search-body"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/combine/npm/lazysizes@5.1.0/lazysizes.min.js,npm/mdui@0.4.3/dist/js/mdui.min.js?v=1"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+ 
+
+<script async src="/js/app.js?v=1695524863873"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js"></script>
+<script>
+	$(".justified-gallery").justifiedGallery({
+		rowHeight: 160,
+		margins: 10,
+	});
+</script>
+
+
+    
+
+
+
+
+
+    <!-- baidu Analytics -->
+<script>
+    var _hmt = _hmt || [];
+    (function() {var hm = document.createElement('script');
+    hm.src = 'https://hm.baidu.com/hm.js?0a7e154da92f76d05c83b48cbab331da#&lt;ID&gt;';
+    var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+</body>
+
+</html>
