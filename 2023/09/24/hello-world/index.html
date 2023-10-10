@@ -424,20 +424,24 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-<h3 id="头部设置"><a href="#头部设置" class="headerlink" title="头部设置"></a>头部设置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">title: 文章名称
-date: <span class="token number">2021</span>-09-01 09:36:05
-tags: <span class="token punctuation">[</span>标签1,标签2<span class="token punctuation">]</span>
-categories: 
-- <span class="token string">"类别"</span>
-- <span class="token string">"子类别"</span>
-comments: <span class="token boolean">true</span> <span class="token comment"># 是否可评论</span>
-toc: <span class="token boolean">true</span> <span class="token comment"># 是否显示文章目录</span>
-top: <span class="token boolean">true</span> <span class="token comment"># 置顶设置</span>
-
-<span class="token comment"># 设置图片</span>
-cover: /img/hello-world.jpg
-coverWidth: <span class="token number">1200</span>
-coverHeight: <span class="token number">750</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h3 id="头部设置"><a href="#头部设置" class="headerlink" title="头部设置"></a>头部设置</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">---
+title: typora-vue-theme主题介绍
+date: <span class="token number">2018</span>-09-07 09:25:00
+author: 赵奇
+img: /source/images/xxx.jpg
+top: <span class="token boolean">true</span>
+hide: <span class="token boolean">false</span>
+cover: <span class="token boolean">true</span>
+coverImg: /images/1.jpg
+password: 8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92
+toc: <span class="token boolean">false</span>
+mathjax: <span class="token boolean">false</span>
+summary: 这是你自定义的文章摘要内容，如果这个属性有值，文章卡片摘要就显示这段文字，否则程序会自动截取文章的部分内容作为摘要
+categories: Markdown
+tags:
+  - Typora
+  - Markdown
+---<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
@@ -615,10 +619,6 @@ coverHeight: <span class="token number">750</span><span aria-hidden="true" class
                             
                             <a href="/categories/Linux/" class="post-category">
                                     Linux
-                                </a>
-                            
-                            <a href="/categories/Linux/Git/" class="post-category">
-                                    Git
                                 </a>
                             
                             
