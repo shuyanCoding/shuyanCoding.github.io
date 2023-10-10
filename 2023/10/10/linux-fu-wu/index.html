@@ -1,0 +1,1795 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="linux服务, Shuyan">
+    <meta name="description" content="contOS更换yum源[root@localhost dhcp]# yum install wget -y
+
+# 进入yum配置文件目录（固定的）
+[root@localhost dhcp]# cd /etc/yum.repos.d/
+
+">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>linux服务 | Shuyan</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Shuyan</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Shuyan</div>
+        <div class="logo-desc">
+            
+            ShuyanCoding......
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">linux服务</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-10-10
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="contOS更换yum源"><a href="#contOS更换yum源" class="headerlink" title="contOS更换yum源"></a>contOS更换yum源</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># yum install wget -y</span>
+
+<span class="token comment"># 进入yum配置文件目录（固定的）</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># cd /etc/yum.repos.d/</span>
+
+<span class="token comment"># 备份CentOS-Base.repo文件</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># mv CentOS-Base.repo CentOS-Base.repo.bak</span>
+
+<span class="token comment"># 通过wget工具，从阿里云获取配置文件</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo</span>
+
+<span class="token comment"># 清空yum本地缓存</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># yum clean all</span>
+
+<span class="token comment"># 制作aliyun缓存</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># yum makecache</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h1 id="一、动态主机配置协议DHCP"><a href="#一、动态主机配置协议DHCP" class="headerlink" title="一、动态主机配置协议DHCP"></a>一、动态主机配置协议DHCP</h1><h2 id="1-1-防火墙和selinux设置"><a href="#1-1-防火墙和selinux设置" class="headerlink" title="1.1 防火墙和selinux设置"></a>1.1 防火墙和selinux设置</h2><p><strong>防火墙</strong>     影响通信       默认拒绝所有      只允许 远程登录 和  DHCP客户端通信</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl stop firewalld.service</span>
+
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl disable firewalld.service</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>selinux</strong>  美国NSA国家安全局设计    将Linux中的文件分类并进行标签，让不同的网络服务只能访问自己的文件，而拒绝访问其他文件。单个服务被攻陷时，不会造成数据全部泄露</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># vim /etc/selinux/config</span>
+
+<span class="token comment"># SELINUX=enforcing</span>
+<span class="token assign-left variable">SELINUX</span><span class="token operator">=</span>disable<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>查看状态</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl status firewalld.service</span>
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded <span class="token punctuation">(</span>/usr/lib/systemd/system/firewalld.service<span class="token punctuation">;</span> disabled<span class="token punctuation">;</span> vendor preset: enabled<span class="token punctuation">)</span>
+   Active: inactive <span class="token punctuation">(</span>dead<span class="token punctuation">)</span>
+     Docs: man:firewalld<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># getenforce</span>
+Disabled<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="1-2-DHCP工作原理"><a href="#1-2-DHCP工作原理" class="headerlink" title="1.2 DHCP工作原理"></a>1.2 DHCP工作原理</h2><h3 id="1-2-1-工作方式"><a href="#1-2-1-工作方式" class="headerlink" title="1.2.1 工作方式"></a>1.2.1 工作方式</h3><p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/DHCP%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png" alt="image-20231010125635995"></p>
+<ul>
+<li>Client：向网络中发送广播，通过自己的UDP协议的68号端口向网络中发送DHCP Discover包，用来寻找网络中的DHCP Server。</li>
+<li>Server：局域网中的所有DHCP服务器都能收到该Client发送的广播包，然后DHCP Server会检查自己的IP池中(也叫做作用域)是否还有可用IP可以分发。<ul>
+<li>如果有，直接将这个IP地址从池中拿出来，避免在发给别的客户端，并且通过自己的UDP协议的67号端口给Client发一个响应包DHCP Offer，同样采用广播，明确告诉其可以提供哪个IP给Client使用。</li>
+</ul>
+</li>
+<li>Client：Client会收到局域网中的所有DHCP服务器发给自己的DHCP Offer包，默认选一个最优的DHCP Server进行IP获取(在这里就是第一个发送给他DHCP Offer的服务器算作最优)。然后继续向网络中通过UDP的68号端口发广播DHCP Resquest，明确指定DHCP Server IP地址和需要租用的IP地址告诉它要从他这里获得IP信息。自然其他DHCP Server也能收到广播，确认不从自己这里拿IP信息后，会将上步从IP池中拿出来的IP在释放到池中，以便别人使用。</li>
+<li>Server：被确认的DHCP Server就会通过其UDP协议的67号端口发送DHCP ACK确认包，采用广播将IP、掩码、网关、DNS等信息还有IP租约一起发送给DHCP Client, Client确认IP可用后，根据IP租约开始计算使用时间。</li>
+</ul>
+<h3 id="1-2-2-计算机获取IP的时间点"><a href="#1-2-2-计算机获取IP的时间点" class="headerlink" title="1.2.2 计算机获取IP的时间点"></a>1.2.2 计算机获取IP的时间点</h3><ul>
+<li>计算机开机</li>
+<li>网卡接通服务</li>
+<li>重启网卡服务</li>
+</ul>
+<h3 id="1-2-3-租约更新阶段"><a href="#1-2-3-租约更新阶段" class="headerlink" title="1.2.3 租约更新阶段"></a>1.2.3 租约更新阶段</h3><ul>
+<li>租约完成1/2</li>
+<li>租约完成7/8</li>
+<li>租约到期</li>
+</ul>
+<h2 id="二、DHCP-部署"><a href="#二、DHCP-部署" class="headerlink" title="二、DHCP 部署"></a>二、DHCP 部署</h2><h3 id="2-1-server端配置："><a href="#2-1-server端配置：" class="headerlink" title="2.1 server端配置："></a>2.1 server端配置：</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装dhcp</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># yum install dhcp -y</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h4 id="查看主配文件"><a href="#查看主配文件" class="headerlink" title="查看主配文件"></a>查看主配文件</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看主配文件</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># ls</span>
+dhclient.d  dhclient-exit-hooks.d  dhcpd6.conf  dhcpd.conf  scripts
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># cat dhcpd.conf </span>
+<span class="token comment">#</span>
+<span class="token comment"># DHCP Server Configuration file.</span>
+<span class="token comment">#   see /usr/share/doc/dhcp*/dhcpd.conf.example</span>
+<span class="token comment">#   see dhcpd.conf(5) man page</span>
+<span class="token comment">#</span>
+
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># cp /usr/share/doc/dhcp*/dhcpd.conf.example /etc/dhcp/dhcpd.conf</span>
+cp：是否覆盖<span class="token string">"/etc/dhcp/dhcpd.conf"</span>？ y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="主配文件内容"><a href="#主配文件内容" class="headerlink" title="主配文件内容"></a>主配文件内容</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># cat dhcpd.conf </span>
+<span class="token comment"># dhcpd.conf</span>
+<span class="token comment">#</span>
+<span class="token comment"># Sample configuration file for ISC dhcpd</span>
+<span class="token comment">#</span>
+
+<span class="token comment">#DNS全局选项，指定DNS服务器的地址，可以是IP，也可以是域名。</span>
+<span class="token comment"># option definitions common to all supported networks...</span>
+<span class="token comment"># DNS的域名</span>
+option domain-name <span class="token string">"example.org"</span><span class="token punctuation">;</span>
+
+<span class="token comment">#具体的DNS服务器</span>
+option domain-name-servers ns1.example.org, ns2.example.org<span class="token punctuation">;</span>
+
+<span class="token comment">#默认租约为600s</span>
+default-lease-time <span class="token number">600</span><span class="token punctuation">;</span>
+<span class="token comment">#最大租约为7200s，客户机会在default-lease-time快到期时向服务器续租，如果此时客户机死机/重启，而默认租约时间到期了，服务器并不会立即回收IP地址，而是等到最大租约时间到期，客户机还没有过来续约，才会回收IP地址。</span>
+max-lease-time <span class="token number">7200</span><span class="token punctuation">;</span>
+
+<span class="token comment">#动态DNS更新方式(none:不支持；interim:互动更新模式；ad-hoc:特殊更新模式)</span>
+<span class="token comment"># Use this to enble / disable dynamic dns updates globally.</span>
+<span class="token comment">#ddns-update-style none;</span>
+
+<span class="token comment">#如果该DHCP服务器是本地官方DHCP就将此选项打开，避免其他DHCP服务器的干扰。</span>
+<span class="token comment">#当一个客户端试图获得一个不是该DHCP服务器分配的IP信息，DHCP将发送一个拒绝消息，而不会等待请求超时。当请求被拒绝，客户端会重新向当前DHCP发送IP请求获得新地址。保证IP是自己发出去的</span>
+<span class="token comment">#</span>
+<span class="token comment"># If this DHCP server is the official DHCP server for the local</span>
+<span class="token comment"># network, the authoritative directive should be uncommented.</span>
+<span class="token comment">#authoritative;</span>
+
+<span class="token comment"># Use this to send dhcp log messages to a different log file (you also</span>
+<span class="token comment"># have to hack syslog.conf to complete the redirection).</span>
+<span class="token comment"># 日志级别为local17</span>
+log-facility local7<span class="token punctuation">;</span>
+
+<span class="token comment"># No service will be given on this subnet, but declaring it helps the </span>
+<span class="token comment"># DHCP server to understand the network topology.</span>
+
+<span class="token comment">#作用域相关设置指令</span>
+<span class="token comment">#subnet 定义一个作用域（发送的ip地址范围）</span>
+<span class="token comment">#netmask 定义作用域的掩码</span>
+<span class="token comment">#range 允许发放的IP范围</span>
+<span class="token comment">#option routers 指定网关地址</span>
+<span class="token comment">#option domain-name-servers 指定DNS服务器地址</span>
+<span class="token comment">#option broadcast-address 广播地址</span>
+<span class="token comment">#</span>
+<span class="token comment">#</span>
+<span class="token comment">#案例:定义一个作用域 网段为10.152.187.0 掩码为255.255.255.0</span>
+<span class="token comment">#此作用域不提供任何服务</span>
+subnet <span class="token number">10.152</span>.187.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># This is a very basic subnet declaration.</span>
+
+<span class="token comment">#案例:定义一个基本的作用域</span>
+<span class="token comment">#网段10.254.239.0 掩码255.255.255.224</span>
+<span class="token comment">#分发范围10.254.239.10-20</span>
+<span class="token comment">#网关为rtr-239-0-1.example.org, rtr-239-0-2.example.org</span>
+subnet <span class="token number">10.254</span>.239.0 netmask <span class="token number">255.255</span>.255.224 <span class="token punctuation">{</span>
+  range <span class="token number">10.254</span>.239.10 <span class="token number">10.254</span>.239.20<span class="token punctuation">;</span>
+  option routers rtr-239-0-1.example.org, rtr-239-0-2.example.org<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># This declaration allows BOOTP clients to get dynamic addresses,</span>
+<span class="token comment"># which we don't really recommend.</span>
+<span class="token comment">#案例:允许采用bootp协议的客户端动态获得地址</span>
+<span class="token comment">#bootp DHCP的前身</span>
+<span class="token comment">#BOOTP用于无盘工作站的局域网中，可以让无盘工作站从一个中心服务器上获得IP地址。通过BOOTP协议可以为局域网中的无盘工作站分配动态IP地址，</span>
+<span class="token comment">#这样就不需要管理员去为每个用户去设置静态IP地址。</span>
+subnet <span class="token number">10.254</span>.239.32 netmask <span class="token number">255.255</span>.255.224 <span class="token punctuation">{</span>
+  range dynamic-bootp <span class="token number">10.254</span>.239.40 <span class="token number">10.254</span>.239.60<span class="token punctuation">;</span>
+  option broadcast-address <span class="token number">10.254</span>.239.31<span class="token punctuation">;</span>
+  option routers rtr-239-32-1.example.org<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">#案例:一个简单的作用域案例</span>
+<span class="token comment"># A slightly different configuration for an internal subnet.</span>
+subnet <span class="token number">10.5</span>.5.0 netmask <span class="token number">255.255</span>.255.224 <span class="token punctuation">{</span>
+  range <span class="token number">10.5</span>.5.26 <span class="token number">10.5</span>.5.30<span class="token punctuation">;</span>
+  option domain-name-servers ns1.internal.example.org<span class="token punctuation">;</span>
+  option domain-name <span class="token string">"internal.example.org"</span><span class="token punctuation">;</span>
+  option routers <span class="token number">10.5</span>.5.1<span class="token punctuation">;</span>
+  option broadcast-address <span class="token number">10.5</span>.5.31<span class="token punctuation">;</span>
+  default-lease-time <span class="token number">600</span><span class="token punctuation">;</span>
+  max-lease-time <span class="token number">7200</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Hosts which require special configuration options can be listed in</span>
+<span class="token comment"># host statements.   If no address is specified, the address will be</span>
+<span class="token comment"># allocated dynamically (if possible), but the host-specific information</span>
+<span class="token comment"># will still come from the host declaration.</span>
+<span class="token comment">#</span>
+<span class="token comment">#保留地址:可以将指定的IP分发给指定的机器，根据网卡的MAC地址来做触发</span>
+<span class="token comment">#host: 启用保留。</span>
+<span class="token comment">#hardware:指定客户端的mac地址</span>
+<span class="token comment">#filename:指定文件名</span>
+<span class="token comment">#server-name:指定下一跳服务器地址</span>
+<span class="token comment">#fixed-address: 指定保留IP地址</span>
+<span class="token comment">#</span>
+<span class="token comment">#</span>
+<span class="token comment">#案例:这个案例中分发给客户端的不是IP地址信息，而是告诉客户端去找toccata.fugue.com服务器，并且下载vmunix.passacaglia文件</span>
+<span class="token function">host</span> passacaglia <span class="token punctuation">{</span>
+  hardware ethernet <span class="token number">0</span>:0:c0:5d:bd:95<span class="token punctuation">;</span>
+  filename <span class="token string">"vmunix.passacaglia"</span><span class="token punctuation">;</span>
+  server-name <span class="token string">"toccata.fugue.com"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Fixed IP addresses can also be specified for hosts.   These addresses</span>
+<span class="token comment"># should not also be listed as being available for dynamic assignment.</span>
+<span class="token comment"># Hosts for which fixed IP addresses have been specified can boot using</span>
+<span class="token comment"># BOOTP or DHCP.   Hosts for which no fixed address is specified can only</span>
+<span class="token comment"># be booted with DHCP, unless there is an address range on the subnet</span>
+<span class="token comment"># to which a BOOTP client is connected which has the dynamic-bootp flag</span>
+<span class="token comment"># set.</span>
+<span class="token comment"># 案例:保留地址，将指定IP(fantasia.fugue.com对应的IP)分给指定客户端网卡(MAC:08:00:07:26:c0:a5)</span>
+<span class="token function">host</span> fantasia <span class="token punctuation">{</span>
+  hardware ethernet 08:00:07:26:c0:a5<span class="token punctuation">;</span>
+  fixed-address fantasia.fugue.com<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">#超级作用域</span>
+<span class="token comment">#超级作用域是DHCP服务中的一种管理功能，使用超级作用域，可以将多个作用域组合为单个管理实体。</span>
+<span class="token comment"># You can declare a class of clients and then do address allocation</span>
+<span class="token comment"># based on that.   The example below shows a case where all clients</span>
+<span class="token comment"># in a certain class get addresses on the 10.17.224/24 subnet, and all</span>
+<span class="token comment"># other clients get addresses on the 10.0.29/24 subnet.</span>
+
+
+<span class="token comment">#在局域网中，可以配置策略根据各个机器的具体信息分配IP地址和其他的网络参数，客户机的具体信息：客户机能够给dhcp服务提供的信息由有两个，</span>
+<span class="token comment">#第一个就是网卡的dhcp-client-identifier（mac地址），</span>
+<span class="token comment">#第二个就是设备的vendor-class-identifier。</span>
+<span class="token comment">#管理员可以根据这两个信息给不同的机器分组。</span>
+
+<span class="token comment">#案例:</span>
+<span class="token comment">#按client某种类型分组DHCP,而不是按物理接口网段</span>
+<span class="token comment">#例子: SUNW 分配地址段10.17.224.0/24</span>
+<span class="token comment"># 非SUNW的主机,分配地址段10.0.29.0/24</span>
+<span class="token comment">#定义一个dhcp类:foo</span>
+<span class="token comment">#request广播中vendor-class-identifier字段对应的值前四个字节如果是"SUNW",则视合法客户端.</span>
+class <span class="token string">"foo"</span> <span class="token punctuation">{</span>
+  match <span class="token keyword">if</span> substring <span class="token punctuation">(</span>option vendor-class-identifier, <span class="token number">0</span>, <span class="token number">4</span><span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token string">"SUNW"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">#定义一个超级作用域: 224-29</span>
+shared-network <span class="token number">224</span>-29 <span class="token punctuation">{</span>
+<span class="token comment">#定义第一个作用域</span>
+  subnet <span class="token number">10.17</span>.224.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+    option routers rtr-224.example.org<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token comment">#定义第二个作用域</span>
+  subnet <span class="token number">10.0</span>.29.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+    option routers rtr-29.example.org<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token comment">#关连池,如果客户端匹配foo类，将获得该池地址</span>
+  pool <span class="token punctuation">{</span>
+    allow members of <span class="token string">"foo"</span><span class="token punctuation">;</span>
+    range <span class="token number">10.17</span>.224.10 <span class="token number">10.17</span>.224.250<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token comment">#关连池,如果客户端配置foo类，则拒绝获得该段地址</span>
+  pool <span class="token punctuation">{</span>
+    deny members of <span class="token string">"foo"</span><span class="token punctuation">;</span>
+    range <span class="token number">10.0</span>.29.10 <span class="token number">10.0</span>.29.230<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-2-DHCP启动"><a href="#2-2-DHCP启动" class="headerlink" title="2.2 DHCP启动"></a>2.2 DHCP启动</h3><p>启动DHCP服务：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl enable dhcpd</span>
+Created symlink from /etc/systemd/system/multi-user.target.wants/dhcpd.service to /usr/lib/systemd/system/dhcpd.service.
+
+<span class="token comment"># 没有有效作用域，即没有和服务器本地网段相同网段的作用域，因此无法启动</span>
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl start dhcpd</span>
+Job <span class="token keyword">for</span> dhcpd.service failed because the control process exited with error code. See <span class="token string">"systemctl status dhcpd.service"</span> and <span class="token string">"journalctl -xe"</span> <span class="token keyword">for</span> details.
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># vim dhcpd.conf</span>
+<span class="token punctuation">..</span>.
+<span class="token comment"># 设置与本地网段相同的作用域</span>
+  subnet <span class="token number">192.168</span>.133.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">..</span>.
+
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl start dhcpd</span>
+
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># lsof -i :67</span>
+COMMAND  PID   <span class="token environment constant">USER</span>   FD   TYPE DEVICE SIZE/OFF NODE NAME
+dnsmasq <span class="token number">1488</span> nobody    3u  IPv4  <span class="token number">29621</span>      0t0  UDP *:bootps 
+dhcpd   <span class="token number">6035</span>  dhcpd    7u  IPv4  <span class="token number">72692</span>      0t0  UDP *:bootps <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-3-作用域"><a href="#2-3-作用域" class="headerlink" title="2.3 作用域"></a>2.3 作用域</h2><p>修改配置文件，设置作用域：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># vim dhcpd.conf </span>
+
+<span class="token comment"># If this DHCP server is the official DHCP server for the local</span>
+<span class="token comment"># network, the authoritative directive should be uncommented.</span>
+authoritative<span class="token punctuation">;</span>
+
+
+<span class="token comment"># A slightly different configuration for an internal subnet.</span>
+subnet <span class="token number">192.168</span>.133.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+  range <span class="token number">192.168</span>.133.153 <span class="token number">192.168</span>.133.252<span class="token punctuation">;</span>
+  option domain-name-servers <span class="token number">202.106</span>.0.20, <span class="token number">114.114</span>.114.114<span class="token punctuation">;</span>
+  option routers <span class="token number">192.168</span>.133.254<span class="token punctuation">;</span>
+  option broadcast-address <span class="token number">192.168</span>.11.255<span class="token punctuation">;</span>
+  default-lease-time <span class="token number">7200</span><span class="token punctuation">;</span>
+  max-lease-time <span class="token number">10800</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>重启dhcp服务，生效配置：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl restart dhcpd</span>
+
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># lsof -i :67</span>
+COMMAND  PID   <span class="token environment constant">USER</span>   FD   TYPE DEVICE SIZE/OFF NODE NAME
+dnsmasq <span class="token number">1488</span> nobody    3u  IPv4  <span class="token number">29621</span>      0t0  UDP *:bootps 
+dhcpd   <span class="token number">6292</span>  dhcpd    7u  IPv4  <span class="token number">60915</span>      0t0  UDP *:bootps 
+<span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># lsof -i :68</span>
+COMMAND   PID <span class="token environment constant">USER</span>   FD   TYPE DEVICE SIZE/OFF NODE NAME
+dhclient <span class="token number">4183</span> root    6u  IPv4  <span class="token number">52360</span>      0t0  UDP *:bootpc <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-4-client端"><a href="#2-4-client端" class="headerlink" title="2.4 client端"></a>2.4 client端</h2><p>查看一下当前eth0的IP地址、MAC地址，并保证其IP获得方式为:DHCP：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># ifconfig eth0</span>
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:BD  
+          inet addr:172.16.44.132  Bcast:172.16.44.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe1a:f8bd/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:86 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:63 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:15294 <span class="token punctuation">(</span><span class="token number">14.9</span> KiB<span class="token punctuation">)</span>  TX bytes:6769 <span class="token punctuation">(</span><span class="token number">6.6</span> KiB<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用dhclient命令来获得IP，查看重要输出:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># dhclient -d eth0</span>
+Internet Systems Consortium DHCP Client <span class="token number">4.1</span>.1-P1
+Copyright <span class="token number">2004</span>-2010 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/eth0/00:0c:29:1a:f8:bd
+Sending on   LPF/eth0/00:0c:29:1a:f8:bd
+Sending on   Socket/fallback
+DHCPDISCOVER on eth0 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> interval <span class="token number">6</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x316768c3<span class="token punctuation">)</span>      发广播寻找DHCP服务器
+DHCPOFFER from <span class="token number">192.168</span>.11.16                                                     <span class="token number">192.168</span>.11.16DHCP服务器应答
+DHCPREQUEST on eth0 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x316768c3<span class="token punctuation">)</span>                  client向服务器请求IP地址
+DHCPACK from <span class="token number">192.168</span>.11.16 <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x316768c3<span class="token punctuation">)</span>                                      确认租赁关系
+bound to <span class="token number">192.168</span>.11.156 -- renewal <span class="token keyword">in</span> <span class="token number">2983</span> seconds.                              client分得IP:192.168.11.156
+
+注意：看到这些信息后，按CTRL+C退出。
+dhclient是一个DHCP协议客户端，它使用DHCP协议或者BOOTP协议或在这两个协议都不可用时使用静态地址来配置一个或多个网络接口
+dhclient -r 释放IP地址
+dhclient -d 强制dhclient作为前台进程运行。 通常情况下，DHCP客户端将在前台运行,直到配置了一个接口,此时它将恢复为在后
+            台运行。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>服务器日志查看验证获取信息：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@zutuanxue ~<span class="token punctuation">]</span><span class="token comment"># tailf /var/log/messages</span>
+Feb <span class="token number">21</span> <span class="token number">13</span>:40:44 baism dhcpd: DHCPDISCOVER from 00:0c:29:1a:f8:bd via ens33
+Feb <span class="token number">21</span> <span class="token number">13</span>:40:45 baism dhcpd: DHCPOFFER on <span class="token number">192.168</span>.11.156 to 00:0c:29:1a:f8:bd via ens33
+Feb <span class="token number">21</span> <span class="token number">13</span>:40:45 baism dhcpd: DHCPREQUEST <span class="token keyword">for</span> <span class="token number">192.168</span>.11.156 <span class="token punctuation">(</span><span class="token number">192.168</span>.11.16<span class="token punctuation">)</span> from 00:0c:29:1a:f8:bd via ens33
+Feb <span class="token number">21</span> <span class="token number">13</span>:40:45 baism dhcpd: DHCPACK on <span class="token number">192.168</span>.11.156 to 00:0c:29:1a:f8:bd via ens33<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在client上通过ifconfig命令再次查看eth0 IP地址，验证是否为192.168.11.156：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># ifconfig eth0</span>
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:BD  
+          inet addr:192.168.11.156  Bcast:192.168.11.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe1a:f8bd/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:97 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:67 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:17364 <span class="token punctuation">(</span><span class="token number">16.9</span> KiB<span class="token punctuation">)</span>  TX bytes:7537 <span class="token punctuation">(</span><span class="token number">7.3</span> KiB<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>查看网关，确定网关为192.168.11.254：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># route -n</span>
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+<span class="token number">192.168</span>.11.0    <span class="token number">0.0</span>.0.0         <span class="token number">255.255</span>.255.0   U     <span class="token number">0</span>      <span class="token number">0</span>        <span class="token number">0</span> eth1
+<span class="token number">192.168</span>.11.0    <span class="token number">0.0</span>.0.0         <span class="token number">255.255</span>.255.0   U     <span class="token number">0</span>      <span class="token number">0</span>        <span class="token number">0</span> eth0
+<span class="token number">169.254</span>.0.0     <span class="token number">0.0</span>.0.0         <span class="token number">255.255</span>.0.0     U     <span class="token number">1003</span>   <span class="token number">0</span>        <span class="token number">0</span> eth1
+<span class="token number">0.0</span>.0.0         <span class="token number">192.168</span>.11.254  <span class="token number">0.0</span>.0.0         UG    <span class="token number">0</span>      <span class="token number">0</span>        <span class="token number">0</span> eth0<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>查看DNS配置文件，看DNS是否为DHCP服务器发放的DNS服务器IP：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># cat /etc/resolv.conf </span>
+<span class="token punctuation">;</span> generated by /sbin/dhclient-script
+nameserver <span class="token number">202.106</span>.0.20
+nameserver <span class="token number">114.114</span>.114.114<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-5-查看具体租约"><a href="#2-5-查看具体租约" class="headerlink" title="2.5 查看具体租约"></a>2.5 查看具体租约</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># cat /var/lib/dhcpd/dhcpd.leases</span>
+<span class="token comment"># The format of this file is documented in the dhcpd.leases(5) manual page.</span>
+<span class="token comment"># This lease file was written by isc-dhcp-4.2.5</span>
+
+server-duid <span class="token string">"<span class="token entity" title="\000">\000</span><span class="token entity" title="\001">\001</span><span class="token entity" title="\000">\000</span><span class="token entity" title="\001">\001</span>,<span class="token entity" title="\267">\267</span><span class="token entity" title="\234">\234</span><span class="token entity" title="\316">\316</span><span class="token entity" title="\000">\000</span><span class="token entity" title="\014">\014</span>)<span class="token entity" title="\211">\211</span><span class="token entity" title="\270">\270</span><span class="token entity" title="\352">\352</span>"</span><span class="token punctuation">;</span>
+
+lease <span class="token number">192.168</span>.133.153 <span class="token punctuation">{</span>
+  starts <span class="token number">2</span> <span class="token number">2023</span>/10/14 04:21:04<span class="token punctuation">;</span>	<span class="token comment">#开始时间</span>
+  ends <span class="token number">2</span> <span class="token number">2023</span>/10/14 06:21:04<span class="token punctuation">;</span>		<span class="token comment">#结束时间</span>
+  cltt <span class="token number">2</span> <span class="token number">2023</span>/10/14 04:21:04<span class="token punctuation">;</span>
+  binding state active<span class="token punctuation">;</span>
+  next binding state <span class="token function">free</span><span class="token punctuation">;</span>
+  rewind binding state <span class="token function">free</span><span class="token punctuation">;</span>
+  hardware ethernet 00:0c:29:6d:1c:b3<span class="token punctuation">;</span>
+  uid <span class="token string">"<span class="token entity" title="\001">\001</span><span class="token entity" title="\000">\000</span><span class="token entity" title="\014">\014</span>)m<span class="token entity" title="\034">\034</span><span class="token entity" title="\263">\263</span>"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-6、保留IP"><a href="#2-6、保留IP" class="headerlink" title="2.6、保留IP"></a>2.6、保留IP</h2><p>​    在IP租约到期后，如果无法续订租约，client只能乖乖交出IP地址，重新获得一个其他IP使用。但是在公司有些服务器的IP地址是不能变化的，因为变了用户就无法连接到服务器了，比如公司文件服务器、打印服务器等等。那么在这种环境中我们既想使用DHCP管理公司IP，又想实现部分机器的IP永久不变，那么怎么实现呢。</p>
+<p>​    DHCP的作者在写DHCP的时候也想到了这个问题，提出了保留IP的概念，就是将某些IP保留，然后服务器来获得IP的时候，根据其MAC地址做匹配，将对应的IP分给它即可。</p>
+<p><strong>案例</strong>：</p>
+<p>在配置文件/etc/dhcp/dhcpd.conf末尾添加以下内容：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># host print    host为指令，print是个名字</span>
+<span class="token comment"># hardware ethernet 指定以太网网卡MAC地址</span>
+<span class="token comment"># fixed-address 指定要绑定的IP</span>
+<span class="token function">host</span> print <span class="token punctuation">{</span>         
+  hardware ethernet 00:0C:29:1A:F8:C7<span class="token punctuation">;</span>
+  fixed-address <span class="token number">192.168</span>.11.252<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>重启DHCP服务：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl restart dhcpd</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>登陆测试机进行测试，释放当前IP，重新获得新的IP，查看IP地址是否正确分发：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># ifconfig eth1</span>
+eth1      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:C7  
+          inet addr:192.168.11.155  Bcast:192.168.11.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe1a:f8c7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4071 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:187 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:433880 <span class="token punctuation">(</span><span class="token number">423.7</span> KiB<span class="token punctuation">)</span>  TX bytes:16888 <span class="token punctuation">(</span><span class="token number">16.4</span> KiB<span class="token punctuation">)</span>
+
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># dhclient -r eth1</span>
+
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># dhclient -d eth1</span>
+Internet Systems Consortium DHCP Client <span class="token number">4.1</span>.1-P1
+Copyright <span class="token number">2004</span>-2010 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/eth1/00:0c:29:1a:f8:c7
+Sending on   LPF/eth1/00:0c:29:1a:f8:c7
+Sending on   Socket/fallback
+DHCPDISCOVER on eth1 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> interval <span class="token number">4</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x45c162c2<span class="token punctuation">)</span>
+DHCPOFFER from <span class="token number">192.168</span>.11.16
+DHCPREQUEST on eth1 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x45c162c2<span class="token punctuation">)</span>
+DHCPACK from <span class="token number">192.168</span>.11.16 <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x45c162c2<span class="token punctuation">)</span>
+bound to <span class="token number">192.168</span>.11.252 -- renewal <span class="token keyword">in</span> <span class="token number">2881</span> seconds.
+^C
+
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># ifconfig eth1</span>
+eth1      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:C7  
+          inet addr:192.168.11.252  Bcast:192.168.11.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe1a:f8c7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4081 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:191 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:436337 <span class="token punctuation">(</span><span class="token number">426.1</span> KiB<span class="token punctuation">)</span>  TX bytes:17656 <span class="token punctuation">(</span><span class="token number">17.2</span> KiB<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-7、DHCP超级作用域"><a href="#2-7、DHCP超级作用域" class="headerlink" title="2.7、DHCP超级作用域"></a>2.7、DHCP超级作用域</h2><p><strong>案例:部署一个超级作用域，作用域是192.168.11.0/24网段，192.168.12.0/24网段。</strong></p>
+<p>编辑配置文件:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment">#  cat /etc/dhcp/dhcpd.conf</span>
+option domain-name-servers <span class="token number">4.2</span>.2.2, <span class="token number">4.2</span>.2.1<span class="token punctuation">;</span>
+
+default-lease-time <span class="token number">28800</span><span class="token punctuation">;</span>
+max-lease-time <span class="token number">43200</span><span class="token punctuation">;</span>
+<span class="token comment">#authoritative;</span>
+log-facility local7<span class="token punctuation">;</span>
+
+<span class="token comment">#share-network 部署一个超级作用域</span>
+<span class="token comment">#supper 超级作用域名称，随便起，但是建议有意义。</span>
+shared-network supper <span class="token punctuation">{</span>
+    <span class="token comment">#192.168.11.0作用域</span>
+    subnet <span class="token number">192.168</span>.11.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+        range <span class="token number">192.168</span>.11.150 <span class="token number">192.168</span>.11.150<span class="token punctuation">;</span>
+        option domain-name-servers <span class="token number">202.106</span>.0.20, <span class="token number">114.114</span>.114.114<span class="token punctuation">;</span>
+        option routers <span class="token number">192.168</span>.11.254<span class="token punctuation">;</span>
+        default-lease-time <span class="token number">7200</span><span class="token punctuation">;</span>
+        max-lease-time <span class="token number">10800</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">#192.168.12.0作用域</span>
+    subnet <span class="token number">192.168</span>.12.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+        range <span class="token number">192.168</span>.12.150 <span class="token number">192.168</span>.12.150<span class="token punctuation">;</span>
+        option domain-name-servers <span class="token number">202.106</span>.0.20, <span class="token number">114.114</span>.114.114<span class="token punctuation">;</span>
+        option routers <span class="token number">192.168</span>.12.254<span class="token punctuation">;</span>
+        default-lease-time <span class="token number">7200</span><span class="token punctuation">;</span>
+        max-lease-time <span class="token number">10800</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>注意：案例中为了方便验证，每个作用域只发布一个IP，否则测试无法保证能100%分到两个网段。</p>
+<p>重启DHCP服务，生效配置文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># systemctl restart dhcpd</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在客户端进行验证：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 释放两网卡IP</span>
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># dhclient -r eth0</span>
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># dhclient -r eth1</span>
+
+<span class="token comment"># 释放成功</span>
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># ifconfig</span>
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:BD  
+          inet6 addr: fe80::20c:29ff:fe1a:f8bd/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1591 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:162 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:282324 <span class="token punctuation">(</span><span class="token number">275.7</span> KiB<span class="token punctuation">)</span>  TX bytes:30619 <span class="token punctuation">(</span><span class="token number">29.9</span> KiB<span class="token punctuation">)</span>
+
+eth1      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:C7  
+          inet6 addr: fe80::20c:29ff:fe1a:f8c7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4719 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:216 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:559954 <span class="token punctuation">(</span><span class="token number">546.8</span> KiB<span class="token punctuation">)</span>  TX bytes:19582 <span class="token punctuation">(</span><span class="token number">19.1</span> KiB<span class="token punctuation">)</span>
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:12 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:12 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:720 <span class="token punctuation">(</span><span class="token number">720.0</span> b<span class="token punctuation">)</span>  TX bytes:720 <span class="token punctuation">(</span><span class="token number">720.0</span> b<span class="token punctuation">)</span>
+
+<span class="token comment"># 分别获取IP地址 </span>
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># dhclient -d eth0</span>
+Internet Systems Consortium DHCP Client <span class="token number">4.1</span>.1-P1
+Copyright <span class="token number">2004</span>-2010 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/eth0/00:0c:29:1a:f8:bd
+Sending on   LPF/eth0/00:0c:29:1a:f8:bd
+Sending on   Socket/fallback
+DHCPDISCOVER on eth0 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> interval <span class="token number">6</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x2574199a<span class="token punctuation">)</span>
+DHCPOFFER from <span class="token number">192.168</span>.11.16
+DHCPREQUEST on eth0 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x2574199a<span class="token punctuation">)</span>
+DHCPACK from <span class="token number">192.168</span>.11.16 <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x2574199a<span class="token punctuation">)</span>
+bound to <span class="token number">192.168</span>.11.150 -- renewal <span class="token keyword">in</span> <span class="token number">3026</span> seconds.
+^C
+
+<span class="token comment"># 确保都是来自我们实验中的DHCP服务器</span>
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># dhclient -d eth1</span>
+Internet Systems Consortium DHCP Client <span class="token number">4.1</span>.1-P1
+Copyright <span class="token number">2004</span>-2010 Internet Systems Consortium.
+All rights reserved.
+For info, please visit https://www.isc.org/software/dhcp/
+
+Listening on LPF/eth1/00:0c:29:1a:f8:c7
+Sending on   LPF/eth1/00:0c:29:1a:f8:c7
+Sending on   Socket/fallback
+DHCPDISCOVER on eth1 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> interval <span class="token number">7</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x2cebde11<span class="token punctuation">)</span>
+DHCPOFFER from <span class="token number">192.168</span>.11.16
+DHCPREQUEST on eth1 to <span class="token number">255.255</span>.255.255 port <span class="token number">67</span> <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x2cebde11<span class="token punctuation">)</span>
+DHCPACK from <span class="token number">192.168</span>.11.16 <span class="token punctuation">(</span>xid<span class="token operator">=</span>0x2cebde11<span class="token punctuation">)</span>
+bound to <span class="token number">192.168</span>.12.150 -- renewal <span class="token keyword">in</span> <span class="token number">3102</span> seconds.
+
+<span class="token comment"># 确保都是来自本地配置的DHCP服务器</span>
+
+
+<span class="token comment"># 查看IP情况，发现实验成功了，分别获得到了不同网段IP</span>
+<span class="token punctuation">[</span>root@test 桌面<span class="token punctuation">]</span><span class="token comment"># ifconfig</span>
+eth0      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:BD  
+          inet addr:192.168.11.150  Bcast:192.168.11.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe1a:f8bd/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1613 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:166 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:287076 <span class="token punctuation">(</span><span class="token number">280.3</span> KiB<span class="token punctuation">)</span>  TX bytes:31387 <span class="token punctuation">(</span><span class="token number">30.6</span> KiB<span class="token punctuation">)</span>
+
+eth1      Link encap:Ethernet  HWaddr 00:0C:29:1A:F8:C7  
+          inet addr:192.168.12.150  Bcast:192.168.12.255  Mask:255.255.255.0
+          inet6 addr: fe80::20c:29ff:fe1a:f8c7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:4741 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:220 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:564706 <span class="token punctuation">(</span><span class="token number">551.4</span> KiB<span class="token punctuation">)</span>  TX bytes:20350 <span class="token punctuation">(</span><span class="token number">19.8</span> KiB<span class="token punctuation">)</span>
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:12 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:12 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:720 <span class="token punctuation">(</span><span class="token number">720.0</span> b<span class="token punctuation">)</span>  TX bytes:720 <span class="token punctuation">(</span><span class="token number">720.0</span> b<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="2-8、补充"><a href="#2-8、补充" class="headerlink" title="2.8、补充"></a>2.8、补充</h2><h3 id="2-8-1-如果客户端获得不到-IP会怎么办"><a href="#2-8-1-如果客户端获得不到-IP会怎么办" class="headerlink" title="2.8.1 如果客户端获得不到 IP会怎么办"></a>2.8.1 如果客户端获得不到 IP会怎么办</h3><p>当客户端获得不到IP地址，会得到一个169.254开头的临时IP，此IP不能和其他网段通信，但是Client会继续向网络中发DHCP广播，继续坚持不懈申请IP。</p>
+<h3 id="2-8-2-DHCP会面临单机故障，如何解决"><a href="#2-8-2-DHCP会面临单机故障，如何解决" class="headerlink" title="2.8.2 DHCP会面临单机故障，如何解决"></a>2.8.2 DHCP会面临单机故障，如何解决</h3><p>两台设备互相分发对方网段一段IP，将作用域采用8/2原则，彼此互相冗余，当一台服务器出现问题，不至于整个网段故障。</p>
+<h3 id="2-8-3-抓包验证方法"><a href="#2-8-3-抓包验证方法" class="headerlink" title="2.8.3 抓包验证方法"></a>2.8.3 抓包验证方法</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment">#  tcpdump -nn -vvv -s 1500 -i ens33 host 192.168.11.16 and udp port 67 or udp port 68</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="2-8-4-如何发放计算机名称"><a href="#2-8-4-如何发放计算机名称" class="headerlink" title="2.8.4 如何发放计算机名称"></a>2.8.4 如何发放计算机名称</h3><p>发放计算机名称只能在保留中完成，要求Client的计算机名配置文件中将对应字段删除。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">option domain-name-servers <span class="token number">4.2</span>.2.2, <span class="token number">4.2</span>.2.1<span class="token punctuation">;</span>
+
+default-lease-time <span class="token number">28800</span><span class="token punctuation">;</span>
+max-lease-time <span class="token number">43200</span><span class="token punctuation">;</span>
+authoritative<span class="token punctuation">;</span>
+log-facility local7<span class="token punctuation">;</span>
+
+subnet <span class="token number">192.168</span>.11.0 netmask <span class="token number">255.255</span>.255.0 <span class="token punctuation">{</span>
+  range <span class="token number">192.168</span>.11.153 <span class="token number">192.168</span>.11.252<span class="token punctuation">;</span>
+  option domain-name-servers <span class="token number">202.106</span>.0.20, <span class="token number">114.114</span>.114.114<span class="token punctuation">;</span>
+  option routers <span class="token number">192.168</span>.11.254<span class="token punctuation">;</span>
+  option broadcast-address <span class="token number">192.168</span>.11.255<span class="token punctuation">;</span>
+  default-lease-time <span class="token number">7200</span><span class="token punctuation">;</span>
+  max-lease-time <span class="token number">10800</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token function">host</span> print <span class="token punctuation">{</span>
+  <span class="token comment">#指定计算机名称</span>
+  option host-name <span class="token string">"test.hello.com"</span><span class="token punctuation">;</span>
+  hardware ethernet 00:0c:29:af:f1:84<span class="token punctuation">;</span>
+  fixed-address <span class="token number">192.168</span>.11.252<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+注意：请把/etc/hostname 中的计算机名称清除
+      /etc/sysconfig/network中的hostname字段清除<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Shuyan</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shuyanCoding.github.io/2023/10/10/linux-fu-wu/">http://shuyanCoding.github.io/2023/10/10/linux-fu-wu/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Shuyan</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">您的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/10/10/linux-fu-wu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="linux服务">
+                        
+                        <span class="card-title">linux服务</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-10-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/09/28/psi/rs21-lun-wen-bi-ji/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="RS21论文笔记">
+                        
+                        <span class="card-title">RS21论文笔记</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-09-28
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" class="post-category">
+                                    网络安全
+                                </a>
+                            
+                            <a href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/PSI/" class="post-category">
+                                    PSI
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/PSI/">
+                        <span class="chip bg-color">PSI</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Shuyan<br />'
+            + '文章作者: Shuyan<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2023</span>
+            
+            <a href="/about" target="_blank">Shuyan</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/shuyanCoding" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:24371197969@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2437197969" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2437197969" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/u/7836229572" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/u/7836229572" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/jiu-ye-wei-yang-81" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/jiu-ye-wei-yang-81" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

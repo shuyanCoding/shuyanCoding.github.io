@@ -6,7 +6,7 @@
   <link href="http://shuyancoding.github.io/atom.xml" rel="self"/>
   
   <link href="http://shuyancoding.github.io/"/>
-  <updated>2023-09-25T08:48:48.134Z</updated>
+  <updated>2023-10-10T07:04:17.810Z</updated>
   <id>http://shuyancoding.github.io/</id>
   
   <author>
@@ -15,6 +15,50 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>linux服务</title>
+    <link href="http://shuyancoding.github.io/2023/10/10/linux-fu-wu/"/>
+    <id>http://shuyancoding.github.io/2023/10/10/linux-fu-wu/</id>
+    <published>2023-10-10T03:31:17.000Z</published>
+    <updated>2023-10-10T07:04:17.810Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;contOS更换yum源&quot;&gt;&lt;a href=&quot;#contOS更换yum源&quot; class=&quot;headerlink&quot; title=&quot;contOS更换yum源&quot;&gt;&lt;/a&gt;contOS更换yum源&lt;/h2&gt;&lt;pre class=&quot;line-numbers</summary>
+        
+      
+    
+    
+    
+    <category term="Linux" scheme="http://shuyancoding.github.io/categories/Linux/"/>
+    
+    
+    <category term="Linux" scheme="http://shuyancoding.github.io/tags/Linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>RS21论文笔记</title>
+    <link href="http://shuyancoding.github.io/2023/09/28/psi/rs21-lun-wen-bi-ji/"/>
+    <id>http://shuyancoding.github.io/2023/09/28/psi/rs21-lun-wen-bi-ji/</id>
+    <published>2023-09-28T02:21:35.000Z</published>
+    <updated>2023-09-28T09:22:56.567Z</updated>
+    
+    
+    
+    
+    <category term="网络安全" scheme="http://shuyancoding.github.io/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"/>
+    
+    <category term="PSI" scheme="http://shuyancoding.github.io/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/PSI/"/>
+    
+    
+    <category term="PSI" scheme="http://shuyancoding.github.io/tags/PSI/"/>
+    
+  </entry>
   
   <entry>
     <title>git基本命令</title>
