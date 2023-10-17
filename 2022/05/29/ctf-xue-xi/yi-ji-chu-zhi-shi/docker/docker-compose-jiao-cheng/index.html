@@ -1,0 +1,1662 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Docker-compose教程, Shuyan">
+    <meta name="description" content="Docker-compose教程1.Compose介绍​        DockerCompose是一个用来定义和运行复杂应用的Docker工具。一个使用Docker容器的应用，通常由多个容器组成。使用Docker Compose不再需要使">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Docker-compose教程 | Shuyan</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Shuyan</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Shuyan</div>
+        <div class="logo-desc">
+            
+            ShuyanCoding......
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Docker-compose教程</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Docker/">
+                                <span class="chip bg-color">Docker</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Docker/" class="post-category">
+                                Docker
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-05-29
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="Docker-compose教程"><a href="#Docker-compose教程" class="headerlink" title="Docker-compose教程"></a>Docker-compose教程</h1><h2 id="1-Compose介绍"><a href="#1-Compose介绍" class="headerlink" title="1.Compose介绍"></a>1.Compose介绍</h2><p>​        DockerCompose是一个用来定义和运行复杂应用的Docker工具。一个使用Docker容器的应用，通常由多个容器组成。使用Docker Compose不再需要使用shell脚本来启动容器。<br>​        Compose 通过一个配置文件来管理多个Docker容器，在配置文件中，所有的容器通过services来定义，然后使用docker-compose脚本来启动，停止和重启应用，和应用中的服务以及所有依赖服务的容器，非常适合组合使用多个容器进行开发的场景。</p>
+<h2 id="2-Compose和Docker兼容性"><a href="#2-Compose和Docker兼容性" class="headerlink" title="2.Compose和Docker兼容性"></a>2.Compose和Docker兼容性</h2><table>
+<thead>
+<tr>
+<th align="center">compose文件格式版本</th>
+<th align="center">docker版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">3.4</td>
+<td align="center">17.09.0+</td>
+</tr>
+<tr>
+<td align="center">3.3</td>
+<td align="center">17.06.0+</td>
+</tr>
+<tr>
+<td align="center">3.2</td>
+<td align="center">17.04.0+</td>
+</tr>
+<tr>
+<td align="center">3.1</td>
+<td align="center">1.13.1+</td>
+</tr>
+<tr>
+<td align="center">3.0</td>
+<td align="center">1.13.0+</td>
+</tr>
+<tr>
+<td align="center">2.3</td>
+<td align="center">17.06.0+</td>
+</tr>
+<tr>
+<td align="center">2.2</td>
+<td align="center">1.13.0+</td>
+</tr>
+<tr>
+<td align="center">2.1</td>
+<td align="center">1.12.0+</td>
+</tr>
+<tr>
+<td align="center">2.0</td>
+<td align="center">1.10.0+</td>
+</tr>
+<tr>
+<td align="center">1.0</td>
+<td align="center">1.9.1.+</td>
+</tr>
+</tbody></table>
+<p><strong>Docker版本变化说明</strong>：</p>
+<p>​        Docker从1.13.x版本开始，版本分为企业版EE和社区版CE，版本号也改为按照时间线来发布，比如17.03就是2017年3月。</p>
+<p>​        Docker的linux发行版的软件仓库从以前的<code>https://apt.dockerproject.org</code>和<code>https://[yum](https://so.csdn.net/so/search?q=yum&amp;spm=1001.2101.3001.7020).dockerproject.org</code>变更为目前的<code>https://download.docker.com</code>, 软件包名字改为docker-ce和docker-ee。</p>
+<h2 id="3-安装docker"><a href="#3-安装docker" class="headerlink" title="3.安装docker"></a>3.安装docker</h2><p>​        Docker的社区版（Docker Community Edition）叫做docker-ce。老版本的Docker包叫做docker或者docker-engine，如果安装了老版本的docker得先卸载然后再安装新版本的docker。docker的发展非常迅速，apt源的更新往往比较滞后。所以docker官网推荐的安装方式都是下载docker安装脚本安装。 </p>
+<p>卸载老旧的版本（若未安装过可省略此步）：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">apt-get</span> remove <span class="token function">docker</span> docker-engine docker.io<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>安装最新的docker：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">curl</span> -fsSL get.docker.com -o get-docker.sh
+
+$ <span class="token function">sudo</span> <span class="token function">sh</span> get-docker.sh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>shell会提示你输入sudo的密码，然后开始执行最新的docker过程 ，或者</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">curl</span> -sSL https://get.docker.com/ <span class="token operator">|</span> <span class="token function">sh</span> <span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>确认Docker成功最新的docker：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">docker</span> run hello-world<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="4-安装docker-compose"><a href="#4-安装docker-compose" class="headerlink" title="4.安装docker-compose"></a>4.安装docker-compose</h2><p>两种最新的docker安装方式</p>
+<h3 id="1-从github上下载docker-compose二进制文件安装"><a href="#1-从github上下载docker-compose二进制文件安装" class="headerlink" title="1.从github上下载docker-compose二进制文件安装"></a>1.从github上下载docker-compose二进制文件安装</h3><ul>
+<li>下载最新版的docker-compose文件 </li>
+</ul>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">sudo</span> <span class="token attr-value">curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p> 若是github访问太慢，可以用daocloud下载</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">sudo</span> <span class="token attr-value">curl -L https://get.daocloud.io/docker/compose/releases/download/1.25.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>添加可执行权限</li>
+</ul>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">sudo</span> <span class="token attr-value">chmod +x /usr/local/bin/docker-compose</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>测试安装结果</li>
+</ul>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">$</span> <span class="token attr-value">docker-compose --version</span>
+
+<span class="token attr-name">docker-compose</span> <span class="token attr-value">version 1.16.1, build 1719ceb</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-pip安装"><a href="#2-pip安装" class="headerlink" title="2.pip安装"></a>2.pip安装</h3><pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">sudo</span> <span class="token attr-value">pip install docker-compose</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<hr>
+<h2 id="5-docker-compose文件结构和示例"><a href="#5-docker-compose文件结构和示例" class="headerlink" title="5.docker-compose文件结构和示例"></a>5.docker-compose文件结构和示例</h2><h3 id="docker-compose文件结构"><a href="#docker-compose文件结构" class="headerlink" title="docker-compose文件结构"></a>docker-compose文件结构</h3><p>docker-compose.yml:</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">version</span><span class="token punctuation">:</span> <span class="token attr-value">"3"</span>
+<span class="token attr-name">services</span><span class="token punctuation">:</span>
+  
+<span class="token attr-name">  redis</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">redis:alpine</span>
+<span class="token attr-name">    ports</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">"6379"</span>
+<span class="token attr-name">    networks</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">frontend</span>
+<span class="token attr-name">    deploy</span><span class="token punctuation">:</span>
+<span class="token attr-name">      replicas</span><span class="token punctuation">:</span> <span class="token attr-value">2</span>
+<span class="token attr-name">      update_config</span><span class="token punctuation">:</span>
+<span class="token attr-name">        parallelism</span><span class="token punctuation">:</span> <span class="token attr-value">2</span>
+<span class="token attr-name">        delay</span><span class="token punctuation">:</span> <span class="token attr-value">10s</span>
+<span class="token attr-name">      restart_policy</span><span class="token punctuation">:</span>
+<span class="token attr-name">        condition</span><span class="token punctuation">:</span> <span class="token attr-value">on-failure</span>
+  
+<span class="token attr-name">  db</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">postgres:9.4</span>
+<span class="token attr-name">    volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">db-data:/var/lib/postgresql/data</span>
+<span class="token attr-name">    networks</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">backend</span>
+<span class="token attr-name">    deploy</span><span class="token punctuation">:</span>
+<span class="token attr-name">      placement</span><span class="token punctuation">:</span>
+<span class="token attr-name">        constraints</span><span class="token punctuation">:</span> <span class="token attr-value">[node.role == manager]</span>
+
+<span class="token attr-name"> vote</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">dockersamples/examplevotingapp_vote:before</span>
+<span class="token attr-name">    ports</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">5000:80</span>
+<span class="token attr-name">    networks</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">frontend</span>
+<span class="token attr-name">    depends_on</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">redis</span>
+<span class="token attr-name">    deploy</span><span class="token punctuation">:</span>
+<span class="token attr-name">      replicas</span><span class="token punctuation">:</span> <span class="token attr-value">2</span>
+<span class="token attr-name">      update_config</span><span class="token punctuation">:</span>
+<span class="token attr-name">        parallelism</span><span class="token punctuation">:</span> <span class="token attr-value">2</span>
+<span class="token attr-name">      restart_policy</span><span class="token punctuation">:</span>
+<span class="token attr-name">        condition</span><span class="token punctuation">:</span> <span class="token attr-value">on-failure</span>
+
+<span class="token attr-name">  result</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">dockersamples/examplevotingapp_result:before</span>
+<span class="token attr-name">    ports</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">5001:80</span>
+<span class="token attr-name">    networks</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">backend</span>
+<span class="token attr-name">    depends_on</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">db</span>
+<span class="token attr-name">    deploy</span><span class="token punctuation">:</span>
+<span class="token attr-name">      replicas</span><span class="token punctuation">:</span> <span class="token attr-value">1</span>
+<span class="token attr-name">      update_config</span><span class="token punctuation">:</span>
+<span class="token attr-name">        parallelism</span><span class="token punctuation">:</span> <span class="token attr-value">2</span>
+<span class="token attr-name">        delay</span><span class="token punctuation">:</span> <span class="token attr-value">10s</span>
+<span class="token attr-name">      restart_policy</span><span class="token punctuation">:</span>
+<span class="token attr-name">        condition</span><span class="token punctuation">:</span> <span class="token attr-value">on-failure</span>
+
+<span class="token attr-name">  worker</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">dockersamples/examplevotingapp_worker</span>
+<span class="token attr-name">    networks</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">frontend</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">backend</span>
+<span class="token attr-name">    deploy</span><span class="token punctuation">:</span>
+<span class="token attr-name">      mode</span><span class="token punctuation">:</span> <span class="token attr-value">replicated</span>
+<span class="token attr-name">      replicas</span><span class="token punctuation">:</span> <span class="token attr-value">1</span>
+<span class="token attr-name">      labels</span><span class="token punctuation">:</span> <span class="token attr-value">[APP=VOTING]</span>
+<span class="token attr-name">      restart_policy</span><span class="token punctuation">:</span>
+<span class="token attr-name">        condition</span><span class="token punctuation">:</span> <span class="token attr-value">on-failure</span>
+<span class="token attr-name">        delay</span><span class="token punctuation">:</span> <span class="token attr-value">10s</span>
+<span class="token attr-name">        max_attempts</span><span class="token punctuation">:</span> <span class="token attr-value">3</span>
+<span class="token attr-name">        window</span><span class="token punctuation">:</span> <span class="token attr-value">120s</span>
+<span class="token attr-name">      placement</span><span class="token punctuation">:</span>
+<span class="token attr-name">        constraints</span><span class="token punctuation">:</span> <span class="token attr-value">[node.role == manager]</span>
+
+<span class="token attr-name">  visualizer</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">dockersamples/visualizer:stable</span>
+<span class="token attr-name">    ports</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">"8080:8080"</span>
+<span class="token attr-name">    stop_grace_period</span><span class="token punctuation">:</span> <span class="token attr-value">1m30s</span>
+<span class="token attr-name">    volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">"/var/run/docker.sock:/var/run/docker.sock"</span>
+<span class="token attr-name">    deploy</span><span class="token punctuation">:</span>
+<span class="token attr-name">      placement</span><span class="token punctuation">:</span>
+<span class="token attr-name">        constraints</span><span class="token punctuation">:</span> <span class="token attr-value">[node.role == manager]</span>
+
+<span class="token attr-name">networks</span><span class="token punctuation">:</span>
+<span class="token attr-name">  frontend</span><span class="token punctuation">:</span>
+<span class="token attr-name">  backend</span><span class="token punctuation">:</span>
+  
+<span class="token attr-name">volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">  db-data</span><span class="token punctuation">:</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="docker-compose使用示例"><a href="#docker-compose使用示例" class="headerlink" title="docker-compose使用示例"></a>docker-compose使用示例</h3><p>通过docker-compose构建一个在docker中运行的基于python flask框架的web应用。</p>
+<blockquote>
+<p><strong>注意：</strong>确保你已经安装了Docker Engine和Docker Compose。 您不需要安装Python或Redis，因为这两个都是由Docker镜像提供的。</p>
+</blockquote>
+<p><strong>Step 1: 定义python应用</strong></p>
+<ul>
+<li>1 .创建工程目录</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">mkdir</span> compose_test
+
+$ <span class="token builtin class-name">cd</span> compose_test
+
+$ <span class="token function">mkdir</span> src      <span class="token comment"># 源码文件夹</span>
+
+$ <span class="token function">mkdir</span> <span class="token function">docker</span>  <span class="token comment"># docker配置文件夹</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>目录结构如下： </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">└── compose_test
+    ├── <span class="token function">docker</span>
+    │   └── docker-compose.yml
+    ├── Dockerfile
+    └── src
+        ├── app.py
+        └── requirements.txt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>2 .在compose_test/src/目录下创建python flask应用 compose_test/src/app.py文件。</li>
+</ul>
+<pre class="line-numbers language-python" data-language="python"><code class="language-python"><span class="token keyword">from</span> flask <span class="token keyword">import</span> Flask
+<span class="token keyword">from</span> redis <span class="token keyword">import</span> Redis
+
+app <span class="token operator">=</span> Flask<span class="token punctuation">(</span>__name__<span class="token punctuation">)</span>
+redis <span class="token operator">=</span> Redis<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">'redis'</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">6379</span><span class="token punctuation">)</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>route</span><span class="token punctuation">(</span><span class="token string">'/'</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">hello</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    count <span class="token operator">=</span> redis<span class="token punctuation">.</span>incr<span class="token punctuation">(</span><span class="token string">'hits'</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">'Hello World! I have been seen {} times.\n'</span><span class="token punctuation">.</span><span class="token builtin">format</span><span class="token punctuation">(</span>count<span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">"__main__"</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">"0.0.0.0"</span><span class="token punctuation">,</span> debug<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>3 .创建python 需求文件 compose_test/src/requirements.txt</li>
+</ul>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties">flask
+redis<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>Step 2: 创建容器的Dockerfile文件</strong></p>
+<p>一个容器一个Dockerfile文件，在compose_test/目录中创建Dockerfile文件：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">FROM</span> <span class="token attr-value">python:3.7</span>
+
+<span class="token attr-name">COPY</span> <span class="token attr-value">src/ /opt/src</span>
+<span class="token attr-name">WORKDIR</span> <span class="token attr-value">/opt/src</span>
+
+<span class="token attr-name">RUN</span> <span class="token attr-value">pip install -r requirements.txt</span>
+<span class="token attr-name">CMD</span> <span class="token attr-value">["python", "app.py"]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Dockerfile文件告诉docker了如下信息：</p>
+<p>从Python 3.7的镜像开始构建一个容器镜像。 </p>
+<p>复制src（即compose_test/src）目录到容器中的/opt/src目录。 </p>
+<p>将容器的工作目录设置为/opt/src（通过docker exec -it your_docker_container_id bash 进入容器后的默认目录）。<br>安装Python依赖关系。<br>将容器的默认命令设置为python app.py。</p>
+<p><strong>Step 3: 定义docker-compose脚本</strong></p>
+<p>在compose_test/docker/目录下创建docker-compose.yml文件，并在里面定义服务，内容如下：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">version</span><span class="token punctuation">:</span> <span class="token attr-value">'3'</span>
+<span class="token attr-name">services</span><span class="token punctuation">:</span>
+<span class="token attr-name">  web</span><span class="token punctuation">:</span>
+<span class="token attr-name">    build</span><span class="token punctuation">:</span> <span class="token attr-value">../</span>
+<span class="token attr-name">    ports</span><span class="token punctuation">:</span>
+<span class="token attr-name">     -</span> <span class="token attr-value">"5000:5000"</span>
+<span class="token attr-name">  redis</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">redis:3.0.7</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>这个compose文件定义了两个服务，即定义了web和redis两个容器。<br><strong>web容器：</strong> </p>
+<ul>
+<li>使用当前<code>docker-compose.yml</code>文件所在目录的上级目录（compose_test/Dockerfile）中的Dockerfile构建映像。 </li>
+<li>将容器上的暴露端口5000映射到主机上的端口5000。 我们使用Flask Web服务器的默认端口5000。 </li>
+</ul>
+<p><strong>redis容器：</strong> </p>
+<ul>
+<li>redis服务使用从Docker Hub提取的官方redis镜像3.0.7版本。</li>
+</ul>
+<p><strong>Step 4: 使用Compose构建并运行您的应用程序</strong></p>
+<p>在<code>compose_test/docker/</code>目录下执行<code>docker-compose.yml</code>文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">docker-compose</span> up
+
+<span class="token comment"># 若是要后台运行： $ docker-compose up -d</span>
+
+<span class="token comment"># 若不使用默认的docker-compose.yml 文件名：</span>
+
+$ <span class="token function">docker-compose</span> -f server.yml up -d <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>然后在浏览器中输入<code>http://0.0.0.0:5000/</code>查看运行的应用程序。</p>
+<p><strong>Step 5: 编辑compose文件以添加文件绑定挂载</strong></p>
+<p>​        上面的代码是在构建时静态复制到容器中的，即通过Dockerfile文件中的COPY src /opt/src命令实现物理主机中的源码复制到容器中，这样在后续物理主机src目录中代码的更改不会反应到容器中。<br>​        可以通过volumes 关键字实现物理主机目录挂载到容器中的功能（同时删除Dockerfile中的COPY指令，不需要创建镜像时将代码打包进镜像，而是通过volums动态挂载，容器和物理host共享数据卷）：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">version</span><span class="token punctuation">:</span> <span class="token attr-value">'3'</span>
+<span class="token attr-name">services</span><span class="token punctuation">:</span>
+<span class="token attr-name">  web</span><span class="token punctuation">:</span>
+<span class="token attr-name">    build</span><span class="token punctuation">:</span> <span class="token attr-value">../</span>
+<span class="token attr-name">    ports</span><span class="token punctuation">:</span>
+<span class="token attr-name">     -</span> <span class="token attr-value">"5000:5000"</span>
+<span class="token attr-name">    volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">     -</span> <span class="token attr-value">../src:/opt/src</span>
+<span class="token attr-name">  redis</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">"redis:3.0.7"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>通过volumes（卷）将主机上的项目目录（compose_test/src）挂载到容器中的/opt/src目录，允许您即时修改代码，而无需重新构建镜像。</p>
+<p><strong>Step 6: 重新构建和运行应用程序</strong></p>
+<p>使用更新的compose文件构建应用程序，然后运行它。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ <span class="token function">docker-compose</span> up -d<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h2 id="6-compose常用服务配置参考"><a href="#6-compose常用服务配置参考" class="headerlink" title="6.compose常用服务配置参考"></a>6.compose常用服务配置参考</h2><p>​        Compose文件是一个定义服务，网络和卷的YAML文件。 Compose文件的默认文件名为docker-compose.yml。</p>
+<blockquote>
+<p>提示：您可以对此文件使用.yml或.yaml扩展名。 他们都工作。</p>
+</blockquote>
+<p>​        与docker运行一样，默认情况下，Dockerfile中指定的选项（例如，CMD，EXPOSE，VOLUME，ENV）都被遵守，你不需要在docker-compose.yml中再次指定它们。</p>
+<p>​        同时你可以使用类似Bash的$ {VARIABLE} 语法在配置值中使用环境变量，有关详细信息，请参阅<a target="_blank" rel="noopener" href="https://docs.docker.com/compose/compose-file/#variable-substitution">变量替换</a>。</p>
+<p>​        本节包含版本3中服务定义支持的所有配置选项。</p>
+<h3 id="build"><a href="#build" class="headerlink" title="build"></a>build</h3><p>​        build 可以指定包含构建上下文的路径：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">version</span><span class="token punctuation">:</span> <span class="token attr-value">'2'</span>
+<span class="token attr-name">services</span><span class="token punctuation">:</span>
+<span class="token attr-name">  webapp</span><span class="token punctuation">:</span>
+<span class="token attr-name">    build</span><span class="token punctuation">:</span> <span class="token attr-value">./dir</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>或者，作为一个对象，该对象具有上下文路径和指定的Dockerfile文件以及args参数值：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">version</span><span class="token punctuation">:</span> <span class="token attr-value">'2'</span>
+<span class="token attr-name">services</span><span class="token punctuation">:</span>
+<span class="token attr-name">  webapp</span><span class="token punctuation">:</span>
+<span class="token attr-name">    build</span><span class="token punctuation">:</span>
+<span class="token attr-name">      context</span><span class="token punctuation">:</span> <span class="token attr-value">./dir</span>
+<span class="token attr-name">      dockerfile</span><span class="token punctuation">:</span> <span class="token attr-value">Dockerfile-alternate</span>
+<span class="token attr-name">      args</span><span class="token punctuation">:</span>
+<span class="token attr-name">        buildno</span><span class="token punctuation">:</span> <span class="token attr-value">1</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>webapp服务将会通过./dir目录下的Dockerfile-alternate文件构建容器镜像。 </p>
+<p>如果你同时指定image和build，则compose会通过build指定的目录构建容器镜像，而构建的镜像名为image中指定的镜像名和标签。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">build</span><span class="token punctuation">:</span> <span class="token attr-value">./dir</span>
+<span class="token attr-name">image</span><span class="token punctuation">:</span> <span class="token attr-value">webapp:tag</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>这将由./dir构建的名为webapp和标记为tag的镜像。</p>
+<p><strong>context</strong></p>
+<p>​        包含Dockerfile文件的目录路径，或者是git仓库的URL。<br>​        当提供的值是相对路径时，它被解释为相对于当前compose文件的位置。 该目录也是发送到Docker守护程序构建镜像的上下文。</p>
+<p><strong>dockerfile</strong></p>
+<p>​        备用Docker文件。Compose将使用备用文件来构建。 还必须指定构建路径。</p>
+<p><strong>args</strong></p>
+<p>​        添加构建镜像的参数，环境变量只能在构建过程中访问。<br>​        首先，在Dockerfile中指定要使用的参数：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">ARG</span> <span class="token attr-value">buildno</span>
+<span class="token attr-name">ARG</span> <span class="token attr-value">password</span>
+
+<span class="token attr-name">RUN</span> <span class="token attr-value">echo "Build number: $buildno"</span>
+<span class="token attr-name">RUN</span> <span class="token attr-value">script-requiring-password.sh "$password"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​        然后在args键下指定参数。 你可以传递映射或列表：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">build</span><span class="token punctuation">:</span>
+<span class="token attr-name">  context</span><span class="token punctuation">:</span> <span class="token attr-value">.</span>
+<span class="token attr-name">  args</span><span class="token punctuation">:</span>
+<span class="token attr-name">    buildno</span><span class="token punctuation">:</span> <span class="token attr-value">1</span>
+<span class="token attr-name">    password</span><span class="token punctuation">:</span> <span class="token attr-value">secret</span>
+
+<span class="token attr-name">build</span><span class="token punctuation">:</span>
+<span class="token attr-name">  context</span><span class="token punctuation">:</span> <span class="token attr-value">.</span>
+<span class="token attr-name">  args</span><span class="token punctuation">:</span>
+<span class="token attr-name">    -</span> <span class="token attr-value">buildno=1</span>
+<span class="token attr-name">    -</span> <span class="token attr-value">password=secret</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>注意：YAML布尔值（true，false，yes，no，on，off）必须用引号括起来，以便解析器将它们解释为字符串。</p>
+</blockquote>
+<h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>​        指定启动容器的镜像，可以是镜像仓库/标签或者镜像id（或者id的前一部分）</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">image</span><span class="token punctuation">:</span> <span class="token attr-value">redis</span>
+<span class="token attr-name">image</span><span class="token punctuation">:</span> <span class="token attr-value">ubuntu:14.04</span>
+<span class="token attr-name">image</span><span class="token punctuation">:</span> <span class="token attr-value">tutum/influxdb</span>
+<span class="token attr-name">image</span><span class="token punctuation">:</span> <span class="token attr-value">example-registry.com:4000/postgresql</span>
+<span class="token attr-name">image</span><span class="token punctuation">:</span> <span class="token attr-value">a4bc65fd</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​        如果镜像不存在，Compose将尝试从官方镜像仓库将其pull下来，如果你还指定了build，在这种情况下，它将使用指定的build选项构建它，并使用image指定的名字和标记对其进行标记。</p>
+<h3 id="container-name"><a href="#container-name" class="headerlink" title="container_name"></a>container_name</h3><p>​        指定一个自定义容器名称，而不是生成的默认名称。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">container_name</span><span class="token punctuation">:</span> <span class="token attr-value">my-web-container</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>由于Docker容器名称必须是唯一的，因此如果指定了自定义名称，则无法将服务扩展到多个容器。</p>
+<h3 id="volumes"><a href="#volumes" class="headerlink" title="volumes"></a>volumes</h3><p>​        卷挂载路径设置。可以设置宿主机路径 （HOST:CONTAINER） 或加上访问模式 （HOST:CONTAINER:ro）,挂载数据卷的默认权限是读写（rw），可以通过ro指定为只读。<br>​        用户可以在主机上挂载相对路径，该路径将相对于当前正在使用的Compose配置文件的目录进行扩展。 相对路径应始终以 . 或者 .. 开始。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">volumes</span><span class="token punctuation">:</span>
+<span class="token comment">  # 只需指定一个路径，让引擎创建一个卷</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">/var/lib/mysql</span>
+<span class="token comment">  # 指定绝对路径映射</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">/opt/data:/var/lib/mysql</span>
+<span class="token comment">  # 相对于当前compose文件的相对路径</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">./cache:/tmp/cache</span>
+<span class="token comment">  # 用户家目录相对路径</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">~/configs:/etc/configs/:ro</span>
+<span class="token comment">  # 命名卷</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">datavolume:/var/lib/mysql</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>但是，如果要跨多个服务并重用挂载卷，请在顶级volumes关键字中命名挂在卷，但是并不强制，如下的示例亦有重用挂载卷的功能，但是不提倡。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">version</span><span class="token punctuation">:</span> <span class="token attr-value">"3"</span>
+<span class="token attr-name">services</span><span class="token punctuation">:</span>
+<span class="token attr-name">  web1</span><span class="token punctuation">:</span>
+<span class="token attr-name">    build</span><span class="token punctuation">:</span> <span class="token attr-value">./web/</span>
+<span class="token attr-name">    volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">../code:/opt/web/code</span>
+
+<span class="token attr-name">  web2</span><span class="token punctuation">:</span>
+<span class="token attr-name">    build</span><span class="token punctuation">:</span> <span class="token attr-value">./web/</span>
+<span class="token attr-name">    volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">../code:/opt/web/code</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>注意：通过顶级volumes定义一个挂载卷，并从每个服务的卷列表中引用它， 这会替换早期版本的Compose文件格式中volumes_from。</p>
+</blockquote>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">version</span><span class="token punctuation">:</span> <span class="token attr-value">"3"</span>
+<span class="token attr-name">services</span><span class="token punctuation">:</span>
+
+<span class="token attr-name">  db</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">db</span>
+<span class="token attr-name">    volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">data-volume:/var/lib/db</span>
+
+<span class="token attr-name">  backup</span><span class="token punctuation">:</span>
+<span class="token attr-name">    image</span><span class="token punctuation">:</span> <span class="token attr-value">backup-service</span>
+<span class="token attr-name">    volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">      -</span> <span class="token attr-value">data-volume:/var/lib/backup/data</span>
+
+<span class="token attr-name">volumes</span><span class="token punctuation">:</span>
+<span class="token attr-name">  data-volume</span><span class="token punctuation">:</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>覆盖容器启动后默认执行的命令。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">command</span><span class="token punctuation">:</span> <span class="token attr-value">bundle exec thin -p 3000</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>该命令也可以是一个类似于dockerfile的列表：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">command</span><span class="token punctuation">:</span> <span class="token attr-value">["bundle", "exec", "thin", "-p", "3000"]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="links"><a href="#links" class="headerlink" title="links"></a>links</h3><p>链接到另一个服务中的容器。 请指定服务名称和链接别名（SERVICE：ALIAS），或者仅指定服务名称。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">web</span><span class="token punctuation">:</span>
+<span class="token attr-name">  links</span><span class="token punctuation">:</span>
+<span class="token attr-name">   -</span> <span class="token attr-value">db</span>
+<span class="token attr-name">   -</span> <span class="token attr-value">db:database</span>
+<span class="token attr-name">   -</span> <span class="token attr-value">redis</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在当前的web服务的容器中可以通过链接的db服务的别名database访问db容器中的数据库应用，如果没有指定别名，则可直接使用服务名访问。</p>
+<p>链接不需要启用服务进行通信 - 默认情况下，任何服务都可以以该服务的名称到达任何其他服务。 （实际是通过设置/etc/hosts的域名解析，从而实现容器间的通信。故可以像在应用中使用localhost一样使用服务的别名链接其他容器的服务，前提是多个服务容器在一个网络中可路由联通）</p>
+<p>links也可以起到和depends_on相似的功能，即定义服务之间的依赖关系，从而确定服务启动的顺序。</p>
+<h3 id="external-links"><a href="#external-links" class="headerlink" title="external_links"></a>external_links</h3><p>链接到docker-compose.yml 外部的容器，甚至并非 Compose 管理的容器。参数格式跟 links 类似。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">external_links</span><span class="token punctuation">:</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">redis_1</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">project_db_1:mysql</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">project_db_1:postgresql</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="expose"><a href="#expose" class="headerlink" title="expose"></a>expose</h3><p>暴露端口，但不映射到宿主机，只被连接的服务访问。<br>仅可以指定内部端口为参数</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">expose</span><span class="token punctuation">:</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"3000"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"8000"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="ports"><a href="#ports" class="headerlink" title="ports"></a>ports</h3><p>暴露端口信息。<br>常用的简单格式：使用宿主：容器 （HOST:CONTAINER）格式或者仅仅指定容器的端口（宿主将会随机选择端口）都可以。</p>
+<blockquote>
+<p>注意：当使用 HOST:CONTAINER 格式来映射端口时，如果你使用的容器端口小于 60 你可能会得到错误得结果，因为 YAML 将会解析 xx:yy 这种数字格式为 60 进制。所以建议采用字符串格式。</p>
+</blockquote>
+<p>简单的短格式：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">ports</span><span class="token punctuation">:</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"3000"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"3000-3005"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"8000:8000"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"9090-9091:8080-8081"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"49100:22"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"127.0.0.1:8001:8001"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"127.0.0.1:5000-5010:5000-5010"</span>
+<span class="token attr-name"> -</span> <span class="token attr-value">"6060:6060/udp"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在v3.2中ports的长格式的语法允许配置不能用短格式表示的附加字段。<br>长格式：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">ports</span><span class="token punctuation">:</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">target: 80</span>
+<span class="token attr-name">    published</span><span class="token punctuation">:</span> <span class="token attr-value">8080</span>
+<span class="token attr-name">    protocol</span><span class="token punctuation">:</span> <span class="token attr-value">tcp</span>
+<span class="token attr-name">    mode</span><span class="token punctuation">:</span> <span class="token attr-value">host</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>target：容器内的端口 </li>
+<li>published：物理主机的端口 </li>
+<li>protocol：端口协议（tcp或udp） </li>
+<li>mode：host 和ingress 两总模式，host用于在每个节点上发布主机端口，ingress 用于被负载平衡的swarm模式端口。</li>
+</ul>
+<h3 id="restart"><a href="#restart" class="headerlink" title="restart"></a>restart</h3><p>no是默认的重启策略，在任何情况下都不会重启容器。 指定为always时，容器总是重新启动。 如果退出代码指示出现故障错误，则on-failure将重新启动容器。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">restart</span><span class="token punctuation">:</span> <span class="token attr-value">"no"</span>
+
+<span class="token attr-name">restart</span><span class="token punctuation">:</span> <span class="token attr-value">always</span>
+
+<span class="token attr-name">restart</span><span class="token punctuation">:</span> <span class="token attr-value">on-failure</span>
+
+<span class="token attr-name">restart</span><span class="token punctuation">:</span> <span class="token attr-value">unless-stopped</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="environment"><a href="#environment" class="headerlink" title="environment"></a>environment</h3><p>添加环境变量。 你可以使用数组或字典两种形式。 任何布尔值; true，false，yes，no需要用引号括起来，以确保它们不被YML解析器转换为True或False。<br>只给定名称的变量会自动获取它在 Compose 主机上的值，可以用来防止泄露不必要的数据。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">environment</span><span class="token punctuation">:</span>
+<span class="token attr-name">  RACK_ENV</span><span class="token punctuation">:</span> <span class="token attr-value">development</span>
+<span class="token attr-name">  SHOW</span><span class="token punctuation">:</span> <span class="token attr-value">'true'</span>
+<span class="token attr-name">  SESSION_SECRET</span><span class="token punctuation">:</span>
+
+<span class="token attr-name">environment</span><span class="token punctuation">:</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">RACK_ENV=development</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">SHOW=true</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">SESSION_SECRET</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>注意：如果你的服务指定了build选项，那么在构建过程中通过environment定义的环境变量将不会起作用。 将使用build的args子选项来定义构建时的环境变量。</p>
+</blockquote>
+<h3 id="pid"><a href="#pid" class="headerlink" title="pid"></a>pid</h3><p>将PID模式设置为主机PID模式。 这就打开了容器与主机操作系统之间的共享PID地址空间。 使用此标志启动的容器将能够访问和操作裸机的命名空间中的其他容器，反之亦然。即打开该选项的容器可以相互通过进程 ID 来访问和操作。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">pid</span><span class="token punctuation">:</span> <span class="token attr-value">"host"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="dns"><a href="#dns" class="headerlink" title="dns"></a>dns</h3><p>配置 DNS 服务器。可以是一个值，也可以是一个列表。</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token attr-name">dns</span><span class="token punctuation">:</span> <span class="token attr-value">8.8.8.8</span>
+
+<span class="token attr-name">dns</span><span class="token punctuation">:</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">8.8.8.8</span>
+<span class="token attr-name">  -</span> <span class="token attr-value">9.9.9.9</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Shuyan</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shuyanCoding.github.io/2022/05/29/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-compose-jiao-cheng/">http://shuyanCoding.github.io/2022/05/29/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-compose-jiao-cheng/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Shuyan</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Docker/">
+                                    <span class="chip bg-color">Docker</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">您的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2023/09/24/hello-world/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Hello Hexo">
+                        
+                        <span class="card-title">Hello Hexo</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-09-24
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            Shuyan
+                            
+                        </span>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/04/05/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-jing-xiang/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Docker镜像">
+                        
+                        <span class="card-title">Docker镜像</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-05
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Docker/" class="post-category">
+                                    Docker
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Shuyan<br />'
+            + '文章作者: Shuyan<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2023</span>
+            
+            <a href="/about" target="_blank">Shuyan</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/shuyanCoding" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:24371197969@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2437197969" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2437197969" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/u/7836229572" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/u/7836229572" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/jiu-ye-wei-yang-81" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/jiu-ye-wei-yang-81" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

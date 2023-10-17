@@ -491,7 +491,7 @@ Disabled<span aria-hidden="true" class="line-numbers-rows"><span></span><span></
 <li>租约完成7/8</li>
 <li>租约到期</li>
 </ul>
-<h2 id="二、DHCP-部署"><a href="#二、DHCP-部署" class="headerlink" title="二、DHCP 部署"></a>二、DHCP 部署</h2><h2 id="2-1-server端配置："><a href="#2-1-server端配置：" class="headerlink" title="2.1 server端配置："></a>2.1 server端配置：</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装dhcp</span>
+<h1 id="二、DHCP-部署"><a href="#二、DHCP-部署" class="headerlink" title="二、DHCP 部署"></a>二、DHCP 部署</h1><h2 id="2-1-server端配置："><a href="#2-1-server端配置：" class="headerlink" title="2.1 server端配置："></a>2.1 server端配置：</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 安装dhcp</span>
 <span class="token punctuation">[</span>root@localhost dhcp<span class="token punctuation">]</span><span class="token comment"># yum install dhcp -y</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <h4 id="查看主配文件"><a href="#查看主配文件" class="headerlink" title="查看主配文件"></a>查看主配文件</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看主配文件</span>
@@ -1028,19 +1028,591 @@ subnet <span class="token number">192.168</span>.11.0 netmask <span class="token
 
 
 
+<h1 id="三、DNS部署"><a href="#三、DNS部署" class="headerlink" title="三、DNS部署"></a>三、DNS部署</h1><h2 id="3-1-DNS安装"><a href="#3-1-DNS安装" class="headerlink" title="3.1 DNS安装"></a>3.1 DNS安装</h2><p>DNS服务是由bind程序提供的，所以要实现DNS服务就需要安装bind程序包：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># yum install bind bind-chroot -y</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>bind  DNS主程序包 </p>
+<p>bind-chroot DNS安全包，改变默认DNS根目录，将DNS运行在监牢模式 </p>
+<p>说明:chroot监牢模式 监牢是一个软件机制，其功能是使得某个程序无法访问规定区域之外的资源，同样也为了增强安全性（LCTT 译注：chroot “监牢”，所谓“监牢”就是指通过chroot机制来更改某个进程所能看到的根目录，即将某进程限制在指定目录中，保证该进程只能对该目录及其子目录的文件进行操作，从而保证整个服务器的安全）。Bind Chroot DNS 服务器的默认“监牢”为 /var/named/chroot。</p>
+<h2 id="3-2-DNS启动"><a href="#3-2-DNS启动" class="headerlink" title="3.2 DNS启动"></a>3.2 DNS启动</h2><p>DNS的守护进程叫做named,DNS是以named用户身份来运行，named用户在安装包的时候会在系统中自动创建。</p>
+<p>方法一：不使用chroot模式启动DNS </p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 开启开机启动</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># systemctl enable named</span>
+Created symlink from /etc/systemd/system/multi-user.target.wants/named.service to /usr/lib/systemd/system/named.service.
+
+<span class="token comment"># 启动DNS服务</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># systemctl start named</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>方法二: 使用chroot模式DNS </p>
+<p>将对应的文件移动到chroot根目录</p>
+<p>主配文件的转移</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cp /etc/named.conf /var/named/chroot/etc/</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># chgrp named /var/named/chroot/etc/named.conf</span>
+<span class="token comment"># 检查主配置文件是否有效</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># named-checkconf /var/named/chroot/etc/named.conf</span>
+
+<span class="token comment"># 上述代码等同于</span>
+<span class="token punctuation">[</span>root@localhost etc<span class="token punctuation">]</span><span class="token comment"># cp -p /etc/named.conf /var/named/chroot/etc/</span>
+cp：是否覆盖<span class="token string">"/var/named/chroot/etc/named.conf"</span>？ y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>区域数据库文件的配置：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cd /var/named/</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cp -r data /var/named/chroot/var/named/</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cp -r dynamic /var/named/chroot/var/named/</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cp named.* /var/named/chroot/var/named/</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cd /var/named/chroot/var/named/</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># chown -R named.named *</span>
+
+<span class="token comment"># 上述代码等同于</span>
+<span class="token punctuation">[</span>root@localhost etc<span class="token punctuation">]</span><span class="token comment"># cp -p /var/named/named.* /var/named/chroot/var/named/</span>
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.ca"</span>？ y
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.ca.rpmsave"</span>？ y
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.empty"</span>？ y
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.empty.rpmsave"</span>？ y
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.localhost"</span>？ y
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.localhost.rpmsave"</span>？ y
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.loopback"</span>？ y
+cp：是否覆盖<span class="token string">"/var/named/chroot/var/named/named.loopback.rpmsave"</span>？ y<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>启动DNS服务<br>开机启动</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># systemctl start named-chroot</span>
+Job <span class="token keyword">for</span> named-chroot.service failed because the control process exited with error code. See <span class="token string">"systemctl status named-chroot.service"</span> and <span class="token string">"journalctl -xe"</span> <span class="token keyword">for</span> details.
+启动服务
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># systemctl start named-chroot</span>
+Job <span class="token keyword">for</span> named-chroot.service failed because the control process exited with error code. See <span class="token string">"systemctl status named-chroot.service"</span> and <span class="token string">"journalctl -xe"</span> <span class="token keyword">for</span> details.
+
+<span class="token comment">## 问题：配置文件出错</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>修改配置文件之后，重新启动：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># systemctl start named-chroot</span>
+
+验证启动
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># lsof -i :53</span>
+COMMAND  PID   <span class="token environment constant">USER</span>   FD   TYPE DEVICE SIZE/OFF NODE NAME
+dnsmasq <span class="token number">1525</span> nobody    5u  IPv4  <span class="token number">27359</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named   21u  IPv4  <span class="token number">44717</span>      0t0  TCP localhost:domain <span class="token punctuation">(</span>LISTEN<span class="token punctuation">)</span>
+named   <span class="token number">2877</span>  named   22u  IPv4  <span class="token number">44719</span>      0t0  TCP bogon:domain <span class="token punctuation">(</span>LISTEN<span class="token punctuation">)</span>
+named   <span class="token number">2877</span>  named   23u  IPv4  <span class="token number">44721</span>      0t0  TCP bogon:domain <span class="token punctuation">(</span>LISTEN<span class="token punctuation">)</span>
+named   <span class="token number">2877</span>  named  512u  IPv4  <span class="token number">44715</span>      0t0  UDP localhost:domain 
+named   <span class="token number">2877</span>  named  513u  IPv4  <span class="token number">44715</span>      0t0  UDP localhost:domain 
+named   <span class="token number">2877</span>  named  514u  IPv4  <span class="token number">44715</span>      0t0  UDP localhost:domain 
+named   <span class="token number">2877</span>  named  515u  IPv4  <span class="token number">44715</span>      0t0  UDP localhost:domain 
+named   <span class="token number">2877</span>  named  516u  IPv4  <span class="token number">44718</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named  517u  IPv4  <span class="token number">44718</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named  518u  IPv4  <span class="token number">44718</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named  519u  IPv4  <span class="token number">44718</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named  520u  IPv4  <span class="token number">44720</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named  521u  IPv4  <span class="token number">44720</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named  522u  IPv4  <span class="token number">44720</span>      0t0  UDP bogon:domain 
+named   <span class="token number">2877</span>  named  523u  IPv4  <span class="token number">44720</span>      0t0  UDP bogon:domain<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="3-3-DNS配置文件"><a href="#3-3-DNS配置文件" class="headerlink" title="3.3 DNS配置文件"></a>3.3 DNS配置文件</h2><p>默认情况下，如果不安装bind-chroot这个包，配置文件的路径如下：</p>
+<p>配置文件:/etc/named.conf</p>
+<p>区域数据库文件:/var/named/</p>
+<p>由于我们安装了bind-chroot这个用于改变默认DNS配置文件的路径的包，所以相对应的配置文件的路径也发生了变化。</p>
+<p>变化如下：</p>
+<p>配置文件:/var/named/chroot/etc/named.conf</p>
+<p>区域数据库文件:/var/named/chroot/var/named/</p>
+<p>a、主配文件详解</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">//
+// named.conf
+//
+// Provided by Red Hat <span class="token builtin class-name">bind</span> package to configure the ISC BIND named<span class="token punctuation">(</span><span class="token number">8</span><span class="token punctuation">)</span> DNS
+// server as a caching only nameserver <span class="token punctuation">(</span>as a localhost DNS resolver only<span class="token punctuation">)</span>.
+//
+// See /usr/share/doc/bind*/sample/ <span class="token keyword">for</span> example named configuration files.
+//
+
+
+options
+<span class="token punctuation">{</span>
+		
+    <span class="token comment">#IPv4监听端口为53，只允许本机连接</span>
+    listen-on port <span class="token number">53</span>    <span class="token punctuation">{</span> <span class="token number">127.0</span>.0.1<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">#IPv6监听端口为53，只允许本机连接</span>
+    listen-on-v6 port <span class="token number">53</span>    <span class="token punctuation">{</span> ::1<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+		<span class="token comment">#定义工作目录</span>
+    directory         <span class="token string">"/var/named"</span><span class="token punctuation">;</span> 
+    <span class="token comment">#CACHE文件路径,指定服务器在收到rndc dump命令时，转储数据到文件的路径。默认cache_dump.db</span>
+    dump-file         <span class="token string">"data/cache_dump.db"</span><span class="token punctuation">;</span>
+    <span class="token comment">#静态文件路径,指定服务器在收到rndc stats命令时，追加统计数据的文件路径。默认named.stats</span>
+    statistics-file     <span class="token string">"data/named_stats.txt"</span><span class="token punctuation">;</span>
+    <span class="token comment">#内存静态文件路径,服务器在退出时，将内存统计写到文件的路径。默认named.mem_stats</span>
+    memstatistics-file     <span class="token string">"data/named_mem_stats.txt"</span><span class="token punctuation">;</span>
+        <span class="token comment">#在收到rndc secroots指令后，服务器转储安全根的目的文件的路径名。默认named.secroots</span>
+    secroots-file        <span class="token string">"data/named.secroots"</span><span class="token punctuation">;</span>
+    <span class="token comment"># 指定服务器在通过rndc recursing命令指定转储当前递归请求到的文件路径。默认named.recursing</span>
+    recursing-file        <span class="token string">"data/named.recursing"</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">#指定允许哪些主机可以进行普通的DNS查询,可以是关键字:any/localhost/none,也可以是IPV4,IPV6地址</span>
+    allow-query        <span class="token punctuation">{</span> localhost<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">#指定允许哪些主机可以对缓存的访问</span>
+    allow-query-cache    <span class="token punctuation">{</span> localhost<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    /*
+     - If you are building an AUTHORITATIVE DNS server, <span class="token keyword">do</span> NOT <span class="token builtin class-name">enable</span> recursion.
+    假如你建立的是一个权威DNS你不需要开启递归
+     - If you are building a RECURSIVE <span class="token punctuation">(</span>caching<span class="token punctuation">)</span> DNS server, you need to <span class="token builtin class-name">enable</span> recursion. 
+    假如你建立的是一个递归DNS,你需要开启递归服务
+     - If your recursive DNS server has a public IP address, you MUST <span class="token builtin class-name">enable</span> access control to limit queries to your legitimate users. Failing to <span class="token keyword">do</span> so will
+     如果你的递归DNS是具有公网IP，你必须要设置访问控制来限制对合法用户的查询.
+       cause your server to become part of large scale DNS amplification 
+    否则你的DNS会被大规模的攻击
+       attacks. Implementing BCP38 within your network would greatly
+    在您的网络中实现BCP38将非常重要减少此类攻击面
+       reduce such attack surface 
+     */
+    <span class="token comment">#开启递归</span>
+    recursion <span class="token function">yes</span><span class="token punctuation">;</span>
+
+    <span class="token comment">#开启DNSSEC在权威或者递归服务器之间信任服务</span>
+    dnssec-enable <span class="token function">yes</span><span class="token punctuation">;</span>
+
+    <span class="token comment">#开启DNSSEC验证在递归服务器</span>
+    dnssec-validation <span class="token function">yes</span><span class="token punctuation">;</span>
+
+    <span class="token comment">#指定目录，其中保存着跟踪被管理DNSSEC密钥文件。默认为工作目录。</span>
+    managed-keys-directory <span class="token string">"/var/named/dynamic"</span><span class="token punctuation">;</span>
+    
+    <span class="token comment">#PID文件路径</span>
+    pid-file <span class="token string">"/run/named/named.pid"</span><span class="token punctuation">;</span>
+    <span class="token comment">#session-keyfile文件路径</span>
+    session-keyfile <span class="token string">"/run/named/session.key"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+logging 
+<span class="token punctuation">{</span>
+<span class="token comment">#开启DNS日志记录</span>
+        channel default_debug <span class="token punctuation">{</span>
+                <span class="token function">file</span> <span class="token string">"data/named.run"</span><span class="token punctuation">;</span>
+                severity dynamic<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+   
+    <span class="token comment">#定义一个根域</span>
+zone <span class="token string">"."</span> IN <span class="token punctuation">{</span>
+        <span class="token comment">#域类型为hint,还有master slave forward等类型</span>
+            <span class="token builtin class-name">type</span> hint<span class="token punctuation">;</span>
+        <span class="token comment">#区域数据库文件路径</span>
+            <span class="token function">file</span> <span class="token string">"/var/named/named.ca"</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">#包含两个子配置文件</span>
+    include <span class="token string">"/etc/named.rfc1912.zones"</span><span class="token punctuation">;</span>
+    include <span class="token string">"/etc/named.root.key"</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>b、区域数据库文件详解</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">正向解析
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cat /var/named/named.localhost </span>
+<span class="token punctuation">;</span>缓存时间
+<span class="token variable">$TTL</span> 1D
+<span class="token punctuation">;</span>@表示相应的域名
+	@    				IN 	SOA        @ 					rname.invalid. <span class="token punctuation">(</span>
+<span class="token punctuation">;</span>解析的域名   类型 授权域    授权域名服务器   管理员邮箱
+                    <span class="token number">0</span>    <span class="token punctuation">;</span> serial  
+         序列号,每次更新该文件系列号都应该变大
+                    1D    <span class="token punctuation">;</span> refresh 
+刷新时间,即规定从域名服务器多长时间查询一个主服务器，以保证从服务器的数据是最新的
+                    1H    <span class="token punctuation">;</span> retry   
+重试时间,即当从服务试图在主服务器上查询更时，而连接失败了，则这个值规定了从服务多长时间后再试 
+                    1W    <span class="token punctuation">;</span> expire  
+   过期时间,从服务器在向主服务更新失败后多长时间后清除对应的记录
+                    3H <span class="token punctuation">)</span>    <span class="token punctuation">;</span> minimum 
+   这个数据用来规定缓存服务器不能与主服务联系上后多长时间清除相应的记录
+    NS   				@
+    <span class="token punctuation">;</span>NS 名称服务器，表示这个主机为域名服务器
+    			A    		<span class="token number">127.0</span>.0.1
+<span class="token punctuation">;</span>主机头  	A记录   	IP
+    AAAA    		::1
+<span class="token punctuation">;</span>   AAAA 				解析为IPV6地址
+
+<span class="token comment">#反向解析</span>
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cat named.loopback </span>
+<span class="token variable">$TTL</span> 1D
+@    IN SOA    @ rname.invalid. <span class="token punctuation">(</span>
+                    <span class="token number">0</span>    <span class="token punctuation">;</span> serial
+                    1D    <span class="token punctuation">;</span> refresh
+                    1H    <span class="token punctuation">;</span> retry
+                    1W    <span class="token punctuation">;</span> expire
+                    3H <span class="token punctuation">)</span>    <span class="token punctuation">;</span> minimum
+    NS    		@
+    PTR    		localhost
+<span class="token punctuation">;</span>IP 反向指针     主机名
+<span class="token punctuation">;</span>PTR 反向指针 反解<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="3-4-正向解析部署"><a href="#3-4-正向解析部署" class="headerlink" title="3.4 正向解析部署"></a>3.4 正向解析部署</h2><p><strong>www 解析为A记录 IP地址为 192.168.11.88</strong></p>
+<p><strong>news 做别名解析CNAME 解析为 www</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token number">1</span>）主配置文件
+<span class="token punctuation">[</span>root@localhost /<span class="token punctuation">]</span><span class="token comment"># cat /var/named/chroot/etc/named.conf </span>
+options <span class="token punctuation">{</span>
+    listen-on port <span class="token number">53</span> <span class="token punctuation">{</span> any<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    directory     <span class="token string">"/var/named"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义根域
+//用于DNS向根递归查询
+zone <span class="token string">"."</span> IN <span class="token punctuation">{</span>
+    <span class="token builtin class-name">type</span> hint<span class="token punctuation">;</span>
+    //保存了DNS根级服务器的地址
+    <span class="token function">file</span> <span class="token string">"named.ca"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义一个主域
+//注意每行都要<span class="token punctuation">;</span>结尾
+zone <span class="token string">"zutuanxue.com"</span> IN <span class="token punctuation">{</span>
+//类型为master
+    <span class="token builtin class-name">type</span> master<span class="token punctuation">;</span>
+//区域数据库文件名称
+    <span class="token function">file</span> <span class="token string">"zutuanxue.com.zone"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+<span class="token number">2</span>）区域数据库文件
+<span class="token punctuation">[</span>root@localhost named<span class="token punctuation">]</span><span class="token comment"># cat zutuanxue.com.zone </span>
+<span class="token variable">$TTL</span> 1D
+zutuanxue.com.    IN SOA    ns1.zutuanxue.com. rname.invalid. <span class="token punctuation">(</span>
+                    <span class="token number">0</span>    <span class="token punctuation">;</span> serial
+                    1D    <span class="token punctuation">;</span> refresh
+                    1H    <span class="token punctuation">;</span> retry
+                    1W    <span class="token punctuation">;</span> expire
+                    3H <span class="token punctuation">)</span>    <span class="token punctuation">;</span> minimum
+<span class="token punctuation">;</span>zutuanxue.com.  需要做解析的域名
+<span class="token punctuation">;</span>ns1.zutuanxue.com.  为zutuanxue.com.做解析的DNS    这里我们既是DNS也同时为自己域名做了解析
+
+    NS    ns1.zutuanxue.com.
+
+
+<span class="token punctuation">;</span>A         域名机械为IP
+<span class="token punctuation">;</span>PTR        IP解析为域名
+<span class="token punctuation">;</span>MX        邮件标记
+<span class="token punctuation">;</span>CNAME        别名
+
+
+ns1    A    <span class="token number">192.168</span>.11.16
+www    A    <span class="token number">192.168</span>.11.88
+news  CNAME    www<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>测试方法</strong></p>
+<p>域名解析linux系统为大家提供了三个命令，看大家喜欢用哪个都可以。</p>
+<p>a、host采用非交互式解析，</p>
+<p>b、nslookup可以采用交互或非交互式解析</p>
+<p>c、dig显示详细的解析流程</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">测试注意：请将你的测试客户端机器的DNS指向你自己的DNS服务器的IP地址。本例中我使用DNS服务器给自己当测试端，我修改了自己的DNS服务器地址
+<span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># cat /etc/resolv.conf </span>
+<span class="token comment"># Generated by NetworkManager</span>
+nameserver <span class="token number">192.168</span>.11.16
+
+<span class="token comment">#host命令</span>
+<span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># host news.zutuanxue.com</span>
+news.zutuanxue.com is an <span class="token builtin class-name">alias</span> <span class="token keyword">for</span> www.zutuanxue.com.
+www.zutuanxue.com has address <span class="token number">192.168</span>.11.88
+
+
+<span class="token comment">#nslookup 命令---交互式解析</span>
+<span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># nslookup</span>
+<span class="token operator">&gt;</span> news.zutuanxue.com
+Server:        <span class="token number">192.168</span>.11.16
+Address:    <span class="token number">192.168</span>.11.16<span class="token comment">#53</span>
+
+news.zutuanxue.com    canonical name <span class="token operator">=</span> www.zutuanxue.com.
+Name:    www.zutuanxue.com
+Address: <span class="token number">192.168</span>.11.88
+<span class="token operator">&gt;</span> <span class="token builtin class-name">exit</span>
+
+<span class="token comment">#nslookup 命令---非交互式解析</span>
+<span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># nslookup news.zutuanxue.com</span>
+Server:        <span class="token number">192.168</span>.11.16
+Address:    <span class="token number">192.168</span>.11.16<span class="token comment">#53</span>
+
+news.zutuanxue.com    canonical name <span class="token operator">=</span> www.zutuanxue.com.
+Name:    www.zutuanxue.com
+Address: <span class="token number">192.168</span>.11.88
+
+
+<span class="token comment">#dig命令</span>
+<span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># dig news.zutuanxue.com</span>
+
+<span class="token punctuation">;</span> <span class="token operator">&lt;&lt;</span><span class="token operator">&gt;&gt;</span> DiG <span class="token number">9.9</span>.4-RedHat-9.9.4-73.el7_6 <span class="token operator">&lt;&lt;</span><span class="token operator">&gt;&gt;</span> news.zutuanxue.com
+<span class="token punctuation">;</span><span class="token punctuation">;</span> global options: +cmd
+<span class="token punctuation">;</span><span class="token punctuation">;</span> Got answer:
+<span class="token punctuation">;</span><span class="token punctuation">;</span> -<span class="token operator">&gt;&gt;</span>HEADER<span class="token operator">&lt;&lt;-</span> opcode: QUERY, status: NOERROR, id: <span class="token number">28487</span>
+<span class="token punctuation">;</span><span class="token punctuation">;</span> flags: qr aa rd ra<span class="token punctuation">;</span> QUERY: <span class="token number">1</span>, ANSWER: <span class="token number">2</span>, AUTHORITY: <span class="token number">1</span>, ADDITIONAL: <span class="token number">1</span>
+
+<span class="token punctuation">;</span><span class="token punctuation">;</span> OPT PSEUDOSECTION:
+<span class="token punctuation">;</span> EDNS: version: <span class="token number">0</span>, flags:<span class="token punctuation">;</span> udp: <span class="token number">4096</span>
+<span class="token punctuation">;</span><span class="token punctuation">;</span> QUESTION SECTION:
+<span class="token punctuation">;</span>news.zutuanxue.com.        IN    A
+
+<span class="token punctuation">;</span><span class="token punctuation">;</span> ANSWER SECTION:
+news.zutuanxue.com.    <span class="token number">86400</span>    IN    CNAME    www.zutuanxue.com.
+www.zutuanxue.com.    <span class="token number">86400</span>    IN    A    <span class="token number">192.168</span>.11.88
+
+<span class="token punctuation">;</span><span class="token punctuation">;</span> AUTHORITY SECTION:
+zutuanxue.com.        <span class="token number">86400</span>    IN    NS    www.zutuanxue.com.
+
+<span class="token punctuation">;</span><span class="token punctuation">;</span> Query time: <span class="token number">0</span> msec
+<span class="token punctuation">;</span><span class="token punctuation">;</span> SERVER: <span class="token number">192.168</span>.11.16<span class="token comment">#53(192.168.11.16)</span>
+<span class="token punctuation">;</span><span class="token punctuation">;</span> WHEN: 一 <span class="token number">2</span>月 <span class="token number">25</span> <span class="token number">10</span>:52:19 CST <span class="token number">2019</span>
+<span class="token punctuation">;</span><span class="token punctuation">;</span> MSG SIZE  rcvd: <span class="token number">93</span>
+
+
+技巧：
+在dig解析中，后面跟上+trace来显示详细解析流程
+<span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># dig www.zutuanxue.com +trace</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="3-5-反向解析部署"><a href="#3-5-反向解析部署" class="headerlink" title="3.5 反向解析部署"></a>3.5 反向解析部署</h2><p>主配置文件添加反向解析zone：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># cat /var/named/chroot/etc/named.conf </span>
+options <span class="token punctuation">{</span>
+    listen-on port <span class="token number">53</span> <span class="token punctuation">{</span> any<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    directory     <span class="token string">"/var/named"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义根域
+//用于DNS向根递归查询
+zone <span class="token string">"."</span> IN <span class="token punctuation">{</span>
+    <span class="token builtin class-name">type</span> hint<span class="token punctuation">;</span>
+    //保存了DNS根级服务器的地址
+    <span class="token function">file</span> <span class="token string">"named.ca"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义一个主域
+//注意每行都要<span class="token punctuation">;</span>结尾
+zone <span class="token string">"zutuanxue.com"</span> IN <span class="token punctuation">{</span>
+//类型为master
+    <span class="token builtin class-name">type</span> master<span class="token punctuation">;</span>
+//区域数据库文件名称
+    <span class="token function">file</span> <span class="token string">"zutuanxue.com.zone"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义一个反向解析
+//此处需要倒写网段
+zone <span class="token string">"11.168.192.in-addr.arpa"</span> IN <span class="token punctuation">{</span>
+    <span class="token builtin class-name">type</span> master<span class="token punctuation">;</span>
+    <span class="token function">file</span> <span class="token string">"192.168.11.arpa"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>区域数据库文件设置：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost named<span class="token punctuation">]</span><span class="token comment"># cat 192.168.11.arpa </span>
+<span class="token variable">$TTL</span> 1D
+<span class="token number">11.168</span>.192.in-addr.arpa.    IN SOA    ns1.zutuanxue.com. rname.invalid. <span class="token punctuation">(</span>
+                    <span class="token number">0</span>    <span class="token punctuation">;</span> serial
+                    1D    <span class="token punctuation">;</span> refresh
+                    1H    <span class="token punctuation">;</span> retry
+                    1W    <span class="token punctuation">;</span> expire
+                    3H <span class="token punctuation">)</span>    <span class="token punctuation">;</span> minimum
+    NS    ns1.zutuanxue.com.
+<span class="token number">88</span>    PTR    www.zutuanxue.com.
+
+注意：文件的所有者和所有者组都是named<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用nslookup测试：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span><span class="token comment"># nslookup 192.168.11.88</span>
+Server:        <span class="token number">192.168</span>.11.16
+Address:    <span class="token number">192.168</span>.11.16<span class="token comment">#53</span>
+
+<span class="token number">88.11</span>.168.192.in-addr.arpa    name <span class="token operator">=</span> www.zutuanxue.c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="3-6-DNS服务器冗余"><a href="#3-6-DNS服务器冗余" class="headerlink" title="3.6 DNS服务器冗余"></a>3.6 DNS服务器冗余</h2><p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/DNS%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%86%97%E4%BD%99.png" alt="image-20231016114615754"></p>
+<p>​        DNS服务器在网络中为全世界的服务器提供了域名解析服务，扮演着至关重要的角色。网络中的某台DNS一旦宕机，就会造成部分域名无法解析，用户无法顺利访问到对应的服务器。但是我们学习的过程中也发现了，我们的DNS部署在单台服务器上，如果出现单点故障，我们应该如何应对呢？我们可以通过部署多台相同解析的DNS来解决单点故障，就算一台DNS服务器出现问题，也不会影响解析服务。怎么部署呢？如何保障多台之间的解析一致？这就是我们要讨论的问题了。我们来学习辅助DNS吧！</p>
+<p>​        辅助DNS是从主DNS拉取区域数据库文件的的，当主DNS解析的域名对应的区域数据库文件发生变化，辅助就会去找主DNS拉取新的区域数据库文件，保证和主的解析一致，而且是自动的不需要人为干预的，确保了主从DNS的区域数据库文件的一致性。</p>
+<p><strong>教学案例:按照图例,为主DNS(192.168.11.16）部署一台辅助DNS(192.168.11.116)，实现数据同步。</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">辅助DNS设置
+a、软件包安装
+<span class="token punctuation">[</span>root@slave ~<span class="token punctuation">]</span><span class="token comment"># dnf -y install bind bind-chroot</span>
+
+b、设置主配文件
+<span class="token punctuation">[</span>root@slave etc<span class="token punctuation">]</span><span class="token comment"># cat /var/named/chroot/etc/named.conf</span>
+options <span class="token punctuation">{</span>
+    listen-on port <span class="token number">53</span> <span class="token punctuation">{</span> any<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    directory     <span class="token string">"/var/named"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义根域
+//用于DNS向根递归查询
+zone <span class="token string">"."</span> IN <span class="token punctuation">{</span>
+    <span class="token builtin class-name">type</span> hint<span class="token punctuation">;</span>
+    //保存了DNS根级服务器的地址
+    <span class="token function">file</span> <span class="token string">"named.ca"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义一个主域
+//注意每行都要<span class="token punctuation">;</span>结尾
+zone <span class="token string">"zutuanxue.com"</span> IN <span class="token punctuation">{</span>
+//类型为slave  代表辅助
+    <span class="token builtin class-name">type</span> slave<span class="token punctuation">;</span>
+//区域数据库文件名称
+    <span class="token function">file</span> <span class="token string">"zutuanxue.com.zone"</span><span class="token punctuation">;</span>
+//设置主DNS IP,向该IP去同步数据
+    masters <span class="token punctuation">{</span> <span class="token number">192.168</span>.11.16<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义一个反向解析
+//此处需要倒写网段
+zone <span class="token string">"11.168.192.in-addr.arpa"</span> IN <span class="token punctuation">{</span>
+//类型写slave  代表辅助
+    <span class="token builtin class-name">type</span> slave<span class="token punctuation">;</span>
+    <span class="token function">file</span> <span class="token string">"192.168.11.arpa"</span><span class="token punctuation">;</span>
+//设置主DNS IP,向该IP去同步数据
+    masters <span class="token punctuation">{</span> <span class="token number">192.168</span>.11.16<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+修改权限
+<span class="token punctuation">[</span>root@slave etc<span class="token punctuation">]</span><span class="token comment"># chgrp named named.conf </span>
+
+
+c、启动服务
+<span class="token punctuation">[</span>root@slave chroot<span class="token punctuation">]</span><span class="token comment"># systemctl enable named-chroot.service </span>
+Created symlink from /etc/systemd/system/multi-user.target.wants/named-chroot.service to
+ /usr/lib/systemd/system/named-chroot.service.
+<span class="token punctuation">[</span>root@slave chroot<span class="token punctuation">]</span><span class="token comment"># systemctl start named-chroot</span>
+
+
+d、验证
+<span class="token punctuation">[</span>root@slave ~<span class="token punctuation">]</span><span class="token comment"># ls /var/named/chroot/var/named/</span>
+<span class="token number">192.168</span>.11.arpa  zutuanxue.com.zone  <span class="token function">chroot</span>  data  dynamic  named.ca  named.empty  named.localhost  named.loopback  slaves
+
+
+发现192.168.11.arpa  zutuanxue.com.zone 这两个数据库文件已经同步过来了，解析一下看看吧！
+
+
+设置客户端的DNS IP为192.168.11.116，我的测试机就是这台slave机器，所以设置为192.168.11.116即可
+<span class="token punctuation">[</span>root@slave ~<span class="token punctuation">]</span><span class="token comment"># cat /etc/resolv.conf </span>
+nameserver <span class="token number">192.168</span>.11.116
+
+使用nslookup验证一下
+<span class="token punctuation">[</span>root@slave ~<span class="token punctuation">]</span><span class="token comment"># nslookup news.zutuanxue.com</span>
+Server:        <span class="token number">192.168</span>.11.116
+Address:    <span class="token number">192.168</span>.11.116<span class="token comment">#53</span>
+
+news.zutuanxue.com    canonical name <span class="token operator">=</span> www.zutuanxue.com.
+Name:    www.zutuanxue.com
+Address: <span class="token number">192.168</span>.11.88
+
+<span class="token punctuation">[</span>root@slave ~<span class="token punctuation">]</span><span class="token comment"># nslookup 192.168.11.88</span>
+Server:        <span class="token number">192.168</span>.11.116
+Address:    <span class="token number">192.168</span>.11.116<span class="token comment">#53</span>
+
+<span class="token number">88.11</span>.168.192.in-addr.arpa    name <span class="token operator">=</span> www.11.168.192.in-addr.arpa.
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 
 
 
 
+<h2 id="3-7-智能DNS"><a href="#3-7-智能DNS" class="headerlink" title="3.7 智能DNS"></a>3.7 智能DNS</h2><p>在我们访问WEB的时候，发现有的网站打开的速度非常快，有的网站打开的非常慢，这是为什么呢？原因就是很多公司为了提升用户的体验，自己的网站使用了CDN内容加速服务，让你直接在你本地城市的服务器上拿数据并展示给你看。什么是CDN我们暂且理解为本地缓存服务器就好，那么你是怎么准确知道你本地的缓存服务器的呢！因为很多CDN公司的DNS使用了智能解析服务，根据你的源IP判断你属于哪个城市，让后再把本地的缓存服务器解析给你，你就会直接去找该服务器拿数据了。</p>
+<p>智能解析原理</p>
+<p>在DNS中植入全世界的IP库以及IP对应的地域，当用户来请求解析时，DNS会根据其源IP来定位他属于哪个区域，然后去找这个区域的view视图查询对应的域名的区域数据库文件做解析。从而使得不同地域的用户解析不同。</p>
+<p><strong>教学案例:部署一台DNS智能解析服务器，对zutuanxue.com域名做智能解析：</strong></p>
+<p><strong>上海的用户解析IP为 1.1.1.1</strong></p>
+<p><strong>北京的用户解析IP为 2.2.2.2</strong></p>
+<p><strong>其他用户解析为 3.3.3.3</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">智能解析
+a、设置主配文件
+定义IP库，DNS根据IP库判断源IP属于哪个区域
+根据地域定义视图，将该区域的客户端的解析请求都由该视图中的zone来解析
+
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cat /var/named/chroot/etc/named.conf</span>
+options <span class="token punctuation">{</span>
+    directory     <span class="token string">"/var/named"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义IP库
+
+acl shanghai <span class="token punctuation">{</span> <span class="token number">192.168</span>.11.50<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+acl beijing <span class="token punctuation">{</span> <span class="token number">192.168</span>.11.100<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+//定义视图，通过IP匹配后，通过不同的区域数据库文件进行解析
+view <span class="token function">sh</span> <span class="token punctuation">{</span>
+	match-clients <span class="token punctuation">{</span> shanghai<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	zone <span class="token string">"zutuanxue.com"</span> IN <span class="token punctuation">{</span>
+    <span class="token builtin class-name">type</span> master<span class="token punctuation">;</span>
+    <span class="token function">file</span> <span class="token string">"zutuanxue.com.zone.sh"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+view bj <span class="token punctuation">{</span>
+	match-clients <span class="token punctuation">{</span> beijing<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	zone <span class="token string">"zutuanxue.com"</span> IN <span class="token punctuation">{</span>
+        <span class="token builtin class-name">type</span> master<span class="token punctuation">;</span>
+        <span class="token function">file</span> <span class="token string">"zutuanxue.com.zone.bj"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+
+view other <span class="token punctuation">{</span>
+	match-clients <span class="token punctuation">{</span> any<span class="token punctuation">;</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  zone <span class="token string">"zutuanxue.com"</span> IN <span class="token punctuation">{</span>
+        <span class="token builtin class-name">type</span> master<span class="token punctuation">;</span>
+        <span class="token function">file</span> <span class="token string">"zutuanxue.com.zone.any"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 
 
 
+b、根据主配文件设置不同的区域数据库文件
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cd /var/named/chroot/var/named</span>
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cp zutuanxue.com.zone zutuanxue.com.zone.bj</span>
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cp zutuanxue.com.zone zutuanxue.com.zone.sh</span>
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cp zutuanxue.com.zone zutuanxue.com.zone.any</span>
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># chgrp named  zutuanxue.com.zone.*</span>
 
 
 
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cat /var/named/chroot/var/named/zutuanxue.com.zone.sh </span>
+<span class="token variable">$TTL</span> 1D
+@    IN SOA    zutuanxue.com. rname.invalid. <span class="token punctuation">(</span>
+                    <span class="token number">0</span>    <span class="token punctuation">;</span> serial
+                    1D    <span class="token punctuation">;</span> refresh
+                    1H    <span class="token punctuation">;</span> retry
+                    1W    <span class="token punctuation">;</span> expire
+                    3H <span class="token punctuation">)</span>    <span class="token punctuation">;</span> minimum
+    NS    www.zutuanxue.com.
+www    A    <span class="token number">1.1</span>.1.1
+
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cat /var/named/chroot/var/named/zutuanxue.com.zone.bj</span>
+<span class="token variable">$TTL</span> 1D
+@    IN SOA    zutuanxue.com. rname.invalid. <span class="token punctuation">(</span>
+                    <span class="token number">0</span>    <span class="token punctuation">;</span> serial
+                    1D    <span class="token punctuation">;</span> refresh
+                    1H    <span class="token punctuation">;</span> retry
+                    1W    <span class="token punctuation">;</span> expire
+                    3H <span class="token punctuation">)</span>    <span class="token punctuation">;</span> minimum
+    NS    www.zutuanxue.com.
+www    A    <span class="token number">2.2</span>.2.2
+
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># cat /var/named/chroot/var/named/zutuanxue.com.zone.any </span>
+<span class="token variable">$TTL</span> 1D
+@    IN SOA    zutuanxue.com. rname.invalid. <span class="token punctuation">(</span>
+                    <span class="token number">0</span>    <span class="token punctuation">;</span> serial
+                    1D    <span class="token punctuation">;</span> refresh
+                    1H    <span class="token punctuation">;</span> retry
+                    1W    <span class="token punctuation">;</span> expire
+                    3H <span class="token punctuation">)</span>    <span class="token punctuation">;</span> minimum
+    NS    www.zutuanxue.com.
+www    A    <span class="token number">3.3</span>.3.3
 
 
+
+c、测试
+依次修改主配的IP库中的IP为本机，观看解析情况
+
+<span class="token punctuation">[</span>root@master named<span class="token punctuation">]</span><span class="token comment"># nslookup www.zutuanxue.com</span>
+Server:        <span class="token number">192.168</span>.11.16
+Address:    <span class="token number">192.168</span>.11.16<span class="token comment">#53</span>
+
+Name:    www.zutuanxue.com
+Address: <span class="token number">1.1</span>.1.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
                 
             </div>
             <hr/>
@@ -1184,48 +1756,50 @@ subnet <span class="token number">192.168</span>.11.0 netmask <span class="token
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2023/10/10/linux-fu-wu/">
+                <a href="/2023/10/17/ctf-xue-xi/yi-ji-chu-zhi-shi/linux-ji-chu/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="linux服务">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="linux基础">
                         
-                        <span class="card-title">linux服务</span>
+                        <span class="card-title">linux基础</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            CTF基础篇--Linux基础知识
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2023-10-10
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2023-10-17
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/CTF/" class="post-category">
+                                    CTF
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
                     <a href="/tags/Linux/">
                         <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/CTF/">
+                        <span class="chip bg-color">CTF</span>
                     </a>
                     
                 </div>

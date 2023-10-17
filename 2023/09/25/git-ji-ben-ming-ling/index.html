@@ -437,7 +437,7 @@ mkdir 新建一个目录
 <p><code>rm</code> 删除要给文件，加上<code>-rf</code>，就是强制删除目录</p>
 <p><code>mkdir</code> 新建一个目录</p>
 <p><code>mv</code> 移动文件，或者是更改文件名称</p>
-<pre class="line-numbers language-none"><code class="language-none">`mv index.html ./aa`，这就是将`index.html`移动到`./aa`目录下。`mv index.html ./aa/bb.html`，这是就是将`index.html`移动到`./aa`目录下并改名为`bb.html<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token variable"><span class="token variable">`</span><span class="token function">mv</span> index.html ./aa<span class="token variable">`</span></span>，这就是将<span class="token variable"><span class="token variable">`</span>index.html<span class="token variable">`</span></span>移动到<span class="token variable"><span class="token variable">`</span>./aa<span class="token variable">`</span></span>目录下。<span class="token variable"><span class="token variable">`</span><span class="token function">mv</span> index.html ./aa/bb.html<span class="token variable">`</span></span>，这是就是将<span class="token variable"><span class="token variable">`</span>index.html<span class="token variable">`</span></span>移动到<span class="token variable"><span class="token variable">`</span>./aa<span class="token variable">`</span></span>目录下并改名为`bb.html<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><code>reset</code> 重新初始化终端/清屏</p>
 <p><code>clear</code> 清屏</p>
@@ -446,16 +446,16 @@ mkdir 新建一个目录
 <p><code>#</code> 代表注释</p>
 <p><code>cat</code> 显示文件内容</p>
 <h3 id="二、git配置"><a href="#二、git配置" class="headerlink" title="二、git配置"></a>二、git配置</h3><p><code>git config -l</code> 查看当前git环境详细配置</p>
-<h4 id="2-1、查看系统config"><a href="#2-1、查看系统config" class="headerlink" title="2.1、查看系统config"></a>2.1、查看系统config</h4><pre class="line-numbers language-none"><code class="language-none">git config --system --list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2-1、查看系统config"><a href="#2-1、查看系统config" class="headerlink" title="2.1、查看系统config"></a>2.1、查看系统config</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config --system --list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>配置文件在<code>git安装目录/etc/gitconfig</code></p>
-<h4 id="2-2、查看当前用户配置"><a href="#2-2、查看当前用户配置" class="headerlink" title="2.2、查看当前用户配置"></a>2.2、查看当前用户配置</h4><pre class="line-numbers language-none"><code class="language-none">git config --global --list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2-2、查看当前用户配置"><a href="#2-2、查看当前用户配置" class="headerlink" title="2.2、查看当前用户配置"></a>2.2、查看当前用户配置</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config --global --list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>配置文件在<code>~/.gitconfig</code></p>
-<h4 id="2-3、查看当前仓库配置信息"><a href="#2-3、查看当前仓库配置信息" class="headerlink" title="2.3、查看当前仓库配置信息"></a>2.3、查看当前仓库配置信息</h4><pre class="line-numbers language-none"><code class="language-none">git config --local --list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2-3、查看当前仓库配置信息"><a href="#2-3、查看当前仓库配置信息" class="headerlink" title="2.3、查看当前仓库配置信息"></a>2.3、查看当前仓库配置信息</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config --local --list<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p>配置文件在<code>当前项目的/.git/config</code></p>
-<h4 id="2-4、修改git配置"><a href="#2-4、修改git配置" class="headerlink" title="2.4、修改git配置"></a>2.4、修改git配置</h4><pre class="line-numbers language-none"><code class="language-none">git config [--local][--global][--system] section.key value<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<h4 id="2-4、修改git配置"><a href="#2-4、修改git配置" class="headerlink" title="2.4、修改git配置"></a>2.4、修改git配置</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> config <span class="token punctuation">[</span>--local<span class="token punctuation">]</span><span class="token punctuation">[</span>--global<span class="token punctuation">]</span><span class="token punctuation">[</span>--system<span class="token punctuation">]</span> section.key value<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <p><code>git config --local user.name huhuhu</code> 设置当前项目的用户名</p>
 <p><code>git config --global core.quotepath false</code> 配置当前用户的编码项，可以解决中文编码问题</p>
@@ -553,7 +553,7 @@ mkdir 新建一个目录
 <p><code>git reset --hard HEAD^^</code> 用上两个版本里的所有文件撤回到暂工作区</p>
 <p><code>git reset --hard [commit id]</code> 用指定版本的所有文件撤回到工作区</p>
 <p><strong>当对当个文件进行操作</strong></p>
-<pre class="line-numbers language-none"><code class="language-none">git reset HEAD [file-name]<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> reset HEAD <span class="token punctuation">[</span>file-name<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
 
 <ul>
 <li>对单个文件操作时候只能用mixed参数，而且还是可省略</li>
@@ -564,8 +564,8 @@ mkdir 新建一个目录
 <p><strong>切换分支的比较</strong></p>
 <p><code>git reset [branch]</code> 切换分支，但这里的切换分支和上面的<code>git checkout [branch]</code>切换分支不同，下图说明：</p>
 <p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/git%E5%88%86%E6%94%AF%E5%88%87%E6%8D%A2.png" alt="image-20230925102630453"></p>
-<h4 id="4-13、revert"><a href="#4-13、revert" class="headerlink" title="4.13、revert"></a>4.13、revert</h4><pre class="line-numbers language-none"><code class="language-none">git revert -n [commit-id]
-git revert -n HEAD^^<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<h4 id="4-13、revert"><a href="#4-13、revert" class="headerlink" title="4.13、revert"></a>4.13、revert</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">git</span> revert -n <span class="token punctuation">[</span>commit-id<span class="token punctuation">]</span>
+<span class="token function">git</span> revert -n HEAD<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
 
 <p><strong>撤回版本的比较</strong></p>
 <ul>
@@ -609,7 +609,7 @@ git revert -n HEAD^^<span aria-hidden="true" class="line-numbers-rows"><span></s
 <ul>
 <li>这种适用于在其他分支上修复了bug，但是这个bug在当前分支上依然存在，所以可以复制这个commit的过程，不必重写代码。</li>
 </ul>
-<h4 id="4-19、remote"><a href="#4-19、remote" class="headerlink" title="4.19、remote"></a>4.19、remote</h4><p><code>git remote add origin 远程地址</code> 关联远程仓库</p>
+<h4 id="4-19、remote"><a href="#4-19、remote" class="headerlink" title="4.19、remote"></a>4.19、remote</h4><p><code>git remote add origin url</code> 关联远程仓库</p>
 <p><code>git remote</code> 查看本地添加了哪些远程分支地址</p>
 <p><code>git remote -v</code> 查看本地添加了哪些远程分支地址更详细信息</p>
 <p><code>git remote remove origin</code> 删除本地指定的远程地址</p>

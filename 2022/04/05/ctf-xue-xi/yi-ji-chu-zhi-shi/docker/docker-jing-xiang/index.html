@@ -1,0 +1,2018 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="Docker镜像, Shuyan">
+    <meta name="description" content="一、Docker镜像1.1 镜像 / UnionFS（联合文件系统）​        Union文件系统（UnionFS）是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>Docker镜像 | Shuyan</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Shuyan</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Shuyan</div>
+        <div class="logo-desc">
+            
+            ShuyanCoding......
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">Docker镜像</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
+                            </a>
+                        
+                            <a href="/tags/Docker/">
+                                <span class="chip bg-color">Docker</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Docker/" class="post-category">
+                                Docker
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2022-04-05
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h1 id="一、Docker镜像"><a href="#一、Docker镜像" class="headerlink" title="一、Docker镜像"></a>一、Docker镜像</h1><h2 id="1-1-镜像-UnionFS（联合文件系统）"><a href="#1-1-镜像-UnionFS（联合文件系统）" class="headerlink" title="1.1 镜像 / UnionFS（联合文件系统）"></a>1.1 镜像 / UnionFS（联合文件系统）</h2><p>​        Union文件系统（UnionFS）是一种<strong>分层、轻量级并且高性能的文件系统</strong>，它支持对文件系统的修改作为一次提交来一层层的叠加，同时可以将不同目录挂载到同一个虚拟文件系统下。<strong>Union 文件系统是 Docker 镜像的基础。</strong>镜像可以通过分层来进行继承. 基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。</p>
+<p><strong>特性：</strong><br>        一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录</p>
+<img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/%E9%95%9C%E5%83%8F%E5%9B%BE%E8%A7%A3.png" alt="image-20220405100219244" style="zoom:80%;">
+
+
+
+<p>总结:<br>        镜像就像洋葱圈 ,就像莲花卷 ,一层套一层 ,对外只显示一个文件系统。而且, 这种分层镜像还可以复用</p>
+<h2 id="1-2-特点"><a href="#1-2-特点" class="headerlink" title="1.2 特点"></a>1.2 特点</h2><p>​        <strong>Dcoker镜像都是只读的 , 当启动容器时, 一个新的可写层被加载到镜像的顶部，这一层被称为”容器层”, “容器层”执行的都称为”镜像层”</strong></p>
+<h2 id="1-3-Docker镜像加载原理："><a href="#1-3-Docker镜像加载原理：" class="headerlink" title="1.3 Docker镜像加载原理："></a>1.3 Docker镜像加载原理：</h2><p>docker的镜像实际上由一层一层的文件系统组成，这种层级的文件构成文件系统UnionFS。</p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405100330153.png" alt="image-20220405100330153"></p>
+<p>​        <strong>bootfs(boot file system)</strong> 主要包含<strong>bootloader和kernel</strong>，<strong>bootloader主要作用是引导加载kernel</strong>, Linux刚启动时会加载bootfs文件系统，<strong>Docker镜像的最底层是bootfs</strong>。<br>​        这一层与典型的Linux/Unix系统是一样的，包含boot加载器和内核。当boot加载完成之后整个内核就都在内存中了，此时内存的使用权已由bootfs转交给内核，此时系统也会卸载bootfs。</p>
+<p>​        <strong>rootfs (root file system)</strong> ，在bootfs之上。包含的就是典型 Linux 系统中的 /dev, /proc, /bin, /etc 等标准目录和文件。<strong>rootfs就是各种不同的操作系统发行版，比如Ubuntu，Centos等等。</strong></p>
+<p>平时我们安装进虚拟机的CentOS都是好几个G，为什么docker这里才220M？</p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405100348059.png" alt="image-20220405100348059"></p>
+<p>​        对于一个精简的OS，rootfs可以很小，只需要包括最基本的命令、工具和程序库就可以了，<strong>因为底层直接用Host的kernel，自己只需要提供 rootfs 就行了。</strong>由此可见对于不同的linux发行版, bootfs基本是一致的, rootfs会有差别, 因此<strong>不同的发行版可以公用bootfs。</strong></p>
+<h2 id="1-4-Docker镜像Commit操作"><a href="#1-4-Docker镜像Commit操作" class="headerlink" title="1.4 Docker镜像Commit操作"></a>1.4 Docker镜像Commit操作</h2><pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token comment"># 提交容器副本实质成为一个新的镜像</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">commit -m="提交的描述信息" -a="作者"	容器ID 要创建的目标镜像名:[标签名]</span>
+
+
+<span class="token attr-name">eg</span><span class="token punctuation">:</span> <span class="token attr-value">同时docker运行tomcat案例</span>
+
+<span class="token comment"># 1.  创建交互式界面 ( 相当于前台启动)</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it -p 8888:8080 tomcat   # 端口映射将8888作为docker的入口,映射到tomcat镜像的8080(图1,图2)</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it -P  tomcat  #自动端口映射(通过 docker ps查看端口, 图3)</span>
+
+<span class="token comment"># 后台启动(不会占用当前页面)</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -d -p 8888:8080 tomcat </span>
+
+
+<span class="token comment"># 2. 进入tomcat (如果前置启动,另开一个窗口 ,后置启动则直接进入)</span>
+<span class="token comment"># 查看运行容器ID</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">ps  </span>
+<span class="token comment"># 进入根目录</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">exec -it 容器ID /bin/bash</span>
+<span class="token attr-name">/usr/local/tomcat#</span> <span class="token attr-value">rm -rf webapps/docs/ </span>
+<span class="token comment"># 删除后访问tomcat ,可以看到访问主页下的文档出现404(图4)</span>
+
+<span class="token comment"># 3. 提交容器副本实使之为一个新的镜像</span>
+<span class="token comment"># 查看运行容器ID</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">ps  </span>
+<span class="token comment"># 提交容器</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">commit -m="del tomcat docs" -a="timepaus" 容器ID tomcat:v1.2</span>
+<span class="token comment"># 查看镜像(图5)</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">images</span>
+
+<span class="token comment"># 4.同时启动新镜像并和原来的对比</span>
+<span class="token comment"># 可以看到我们自己提交的新镜像也没有文档()</span>
+<span class="token comment"># 但是我们重新下载的tomcat是有的</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h1 id="二、Docker容器数据卷"><a href="#二、Docker容器数据卷" class="headerlink" title="二、Docker容器数据卷"></a>二、Docker容器数据卷</h1><blockquote>
+<p>类似Redis中的rdb文件和aof文件<br>用于容器的持久化和荣期间的继承与共享数据</p>
+</blockquote>
+<h2 id="2-1-容器内添加数据卷"><a href="#2-1-容器内添加数据卷" class="headerlink" title="2.1 容器内添加数据卷"></a>2.1 容器内添加数据卷</h2><h3 id="2-1-直接命令添加"><a href="#2-1-直接命令添加" class="headerlink" title="2.1 直接命令添加"></a>2.1 直接命令添加</h3><pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token comment"># 通过-v命令直接添加 (需要在根目录下创建 containerData  )</span>
+<span class="token comment"># 创建后修改容器内containerData 会同步到hostData ,反之亦是如此</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it -v /hostData:/containerData  镜像名/ID</span>
+
+<span class="token comment"># 创建只读权限的文件 , 容器内只能读取这个文件, 但是不能修改. ro: readonly</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it -v /宿主机绝路路径目录:/容器内目录:ro 镜像名</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="2-2-Docker添加"><a href="#2-2-Docker添加" class="headerlink" title="2.2 Docker添加"></a>2.2 Docker添加</h3><p>DockerFile的简单理解</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token comment"># 1. 宿主机根目录下创建mydocker文件夹并进入</span>
+
+<span class="token comment"># 2. 在mydocker文件想创建DockerFile文件并编辑,内容如下(图1)</span>
+
+<span class="token comment"># volume test</span>
+<span class="token attr-name">FROM</span> <span class="token attr-value">centos</span>
+<span class="token attr-name">VOLUME</span> <span class="token attr-value">["/dataVolumeContainer1","/dataVolumeContainer2"]</span>
+<span class="token attr-name">CMD</span> <span class="token attr-value">echo "finished,--------success1"</span>
+<span class="token attr-name">CMD</span> <span class="token attr-value">/bin/bash</span>
+
+<span class="token comment"># 说明：</span>
+<span class="token comment"># 出于可移植和分享的考虑，用-v 主机目录:容器目录这种方法不能够直接在Dockerfile中实现。</span>
+<span class="token comment"># 由于宿主机目录是依赖于特定宿主机的，并不能够保证在所有的宿主机上都存在这样的特定目录。</span>
+
+
+<span class="token comment"># 3. 使用docker build命令创建一个镜像, 并挂载指定宿主机指定文件</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">build -f /mydocker/DockerFile -t 定义的新镜像名称</span>
+
+<span class="token comment"># 4. 查看镜像</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">images</span>
+
+<span class="token comment"># 5.运行新镜像</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it 定义的新镜像ID /bin/bash</span>
+
+<span class="token comment"># 6.通过镜像运行后生成的容器ID查看 (图2), 对应的主机映射的数据卷地址</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">ps</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">inspect 容器ID</span>
+
+<span class="token comment"># 7.测试添加卷和主机是否互通有无</span>
+<span class="token comment"># 在容器中创建文件, 看看主机中是否创建对应的文件</span>
+
+<span class="token comment"># 注意: </span>
+<span class="token comment"># Docker挂载主机目录(第3步)Docker访问出现cannot open directory .: Permission denied</span>
+<span class="token comment"># 解决办法：在挂载目录后多加一个--privileged=true参数即可</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405093955419.png" alt="image-20220405093955419"></p>
+<p>查看运行的容器id相关信息 <code>docker inspect 容器ID</code></p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094021940.png" alt="image-2022040509402194"></p>
+<h3 id="2-3-数据卷容器"><a href="#2-3-数据卷容器" class="headerlink" title="2.3 数据卷容器"></a>2.3 数据卷容器</h3><blockquote>
+<p>命名的容器挂载数据卷，其它容器通过挂载这个(父容器)实现数据共享，<br>挂载数据卷的容器，称之为数据卷容器</p>
+</blockquote>
+<p>实现步骤：</p>
+<pre class="line-numbers language-properties" data-language="properties"><code class="language-properties"><span class="token comment"># 1. 以上一步所建镜像为模板 ,首先启动一个父容器dc01 ,在创建容器的数据卷文夹中创建一个文件(图1)</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it --name 	dc01 zzyy/centos</span>
+<span class="token attr-name">touch</span> <span class="token attr-value">dc01_add.txt</span>
+
+<span class="token comment"># 2. 创建子容器dc02,dc03继承自dc01 , 在创建容器的数据卷文夹中创建一个文件(图2)</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it --name dc02 --volumes-from dc01 zzyy/centos</span>
+<span class="token attr-name">touch</span> <span class="token attr-value">dc02_add.txt</span>
+<span class="token attr-name">docker</span> <span class="token attr-value">run -it --name dc03 --volumes-from dc01 zzyy/centos</span>
+<span class="token attr-name">touch</span> <span class="token attr-value">dc01=3_add.txt</span>
+
+
+<span class="token comment"># 3. 回到dc01可以看到所有数据都被共享了(图3)</span>
+<span class="token comment"># 4. 删除dc01, dc02修改后dc03是否可访问,可以 (图4)</span>
+<span class="token comment"># 5. 删除dc02dc03是否可以访问, 可以(图5)</span>
+<span class="token comment"># 6. 新建dc04继承dc03是否可以访问, 可以(图6)</span>
+
+结论
+<span class="token attr-name">容器之间配置信息的传递,</span> <span class="token attr-value">数据卷的生命周期一直持续到没有容器使用它为止</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094205126.png" alt="image-20220405094205126" style="zoom:90%;">
+
+
+
+<img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094226717.png" alt="image-20220405094226717" style="zoom:80%;">
+
+
+
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094255171.png" alt="image-20220405094255171"></p>
+<img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094310186.png" alt="image-20220405094310186" style="zoom:80%;">
+
+<img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094324262.png" alt="image-20220405094324262" style="zoom:80%;">
+
+<img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094343774.png" alt="image-20220405094343774" style="zoom:80%;">
+
+
+
+<h1 id="三、DockerFile解析"><a href="#三、DockerFile解析" class="headerlink" title="三、DockerFile解析"></a>三、DockerFile解析</h1><blockquote>
+<p>Dockerfile是用来构建Docker镜像文件 ,是有一系列命令和参数构成的脚本</p>
+</blockquote>
+<h2 id="3-1-构建步骤"><a href="#3-1-构建步骤" class="headerlink" title="3.1 构建步骤"></a>3.1 构建步骤</h2><ul>
+<li>编写Dockerfile文件</li>
+<li>docker build</li>
+<li>docker run</li>
+</ul>
+<h3 id="3-1-1-格式"><a href="#3-1-1-格式" class="headerlink" title="3.1.1 格式"></a>3.1.1 格式</h3><p>以centos的文件为例</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">FROM scratch
+ADD centos-8-container.tar.xz /
+
+LABEL org.label-schema.schema-version<span class="token operator">=</span><span class="token string">"1.0"</span> <span class="token punctuation">\</span>
+    org.label-schema.name<span class="token operator">=</span><span class="token string">"CentOS Base Image"</span> <span class="token punctuation">\</span>
+    org.label-schema.vendor<span class="token operator">=</span><span class="token string">"CentOS"</span> <span class="token punctuation">\</span>
+    org.label-schema.license<span class="token operator">=</span><span class="token string">"GPLv2"</span> <span class="token punctuation">\</span>
+    org.label-schema.build-date<span class="token operator">=</span><span class="token string">"20190927"</span>
+
+CMD <span class="token punctuation">[</span><span class="token string">"/bin/bash"</span><span class="token punctuation">]</span>
+<span class="token number">12345678910</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="3-1-2-语法"><a href="#3-1-2-语法" class="headerlink" title="3.1.2 语法"></a>3.1.2 语法</h3><ul>
+<li><p>每条保留字指令都必须为答谢字母且后面至少跟一个参数</p>
+</li>
+<li><p>指令从上到下, 顺序执行</p>
+</li>
+<li><p>#表示注释</p>
+</li>
+<li><p>每条指令都会创建一个一个新的镜像层, 并提交</p>
+</li>
+</ul>
+<h3 id="3-1-3-Docker执行DockerFile的大致流程"><a href="#3-1-3-Docker执行DockerFile的大致流程" class="headerlink" title="3.1.3 Docker执行DockerFile的大致流程"></a>3.1.3 Docker执行DockerFile的大致流程</h3><ol>
+<li>docker从基础镜像运行一个容器</li>
+<li>执行一条指令并对容器做出修改</li>
+<li>执行类似docker commit 的操作提交一个新的镜像层</li>
+<li>docker 再基于刚提交的镜像运行一个新容器</li>
+<li>执行dockerfile 中的下一条执行, 直至所有指令都完成</li>
+</ol>
+<p>从应用软件的角度来看，Dockerfile、Docker镜像与Docker容器分别代表软件的三个不同阶段，</p>
+<ul>
+<li>Dockerfile是软件的原材料</li>
+<li>Docker镜像是软件的交付品</li>
+<li>Docker容器则可以认为是软件的运行态。</li>
+</ul>
+<p>Dockerfile面向开发，Docker镜像成为交付标准，<br>Docker容器则涉及部署与运维，三者缺一不可，合力充当Docker体系的基石。</p>
+<img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094632169.png" alt="image-20220405094632169" style="zoom:80%;">
+
+
+
+<blockquote>
+<p>1 Dockerfile，需要定义一个Dockerfile，Dockerfile定义了进程需要的一切东西。Dockerfile涉及的内容包括执行代码或者是文件、环境变量、依赖包、运行时环境、动态链接库、操作系统的发行版、服务进程和内核进程(当应用进程需要和系统服务和内核进程打交道，这时需要考虑如何设计namespace的权限控制)等等;<br>2 Docker镜像，在用Dockerfile定义一个文件之后，docker build时会产生一个Docker镜像，当运行 Docker镜像时，会真正开始提供服务;<br>3 Docker容器，容器是直接提供服务的</p>
+</blockquote>
+<h2 id="3-2-DockerFile保留字指令"><a href="#3-2-DockerFile保留字指令" class="headerlink" title="3.2 DockerFile保留字指令"></a>3.2 DockerFile保留字指令</h2><p><a target="_blank" rel="noopener" href="https://github.com/docker-library/tomcat/blob/8348a86101660e76224afcc57c4c9fae4dc76de8/9.0/jdk8/openjdk/Dockerfile">查看tomcat的DockerFile文件 ,更好理解保留字</a></p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405094831612.png" alt="image-20220405094831612"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">FROM openjdk:8-jdk
+
+ENV CATALINA_HOME /usr/local/tomcat
+ENV <span class="token environment constant">PATH</span> <span class="token variable">$CATALINA_HOME</span>/bin:<span class="token environment constant">$PATH</span>
+RUN <span class="token function">mkdir</span> -p <span class="token string">"<span class="token variable">$CATALINA_HOME</span>"</span>
+WORKDIR <span class="token variable">$CATALINA_HOME</span>
+
+<span class="token comment"># let "Tomcat Native" live somewhere isolated</span>
+ENV TOMCAT_NATIVE_LIBDIR <span class="token variable">$CATALINA_HOME</span>/native-jni-lib
+ENV LD_LIBRARY_PATH <span class="token variable">${LD_LIBRARY_PATH<span class="token operator">:+</span>$LD_LIBRARY_PATH<span class="token operator">:</span>}</span><span class="token variable">$TOMCAT_NATIVE_LIBDIR</span>
+
+<span class="token comment"># see https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/KEYS</span>
+<span class="token comment"># see also "update.sh" (https://github.com/docker-library/tomcat/blob/master/update.sh)</span>
+ENV GPG_KEYS 05AB33110949707C93A279E3D3EFE6B686867BA6 07E48665A34DCAFAE522E5E6266191C37C037D42 47309207D818FFD8DCD3F83F1931D684307A10A5 541FBE7D8F78B25E055DDEE13C370389288584E7 61B832AC2F1C5A90F0F9B00A1C506407564C17A3 79F7026C690BAA50B92CD8B66A3AD3F4F22C4FED 9BA44C2621385CB966EBA586F72C284D731FABEE A27677289986DB50844682F8ACB77FC2E86E29AC A9C5DF4D22E99998D9875A5110C01C5A2F6059E7 DCFD35E0BF8CA7344752DE8B6FB21E8933C60243 F3A04C595DB5B6A5F1ECA43E3B7BBB100D811BBE F7DA48BB64BCB84ECBA7EE6935CD23C10D498E23
+
+ENV TOMCAT_MAJOR <span class="token number">9</span>
+ENV TOMCAT_VERSION <span class="token number">9.0</span>.27
+ENV TOMCAT_SHA512 408d30bf56d59941149b397e5e725a5f9baf225807397a4b7a3be79f7d211e6d878d34bf00776746a54cc7d067f168db24c367e5c7390bb7329b3bca428726cc
+
+RUN <span class="token builtin class-name">set</span> -eux<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">\</span>
+	<span class="token assign-left variable">savedAptMark</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span>apt-mark showmanual<span class="token variable">)</span></span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">apt-get</span> update<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">apt-get</span> <span class="token function">install</span> -y --no-install-recommends <span class="token punctuation">\</span>
+		gnupg dirmngr <span class="token punctuation">\</span>
+		<span class="token function">wget</span> ca-certificates <span class="token punctuation">\</span>
+	<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">\</span>
+	<span class="token function-name function">ddist</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">local</span> <span class="token assign-left variable">f</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$1</span>"</span><span class="token punctuation">;</span> <span class="token builtin class-name">shift</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">local</span> <span class="token assign-left variable">distFile</span><span class="token operator">=</span><span class="token string">"<span class="token variable">$1</span>"</span><span class="token punctuation">;</span> <span class="token builtin class-name">shift</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">local</span> <span class="token assign-left variable">success</span><span class="token operator">=</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">local</span> <span class="token assign-left variable">distUrl</span><span class="token operator">=</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token keyword">for</span> <span class="token for-or-select variable">distUrl</span> <span class="token keyword">in</span> <span class="token punctuation">\</span>
+<span class="token comment"># https://issues.apache.org/jira/browse/INFRA-8753?focusedCommentId=14735394#comment-14735394</span>
+			<span class="token string">'https://www.apache.org/dyn/closer.cgi?action=download&amp;filename='</span> <span class="token punctuation">\</span>
+<span class="token comment"># if the version is outdated (or we're grabbing the .asc file), we might have to pull from the dist/archive :/</span>
+			https://www-us.apache.org/dist/ <span class="token punctuation">\</span>
+			https://www.apache.org/dist/ <span class="token punctuation">\</span>
+			https://archive.apache.org/dist/ <span class="token punctuation">\</span>
+		<span class="token punctuation">;</span> <span class="token keyword">do</span> <span class="token punctuation">\</span>
+			<span class="token keyword">if</span> <span class="token function">wget</span> -O <span class="token string">"<span class="token variable">$f</span>"</span> <span class="token string">"<span class="token variable">$distUrl</span><span class="token variable">$distFile</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token punctuation">[</span> -s <span class="token string">"<span class="token variable">$f</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token keyword">then</span> <span class="token punctuation">\</span>
+				<span class="token assign-left variable">success</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+				<span class="token builtin class-name">break</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+			<span class="token keyword">fi</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token keyword">done</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token punctuation">[</span> -n <span class="token string">"<span class="token variable">$success</span>"</span> <span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">}</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">\</span>
+	ddist <span class="token string">'tomcat.tar.gz'</span> <span class="token string">"tomcat/tomcat-<span class="token variable">$TOMCAT_MAJOR</span>/v<span class="token variable">$TOMCAT_VERSION</span>/bin/apache-tomcat-<span class="token variable">$TOMCAT_VERSION</span>.tar.gz"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$TOMCAT_SHA512</span> *tomcat.tar.gz"</span> <span class="token operator">|</span> sha512sum --strict --check -<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	ddist <span class="token string">'tomcat.tar.gz.asc'</span> <span class="token string">"tomcat/tomcat-<span class="token variable">$TOMCAT_MAJOR</span>/v<span class="token variable">$TOMCAT_VERSION</span>/bin/apache-tomcat-<span class="token variable">$TOMCAT_VERSION</span>.tar.gz.asc"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token builtin class-name">export</span> <span class="token assign-left variable">GNUPGHOME</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span>mktemp -d<span class="token variable">)</span></span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token keyword">for</span> <span class="token for-or-select variable">key</span> <span class="token keyword">in</span> <span class="token variable">$GPG_KEYS</span><span class="token punctuation">;</span> <span class="token keyword">do</span> <span class="token punctuation">\</span>
+		gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys <span class="token string">"<span class="token variable">$key</span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token keyword">done</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	gpg --batch --verify tomcat.tar.gz.asc tomcat.tar.gz<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">tar</span> -xf tomcat.tar.gz --strip-components<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">rm</span> bin/*.bat<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">rm</span> tomcat.tar.gz*<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token builtin class-name">command</span> -v gpgconf <span class="token operator">&amp;&amp;</span> gpgconf --kill all <span class="token operator">||</span> <span class="token builtin class-name">:</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">rm</span> -rf <span class="token string">"<span class="token variable">$GNUPGHOME</span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">\</span>
+	<span class="token assign-left variable">nativeBuildDir</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span>mktemp -d<span class="token variable">)</span></span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">tar</span> -xf bin/tomcat-native.tar.gz -C <span class="token string">"<span class="token variable">$nativeBuildDir</span>"</span> --strip-components<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">apt-get</span> <span class="token function">install</span> -y --no-install-recommends <span class="token punctuation">\</span>
+		dpkg-dev <span class="token punctuation">\</span>
+		gcc <span class="token punctuation">\</span>
+		libapr1-dev <span class="token punctuation">\</span>
+		libssl-dev <span class="token punctuation">\</span>
+		<span class="token function">make</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">(</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">export</span> <span class="token assign-left variable">CATALINA_HOME</span><span class="token operator">=</span><span class="token string">"<span class="token environment constant">$PWD</span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">cd</span> <span class="token string">"<span class="token variable">$nativeBuildDir</span>/native"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token assign-left variable">gnuArch</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span>dpkg-architecture --query DEB_BUILD_GNU_TYPE<span class="token variable">)</span></span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token assign-left variable">aprConfig</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token builtin class-name">command</span> -v apr-1-config<span class="token variable">)</span></span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		./configure <span class="token punctuation">\</span>
+			--build<span class="token operator">=</span><span class="token string">"<span class="token variable">$gnuArch</span>"</span> <span class="token punctuation">\</span>
+			--libdir<span class="token operator">=</span><span class="token string">"<span class="token variable">$TOMCAT_NATIVE_LIBDIR</span>"</span> <span class="token punctuation">\</span>
+			--prefix<span class="token operator">=</span><span class="token string">"<span class="token variable">$CATALINA_HOME</span>"</span> <span class="token punctuation">\</span>
+			--with-apr<span class="token operator">=</span><span class="token string">"<span class="token variable">$aprConfig</span>"</span> <span class="token punctuation">\</span>
+			--with-java-home<span class="token operator">=</span><span class="token string">"<span class="token variable">$JAVA_HOME</span>"</span> <span class="token punctuation">\</span>
+			--with-ssl<span class="token operator">=</span>yes<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token function">make</span> -j <span class="token string">"<span class="token variable"><span class="token variable">$(</span>nproc<span class="token variable">)</span></span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token function">make</span> <span class="token function">install</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">rm</span> -rf <span class="token string">"<span class="token variable">$nativeBuildDir</span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">rm</span> bin/tomcat-native.tar.gz<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">\</span>
+<span class="token comment"># reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies</span>
+	apt-mark auto <span class="token string">'.*'</span> <span class="token operator">&gt;</span> /dev/null<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">[</span> -z <span class="token string">"<span class="token variable">$savedAptMark</span>"</span> <span class="token punctuation">]</span> <span class="token operator">||</span> apt-mark manual <span class="token variable">$savedAptMark</span> <span class="token operator">&gt;</span> /dev/null<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">find</span> <span class="token string">"<span class="token variable">$TOMCAT_NATIVE_LIBDIR</span>"</span> -type f -executable -exec ldd <span class="token string">'{}'</span> <span class="token string">';'</span> <span class="token punctuation">\</span>
+		<span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'/=&gt;/ { print $(NF-1) }'</span> <span class="token punctuation">\</span>
+		<span class="token operator">|</span> <span class="token function">sort</span> -u <span class="token punctuation">\</span>
+		<span class="token operator">|</span> <span class="token function">xargs</span> -r dpkg-query --search <span class="token punctuation">\</span>
+		<span class="token operator">|</span> <span class="token function">cut</span> -d: -f1 <span class="token punctuation">\</span>
+		<span class="token operator">|</span> <span class="token function">sort</span> -u <span class="token punctuation">\</span>
+		<span class="token operator">|</span> <span class="token function">xargs</span> -r apt-mark manual <span class="token punctuation">\</span>
+	<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">apt-get</span> purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant<span class="token operator">=</span>false<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">rm</span> -rf /var/lib/apt/lists/*<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">\</span>
+<span class="token comment"># sh removes env vars it doesn't support (ones with periods)</span>
+<span class="token comment"># https://github.com/docker-library/tomcat/issues/77</span>
+	<span class="token function">find</span> ./bin/ -name <span class="token string">'*.sh'</span> -exec <span class="token function">sed</span> -ri <span class="token string">'s|^#!/bin/sh$|#!/usr/bin/env bash|'</span> <span class="token string">'{}'</span> +<span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token punctuation">\</span>
+<span class="token comment"># fix permissions (especially for running as non-root)</span>
+<span class="token comment"># https://github.com/docker-library/tomcat/issues/35</span>
+	<span class="token function">chmod</span> -R +rX <span class="token builtin class-name">.</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token function">chmod</span> <span class="token number">777</span> logs temp work
+
+<span class="token comment"># verify Tomcat Native is working properly</span>
+RUN <span class="token builtin class-name">set</span> -e <span class="token punctuation">\</span>
+	<span class="token operator">&amp;&amp;</span> <span class="token assign-left variable">nativeLines</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span>catalina.sh configtest <span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span><span class="token file-descriptor important">&amp;1</span><span class="token variable">)</span></span>"</span> <span class="token punctuation">\</span>
+	<span class="token operator">&amp;&amp;</span> <span class="token assign-left variable">nativeLines</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$nativeLines</span>"</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">'Apache Tomcat Native'</span><span class="token variable">)</span></span>"</span> <span class="token punctuation">\</span>
+	<span class="token operator">&amp;&amp;</span> <span class="token assign-left variable">nativeLines</span><span class="token operator">=</span><span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$nativeLines</span>"</span> <span class="token operator">|</span> <span class="token function">sort</span> -u<span class="token variable">)</span></span>"</span> <span class="token punctuation">\</span>
+	<span class="token operator">&amp;&amp;</span> <span class="token keyword">if</span> <span class="token operator">!</span> <span class="token builtin class-name">echo</span> <span class="token string">"<span class="token variable">$nativeLines</span>"</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">'INFO: Loaded APR based Apache Tomcat Native library'</span> <span class="token operator">&gt;</span><span class="token file-descriptor important">&amp;2</span><span class="token punctuation">;</span> <span class="token keyword">then</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">echo</span> <span class="token operator">&gt;</span><span class="token file-descriptor important">&amp;2</span> <span class="token string">"<span class="token variable">$nativeLines</span>"</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+		<span class="token builtin class-name">exit</span> <span class="token number">1</span><span class="token punctuation">;</span> <span class="token punctuation">\</span>
+	<span class="token keyword">fi</span>
+
+EXPOSE <span class="token number">8080</span>
+CMD <span class="token punctuation">[</span><span class="token string">"catalina.sh"</span>, <span class="token string">"run"</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h3 id="3-2-1-保留字整合案例"><a href="#3-2-1-保留字整合案例" class="headerlink" title="3.2.1 保留字整合案例"></a>3.2.1 保留字整合案例</h3><h4 id="自定义镜像"><a href="#自定义镜像" class="headerlink" title="自定义镜像"></a>自定义镜像</h4><blockquote>
+<p>我们安装的centos精简版是没有vim和ifconfig命令的支持的<br>我们可以通过编写Dockerfile令其支持这些功能</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1.搜索centos镜像并下载</span>
+<span class="token function">docker</span> search centos
+<span class="token function">docker</span> pull centos
+
+<span class="token comment"># 2.编写创建一个文件( /mydoker/dockerfile_centos ),编写Dockerfile ,内容如下</span>
+--------------------------------------------------------------------
+FROM centos
+MAINTAINER timepause<span class="token operator">&lt;</span>qq_43371556@csdn.net<span class="token operator">&gt;</span>
+
+ENV MYPATH /usr/local
+WORKDIR <span class="token variable">$MYPATH</span>
+
+RUN yum -y <span class="token function">install</span> <span class="token function">vim</span>
+RUN yum -y <span class="token function">install</span> net-tools
+
+EXPOSE <span class="token number">80</span>
+
+CMD <span class="token builtin class-name">echo</span> <span class="token variable">$MYPATH</span>
+CMD <span class="token builtin class-name">echo</span> <span class="token string">"install vim and ifconfig commond plug-in components success"</span>
+CMD /bin/bash
+-----------------------------------------------------------------------
+
+<span class="token comment"># 3. 编译运行centos( 注意最后的空格和点号)</span>
+<span class="token function">docker</span> build -f /mydoker/dockerfile_centos -t mycentos:1.3 <span class="token builtin class-name">.</span>
+
+<span class="token comment"># 4. 测试功能</span>
+<span class="token comment"># 查看是否新增镜像</span>
+<span class="token function">docker</span> <span class="token function">ps</span>
+<span class="token comment"># 运行新镜像 </span>
+<span class="token function">docker</span> run -it mycentos:1.3
+<span class="token comment"># 在容器中使用vim 与if config命令</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="自定义tomcat9"><a href="#自定义tomcat9" class="headerlink" title="自定义tomcat9"></a>自定义tomcat9</h4><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. 创建存放生成镜像文件的目录</span>
+<span class="token function">mkdir</span> -p /myuse/mydocker/tomcat9
+
+<span class="token comment"># 2.创建相关文件(c.txt用于测试)</span>
+<span class="token function">touch</span> c.txt 
+
+
+<span class="token comment"># 3.上传tomcat和jdk(一定要注意版本, 根据版本修改Dockerfile文件)</span>
+
+<span class="token comment">#. 4.创建并编辑Dockerfile(需要提前下载centos)</span>
+<span class="token function">vim</span> Dockerfile
+---------------------Dockerfile-------------------------------
+FROM         centos
+MAINTAINER    chy<span class="token operator">&lt;</span>chy@qq.com<span class="token operator">&gt;</span>
+<span class="token comment">#把宿主机当前上下文的c.txt拷贝到容器/usr/local/路径下</span>
+COPY c.txt /usr/local/cincontainer.txt
+<span class="token comment">#把java与tomcat添加到容器中</span>
+ADD jdk-8u11-linux-x64.tar.gz /usr/local/
+ADD apache-tomcat-9.0.27.tar.gz /usr/local/
+<span class="token comment">#安装vim编辑器</span>
+RUN yum -y <span class="token function">install</span> <span class="token function">vim</span>
+<span class="token comment">#设置工作访问时候的WORKDIR路径，登录落脚点</span>
+ENV MYPATH /usr/local
+WORKDIR <span class="token variable">$MYPATH</span>
+<span class="token comment">#配置java与tomcat环境变量</span>
+ENV JAVA_HOME /usr/local/jdk1.8.0_11
+ENV CLASSPATH <span class="token variable">$JAVA_HOME</span>/lib/dt.jar:<span class="token variable">$JAVA_HOME</span>/lib/tools.jar
+ENV CATALINA_HOME /usr/local/apache-tomcat-9.0.27
+ENV CATALINA_BASE /usr/local/apache-tomcat-9.0.27
+ENV <span class="token environment constant">PATH</span> <span class="token environment constant">$PATH</span><span class="token builtin class-name">:</span><span class="token variable">$JAVA_HOME</span>/bin:<span class="token variable">$CATALINA_HOME</span>/lib:<span class="token variable">$CATALINA_HOME</span>/bin
+<span class="token comment">#容器运行时监听的端口</span>
+EXPOSE  <span class="token number">8080</span>
+<span class="token comment">#启动时运行tomcat</span>
+<span class="token comment"># ENTRYPOINT ["/usr/local/apache-tomcat-9.0.8/bin/startup.sh" ]</span>
+<span class="token comment"># CMD ["/usr/local/apache-tomcat-9.0.8/bin/catalina.sh","run"]</span>
+CMD /usr/local/apache-tomcat-9.0.27/bin/startup.sh <span class="token operator">&amp;&amp;</span> <span class="token function">tail</span> -F /usr/local/apache-tomcat-9.0.27/bin/logs/catalina.out
+---------------------Dockerfile-------------------------------
+
+
+
+
+<span class="token comment"># 5.构建镜像(在存放这些文件的目录下)</span>
+<span class="token comment"># 如果Dockerfile文件名称就是Dockerfile,可以省略参数 -f /Dockerfile所在位置的书写</span>
+<span class="token function">docker</span> build -t mytomcat9 <span class="token builtin class-name">.</span>
+
+<span class="token comment"># 6.查看镜像并运行镜像</span>
+<span class="token function">docker</span> images
+<span class="token comment"># 运行镜像 (后台启动)</span>
+<span class="token function">docker</span> run -d -p <span class="token number">8080</span>:8080 --name myt9 -v /myuse/mydocker/tomcat9/test:/usr/local/apache-tomcat-9.0.27/webapps/test -v /myuse/mydocker/tomcat9/tomcat9logs/:/usr/local/apache-tomcat-9.0.27/logs --privileged<span class="token operator">=</span>true  mytomcat9
+
+<span class="token comment"># 注意这里配置了容器卷的映射,宿主机的test文件夹映射到tomcat的webapps目录下的test文件,且二者可以互通有无. </span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> -it 容器ID /bin/bash <span class="token comment">#进入容器根目录 ,可以访问相关页面</span>
+
+<span class="token comment"># 7. 访问成功后, 添加jsp文件与web.xml文件( a.jsp用于访问测试 ,web.xml用于令jsp页面可以编译)</span>
+<span class="token function">vim</span> a.jsp
+mkidr WEB-INF
+<span class="token function">vim</span> /WEB-INF/web.xml
+------------------------------------------a.jsp---------------------------
+<span class="token operator">&lt;</span>%@ page <span class="token assign-left variable">language</span><span class="token operator">=</span><span class="token string">"java"</span> <span class="token assign-left variable">contentType</span><span class="token operator">=</span><span class="token string">"text/html; charset=UTF-8"</span> <span class="token assign-left variable">pageEncoding</span><span class="token operator">=</span><span class="token string">"UTF-8"</span>%<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span><span class="token operator">!</span>DOCTYPE html PUBLIC <span class="token string">"-//W3C//DTD HTML 4.01 Transitional//EN"</span> <span class="token string">"http://www.w3.org/TR/html4/loose.dtd"</span><span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>html<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>head<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>meta http-equiv<span class="token operator">=</span><span class="token string">"Content-Type"</span> <span class="token assign-left variable">content</span><span class="token operator">=</span><span class="token string">"text/html; charset=UTF-8"</span><span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>title<span class="token operator">&gt;</span>Insert title here<span class="token operator">&lt;</span>/title<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>/head<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>body<span class="token operator">&gt;</span>
+
+    -----------welcome------------
+    <span class="token operator">&lt;=</span><span class="token string">"i am in docker tomcat self "</span>%<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>br<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>br<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span>% System.out.println<span class="token punctuation">(</span><span class="token string">"=============docker tomcat self"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>%<span class="token operator">&gt;</span>
+  <span class="token operator">&lt;</span>/body<span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>/html<span class="token operator">&gt;</span>
+------------------------------------------a.jsp---------------------------
+
+
+------------------------------------------web.xml-----------------------------------
+<span class="token operator">&lt;</span>?xml <span class="token assign-left variable">version</span><span class="token operator">=</span><span class="token string">"1.0"</span> <span class="token assign-left variable">encoding</span><span class="token operator">=</span><span class="token string">"UTF-8"</span>?<span class="token operator">&gt;</span>
+
+<span class="token operator">&lt;</span>web-app <span class="token assign-left variable">xmlns</span><span class="token operator">=</span><span class="token string">"http://xmlns.jcp.org/xml/ns/javaee"</span>
+  xmlns:xsi<span class="token operator">=</span><span class="token string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+  xsi:schemaLocation<span class="token operator">=</span><span class="token string">"http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"</span>
+  <span class="token assign-left variable">version</span><span class="token operator">=</span><span class="token string">"4.0"</span>
+  metadata-complete<span class="token operator">=</span><span class="token string">"true"</span><span class="token operator">&gt;</span>
+<span class="token operator">&lt;</span>/web-app<span class="token operator">&gt;</span>
+------------------------------------------web.xml-----------------------------------
+
+<span class="token comment"># 8. 重启服务, 访问a.jsp</span>
+<span class="token comment"># 查看当前容器id</span>
+<span class="token function">docker</span> <span class="token function">ps</span> <span class="token punctuation">(</span>查看当前容器ID<span class="token punctuation">)</span>
+<span class="token function">docker</span> <span class="token function">ps</span> -a <span class="token punctuation">(</span>查看所有运行过的容器ID<span class="token punctuation">)</span>
+<span class="token comment"># 重启服务</span>
+<span class="token function">docker</span> restart 容器ID
+<span class="token comment"># 访问a.jsp页面</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h1 id="四、Docker安装软件"><a href="#四、Docker安装软件" class="headerlink" title="四、Docker安装软件"></a>四、Docker安装软件</h1><h2 id="4-1-MySQL"><a href="#4-1-MySQL" class="headerlink" title="4.1 MySQL"></a>4.1 MySQL</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. 以安装mysql5.6为例(不知道什么原因5.7下不来)</span>
+<span class="token function">docker</span> pull mysql:5.6
+
+<span class="token comment"># 2. 运行镜像,启动容器(端口3306,root用户密码:root,运行镜像:mysql5.6)</span>
+<span class="token function">docker</span> run -p <span class="token number">3306</span>:3306 --name mysql -v /datebase/mysql/conf:/etc/mysql/conf.d -v /datebase/mysql/logs:/logs -v /datebase/mysql/data:/var/lib/mysql -e <span class="token assign-left variable">MYSQL_ROOT_PASSWORD</span><span class="token operator">=</span>root -d mysql:5.6
+
+<span class="token comment"># 3. 进入msql内部测试登陆</span>
+<span class="token function">docker</span> <span class="token function">ps</span>
+<span class="token comment">## 进入mysql的当前目录下</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> -it MySQL运行成功后的容器ID/name     /bin/bash
+<span class="token comment">## 输入账号密码</span>
+mysql -u 账号 -p<span class="token punctuation">(</span>然后根据提示输入密码<span class="token punctuation">)</span>
+
+
+<span class="token comment"># 4.连接数据库的图形化界面</span>
+<span class="token comment">## Mysql 解决连接客户端时出现1251 client does not support ...问题</span>
+ALTER <span class="token environment constant">USER</span>  <span class="token string">'root'</span>@<span class="token string">'%'</span> IDENTIFIED WITH mysql_native_password BY <span class="token string">'mysql密码'</span><span class="token punctuation">;</span>
+ALTER <span class="token environment constant">USER</span>  <span class="token string">'root'</span>@<span class="token string">'localhost'</span> IDENTIFIED WITH mysql_native_password BY <span class="token string">'mysql密码'</span><span class="token punctuation">;</span>
+
+<span class="token comment"># 5. 备份数据库数据,之后我们可以通过直接读取这个sql文件恢复数据</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> myql服务容器ID <span class="token function">sh</span> -c <span class="token string">' exec mysqldump --all-databases -uroot -p"root" '</span> <span class="token operator">&gt;</span> /datebase/all-databases.sql<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="4-2-Redis"><a href="#4-2-Redis" class="headerlink" title="4.2 Redis"></a>4.2 Redis</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1.下载最新版redis镜像</span>
+<span class="token function">docker</span> pull redis
+
+<span class="token comment"># 2.运行镜像(redis端口2333, -d后的redis不加参数默认为redis:latest)</span>
+<span class="token comment"># 注意本地数据卷与容器内数据卷目录的对应</span>
+<span class="token function">docker</span> run -p <span class="token number">2333</span>:6379 -v /myuse/myredis/data:/data -v /myuse/myredis/conf/redis.conf:/usr/local/etc/redis/redis.conf  -d redis redis-server /usr/local/etc/redis/redis.conf --appendonly <span class="token function">yes</span>
+<span class="token comment"># 以带密码的方式启动, 密码设置为root</span>
+<span class="token function">docker</span> run -p <span class="token number">2333</span>:6379 -v /myuse/myredis/data:/data -v /myuse/myredis/conf/redis.conf:/usr/local/etc/redis/redis.conf  -d redis redis-server /usr/local/etc/redis/redis.conf --appendonly <span class="token function">yes</span>  --requirepass <span class="token string">"root"</span>
+<span class="token comment"># 或者不适用上面的容器卷, 使用docker 默认配置, 并设置自动重启</span>
+<span class="token function">docker</span> run --name redis -p <span class="token number">6379</span>:6379 -d --restart<span class="token operator">=</span>always redis:latest redis-server --appendonly <span class="token function">yes</span> --requirepass <span class="token string">"root"</span>
+
+<span class="token comment"># 3.上传redis.conf到本地数据卷所在目录</span>
+本地数据卷坐在目录 <span class="token builtin class-name">:</span> /myuse/myredis/conf
+文件地址<span class="token punctuation">(</span>太大了 ,这里放不下<span class="token punctuation">)</span> <span class="token builtin class-name">:</span> https://download.csdn.net/download/qq_43371556/11889084
+
+<span class="token comment"># 4. 运行redis的cil----shell命令行</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> -it 运行着Rediis服务的容器ID redis-cli
+<span class="token comment"># 远程连接 docker redis</span>
+<span class="token function">docker</span> <span class="token builtin class-name">exec</span> -it redis_s redis-cli -h <span class="token number">192.168</span>.1.100 -p <span class="token number">6379</span> -a your_password //如果有密码 使用 -a参数
+<span class="token number">12345678910111213141516171819</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="4-3-RabbitMQ"><a href="#4-3-RabbitMQ" class="headerlink" title="4.3 RabbitMQ"></a>4.3 RabbitMQ</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1.下载镜像</span>
+<span class="token function">docker</span> pull rabbitmq:3.7.7-management
+
+<span class="token comment"># 2.运行镜像</span>
+<span class="token function">docker</span> run -d --name rabbitmq3.7.7 -p <span class="token number">5672</span>:5672 -p <span class="token number">15672</span>:15672 -v <span class="token variable"><span class="token variable">`</span><span class="token builtin class-name">pwd</span><span class="token variable">`</span></span>/data:/var/lib/rabbitmq --hostname myRabbit -e <span class="token assign-left variable">RABBITMQ_DEFAULT_VHOST</span><span class="token operator">=</span>/ -e <span class="token assign-left variable">RABBITMQ_DEFAULT_USER</span><span class="token operator">=</span>admin -e <span class="token assign-left variable">RABBITMQ_DEFAULT_PASS</span><span class="token operator">=</span>admin df80af9ca0c9
+
+-d 后台运行容器；
+--name 指定容器名；
+-p 指定服务运行的端口（5672：应用访问端口；15672：控制台Web端口号）；
+-v 映射目录或文件；
+--hostname  主机名（RabbitMQ的一个重要注意事项是它根据所谓的 “节点名称” 存储数据，默认为主机名）；
+-e 指定环境变量；（RABBITMQ_DEFAULT_VHOST：默认虚拟机名；RABBITMQ_DEFAULT_USER：默认的用户名；RABBITMQ_DEFAULT_PASS：默认用户名的密码）
+
+
+<span class="token comment"># 3.访问 (如下图)</span>
+http://ip:15672
+账号 :admin
+密码: admin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="4-4-MongoDB"><a href="#4-4-MongoDB" class="headerlink" title="4.4 MongoDB"></a>4.4 MongoDB</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1.查看docker+MongoDB版本(图1)</span>
+<span class="token function">docker</span> search
+
+<span class="token comment"># 2.下载最新的MongoDB</span>
+<span class="token function">docker</span> pull mongo
+
+<span class="token comment"># 3.将镜像运行成容器</span>
+<span class="token function">docker</span> run -itd --name mongo -p <span class="token number">27017</span>:27017 mongo --auth
+<span class="token comment">## 参数说明：</span>
+-p <span class="token number">27017</span>:27017 ：映射容器服务的 <span class="token number">27017</span> 端口到宿主机的 <span class="token number">27017</span> 端口。外部可以直接通过 宿主机 ip:27017 访问到 mongo 的服务。
+--auth：需要密码才能访问容器服务。
+
+<span class="token comment"># 4.使用以下命令添加用户和设置密码，并且尝试连接。</span>
+$ <span class="token function">docker</span> <span class="token builtin class-name">exec</span> -it mongo mongo admin
+<span class="token comment"># 创建一个名为 admin，密码为 123456 的用户。</span>
+<span class="token operator">&gt;</span>  db.createUser<span class="token punctuation">(</span><span class="token punctuation">{</span> user:<span class="token string">'admin'</span>,pwd:<span class="token string">'123456'</span>,roles:<span class="token punctuation">[</span> <span class="token punctuation">{</span> role:<span class="token string">'userAdminAnyDatabase'</span>, db: <span class="token string">'admin'</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment"># 尝试使用上面创建的用户信息进行连接。</span>
+<span class="token operator">&gt;</span> db.auth<span class="token punctuation">(</span><span class="token string">'admin'</span>, <span class="token string">'123456'</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h2 id="4-5-安装vsftpd-Nignx-图片服务器"><a href="#4-5-安装vsftpd-Nignx-图片服务器" class="headerlink" title="4.5 安装vsftpd+Nignx(图片服务器)"></a>4.5 安装vsftpd+Nignx(图片服务器)</h2><h3 id="4-5-1-环境搭建"><a href="#4-5-1-环境搭建" class="headerlink" title="4.5.1 环境搭建"></a>4.5.1 环境搭建</h3><blockquote>
+<p>通过搭建Nginx和vfstpd 实现文件服务器</p>
+</blockquote>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1. 安装docker-compose . 实现对相关软件的配置</span>
+<span class="token function">curl</span> -L https://get.daocloud.io/docker/compose/releases/download/1.25.4/docker-compose-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -s<span class="token variable">`</span></span>-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -m<span class="token variable">`</span></span> <span class="token operator">&gt;</span> /usr/local/bin/docker-compose
+<span class="token function">chmod</span> +x /usr/local/bin/docker-compose
+
+<span class="token comment"># 2. 编写docker-compose.yml 配置文件</span>
+<span class="token comment">## 需要需要修改的地方的是: </span>
+<span class="token comment">## /data/ftp:/home/vsftpd/ftpuser(20行), /data/ftp 是ftp中图片存放的地址</span>
+<span class="token comment">## /data/ftp:/home/images(11行) , /data/ftp 是Nginx来对应ftp中图片存放的地址</span>
+<span class="token comment">## FTP_USER,FTP_PASS 代表ftp用户的账号和密码, 需要在Linux中提前添加用户 </span>
+<span class="token comment">## 添加用户命令 a. useradd ftpuser,b. passwd ftpuser 然后输入自定义密码  </span>
+<span class="token comment">## ~/pic/nginx/conf/nginx.conf(9行), 注意! 需要提前准备Nginx的配置文件nginx.conf, ~ 代表home目录</span>
+<span class="token comment">## PASV_ADDRESS: 192.168.40.21, PASV_ADDRESS后面填写的是ftp服务器的ip</span>
+----------------docker-compose.yml---------------------
+version: <span class="token string">'2'</span>
+services:
+  nginx-image:
+    image: nginx:1.15.8
+    ports:
+      - <span class="token string">"80:80"</span>
+    volumes:
+      - ~/pic/nginx/html:/usr/share/nginx/html
+      - ~/pic/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ~/pic/nginx/logs:/var/log/nginx
+      - /data/ftp:/home/images
+    restart: always
+  vsftpd:
+    image: fauria/vsftpd
+    ports:
+      - <span class="token string">"20:20"</span>
+      - <span class="token string">"21:21"</span>
+      - <span class="token string">"21100-21110:21100-21110"</span>
+    volumes:
+      - /data/ftp:/home/vsftpd/ftpuser
+    environment:
+      FTP_USER: ftpuser
+      FTP_PASS: 1q2w3e4r
+      PASV_ADDRESS: <span class="token number">192.168</span>.40.21
+      PASV_MIN_PORT: <span class="token number">21100</span>
+      PASV_MAX_PORT: <span class="token number">21110</span>
+      LOCAL_UMASK: 022
+    restart: always
+-------------------------------------
+
+<span class="token comment"># 3. 分享上面需要nginx.conf文件放在下面了</span>
+<span class="token function">vim</span> /home/pic/nginx/conf/nginx.conf
+
+<span class="token comment"># 4. docker-compose执行, 需要在docker-compose.yml所在的目录下执行</span>
+<span class="token function">docker-compose</span> up -d
+
+<span class="token comment"># 5. docker ps(查看容器是否执行, 下图1)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>上面第三步所需的nginx.conf配置文件</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># root   /data/ftp/, /data/ftp/代表的是我们上面配置的ftp图片存放的地址, 只需要修改这一处</span>
+location / <span class="token punctuation">{</span> root   /data/ftp/<span class="token punctuation">;</span>i <span class="token punctuation">..</span><span class="token punctuation">..</span>. <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>完整配置文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#user  nobody;</span>
+worker_processes  <span class="token number">1</span><span class="token punctuation">;</span>
+
+<span class="token comment">#error_log  logs/error.log;</span>
+<span class="token comment">#error_log  logs/error.log  notice;</span>
+<span class="token comment">#error_log  logs/error.log  info;</span>
+
+<span class="token comment">#pid        logs/nginx.pid;</span>
+
+
+events <span class="token punctuation">{</span>
+    worker_connections  <span class="token number">1024</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+http <span class="token punctuation">{</span>
+    include       mime.types<span class="token punctuation">;</span>
+    default_type  application/octet-stream<span class="token punctuation">;</span>
+
+    <span class="token comment">#log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '</span>
+    <span class="token comment">#                  '$status $body_bytes_sent "$http_referer" '</span>
+    <span class="token comment">#                  '"$http_user_agent" "$http_x_forwarded_for"';</span>
+
+    <span class="token comment">#access_log  logs/access.log  main;</span>
+
+    sendfile        on<span class="token punctuation">;</span>
+    <span class="token comment">#tcp_nopush     on;</span>
+
+    <span class="token comment">#keepalive_timeout  0;</span>
+    keepalive_timeout  <span class="token number">65</span><span class="token punctuation">;</span>
+
+    <span class="token comment">#gzip  on;</span>
+
+    server <span class="token punctuation">{</span>
+        listen       <span class="token number">80</span><span class="token punctuation">;</span>
+        server_name  localhost<span class="token punctuation">;</span>
+
+        <span class="token comment">#charset koi8-r;</span>
+
+        <span class="token comment">#access_log  logs/host.access.log  main;</span>
+
+        location / <span class="token punctuation">{</span>
+            root   /data/ftp/<span class="token punctuation">;</span> <span class="token comment"># /data/ftp/代表的是我们上面配置的ftp图片存放的地址, 只需要修改这一处</span>
+            index  index.html index.htm<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">#error_page  404              /404.html;</span>
+
+        <span class="token comment"># redirect server error pages to the static page /50x.html</span>
+        <span class="token comment">#</span>
+        error_page   <span class="token number">500</span> <span class="token number">502</span> <span class="token number">503</span> <span class="token number">504</span>  /50x.html<span class="token punctuation">;</span>
+        location <span class="token operator">=</span> /50x.html <span class="token punctuation">{</span>
+            root   html<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-5-2-代码测试"><a href="#4-5-2-代码测试" class="headerlink" title="4.5.2 代码测试"></a>4.5.2 代码测试</h3><ol>
+<li>添加依赖</li>
+</ol>
+<pre class="line-numbers language-markup" data-language="markup"><code class="language-markup"><span class="token comment">&lt;!--文件上传与下载--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>commons-net<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>commons-net<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>3.3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>dependency</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>groupId</span><span class="token punctuation">&gt;</span></span>org.slf4j<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>groupId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>artifactId</span><span class="token punctuation">&gt;</span></span>slf4j-api<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>artifactId</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>version</span><span class="token punctuation">&gt;</span></span>1.7.7<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>version</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>scope</span><span class="token punctuation">&gt;</span></span>compile<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>scope</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>dependency</span><span class="token punctuation">&gt;</span></span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li>工具类代码</li>
+</ol>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">package</span> <span class="token namespace">com<span class="token punctuation">.</span>clife<span class="token punctuation">.</span>common<span class="token punctuation">.</span>utils</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>commons<span class="token punctuation">.</span>net<span class="token punctuation">.</span>ftp<span class="token punctuation">.</span></span>FTP<span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>commons<span class="token punctuation">.</span>net<span class="token punctuation">.</span>ftp<span class="token punctuation">.</span></span><span class="token class-name">FTPClient</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>commons<span class="token punctuation">.</span>net<span class="token punctuation">.</span>ftp<span class="token punctuation">.</span></span><span class="token class-name">FTPFile</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>commons<span class="token punctuation">.</span>net<span class="token punctuation">.</span>ftp<span class="token punctuation">.</span></span><span class="token class-name">FTPReply</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span></span><span class="token class-name">Logger</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>slf4j<span class="token punctuation">.</span></span><span class="token class-name">LoggerFactory</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token namespace">org<span class="token punctuation">.</span>springframework<span class="token punctuation">.</span>beans<span class="token punctuation">.</span>factory<span class="token punctuation">.</span>annotation<span class="token punctuation">.</span></span><span class="token class-name">Value</span><span class="token punctuation">;</span>
+
+<span class="token keyword">import</span> <span class="token namespace">java<span class="token punctuation">.</span>io<span class="token punctuation">.</span></span><span class="token operator">*</span><span class="token punctuation">;</span>
+
+<span class="token comment">/**
+ * ftp上传下载工具类
+ */</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">FtpUtil</span> <span class="token punctuation">{</span>
+
+	<span class="token keyword">private</span> <span class="token keyword">static</span>   <span class="token class-name">String</span> hostname<span class="token operator">=</span><span class="token string">"192.168.40.21"</span><span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span>   <span class="token keyword">int</span> port<span class="token operator">=</span><span class="token number">21</span><span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span>   <span class="token class-name">String</span> ftpusername<span class="token operator">=</span><span class="token string">"ftpuser"</span><span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span>   <span class="token class-name">String</span> ftppassword<span class="token operator">=</span><span class="token string">"ftpuser"</span><span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span>   <span class="token class-name">String</span> basePath<span class="token operator">=</span><span class="token string">"/data/ftp"</span><span class="token punctuation">;</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span>   <span class="token class-name">String</span> filePath<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">;</span>
+
+	<span class="token comment">//日志打印</span>
+	<span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token class-name">LoggerFactory</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">FtpUtil</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">/**
+	 * 文件上传封装方法
+	 * @param sourceFileName 本地文件绝对地址,目录+文件名, eg:D:\\1.jpg
+	 * @param targetFileName 上传到ftp服务器/data/ftp/目录下的文件名
+	 * @return
+	 * @throws FileNotFoundException
+	 */</span>
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">ftpUploadFile</span><span class="token punctuation">(</span><span class="token class-name">String</span> sourceFileName<span class="token punctuation">,</span> <span class="token class-name">String</span> targetFileName<span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">FileNotFoundException</span> <span class="token punctuation">{</span>
+		<span class="token class-name">FileInputStream</span> in<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">FileInputStream</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">File</span><span class="token punctuation">(</span>sourceFileName<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">boolean</span> b <span class="token operator">=</span> <span class="token function">uploadFile</span><span class="token punctuation">(</span>hostname<span class="token punctuation">,</span> port<span class="token punctuation">,</span> ftpusername<span class="token punctuation">,</span> ftppassword<span class="token punctuation">,</span> basePath<span class="token punctuation">,</span> filePath<span class="token punctuation">,</span> targetFileName<span class="token punctuation">,</span> in<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">return</span> b<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+	<span class="token comment">/**
+	 * Description: 向FTP服务器上传文件
+	 * @param host FTP服务器hostname
+	 * @param port FTP服务器端口
+	 * @param username FTP登录账号
+	 * @param password FTP登录密码
+	 * @param basePath FTP服务器基础目录
+	 * @param filePath FTP服务器文件存放路径。例如分日期存放：/2015/01/01。文件的路径为basePath+filePath
+	 * @param filename 上传到FTP服务器上的文件名
+	 * @param input 输入流
+	 * @return 成功返回true，否则返回false
+	 */</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">uploadFile</span><span class="token punctuation">(</span><span class="token class-name">String</span> host<span class="token punctuation">,</span> <span class="token keyword">int</span> port<span class="token punctuation">,</span> <span class="token class-name">String</span> username<span class="token punctuation">,</span> <span class="token class-name">String</span> password<span class="token punctuation">,</span> <span class="token class-name">String</span> basePath<span class="token punctuation">,</span>
+			<span class="token class-name">String</span> filePath<span class="token punctuation">,</span> <span class="token class-name">String</span> filename<span class="token punctuation">,</span> <span class="token class-name">InputStream</span> input<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">boolean</span> result <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+		<span class="token class-name">FTPClient</span> ftp <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FTPClient</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">try</span> <span class="token punctuation">{</span>
+			<span class="token keyword">int</span> reply<span class="token punctuation">;</span>
+			ftp<span class="token punctuation">.</span><span class="token function">connect</span><span class="token punctuation">(</span>host<span class="token punctuation">,</span> port<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// 连接FTP服务器</span>
+			logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"连接ftp成功..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token comment">// 如果采用默认端口，可以使用ftp.connect(host)的方式直接连接FTP服务器</span>
+			ftp<span class="token punctuation">.</span><span class="token function">login</span><span class="token punctuation">(</span>username<span class="token punctuation">,</span> password<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// 登录</span>
+			logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"ftp用户登陆成功！！！"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			reply <span class="token operator">=</span> ftp<span class="token punctuation">.</span><span class="token function">getReplyCode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token class-name">FTPReply</span><span class="token punctuation">.</span><span class="token function">isPositiveCompletion</span><span class="token punctuation">(</span>reply<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				ftp<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token keyword">return</span> result<span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+			<span class="token comment">//切换到上传目录</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ftp<span class="token punctuation">.</span><span class="token function">changeWorkingDirectory</span><span class="token punctuation">(</span>basePath<span class="token operator">+</span>filePath<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token comment">//如果目录不存在创建目录</span>
+				<span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> dirs <span class="token operator">=</span> filePath<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token class-name">String</span> tempPath <span class="token operator">=</span> basePath<span class="token punctuation">;</span>
+				<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">String</span> dir <span class="token operator">:</span> dirs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+					<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">null</span> <span class="token operator">==</span> dir <span class="token operator">||</span> <span class="token string">""</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>dir<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token keyword">continue</span><span class="token punctuation">;</span><span class="token punctuation">}</span>
+					tempPath <span class="token operator">+=</span> <span class="token string">"/"</span> <span class="token operator">+</span> dir<span class="token punctuation">;</span>
+					<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ftp<span class="token punctuation">.</span><span class="token function">changeWorkingDirectory</span><span class="token punctuation">(</span>tempPath<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+						<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ftp<span class="token punctuation">.</span><span class="token function">makeDirectory</span><span class="token punctuation">(</span>tempPath<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+							<span class="token keyword">return</span> result<span class="token punctuation">;</span>
+						<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+							ftp<span class="token punctuation">.</span><span class="token function">enterRemotePassiveMode</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+							ftp<span class="token punctuation">.</span><span class="token function">changeWorkingDirectory</span><span class="token punctuation">(</span>tempPath<span class="token punctuation">)</span><span class="token punctuation">;</span>
+						<span class="token punctuation">}</span>
+					<span class="token punctuation">}</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+			<span class="token comment">//设置上传文件的类型为二进制类型</span>
+			ftp<span class="token punctuation">.</span><span class="token function">setFileType</span><span class="token punctuation">(</span>FTP<span class="token punctuation">.</span>BINARY_FILE_TYPE<span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token comment">//上传文件</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>ftp<span class="token punctuation">.</span><span class="token function">storeFile</span><span class="token punctuation">(</span>filename<span class="token punctuation">,</span> input<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"文件 {} 上传失败!"</span><span class="token punctuation">,</span>filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token keyword">return</span> result<span class="token punctuation">;</span>
+			<span class="token punctuation">}</span>
+			input<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			ftp<span class="token punctuation">.</span><span class="token function">logout</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			result <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+			logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"文件 {} 上传成功!"</span><span class="token punctuation">,</span>filename<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+			<span class="token keyword">if</span> <span class="token punctuation">(</span>ftp<span class="token punctuation">.</span><span class="token function">isConnected</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token keyword">try</span> <span class="token punctuation">{</span>
+					ftp<span class="token punctuation">.</span><span class="token function">disconnect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">IOException</span> ioe<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+		<span class="token punctuation">}</span>
+		<span class="token keyword">return</span> result<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+
+
+
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">//FileInputStream in=new FileInputStream(new File("D:\\1.jpg"));</span>
+		<span class="token comment">//boolean flag = uploadFile("192.168.40.21", 21, "ftpuser", "ftpuser", "/data/ftp","", "123.png", in);</span>
+		<span class="token keyword">boolean</span> flag <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+		<span class="token keyword">try</span> <span class="token punctuation">{</span>
+			flag <span class="token operator">=</span> <span class="token function">ftpUploadFile</span><span class="token punctuation">(</span><span class="token string">"D:\\11.jpg"</span><span class="token punctuation">,</span> <span class="token string">"6666.jpg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+			<span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>flag<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">FileNotFoundException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+			e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+
+
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ol>
+<li>图片访问<br><a target="_blank" rel="noopener" href="http://192.168.40.21/6666.jpg">http://192.168.40.21/6666.jpg</a></li>
+</ol>
+<h1 id="五、发布镜像到阿里云"><a href="#五、发布镜像到阿里云" class="headerlink" title="五、发布镜像到阿里云"></a>五、发布镜像到阿里云</h1><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1.登陆阿里云, 进入容器镜像服务(可以通过下方地址注册登录跳转到容器镜像服务)</span>
+https://cr.console.aliyun.com/cn-hangzhou/instances/repositories
+
+<span class="token comment"># 2. 创建镜像仓库(图1)</span>
+<span class="token comment"># 3. 在docker中登陆 ,根据图2,图3中的操作指南进行操作</span>
+
+<span class="token comment"># 5. 将正在运行的容器创建成一个镜像(图4)</span>
+<span class="token function">docker</span> commit 
+
+OPTIONS说明：
+-a :提交的镜像作者；
+-m :提交时的说明文字；
+
+<span class="token comment"># 4.将镜像推送到阿里云的镜像仓库(最好是根据阿里云上的操作指南)</span>
+<span class="token function">docker</span> tag <span class="token punctuation">[</span>ImageId<span class="token punctuation">]</span> registry.cn-hangzhou.aliyuncs.com/timepause/mydocker:<span class="token punctuation">[</span>镜像版本号<span class="token punctuation">]</span>
+<span class="token function">sudo</span> <span class="token function">docker</span> push registry.cn-hangzhou.aliyuncs.com/timepause/mydocker:<span class="token punctuation">[</span>镜像版本号<span class="token punctuation">]</span>
+
+<span class="token comment"># 5. 搜索镜像 ,下载镜像(图5,图6)</span>
+<span class="token function">docker</span> pull 复制的镜像地址<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405095142522.png" alt="image-20220405095142522"></p>
+<p><img src="/2022/04/05/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-jing-xiang/image-20220405095158514.png" alt="image-20220405095158514"></p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405095216986.png" alt="image-20220405095216986"></p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405095230968.png" alt="image-20220405095230968"></p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405095250515.png" alt="image-20220405095250515"></p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/image-20220405095306360.png" alt="image-20220405095306360"></p>
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Shuyan</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shuyanCoding.github.io/2022/04/05/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-jing-xiang/">http://shuyanCoding.github.io/2022/04/05/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-jing-xiang/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Shuyan</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
+                                </a>
+                            
+                                <a href="/tags/Docker/">
+                                    <span class="chip bg-color">Docker</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">您的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2022/05/29/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-compose-jiao-cheng/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="Docker-compose教程">
+                        
+                        <span class="card-title">Docker-compose教程</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2022-05-29
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Docker/" class="post-category">
+                                    Docker
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/04/04/ctf-xue-xi/yi-ji-chu-zhi-shi/docker/docker-shi-yong-jian-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Docker使用简介">
+                        
+                        <span class="card-title">Docker使用简介</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-04
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/Docker/">
+                        <span class="chip bg-color">Docker</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Shuyan<br />'
+            + '文章作者: Shuyan<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2023</span>
+            
+            <a href="/about" target="_blank">Shuyan</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/shuyanCoding" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:24371197969@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2437197969" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2437197969" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/u/7836229572" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/u/7836229572" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/jiu-ye-wei-yang-81" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/jiu-ye-wei-yang-81" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>

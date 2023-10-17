@@ -1,0 +1,3652 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="linux基础, Shuyan">
+    <meta name="description" content="CTF基础篇--Linux基础知识">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>linux基础 | Shuyan</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    
+    <style>
+        body{
+            background-image: url(https://cdn.jsdelivr.net/gh/Tokisaki-Galaxy/res/site/medias/background.jpg);
+            background-repeat:no-repeat;
+            background-size: 100% 100%;
+            background-attachment:fixed;
+        }
+    </style>
+
+
+
+    <!-- bg-cover style     -->
+
+
+
+<link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+<link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+<link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+<link rel="stylesheet" type="text/css" href="/css/matery.css">
+<link rel="stylesheet" type="text/css" href="/css/my.css">
+<link rel="stylesheet" type="text/css" href="/css/dark.css" media="none" onload="if(media!='all')media='all'">
+
+
+
+
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+    <link rel="stylesheet" href="/css/post.css">
+
+
+
+
+    
+        <link rel="stylesheet" type="text/css" href="/css/reward.css">
+    
+
+
+
+    <script src="/libs/jquery/jquery-3.6.0.min.js"></script>
+
+<meta name="generator" content="Hexo 5.4.0">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+<link rel="alternate" href="/atom.xml" title="Shuyan" type="application/atom+xml">
+</head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">Shuyan</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+  <li>
+    <a href="javascript:;" class="waves-effect waves-light" onclick="switchNightMode()" title="深色/浅色模式" >
+      <i id="sum-moon-icon" class="fas fa-sun" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">Shuyan</div>
+        <div class="logo-desc">
+            
+            ShuyanCoding......
+            
+        </div>
+    </div>
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/shuyanCoding/shuyanCoding.github.io" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">linux基础</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/Linux/">
+                                <span class="chip bg-color">Linux</span>
+                            </a>
+                        
+                            <a href="/tags/CTF/">
+                                <span class="chip bg-color">CTF</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/CTF/" class="post-category">
+                                CTF
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2023-10-17
+                </div>
+                
+
+                
+
+                
+
+                
+
+                
+            </div>
+        </div>
+        <hr class="clearfix">
+
+        
+        <!-- 是否加载使用自带的 prismjs. -->
+        <link rel="stylesheet" href="/libs/prism/prism.min.css">
+        
+
+        
+
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="1-1-Linux目录结构"><a href="#1-1-Linux目录结构" class="headerlink" title="1.1 Linux目录结构"></a>1.1 Linux目录结构</h2><h3 id="1-1-1-Linux-系统目录结构"><a href="#1-1-1-Linux-系统目录结构" class="headerlink" title="1.1.1 Linux 系统目录结构"></a>1.1.1 Linux 系统目录结构</h3><p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/Linux%E7%AE%80%E6%98%93%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.jpg" alt="img"></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">├── <span class="token punctuation">\</span>:
+	├── bin 						<span class="token comment"># 用于存放二进制命令</span>
+		-<span class="token operator">&gt;</span> usr/bin 					
+    ├── boot 						<span class="token comment"># 内核及引导系统程序所在的目录，包括一些连接文件和镜像文件</span>
+    ├── dev 						<span class="token comment"># 所有设备文件的目录（如磁盘、光驱等）</span>
+    ├── etc 						<span class="token comment"># 配置文件默认路径、服务启动命令存放目录</span>
+    ├── home 						<span class="token comment"># 用户主目录，root用户为/root</span>
+    ├── lib 						<span class="token comment"># 32位库文件存放目录，存放着系统最基本的动态连接共享库</span>
+    	-<span class="token operator">&gt;</span> usr/lib 					
+    ├── lib64 						<span class="token comment"># 64位库文件存放目录</span>
+    	-<span class="token operator">&gt;</span> usr/lib64 				
+    ├── media 						<span class="token comment"># 媒体文件存放目录，linux会把识别的设备（如U盘、光驱等）挂载到这个目录下</span>
+    ├── mnt 						<span class="token comment"># 临时挂载设备目录</span>
+    ├── opt 						<span class="token comment"># 自定义软件安装存放目录</span>
+    ├── proc						<span class="token comment"># 虚拟目录，是系统内存的映射，进程及内核信息存放目录</span>
+    ├── root 						<span class="token comment"># Root用户主目录</span>
+    ├── run 						<span class="token comment"># 系统运行时产生临时文件，存放目录</span>
+    ├── sbin 						<span class="token comment"># 系统管理命令存放目录</span>
+    	-<span class="token operator">&gt;</span> usr/sbin 				
+    ├── srv 						<span class="token comment"># 服务启动之后需要访问的数据目录</span>
+    ├── sys 						<span class="token comment"># 系统使用目录</span>
+    ├── tmp 						<span class="token comment"># 临时文件目录</span>
+    ├── usr 						<span class="token comment"># 系统命令和帮助文件目录</span>
+    └── var							<span class="token comment"># 存放内容易变的文件的目录</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-1-2-核心文件"><a href="#1-1-2-核心文件" class="headerlink" title="1.1.2 核心文件"></a>1.1.2 核心文件</h3><p><strong>1）/dev目录：</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/dev/hd[a-t]</td>
+<td>IDE设备</td>
+</tr>
+<tr>
+<td>/dev/sd[a-z]</td>
+<td>SCSI设备(/dev/sda)</td>
+</tr>
+<tr>
+<td>/dev/cdrom</td>
+<td>光驱</td>
+</tr>
+<tr>
+<td>/dev/null</td>
+<td>无限数据接收设备,相当于  黑洞</td>
+</tr>
+<tr>
+<td>/dev/zero</td>
+<td>无限零资源，要多少有多少</td>
+</tr>
+</tbody></table>
+<p><strong>2）/etc目录：</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/etc/sysconfig/network-scripts/ifcfg-eth1</td>
+<td>网卡配置文件，第二块ifcfg-eth0</td>
+</tr>
+<tr>
+<td>/etc/resolv.conf</td>
+<td>Linux系统过时的DNS客户端配置文件</td>
+</tr>
+<tr>
+<td>/etc/hostname</td>
+<td>主机名配置文件</td>
+</tr>
+<tr>
+<td>/etc/hosts</td>
+<td>系统本地的[域名解析文件局域网；域名和IP解析文件)</td>
+</tr>
+<tr>
+<td>/etc/fstab</td>
+<td>配置开机设备自动挂载的文件</td>
+</tr>
+<tr>
+<td>/etc/rc.local</td>
+<td>存放开机自启动程序命令的文件</td>
+</tr>
+<tr>
+<td>/etc/issue</td>
+<td>软件bug，和特定版本有关。</td>
+</tr>
+<tr>
+<td>/etc/motd</td>
+<td>配置用户登录系统之后显示提示内容的文件</td>
+</tr>
+<tr>
+<td>/etc/redhat-release</td>
+<td>声明Red Hat版本号和名称信息的文件</td>
+</tr>
+<tr>
+<td>/etc/sysctl.conf</td>
+<td>Linux内核参数设置文件（系统优化）</td>
+</tr>
+<tr>
+<td>/etc/profile、/etc/bashrc、.bashrc、.bash_profile</td>
+<td>配置系统的环境变量/别名等的文件</td>
+</tr>
+</tbody></table>
+<p><strong>3）/proc目录：</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/proc/cpuinfo</td>
+<td>当前cpu信息文件</td>
+</tr>
+<tr>
+<td>/proc/meminfo</td>
+<td>当前内存信息文件</td>
+</tr>
+<tr>
+<td>/proc/loadavg</td>
+<td>当前系统的平均负载文件</td>
+</tr>
+<tr>
+<td>/proc/mounts</td>
+<td>当前设备挂载列表信息文件</td>
+</tr>
+<tr>
+<td>/proc/interrupts</td>
+<td>当前系统中断信息文件</td>
+</tr>
+</tbody></table>
+<p><strong>4）/usr目录：</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/usr/local/</td>
+<td>编译安装软件默认的位置路径</td>
+</tr>
+<tr>
+<td>/usr/src</td>
+<td>源代码目录</td>
+</tr>
+</tbody></table>
+<p><strong>5）/var目录：</strong></p>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>/var/log/messages</td>
+<td>linux系统日志文件，系统启动后的信息和错误日志，保存系统故障</td>
+</tr>
+<tr>
+<td>/var/log/secure</td>
+<td>安全日志（ssh日志记录到这里），监控日志</td>
+</tr>
+<tr>
+<td>/var/log/dmesg</td>
+<td>记录硬件信息加载情况的日志文件(dmesg)</td>
+</tr>
+<tr>
+<td>/var/log/lastlog</td>
+<td>有哪些用户登录lastlog</td>
+</tr>
+<tr>
+<td>/var/log/maillog</td>
+<td>与邮件相关的日志信息</td>
+</tr>
+<tr>
+<td>/var/log/cron</td>
+<td>与定时任务相关的日志信息</td>
+</tr>
+<tr>
+<td>/var/log/spooler</td>
+<td>与UUCP和news设备相关的日志信息</td>
+</tr>
+<tr>
+<td>/var/log/boot.log</td>
+<td>守护进程启动和停止相关的日志消息</td>
+</tr>
+</tbody></table>
+<h2 id="1-2-目录操作"><a href="#1-2-目录操作" class="headerlink" title="1.2 目录操作"></a>1.2 目录操作</h2><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看当前工作目录</span>
+<span class="token builtin class-name">pwd</span>				
+<span class="token comment"># 清除屏幕</span>
+<span class="token function">clear</span> 	
+<span class="token comment"># 当前用户目录</span>
+<span class="token builtin class-name">cd</span> ~		
+<span class="token comment"># 根目录</span>
+<span class="token builtin class-name">cd</span> /	
+<span class="token comment"># 上一次访问的目录</span>
+<span class="token builtin class-name">cd</span> -		
+<span class="token comment"># 上一级目录</span>
+<span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>			<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>查看目录内信息</strong></p>
+<p><code>ls</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ls</code></td>
+<td>列出当前目录中的文件和子目录。</td>
+</tr>
+<tr>
+<td><code>ls -l</code></td>
+<td>以长格式（详细信息）列出文件和子目录。</td>
+</tr>
+<tr>
+<td><code>ls -a</code></td>
+<td>列出包括隐藏文件在内的所有文件和子目录。</td>
+</tr>
+<tr>
+<td><code>ls -lh</code></td>
+<td>以长格式列出文件和子目录，以人类可读的格式显示文件大小。</td>
+</tr>
+<tr>
+<td><code>ls -t</code></td>
+<td>按修改时间排序，最新的文件/目录在前面。</td>
+</tr>
+<tr>
+<td><code>ls -S</code></td>
+<td>按文件大小排序，最大的文件在前面。</td>
+</tr>
+<tr>
+<td><code>ls -r</code></td>
+<td>反向排序，与默认排序相反。</td>
+</tr>
+<tr>
+<td><code>ls -R</code></td>
+<td>递归列出所有子目录中的文件和子目录。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">ll				查看当前目录下内容（LL的小写）<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>Linux下文件的详细信息：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">r:Read   w:write  x: execute执行
+
+-rw-r--r-- <span class="token number">1</span> root root  <span class="token number">34942</span> Jan <span class="token number">19</span>  <span class="token number">2018</span> bootstrap.jar
+
+第一位代表文件类型：
+    <span class="token number">1</span>.“-”：代表普通文件
+    <span class="token number">2</span>.“d”：代表目录
+    <span class="token number">3</span>.“l”：链接文件（符号链接；小写的L）或软链接
+    <span class="token number">4</span>.“c”：字符设备文件
+    <span class="token number">5</span>.“b”：块设备文件
+    <span class="token number">6</span>.“s”：套接字文件
+    <span class="token number">7</span>.“p”：命名管道文件
+
+第一字段后9位：
+	前三位代表当前用户对文件权限：可以读/可以写/不能执行
+	中间三位代表当前组的其他用户对当前文件的操作权限：可以读/不能写/不能执行
+	后三位其他用户对当前文件权限：可以读/不能写/不能执行<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>更改文件的权限</strong></p>
+<p><code>chmod</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>chmod</code></td>
+<td>用于更改文件或目录的权限。</td>
+</tr>
+<tr>
+<td><code>chmod [权限] [文件/目录]</code></td>
+<td>指定要更改权限的文件或目录以及权限设置。</td>
+</tr>
+<tr>
+<td><code>chmod +x</code></td>
+<td>添加执行权限。</td>
+</tr>
+<tr>
+<td><code>chmod -x</code></td>
+<td>移除执行权限。</td>
+</tr>
+<tr>
+<td><code>chmod u=rw</code></td>
+<td>设置用户（所有者）的读写权限。</td>
+</tr>
+<tr>
+<td><code>chmod g=rx</code></td>
+<td>设置组的读和执行权限。</td>
+</tr>
+<tr>
+<td><code>chmod o=r</code></td>
+<td>设置其他用户的只读权限。</td>
+</tr>
+<tr>
+<td><code>chmod a+rw</code></td>
+<td>添加读写权限给所有用户（等同于<code>chmod u+rw, g+rw, o+rw</code>）。</td>
+</tr>
+<tr>
+<td><code>chmod -R</code></td>
+<td>递归更改权限，用于目录及其内容。</td>
+</tr>
+<tr>
+<td><code>chmod --reference=[参考文件] [文件/目录]</code></td>
+<td>参考其他文件的权限设置。</td>
+</tr>
+<tr>
+<td><code>chmod --version</code></td>
+<td>显示<code>chmod</code>命令的版本信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 为文件拥有者（user）添加执行权限；</span>
+<span class="token function">chmod</span> u+x web.xml （---x------）	
+
+<span class="token comment"># 为文件拥有者所在组（group）添加执行权限；</span>
+<span class="token function">chmod</span> g+x web.xml （------x---）		
+
+<span class="token comment"># 为所有用户分类，添加可执行权限；</span>
+<span class="token function">chmod</span> <span class="token number">111</span> web.xml  （---x--x--x）	
+
+<span class="token comment"># 为所有用户分类，添加可写入权限；</span>
+<span class="token function">chmod</span> <span class="token number">222</span> web.xml （--w--w--w-）			
+
+<span class="token comment"># 为所有用户分类，添加可读取权限；</span>
+<span class="token function">chmod</span> <span class="token number">444</span> web.xml （-r--r--r--）		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>创建目录</strong></p>
+<p><code>mkdir</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mkdir</code></td>
+<td>创建新目录。</td>
+</tr>
+<tr>
+<td><code>mkdir -p</code></td>
+<td>递归创建目录。如果父级目录不存在，也会创建。</td>
+</tr>
+<tr>
+<td><code>mkdir -m</code></td>
+<td>指定新创建目录的权限（权限模式）。</td>
+</tr>
+<tr>
+<td><code>mkdir -v</code></td>
+<td>显示创建的每个目录。</td>
+</tr>
+<tr>
+<td><code>mkdir --version</code></td>
+<td>显示<code>mkdir</code>命令的版本信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在当前目录下创建aaa目录，相对路径；</span>
+<span class="token function">mkdir</span> aaa	
+
+<span class="token comment"># 在当前目录下创建bbb目录，相对路径；</span>
+<span class="token function">mkdir</span> ./bbb		
+
+<span class="token comment"># 在根目录下创建ccc目录，绝对路径；</span>
+<span class="token function">mkdir</span> /ccc	
+
+<span class="token comment"># 递归创建目录</span>
+<span class="token function">mkdir</span> -p temp/temp2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>搜索命令</strong></p>
+<p><code>find</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>find</code></td>
+<td>用于搜索文件和目录。</td>
+</tr>
+<tr>
+<td><code>find [路径]</code></td>
+<td>指定要搜索的起始路径。</td>
+</tr>
+<tr>
+<td><code>find -name</code></td>
+<td>按文件名进行搜索。</td>
+</tr>
+<tr>
+<td><code>find -iname</code></td>
+<td>不区分大小写地按文件名进行搜索。</td>
+</tr>
+<tr>
+<td><code>find -type</code></td>
+<td>按文件类型进行搜索（例如，<code>f</code> 表示普通文件，<code>d</code> 表示目录）。</td>
+</tr>
+<tr>
+<td><code>find -size</code></td>
+<td>按文件大小进行搜索。</td>
+</tr>
+<tr>
+<td><code>find -user</code></td>
+<td>按文件所有者进行搜索。</td>
+</tr>
+<tr>
+<td><code>find -group</code></td>
+<td>按文件所属组进行搜索。</td>
+</tr>
+<tr>
+<td><code>find -mtime</code></td>
+<td>按文件修改时间进行搜索。</td>
+</tr>
+<tr>
+<td><code>find -exec</code></td>
+<td>对搜索结果执行指定的命令。</td>
+</tr>
+<tr>
+<td><code>find -print</code></td>
+<td>将搜索结果打印到标准输出。</td>
+</tr>
+<tr>
+<td><code>find -maxdepth</code></td>
+<td>限制搜索的最大深度。</td>
+</tr>
+<tr>
+<td><code>find -mindepth</code></td>
+<td>限制搜索的最小深度。</td>
+</tr>
+<tr>
+<td><code>find -delete</code></td>
+<td>删除搜索到的文件和目录。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查询根目录下（包括子目录），名以b的目录和文件；</span>
+<span class="token function">find</span> / -name <span class="token string">'b'</span>	
+
+<span class="token comment"># 查询根目录下（包括子目录），名以b开头的目录和文件； </span>
+<span class="token function">find</span> / -name <span class="token string">'b*'</span>	
+
+<span class="token comment"># 查询当前目录下（包括子目录），名以b的目录和文件；</span>
+<span class="token function">find</span> <span class="token builtin class-name">.</span> -name <span class="token string">'b'</span>		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>移动目录</strong></p>
+<p><code>mv</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mv</code></td>
+<td>用于移动文件或重命名文件。</td>
+</tr>
+<tr>
+<td><code>mv [源文件/目录] [目标文件/目录]</code></td>
+<td>指定源文件/目录和目标位置。</td>
+</tr>
+<tr>
+<td><code>mv -b</code></td>
+<td>在覆盖目标文件时进行备份。</td>
+</tr>
+<tr>
+<td><code>mv -f</code></td>
+<td>强制移动，不询问确认。</td>
+</tr>
+<tr>
+<td><code>mv -i</code></td>
+<td>交互式移动，需要用户确认。</td>
+</tr>
+<tr>
+<td><code>mv -u</code></td>
+<td>仅在目标文件不存在或源文件更新时移动。</td>
+</tr>
+<tr>
+<td><code>mv --version</code></td>
+<td>显示<code>mv</code>命令的版本信息。</td>
+</tr>
+<tr>
+<td><code>mv --help</code></td>
+<td>显示<code>mv</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 文件重命名</span>
+<span class="token function">mv</span> old_name new_name 
+
+<span class="token comment"># 将根目录下的aaa目录，移动到bbb目录下(假如没有bbb目录，则重命名为bbb)；</span>
+<span class="token function">mv</span>	/aaa /bbb		    
+
+<span class="token comment"># 将当前目录下的bbbb目录，移动到usr目录下，并且修改名称为bbb；</span>
+<span class="token function">mv</span>	bbbb usr/bbb			<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>复制目录</strong></p>
+<p><code>cp</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令参数</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cp file1 file2</code></td>
+<td>复制 <code>file1</code> 到 <code>file2</code>。</td>
+</tr>
+<tr>
+<td><code>cp -i file1 file2</code></td>
+<td>在复制前进行交互式确认。</td>
+</tr>
+<tr>
+<td><code>cp -r directory1 directory2</code></td>
+<td>递归复制整个目录。</td>
+</tr>
+<tr>
+<td><code>cp -u file1 file2</code></td>
+<td>仅在源文件新于目标文件或目标文件不存在时复制。</td>
+</tr>
+<tr>
+<td><code>cp -v file1 file2</code></td>
+<td>显示正在复制的文件。</td>
+</tr>
+<tr>
+<td><code>cp -p file1 file2</code></td>
+<td>保留文件的权限、时间戳等。</td>
+</tr>
+<tr>
+<td><code>cp -l file1 file2</code></td>
+<td>创建硬链接而不是复制文件。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 将/目录下的aaa目录复制到/bbb目录下，在/bbb目录下的名称为aaa</span>
+<span class="token function">cp</span> -r /aaa /bbb			
+
+<span class="token comment"># 将/目录下的aa目录复制到/bbb目录下，且修改名为aaa;</span>
+<span class="token function">cp</span> -r /aaa /bbb/aaa		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>删除目录</strong></p>
+<p><code>rm</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rm</code></td>
+<td>用于删除文件或目录。</td>
+</tr>
+<tr>
+<td><code>rm -f</code></td>
+<td>强制删除，不提示确认。</td>
+</tr>
+<tr>
+<td><code>rm -i</code></td>
+<td>交互式删除，删除前提示用户确认。</td>
+</tr>
+<tr>
+<td><code>rm -r</code></td>
+<td>递归删除，用于删除目录及其内容。</td>
+</tr>
+<tr>
+<td><code>rm -v</code></td>
+<td>显示详细的操作信息，包括删除的文件名。</td>
+</tr>
+<tr>
+<td><code>rm -d</code></td>
+<td>删除空目录。</td>
+</tr>
+<tr>
+<td><code>rm --</code></td>
+<td>指定删除的文件名以横杠开头的情况。</td>
+</tr>
+<tr>
+<td><code>rm -rf</code></td>
+<td>强制递归删除，删除目录及其内容，无需确认。</td>
+</tr>
+<tr>
+<td><code>rm -ri</code></td>
+<td>交互式递归删除，删除前提示用户确认。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 强制式删除指定目录</span>
+<span class="token comment"># 强制删除/目录下的bbb目录。如果bbb目录中还有子目录，也会被强制删除，不会提示；</span>
+<span class="token function">rm</span> -rf /bbb			
+
+<span class="token comment"># 删除目录或文件</span>
+<span class="token comment"># 普通删除。会询问你是否删除每一个文件</span>
+<span class="token function">rm</span> -r /bbb			
+
+<span class="token comment"># 目录的删除</span>
+<span class="token function">rmdir</span> test01		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>查看树状目录结构</strong></p>
+<p><code>tree</code>命令的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tree</code></td>
+<td>用于显示当前目录的树状结构。</td>
+</tr>
+<tr>
+<td><code>tree [路径]</code></td>
+<td>指定要显示树状结构的目录路径。</td>
+</tr>
+<tr>
+<td><code>tree -d</code></td>
+<td>仅显示目录，不显示文件。</td>
+</tr>
+<tr>
+<td><code>tree -f</code></td>
+<td>显示文件名称，而不是仅显示目录。</td>
+</tr>
+<tr>
+<td><code>tree -L [级别]</code></td>
+<td>限制显示的深度级别，只显示指定级别的目录。</td>
+</tr>
+<tr>
+<td><code>tree -a</code></td>
+<td>显示所有文件和目录，包括隐藏的。</td>
+</tr>
+<tr>
+<td><code>tree -I [模式]</code></td>
+<td>忽略与指定模式匹配的文件或目录。</td>
+</tr>
+<tr>
+<td><code>tree -s</code></td>
+<td>显示文件和目录的大小。</td>
+</tr>
+<tr>
+<td><code>tree -h</code></td>
+<td>以人类可读的格式显示文件和目录的大小。</td>
+</tr>
+<tr>
+<td><code>tree -v</code></td>
+<td>显示详细信息，包括文件和目录的权限和所有者。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">tree test01/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p><strong>批量操作</strong></p>
+<p>需要采用<code>{}</code>进行参数的传入了。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">mkdir</span> <span class="token punctuation">{</span>dirA,dirB<span class="token punctuation">}</span>  			<span class="token comment"># 批量创建测试目录</span>
+
+<span class="token function">touch</span> dirA/<span class="token punctuation">{</span>A1,A2,A3<span class="token punctuation">}</span>    	<span class="token comment"># dirA创建三个文件dirA/A1,dirA/A2,dirA/A3</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>递归删除.pyc格式的文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> <span class="token builtin class-name">.</span> -name <span class="token string">'*.pyc'</span> -exec <span class="token function">rm</span> -rf <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">\</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>打印当前文件夹下指定大小的文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> <span class="token builtin class-name">.</span> -name <span class="token string">"*"</span> -size 145800c -print<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>递归删除指定大小的文件(145800)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> <span class="token builtin class-name">.</span> -name <span class="token string">"*"</span> -size 145800c -exec <span class="token function">rm</span> -rf <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">\</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>递归删除指定大小的文件，并打印出来</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> <span class="token builtin class-name">.</span> -name <span class="token string">"*"</span> -size 145800c -print -exec <span class="token function">rm</span> -rf <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token punctuation">\</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li><code>"."</code> 表示从当前目录开始递归查找</li>
+<li><code>“ -name '*.exe' "</code>根据名称来查找，要查找所有以.exe结尾的文件夹或者文件</li>
+<li><code>" -type f "</code>查找的类型为文件</li>
+<li><code>"-print"</code> 输出查找的文件目录名</li>
+<li><code>-size 145800c</code> 指定文件的大小</li>
+<li><code>-exec rm -rf {} \;</code> 递归删除（前面查询出来的结果）</li>
+</ul>
+<h2 id="1-3-文件操作"><a href="#1-3-文件操作" class="headerlink" title="1.3 文件操作"></a>1.3 文件操作</h2><p><strong>删除文件</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">rm</span> -r a.java		删除当前目录下的a.java文件（每次回询问是否删除y：同意）
+
+<span class="token comment"># 强制删除</span>
+
+<span class="token function">rm</span> -rf a.java		强制删除当前目录下的a.java文件
+<span class="token function">rm</span> -rf ./a*			强制删除当前目录下以a开头的所有文件；
+<span class="token function">rm</span> -rf ./*			强制删除当前目录下所有文件（慎用）；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>创建文件</strong></p>
+<p><code>touch</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>touch</code></td>
+<td>用于创建空文件或更新时间戳。</td>
+</tr>
+<tr>
+<td><code>touch [文件]</code></td>
+<td>指定要创建或更新的文件名。</td>
+</tr>
+<tr>
+<td><code>touch -a</code></td>
+<td>仅更新文件的访问时间戳。</td>
+</tr>
+<tr>
+<td><code>touch -m</code></td>
+<td>仅更新文件的修改时间戳。</td>
+</tr>
+<tr>
+<td><code>touch -c</code></td>
+<td>仅在文件不存在时创建新文件。</td>
+</tr>
+<tr>
+<td><code>touch -t</code></td>
+<td>使用指定的时间戳来设置文件的时间戳。</td>
+</tr>
+<tr>
+<td><code>touch --version</code></td>
+<td>显示<code>touch</code>命令的版本信息。</td>
+</tr>
+<tr>
+<td><code>touch --help</code></td>
+<td>显示<code>touch</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">touch</span> testFile<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p><strong>split拆分文件</strong></p>
+<p>split命令：可以将一个大文件分割成很多个小文件，有时需要将文件分割成更小的片段，比如为提高可读性，生成日志等。</p>
+<blockquote>
+<p>b：值为每一输出档案的大小，单位为 byte。<br>-C：每一输出档中，单行的最大 byte 数。<br>-d：使用数字作为后缀。<br>-l：值为每一输出档的行数大小。<br>-a：指定后缀长度(默认为2)。</p>
+</blockquote>
+<p>使用split命令将上面创建的date.file文件分割成大小为10KB的小文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost split<span class="token punctuation">]</span><span class="token comment"># split -b 10k date.file </span>
+
+<span class="token punctuation">[</span>root@localhost split<span class="token punctuation">]</span><span class="token comment"># ls</span>
+date.file  xaa  xab  xac  xad  xae  xaf  xag  xah  xai  xaj<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>文件被分割成多个带有字母的后缀文件，如果想用数字后缀可使用-d参数，同时可以使用-a length来指定后缀的长度：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost split<span class="token punctuation">]</span><span class="token comment"># split -b 10k date.file -d -a 3</span>
+
+<span class="token punctuation">[</span>root@localhost split<span class="token punctuation">]</span><span class="token comment"># ls</span>
+date.file  x000  x001  x002  x003  x004  x005  x006  x007  x008  x009<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>为分割后的文件指定文件名的前缀：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost split<span class="token punctuation">]</span><span class="token comment"># split -b 10k date.file -d -a 3 split_file</span>
+
+<span class="token punctuation">[</span>root@localhost split<span class="token punctuation">]</span><span class="token comment"># ls</span>
+date.file  split_file000  split_file001  split_file002  split_file003  split_file004  split_file005  split_file006  split_file007  split_file008  split_file009<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用-l选项根据文件的行数来分割文件，例如把文件分割成每个包含10行的小文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">split</span> -l <span class="token number">10</span> date.file<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="1-4-文件内容操作"><a href="#1-4-文件内容操作" class="headerlink" title="1.4 文件内容操作"></a>1.4 文件内容操作</h2><p><strong>修改文件内容</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 进入一般模式</span>
+<span class="token function">vim</span> a.java   	
+<span class="token comment"># 进入插入模式(编辑模式)</span>
+i<span class="token punctuation">(</span>按键<span class="token punctuation">)</span>   		
+<span class="token comment"># 退出</span>
+ESC<span class="token punctuation">(</span>按键<span class="token punctuation">)</span>  		
+<span class="token comment"># 保存退出（shift+：调起输入框）</span>
+:wq 			
+<span class="token comment"># 不保存退出（shift+：调起输入框）（内容有更改）(强制退出，不保留更改内容)</span>
+:q！			
+<span class="token comment"># 不保存退出（shift+：调起输入框）（没有内容更改）</span>
+:q				<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>文件内容的查看</strong></p>
+<p><code>cat</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cat</code></td>
+<td>用于查看文件内容或将多个文件连接。</td>
+</tr>
+<tr>
+<td><code>cat [文件]</code></td>
+<td>显示指定文件的内容。</td>
+</tr>
+<tr>
+<td><code>cat -n</code></td>
+<td>显示行号，将行号添加到每行前面。</td>
+</tr>
+<tr>
+<td><code>cat -b</code></td>
+<td>显示行号，只对非空行添加行号。</td>
+</tr>
+<tr>
+<td><code>cat -s</code></td>
+<td>压缩多个空白行为一个空白行。</td>
+</tr>
+<tr>
+<td><code>cat -E</code></td>
+<td>在每行的末尾显示美元符号（$），表示行尾。</td>
+</tr>
+<tr>
+<td><code>cat -T</code></td>
+<td>在制表符位置显示”^I”，表示制表符。</td>
+</tr>
+<tr>
+<td><code>cat -v</code></td>
+<td>显示不可打印字符和制徽符号。</td>
+</tr>
+<tr>
+<td><code>cat -A</code></td>
+<td>结合了 <code>-E</code> 和 <code>-T</code> 选项的效果。</td>
+</tr>
+<tr>
+<td><code>cat -u</code></td>
+<td>不缓冲输出，适用于非交互式操作。</td>
+</tr>
+<tr>
+<td><code>cat --version</code></td>
+<td>显示<code>cat</code>命令的版本信息。</td>
+</tr>
+<tr>
+<td><code>cat --help</code></td>
+<td>显示<code>cat</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看a.java文件的最后一页内容；</span>
+<span class="token function">cat</span> a.java		
+
+<span class="token comment"># 从第一页开始查看a.java文件内容，按回车键一行一行进行查看，按空格键一页一页进行查看，q退出；</span>
+<span class="token function">more</span> a.java		
+
+<span class="token comment"># 从第一页开始查看a.java文件内容，按回车键一行一行的看，按空格键一页一页的看，支持使用PageDown和PageUp翻页，q退出；</span>
+<span class="token function">less</span> a.java		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>总结下more 和 less的区别:</strong></p>
+<ol>
+<li>less可以按键盘上下方向键显示上下内容,more不能通过上下方向键控制显示</li>
+<li>less不必读整个文件，加载速度会比more更快</li>
+<li>less退出后shell不会留下刚显示的内容,而more退出后会在shell上留下刚显示的内容.</li>
+<li>由于more不能后退.</li>
+</ol>
+<p><strong>查看某文件下的用户操作日志</strong><br>到达操作的目录下，执行下面的程序：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> .bash_history<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p><strong>实时查看文件后几行(实时查看日志)</strong></p>
+<p><code>tail</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>tail</code></td>
+<td>用于查看文件末尾的内容。</td>
+</tr>
+<tr>
+<td><code>tail [文件]</code></td>
+<td>显示指定文件的末尾内容。</td>
+</tr>
+<tr>
+<td><code>tail -n [行数]</code></td>
+<td>显示指定行数的末尾内容，默认为10行。</td>
+</tr>
+<tr>
+<td><code>tail -f</code></td>
+<td>跟踪文件，实时显示文件的新增内容。</td>
+</tr>
+<tr>
+<td><code>tail -c [字节数]</code></td>
+<td>显示指定字节数的末尾内容。</td>
+</tr>
+<tr>
+<td><code>tail -q</code></td>
+<td>静默模式，不显示文件名。</td>
+</tr>
+<tr>
+<td><code>tail -v</code></td>
+<td>显示文件名，即使只查看一个文件。</td>
+</tr>
+<tr>
+<td><code>tail --version</code></td>
+<td>显示<code>tail</code>命令的版本信息。</td>
+</tr>
+<tr>
+<td><code>tail --help</code></td>
+<td>显示<code>tail</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看a.java文件的后10行内容；</span>
+<span class="token function">tail</span> -f a.java			<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>前后几行查看：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看a.java文件的前10行内容；</span>
+<span class="token function">head</span> a.java				
+
+<span class="token comment"># 查看a.java文件的后10行内容；</span>
+<span class="token function">tail</span> -f a.java			
+
+<span class="token comment"># 查看a.java文件的前7行内容；</span>
+<span class="token function">head</span> -n <span class="token number">7</span> a.java		
+
+<span class="token comment"># 查看a.java文件的后7行内容；</span>
+<span class="token function">tail</span> -n <span class="token number">7</span> a.java		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>文件内部搜索指定的内容</strong></p>
+<p><code>grep</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>grep</code></td>
+<td>用于在文本中搜索指定模式的字符串。</td>
+</tr>
+<tr>
+<td><code>grep [模式] [文件]</code></td>
+<td>指定要搜索的模式和文件名。</td>
+</tr>
+<tr>
+<td><code>grep -i</code></td>
+<td>不区分大小写进行搜索。</td>
+</tr>
+<tr>
+<td><code>grep -v</code></td>
+<td>反向匹配，显示不包含模式的行。</td>
+</tr>
+<tr>
+<td><code>grep -r</code></td>
+<td>递归搜索，用于目录及其子目录。</td>
+</tr>
+<tr>
+<td><code>grep -l</code></td>
+<td>仅显示包含模式的文件名，而不是匹配的行。</td>
+</tr>
+<tr>
+<td><code>grep -n</code></td>
+<td>显示行号，将行号添加到匹配的行前面。</td>
+</tr>
+<tr>
+<td><code>grep -c</code></td>
+<td>统计匹配的行数而不显示匹配的行。</td>
+</tr>
+<tr>
+<td><code>grep -o</code></td>
+<td>仅显示匹配的部分，而不是整行。</td>
+</tr>
+<tr>
+<td><code>grep --version</code></td>
+<td>显示<code>grep</code>命令的版本信息。</td>
+</tr>
+<tr>
+<td><code>grep --help</code></td>
+<td>显示<code>grep</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 在123.txt文件中搜索under字符串，大小写敏感，显示行；</span>
+<span class="token function">grep</span> under <span class="token number">123</span>.txt			
+
+<span class="token comment"># 在123.txt文件中搜索under字符串，大小写敏感，显示行及行号；</span>
+<span class="token function">grep</span> -n under <span class="token number">123</span>.txt		
+
+<span class="token comment"># 在123.txt文件中搜索under字符串，大小写敏感，显示没搜索到的行；</span>
+<span class="token function">grep</span> -v under <span class="token number">123</span>.txt		
+
+<span class="token comment"># 在123.txt文件中搜索under字符串，大小写敏感，显示行；</span>
+<span class="token function">grep</span> -i under <span class="token number">123</span>.txt		
+
+<span class="token comment"># 在123.txt文件中搜索under字符串，大小写敏感，显示行及行号；</span>
+<span class="token function">grep</span> -ni under <span class="token number">123</span>.txt		
+
+<span class="token comment"># 从test开头文件中，查找含有start的行</span>
+<span class="token function">grep</span> <span class="token string">"start"</span> test*
+
+<span class="token comment"># 查看包含https的行，并展示前1行(-A)，后1行(-B)</span>
+<span class="token function">grep</span> -A <span class="token number">1</span> -B <span class="token number">1</span> <span class="token string">"https"</span> wget-log<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>终止当前操作</strong></p>
+<p><code>Ctrl+c</code>和<code>Ctrl+z</code>都是中断命令，但是作用却不一样。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># Ctrl+Z 可以将任务中断，但是任务并没有结束，在进程中只是维持挂起的状态，用户可以使用fg/bg操作前台或后台的任务，fg命令重新启动前台被中断的任务，bg命令把被中断的任务放在后台执行。</span>
+ctrl+z
+
+<span class="token comment"># Ctrl+C 可以强制中断程序的执行。</span>
+ctrl+c<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>重定向功能</strong><br>可以使用 &gt; 或 &lt; 将命令的输出的命令重定向到test.txt文件中（没有则创建一个）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token string">'Hello World'</span> <span class="token operator">&gt;</span> /root/test.txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<p><strong>数据统计</strong></p>
+<p><code>awk</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>awk</code></td>
+<td>用于处理文本数据，执行指定的程序。</td>
+</tr>
+<tr>
+<td><code>awk 'program' [文件]</code></td>
+<td>指定要处理的文本文件和<code>awk</code>程序。</td>
+</tr>
+<tr>
+<td><code>awk -F [分隔符]</code></td>
+<td>指定字段分隔符，用于分割每行的字段。</td>
+</tr>
+<tr>
+<td><code>awk -v var=value</code></td>
+<td>定义一个<code>awk</code>变量并赋值。</td>
+</tr>
+<tr>
+<td><code>awk -f [脚本文件]</code></td>
+<td>从外部文件加载<code>awk</code>程序。</td>
+</tr>
+<tr>
+<td><code>awk -W version</code></td>
+<td>显示<code>awk</code>的版本信息。</td>
+</tr>
+<tr>
+<td><code>awk --help</code></td>
+<td>显示<code>awk</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">awk</span> <span class="token punctuation">[</span>options<span class="token punctuation">]</span> <span class="token string">'cmd'</span> <span class="token function">file</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>一次读取一行文本，按输入分隔符进行切片，切成多个组成部分。</li>
+<li>将切片直接保存在内建的变量中，$1,$2…($0表示行的全部)。</li>
+<li>支持对单个切片的判断，支持循环判断，默认分隔符为空格。</li>
+<li>-F 指定分隔符(默认为空格)</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 将 email.out 进行切分，打印出第1/3列内容</span>
+<span class="token function">awk</span> <span class="token string">'{print $1,$3}'</span> email.out  
+
+<span class="token comment"># 将`email.out`进行切分，打印出第1/3列内容</span>
+<span class="token function">awk</span> <span class="token string">'{print $1,$3}'</span> email.out 
+
+<span class="token comment"># 将`email.out`进行切分，当第1列为tcp,第2列为1的列，全部打印</span>
+<span class="token function">awk</span> <span class="token string">'$1=="tcp" &amp;&amp; $2==1{print $0}'</span> email.out
+
+<span class="token comment">#  在上面的基础上将表头进行打印(NR表头)</span>
+<span class="token function">awk</span> <span class="token string">'($1=="tcp" &amp;&amp; $2==1)|| NR==1 {print $0}'</span> email.out
+
+<span class="token comment">#  以`,`为分隔符，切分数据，并打印第二列的内容</span>
+<span class="token function">awk</span> -F <span class="token string">","</span> <span class="token string">'{print $2}'</span> test.txt
+
+<span class="token comment"># 将日志中第1/3列进行打印，并对第1列的数据进行分类统计</span>
+<span class="token function">awk</span> <span class="token string">'{print $1,$3}'</span> email.out <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{count[$1]++} END {for(i in count) print i "\t" count[i]}'</span>
+
+<span class="token comment">#  根据逗号`,`切分数据，并将第一列存在文件`test01.txt`中</span>
+<span class="token function">awk</span> -F <span class="token string">","</span> '<span class="token punctuation">{</span>print <span class="token variable">$1</span> <span class="token operator">&gt;&gt;</span> <span class="token string">"test01.txt"</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>替换文件内容</strong></p>
+<p><code>sed</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sed</code></td>
+<td>用于编辑和转换文本流。</td>
+</tr>
+<tr>
+<td><code>sed 's/模式/替换/'</code></td>
+<td>替换文本中与模式匹配的内容。</td>
+</tr>
+<tr>
+<td><code>sed -n</code></td>
+<td>静默模式，只显示经过<code>sed</code>处理的行。</td>
+</tr>
+<tr>
+<td><code>sed -e</code></td>
+<td>后跟一个<code>sed</code>脚本命令，多个命令可以用分号分隔。</td>
+</tr>
+<tr>
+<td><code>sed -f</code></td>
+<td>从外部文件加载<code>sed</code>脚本。</td>
+</tr>
+<tr>
+<td><code>sed -i</code></td>
+<td>直接编辑文件，而不是输出到标准输出。</td>
+</tr>
+<tr>
+<td><code>sed -r</code></td>
+<td>启用扩展正则表达式（支持更多的模式匹配特性）。</td>
+</tr>
+<tr>
+<td><code>sed -l</code></td>
+<td>生成<code>l</code>选项的输出，用于查看<code>sed</code>脚本的命令。</td>
+</tr>
+<tr>
+<td><code>sed --version</code></td>
+<td>显示<code>sed</code>命令的版本信息。</td>
+</tr>
+<tr>
+<td><code>sed --help</code></td>
+<td>显示<code>sed</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p><strong>sed替换标记</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">g 			<span class="token comment"># 表示行内全面替换。  </span>
+p 			<span class="token comment"># 表示打印行。  </span>
+w 			<span class="token comment"># 表示把行写入一个文件。  </span>
+x 			<span class="token comment"># 表示互换模板块中的文本和缓冲区中的文本。  </span>
+y 			<span class="token comment"># 表示把一个字符翻译为另外的字符（但是不用于正则表达式）</span>
+<span class="token punctuation">\</span><span class="token number">1</span> 			<span class="token comment"># 子串匹配标记</span>
+<span class="token operator">&amp;</span> 			<span class="token comment"># 已匹配字符串标记</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sed</span> <span class="token punctuation">[</span>option<span class="token punctuation">]</span> <span class="token string">'sed commond'</span> filename<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>全名Stream Editor，流编辑器</li>
+<li>适合用于对文本行内容进行处理</li>
+<li>sed commond为正则表达式</li>
+<li>sed commond中为三个/，分别为源内容，替换后的内容</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 替换解析</span>
+<span class="token function">sed</span> -i <span class="token string">'s/^Str/String/'</span> replace.java 
+
+<span class="token comment"># 将末尾的.替换为；(转义.)</span>
+<span class="token function">sed</span> -i <span class="token string">'s/\.$/\;/'</span>
+
+<span class="token comment"># 全文将Jack替换为me(g是全部替换,不加只替换首个)</span>
+<span class="token function">sed</span> -i <span class="token string">'s/Jack/me/g/ replace.java
+
+# 删除replace.java中的空格(d是删除)
+sed -i '</span>/^ *$/d<span class="token string">' replace.java
+
+# 删除包含Interger的行(d是删除)
+sed -i '</span>/Interger/d<span class="token string">' replace.java
+
+# 多命令一起执行
+grep '</span>input<span class="token string">' 123.txt | sed '</span>s/<span class="token punctuation">\</span>"//g<span class="token punctuation">;</span> s/,/<span class="token punctuation">\</span>n/g<span class="token string">'
+
+# 替换后将数据保存在文中
+grep  123.txt | sed -n '</span>s/<span class="token punctuation">\</span>"//gw test01.txt'<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>管道操作符</strong> |`</p>
+<ul>
+<li>可将指令连接起来，前一个指令的输出作为后一个指令的输入</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">find</span> ~ <span class="token operator">|</span><span class="token function">grep</span> <span class="token string">"test"</span>
+<span class="token function">find</span> ~               			<span class="token comment"># 查找当前用户所有文件</span>
+<span class="token function">grep</span> <span class="token string">"test"</span>             		<span class="token comment"># 从文件中</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>使用管道注意的要点</p>
+<ul>
+<li>只处理前一个命令正确输出，不处理错误输出。</li>
+<li>右边命令必须能够接收标准输入流，否则传递过程中数据会被抛弃</li>
+<li>sed，awk，grep，cut，head，top，less，more，c，join，sort，split等</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 从email.log文件中查询包含error的行</span>
+<span class="token function">grep</span> <span class="token string">'error'</span> email.log
+
+<span class="token comment"># 获取到error的行,并取[]含有数字的</span>
+<span class="token function">grep</span> <span class="token string">'error'</span> email.log <span class="token operator">|</span> <span class="token function">grep</span> -o <span class="token string">'\[0-9\]'</span>
+
+<span class="token comment"># 并过滤掉含有当前进程</span>
+<span class="token function">ps</span> -ef<span class="token operator">|</span><span class="token function">grep</span> tomcat <span class="token operator">|</span><span class="token function">grep</span> -v 
+
+<span class="token comment"># 替换后将数据保存在文中</span>
+<span class="token function">grep</span>  <span class="token number">123</span>.txt <span class="token operator">|</span> <span class="token function">sed</span> -n <span class="token string">'s/\"//gw test01.txt'</span>
+
+<span class="token comment"># 将文件`123.txt`，按`,`切分，去除`"`，按`:`切分后，将第一列存到文件`test01.txt`中**</span>
+<span class="token function">grep</span> <span class="token string">'input'</span> <span class="token number">123</span>.txt <span class="token operator">|</span> <span class="token function">awk</span> -F <span class="token string">','</span> <span class="token string">'{print $2}'</span> <span class="token operator">|</span> <span class="token function">sed</span> <span class="token string">'s/\"//g; s/,/\n/g'</span> <span class="token operator">|</span> <span class="token function">awk</span> -F <span class="token string">":"</span> <span class="token string">'{print $1 &gt;&gt; "test01.txt"}'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<p><strong>数据裁剪</strong></p>
+<p><code>cut</code>的命令选项：</p>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>cut</code></td>
+<td>用于从文本行中剪切字段。</td>
+</tr>
+<tr>
+<td><code>cut -f [字段列表]</code></td>
+<td>指定要剪切的字段列表。</td>
+</tr>
+<tr>
+<td><code>cut -d [分隔符]</code></td>
+<td>指定字段的分隔符。</td>
+</tr>
+<tr>
+<td><code>cut -c [字符列表]</code></td>
+<td>按字符位置剪切，而不是字段。</td>
+</tr>
+<tr>
+<td><code>cut -b [字节列表]</code></td>
+<td>按字节位置剪切，而不是字段。</td>
+</tr>
+<tr>
+<td><code>cut --complement</code></td>
+<td>补集，保留未列出的字段。</td>
+</tr>
+<tr>
+<td><code>cut -s</code></td>
+<td>静默模式，跳过没有分隔符的行。</td>
+</tr>
+<tr>
+<td><code>cut --version</code></td>
+<td>显示<code>cut</code>命令的版本信息。</td>
+</tr>
+<tr>
+<td><code>cut --help</code></td>
+<td>显示<code>cut</code>命令的帮助信息。</td>
+</tr>
+</tbody></table>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 文件截取</span>
+<span class="token function">cut</span> -d <span class="token string">"："</span> -f <span class="token number">1</span> cut.txt
+
+<span class="token comment"># 管道截取</span>
+<span class="token punctuation">[</span>root@localhost shell<span class="token punctuation">]</span><span class="token comment"># echo $PATH</span>
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin
+
+<span class="token comment"># 按:分割。截取第3列</span>
+<span class="token punctuation">[</span>root@localhost shell<span class="token punctuation">]</span><span class="token comment"># echo $PATH | cut -d ":" -f 3</span>
+/usr/sbin
+
+<span class="token comment"># 按:分割。截取第3列之后数据</span>
+<span class="token punctuation">[</span>root@localhost shell<span class="token punctuation">]</span><span class="token comment"># echo $PATH | cut -d ":" -f 3-</span>
+/usr/sbin:/usr/bin:/root/bin<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="1-5-用户权限操作"><a href="#1-5-用户权限操作" class="headerlink" title="1.5 用户权限操作"></a>1.5 用户权限操作</h2><h3 id="1-5-1-用户操作"><a href="#1-5-1-用户操作" class="headerlink" title="1.5.1 用户操作"></a>1.5.1 用户操作</h3><p>添加用户<code>sum</code>:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">useradd</span> –d /usr/sum -m <span class="token function">sum</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>关于useradd的某些参数：</p>
+<p><strong>-u：</strong> 指定 UID，这个 UID 必须是大于等于500，并没有其他用户占用的 UID</p>
+<p><strong>-g：</strong> 指定默认组，可以是 GID 或者 GROUPNAME，同样也必须真实存在</p>
+<p><strong>-G：</strong> 指定额外组</p>
+<p><strong>-c：</strong> 指定用户的注释信息</p>
+<p><strong>-d：</strong> 指定用户的家目录</p>
+<p>已创建的用户<code>sum</code>设置密码</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">passwd</span> <span class="token function">sum</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>用户添加<code>root</code>权限</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">visudo<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>找到<code>root</code>用户权限位置<br>添加与<code>root</code>用户相同权限</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">## Allow root to run any commands anywhere</span>
+root    <span class="token assign-left variable">ALL</span><span class="token operator">=</span><span class="token punctuation">(</span>ALL<span class="token punctuation">)</span>       ALL
+eses    <span class="token assign-left variable">ALL</span><span class="token operator">=</span><span class="token punctuation">(</span>ALL<span class="token punctuation">)</span>       ALL<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>新建的用户在面显示</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/passwd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>切换下刚才添加的用户</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">su</span> <span class="token function">sum</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>sum: x:1000:1000:: /usr/sum :/bin/bash<br>sum: x:0:1000:: /usr/sum :/bin/bash</p>
+<p>回到root用户</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">exit</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>修改已有用户信息<code>usermod</code></strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">usermod</span> 选项 用户名<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>删除用户文件夹</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">rm</span> -rf /usr/sum<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>删除用户<code>sum</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">userdel</span> <span class="token function">sum</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="1-5-2-添加组"><a href="#1-5-2-添加组" class="headerlink" title="1.5.2 添加组"></a>1.5.2 添加组</h3><p><strong>添加用户组</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">groupadd</span> groupname<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>修改用户组</strong><br>使用者权限：管理员用户</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">groupmod</span> 选项 用户组
+<span class="token function">groupmod</span>  -n new-usergroup  usergroup<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>常用的选项有：</p>
+<ul>
+<li>-g GID 为用户组指定新的组标识号。</li>
+<li>-o 与-g选项同时使用，用户组的新GID可以与系统已有用户组的GID相同。</li>
+<li>-n新用户组 将用户组的名字改为新名字</li>
+</ul>
+<p><strong>删除用户组</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">groupdel</span> groupname<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>可以看到自己的分组和分组id</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/group<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="1-5-3-sudo用户权限操作"><a href="#1-5-3-sudo用户权限操作" class="headerlink" title="1.5.3 sudo用户权限操作"></a>1.5.3 sudo用户权限操作</h3><blockquote>
+<p>比如我们使用普通用户操作用户或者操作用户组、以及修改网卡配置文件的时候，需要切换到root用户才操作，此时我们可以使用sudo命令提高普通用户的操作权限，以达到操作目的</p>
+</blockquote>
+<p><code>sudo</code>：控制用户对系统命令的使用权限,root允许的操作。<br>通过sudo可以提高普通用户的操作权限。<br><strong>使用者权限</strong>：普通用户</p>
+<p>使用root用户权限执行命令，操作</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">sudo</span> -s
+
+<span class="token function">sudo</span> <span class="token function">vi</span> /etc/sysconfig/network-scripts/ifcfg-ens33 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-5-4-更换文件所有者"><a href="#1-5-4-更换文件所有者" class="headerlink" title="1.5.4 更换文件所有者"></a>1.5.4 更换文件所有者</h3><p>格式：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">chown</span> <span class="token punctuation">[</span>-R<span class="token punctuation">]</span> 所有者 		文件或目录
+<span class="token function">chown</span> <span class="token punctuation">[</span>-R<span class="token punctuation">]</span> 所有者:所属组 	文件或目录<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>将<code>kibana-8.3.3-linux-x86_64.tar.gz</code>所有者改为用户<code>sum</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">chown</span> -R <span class="token function">sum</span> /usr/sum/kibana-8.3.3-linux-x86_64.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将<code>kibana-8.3.3-linux-x86_64.tar.gz</code>所有者改为用户<code>sum</code>、所有组改为<code>sum</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">chown</span> -R sum:sum /usr/sum/kibana-8.3.3-linux-x86_64.tar.gz<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="1-6-软连接与硬连接"><a href="#1-6-软连接与硬连接" class="headerlink" title="1.6 软连接与硬连接"></a>1.6 软连接与硬连接</h2><p><strong>1、创建软连接</strong></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">ln <span class="token operator">-</span>s <span class="token operator">/</span>usr<span class="token operator">/</span>local<span class="token operator">/</span>app <span class="token operator">/</span>data<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>注意：创建软连接时，data目录后不加 / (加上后是查找其下一级目录)；</p>
+<p><strong>2、删除软连接</strong></p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java">rm <span class="token operator">-</span>rf <span class="token operator">/</span>data<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>注意：取消软连接最后没有/，rm -rf 软连接。加上/是删除文件夹；</p>
+<p>文件软硬链接示意图：</p>
+<p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/%E6%96%87%E4%BB%B6%E8%BD%AF%E7%A1%AC%E9%93%BE%E6%8E%A5%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="Alt"></p>
+<h2 id="1-7-压缩和解压缩"><a href="#1-7-压缩和解压缩" class="headerlink" title="1.7 压缩和解压缩"></a>1.7 压缩和解压缩</h2><h3 id="1-7-1-tar"><a href="#1-7-1-tar" class="headerlink" title="1.7.1 tar"></a>1.7.1 tar</h3><p><img src="https://shuyancoding.oss-cn-beijing.aliyuncs.com/tar%E5%91%BD%E4%BB%A4.png" alt="在这里插入图片描述"></p>
+<p>压缩(-c)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 将当前目录下a.java、b.java打包</span>
+<span class="token function">tar</span> -cvf start.tar a.java b.java		
+
+<span class="token comment"># 将当前目录下的所欲文件打包压缩成haha.tar文件</span>
+<span class="token function">tar</span> -cvf start.tar ./*					
+
+<span class="token comment"># 将当前目录下a.java、b.java打包</span>
+<span class="token function">tar</span> -zcvf start.tar.gz a.java b.java	
+
+<span class="token comment"># 将当前目录下的所欲文件打包压缩成start.tar.gz文件</span>
+<span class="token function">tar</span> -zcvf start.tar.gz ./*				<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>解压缩(-x)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 解压start.tar压缩包，到当前文件夹下；</span>
+<span class="token function">tar</span> -xvf start.tar						
+
+<span class="token comment"># 解压start.tar压缩包，到/usr/local目录下；</span>
+<span class="token function">tar</span> -xvf start.tar -C usr/local 		
+										
+<span class="token comment"># 解压start.tar.gz压缩包，到当前文件夹下；</span>
+<span class="token function">tar</span> -zxvf start.tar.gz					
+
+<span class="token comment"># 解压start.tar.gz压缩包，到/usr/local目录下；</span>
+<span class="token function">tar</span> -zxvf start.tar.gz -C usr/local
+
+<span class="token comment"># 解压缩`tar.xz`文件</span>
+<span class="token function">tar</span> -xf node-v12.18.1-linux-x64.tar.xz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-7-2-unzip-zip"><a href="#1-7-2-unzip-zip" class="headerlink" title="1.7.2 unzip/zip"></a>1.7.2 unzip/zip</h3><p>压缩(zip)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 将单个文件压缩(lib.zip)</span>
+<span class="token function">zip</span> lib.zip tomcat.jar							
+
+<span class="token comment"># 将目录进行压缩(lib.zip)</span>
+<span class="token function">zip</span> -r lib.zip lib/								
+
+<span class="token comment"># 将多个文件压缩为zip文件(lib.zip)</span>
+<span class="token function">zip</span> -r lib.zip tomcat-embed.jar xml-aps.jar		<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>解压缩(unzip)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 解压一个zip格式压缩包</span>
+<span class="token function">unzip</span> file1.zip  								
+
+<span class="token comment"># 将`english.zip`包，解压到指定目录下`/usr/app/`</span>
+<span class="token function">unzip</span> -d /usr/app/com.lydms.english.zip	<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="1-7-3-gzip-gunzip"><a href="#1-7-3-gzip-gunzip" class="headerlink" title="1.7.3 gzip/gunzip"></a>1.7.3 gzip/gunzip</h3><p>gzip 压缩文件或目录</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -N N为数字1到9，为压缩率，9最高，默认6</span>
+<span class="token comment">#-r 压缩目录</span>
+
+<span class="token comment"># 默认压缩之后不会保留源文件，源文件变为\*.gz格式</span>
+
+<span class="token comment"># 压缩/root/install.log文件</span>
+<span class="token function">gzip</span> /root/install.log
+<span class="token function">ls</span> /root/install.log<span class="token punctuation">\</span>*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>gunzip解压缩gzip压缩的文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 解压缩/root下install.log.gz</span>
+gunzip /root /install.log.gz<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h3 id="1-7-4-bzip2-bunzip2"><a href="#1-7-4-bzip2-bunzip2" class="headerlink" title="1.7.4 bzip2/bunzip2"></a>1.7.4 bzip2/bunzip2</h3><p>bzip2 压缩文件（压缩率比gzip高）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># -N N为数字1到9，为压缩率，9最高，默认6</span>
+<span class="token comment"># 默认压缩之后不会保留源文件，源文件变为\*.bz2格式</span>
+
+<span class="token comment"># 压缩/root/install.log文件</span>
+<span class="token function">bzip2</span> /root/install.log
+<span class="token function">ls</span> /root/install.log<span class="token punctuation">\</span>*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>bunzip2解压缩bzip2压缩的文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 解压缩/root下install.log.bz2</span>
+bunzip2 /root /install.log.bz2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="1-8-Docker常用命令"><a href="#1-8-Docker常用命令" class="headerlink" title="1.8 Docker常用命令"></a>1.8 Docker常用命令</h2><p><strong>1、下载镜像</strong><br><a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=Linux%E6%9C%8D%E5%8A%A1%E5%99%A8&amp;spm=1001.2101.3001.7020">Linux服务器</a>下载安装包镜像命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">wget</span> https://mirrors.huaweicloud.com/elasticsearch/7.8.0/elasticsearch-7.8.0-windows-x86_64.zip<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/">华为开源镜像站</a></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">https://mirrors.huaweicloud.com/<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>2、常用命令</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 1、查看docker中下载好的镜像：</span>
+<span class="token function">docker</span> images
+
+<span class="token comment"># 2、查询需要的容器名称：</span>
+<span class="token function">docker</span> search mysql
+
+<span class="token comment"># 3、将需要的docker容器下载运行到本地(名称、端口号、msyql密码、ID)：</span>
+<span class="token function">docker</span> run -di --name<span class="token operator">=</span>first -p <span class="token number">3306</span>:3306 -e <span class="token assign-left variable">MYSQL_ROOT_PASSWORD</span><span class="token operator">=</span>root 26d26dsfsd31a
+
+<span class="token comment"># 4、查看运行的docker容器：</span>
+<span class="token function">docker</span> <span class="token function">ps</span>
+
+<span class="token comment"># 5、查看所有的docker容器（包括未运行的）：</span>
+<span class="token function">docker</span> <span class="token function">ps</span> -a
+
+<span class="token comment"># 6、停止当前运行的docker容器：</span>
+<span class="token function">docker</span> stop first
+
+<span class="token comment"># 7、启动docker容器：</span>
+<span class="token function">docker</span> start first
+
+<span class="token comment"># 8、重启docker容器：</span>
+<span class="token function">docker</span> restart first
+
+<span class="token comment"># 9、删除docker容器：</span>
+<span class="token function">docker</span> <span class="token function">rm</span> first<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="1-9-运维常用命令"><a href="#1-9-运维常用命令" class="headerlink" title="1.9 运维常用命令"></a>1.9 运维常用命令</h2><p><strong>1、扫描服务器端口号</strong></p>
+<p><strong>查看服务器是否可用</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> <span class="token number">49.32</span>.587.164<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>查看服务器指定端口是否可用</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">telnet <span class="token number">49.32</span>.587.164 <span class="token number">8093</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>1、shutdown(关闭计算机)</strong></p>
+<p>shutdown是最常用也是最安全的关机和重启命令，它会在关机之前调用fsck检查磁盘，其中-h和-r是最常用的参数：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-h：停止系统服务并关机  
+-r： 停止系统服务后重启  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>案例：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">shutdown</span> -h now  --立即关机  
+<span class="token function">shutdown</span> -h <span class="token number">10</span>:53  --到10:53关机，如果该时间小于当前时间，则到隔天  
+<span class="token function">shutdown</span> -h +10  --10分钟后自动关机  
+<span class="token function">shutdown</span> -r now  --立即重启  
+<span class="token function">shutdown</span> -r +30 <span class="token string">'The System Will Reboot in 30 Mins'</span>   --30分钟后重启并并发送通知给其它在线用户  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>强制重启</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">reboot</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>2、查看各种连接状态数量(ESTABLISHED、CLOSE_WAIT、TIME_WAIT)</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -n <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看处于<code>ESTABLISHED</code>状态连接</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -nt <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{if($NF=="ESTABLISHED"){wait[$5]++}}END{for(i in wait) print i,wait[i]}'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看处于<code>CLOSE_WAIT</code>状态连接</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -nt <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{if($NF=="CLOSE_WAIT"){wait[$5]++}}END{for(i in wait) print i,wait[i]}'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看处于<code>TIME_WAIT</code>状态连接</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -nt <span class="token operator">|</span> <span class="token function">awk</span> <span class="token string">'{if($NF=="TIME_WAIT"){wait[$5]++}}END{for(i in wait) print i,wait[i]}'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>3、ping命令</strong></p>
+<p>对 <a target="_blank" rel="noopener" href="http://www.baidu.com/">www.baidu.com</a> 发送 4 个 ping 包, 检查与其是否联通</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ping</span> -c <span class="token number">4</span> www.baidu.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>4、netstat 命令</strong><br><code>netstat 命令用于显示各种网络相关信息，如网络连接, 路由表, 接口状态等等;</code><br>列出所有处于监听状态的tcp端口:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -lt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看所有的端口信息, 包括 PID 和进程名称</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -tulpn<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>5、查看当前端口号占用情况</strong><br>1.用于查看某一端口的占用情况</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">lsof</span> -i:8080<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>2.显示tcp，udp的端口和进程等相关情况</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -tunlp<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>3.指定端口号的进程情况</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -tunlp<span class="token operator">|</span><span class="token function">grep</span> <span class="token number">8080</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>4.查看PID进程信息</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> -aux <span class="token operator">|</span><span class="token function">grep</span> <span class="token number">28990</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>根据PID，查看JVM中各线程信息(‘0x9eb’为nid值)</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">jstack <span class="token number">2246</span><span class="token operator">|</span><span class="token function">grep</span> <span class="token string">'0x9eb'</span> -A <span class="token number">50</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>6、ps 命令</strong><br>过滤得到当前系统中的 ssh 进程信息</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> aux <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">'ssh'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>7、管道命令</strong><br><code>简单来说, Linux 中管道的作用是将上一个命令的输出作为下一个命令的输入, 像 pipe 一样将各个命令串联起来执行, 管道的操作符是 |</code><br>管道命令查看当前运行的程序中，名称为java的程序</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> -ef<span class="token operator">|</span><span class="token function">grep</span> java<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看/etc/passwd文件中的root内容</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/passwd <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">'root'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看当前系统的ip连接（Windows和Linux通用）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -an<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将sh test.sh任务放到后台，并将打印的日志输出到<code>nohup.out</code>文件中，<strong>终端不再能够接收任何输入（标准输入）</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> <span class="token function">sh</span> test.sh  <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将sh test.sh任务放到后台，并将打印的日志输出到<code>test.out</code>文件中，<strong>终端不再能够接收任何输入（标准输入）</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> <span class="token function">sh</span> test.sh <span class="token operator">&gt;&gt;</span> test.out  <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>将sh test.sh任务放到后台，并将打印的日志输出到nohup.out文件中，<strong>终端能够接收任何输入</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">nohup</span> <span class="token function">sh</span> test.sh  <span class="token operator">&amp;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>8、添加Host地址</strong><br>打开配置文件</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> /etc/hosts<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在打开的文件中添加</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token number">49.235</span>.32.164 www.baidu.com<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>保存文件后，重启网络</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/etc/init.d/network restart<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+<h2 id="1-10-其他命令"><a href="#1-10-其他命令" class="headerlink" title="1.10 其他命令"></a>1.10 其他命令</h2><p><strong>1、xargs</strong></p>
+<p>给其他命令传递参数的一个过滤器</p>
+<p><strong>补充说明</strong></p>
+<p><strong>xargs 命令</strong> 是给其他命令传递参数的一个过滤器，也是组合多个命令的一个工具。它擅长将标准输入数据转换成命令行参数，xargs 能够处理管道或者 stdin 并将其转换成特定命令的命令参数。xargs 也可以将单行或多行文本输入转换为其他格式，例如多行变单行，单行变多行。xargs 的默认命令是 echo，空格是默认定界符。这意味着通过管道传递给 xargs 的输入将会包含换行和空白，不过通过 xargs 的处理，换行和空白将被空格取代。xargs 是构建单行命令的重要组件之一。</p>
+<p><strong>xargs 命令用法</strong></p>
+<p>xargs 用作替换工具，读取输入数据重新格式化后输出。</p>
+<p><code>-n</code>：指定每行输出数量</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> test.txt <span class="token operator">|</span> <span class="token function">xargs</span> -n3
+a b c
+d e f
+g h i
+j k l
+m n o<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><code>-d</code>：按指定内容分隔文本</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@localhost ~<span class="token punctuation">]</span> <span class="token builtin class-name">echo</span> <span class="token string">"nameXnameXnameXname"</span> <span class="token operator">|</span> <span class="token function">xargs</span> -dX
+name name name name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><code>-l</code>：文本命令替换</p>
+<p>xargs 的一个 选项 -I ，使用 -I 指定一个替换字符串{}，这个字符串在 xargs 扩展时会被替换掉，当 -I 与 xargs 结合使用，每一个参数命令都会被执行一次：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ls</span> *.jpg <span class="token operator">|</span> <span class="token function">xargs</span> -n1 -I <span class="token function">cp</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> /data/images<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><code>-t</code>：将执行的命令，打印出来</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">-t echo<span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token function">ls</span> * <span class="token operator">|</span><span class="token function">xargs</span> -t -n1 -I <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token function">cp</span> -r <span class="token punctuation">{</span><span class="token punctuation">}</span> /root/ddd/ echo<span class="token punctuation">{</span><span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>结合使用—指定X切分，并每行2个</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token punctuation">[</span>root@VM-0-9-centos ~<span class="token punctuation">]</span> <span class="token builtin class-name">echo</span> <span class="token string">"nameXnameXnameXname"</span> <span class="token operator">|</span> <span class="token function">xargs</span> -dX -n2
+name name
+name name<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<hr>
+<p><strong>查看历史使用命令</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">history</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>过滤与<code>es</code>相关命令</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">history</span> <span class="token operator">|</span> <span class="token function">grep</span> es<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>查看占用资源</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> -au		占用的资源是从进程启动开始，计算的平均占用资源，比如cpu等
+<span class="token function">top</span>			实时占用的资源；<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>查看当前目录所占存储</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">du</span> -lh			查看当前文件下各文件夹占用存储空间
+<span class="token function">du</span> -sh			查看当前文件夹所占存储空间
+<span class="token function">du</span> --max-depth<span class="token operator">=</span><span class="token operator">&lt;</span>目录层数<span class="token operator">&gt;</span> 	超过指定层数的目录后，予以忽略。
+<span class="token function">du</span> --max-depth<span class="token operator">=</span><span class="token number">1</span> 			只查看当前目录下文件占用的存储空间<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>管道命令：</strong><br>根据项目查看进程，更加PID查看项目，以及项目路径</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> -ef 						查看所有的进程
+<span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> mysql			查看mysql相关的进程<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>通过进程PID查看所占用的端口号</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">netstat</span> -nap <span class="token operator">|</span><span class="token function">grep</span> 进程ID<span class="token punctuation">(</span>PID<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>查看Linux下系统存储使用率</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">df</span> -h			查看系统硬盘使用情况<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>杀死进程(根据PID)</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> -9 <span class="token number">2630</span>		进程pid<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>关闭防火墙</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">service</span> iptables stop      临时关闭防火墙
+<span class="token function">chkconfig</span> iptables off     防火墙开启不启动
+<span class="token function">service</span> iptables status    查看防火墙状态<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>开机启动选项</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">msconfig					查看开机启动选项
+<span class="token function">chkconfig</span>					查看开机启动服务列表<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>查看MySQL服务的程序的状态</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">service</span> mysql start        开启MySQL    
+<span class="token function">service</span> mysql status       查看MySQL的状态    
+<span class="token function">service</span> mysql stop         关闭MySQL    <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>查看系统变量</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token builtin class-name">echo</span> <span class="token environment constant">$USER</span>   输出某个变量
+<span class="token builtin class-name">set</span>	         输出所有变量<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p><strong>2、curl语法</strong></p>
+<p><strong>GET请求</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">curl</span> <span class="token string">"http://www.wangchujiang.com"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>POST请求</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment">#  普通文本</span>
+<span class="token function">curl</span> -d<span class="token string">'login=emma＆password=123'</span> -X POST https://wangchujiang.com/login
+
+<span class="token comment">#  Json格式</span>
+<span class="token function">curl</span> -l -H <span class="token string">"Content-type: application/json"</span> -X POST -d <span class="token string">'{"phone":"13521389587","password":"test"}'</span> http://wangchujiang.com/apis/users.json<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>3、查询支持解析器</strong></p>
+<p>Centos默认的解析器是<code>bash</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">cat</span> /etc/shells<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>列表</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/bin/sh
+<span class="token comment"># Centos默认的解析器是bash</span>
+/bin/bash
+/sbin/nologin
+/usr/bin/sh
+/usr/bin/bash
+/usr/sbin/nologin
+/bin/tcsh
+/bin/csh<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>指定解析器执行<br>脚本以<code>#!/bin/bash</code>开头（指定解析器）</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token shebang important">#!/bin/bash</span>
+<span class="token builtin class-name">echo</span> <span class="token string">"helloworld"</span>
+<span class="token number">12</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>4、跨服务器文件复制</strong></p>
+<p><code>scp</code>：用于服务器之间文件复制</p>
+<p>将本服务器<code>/home/lydms/spark.tgz</code>文件复制到<code>hadoop102</code>服务器的<code>/home/lydms</code>，使用用户名为<code>lydms</code>。</p>
+<pre class="line-numbers language-sh" data-language="sh"><code class="language-sh">scp [本机文件所在位置] [目标服务器用户名] @ [服务器地址] ： [目标服务器目录] 
+
+scp /home/lydms/spark.tgz lydms:hadoop102:/home/lydms
+123<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>将源服务器<code>hadoop102</code>下<code>/home/lydms/spark.tgz</code>文件复制到本机<code>/home/lydms</code>，源用户名为<code>lydms</code></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">scp</span> <span class="token punctuation">[</span>目标服务器用户名<span class="token punctuation">]</span> @ <span class="token punctuation">[</span>服务器地址<span class="token punctuation">]</span>:<span class="token punctuation">[</span>目标服务器目录<span class="token punctuation">]</span> <span class="token punctuation">[</span>本机文件所在位置<span class="token punctuation">]</span> 
+<span class="token function">scp</span> lydms:hadoop102:/home/lydms/spark.tgz /home/lydms<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+
+
+
+
+<h2 id="1-11-Linux内核优化"><a href="#1-11-Linux内核优化" class="headerlink" title="1.11 Linux内核优化"></a>1.11 Linux内核优化</h2><p>打开配置文件：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">vim</span> /etc/sysctl.conf<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>​        Linux在系统运行时修改内核参数(/proc/sys与/etc/sysctl.conf)，而不需要重新引导系统，这个功能是通过/proc虚拟文件系统实现的。</p>
+<p>​        在/proc/sys目录下存放着大多数的内核参数，并且设计成可以在系统运行的同时进行更改, 可以通过更改/proc/sys中内核参数对应的文件达到修改内核参数的目的(修改过后，保存配置文件就马上自动生效)，不过重新启动机器后之前修改的参数值会失效，所以只能是一种临时参数变更方案。(适合调试内核参数优化值的时候使用，如果设置值有问题，重启服务器还原原来的设置参数值了。简单方便。)</p>
+<p>​        但是如果调试内核参数优化值结束后，需要永久保存参数值，就要通过修改/etc/sysctl.conf内的内核参数来永久保存更改。但只是修改sysctl文件内的参数值，确认保存修改文件后，设定的参数值并不会马上生效，如果想使参数值修改马上生效，并且不重启服务器，可以执行下面的命令：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sysctl –p<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>​        下面介绍一下/proc/sys下内核文件与配置文件sysctl.conf中变量的对应关系：</p>
+<p>​        由于可以修改的内核参数都在/proc/sys目录下，所以sysctl.conf的变量名省略了目录的前面部分（/proc/sys）。</p>
+<pre><code>     即将/proc/sys中的文件转换成sysctl中的变量依据下面两个简单的规则：
+</code></pre>
+<ul>
+<li><p>去掉前面部分/proc/sys</p>
+</li>
+<li><p>将文件名中的斜杠变为点</p>
+</li>
+</ul>
+<p>这两条规则可以将/proc/sys中的任一文件名转换成sysctl中的变量名。</p>
+<p>例如：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">/proc/sys/net/ipv4/ip_forward ＝》 net.ipv4.ip_forward
+
+/proc/sys/kernel/hostname ＝》 kernel.hostname<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>可以使用下面命令查询所有可修改的变量名</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">sysctl –a<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h3 id="1-11-1-Linux内核参数注释"><a href="#1-11-1-Linux内核参数注释" class="headerlink" title="1.11.1 Linux内核参数注释"></a>1.11.1 Linux内核参数注释</h3><p>下列文件所在目录：<code>/proc/sys/net/ipv4/</code></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>建议值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>tcp_syn_retries</strong></td>
+<td>5（约180s）</td>
+<td>1（对于大负载而物理通信良好的网络而言，这个值偏高，可修改为2）</td>
+<td>对于一个新建连接，内核要发送多少个 SYN 连接请求才 决定放弃。不应大于255。(这个值仅仅是针对对外的连接，对进来的连接,是由<strong>tcp_retries1</strong>决定的)</td>
+</tr>
+<tr>
+<td><strong>tcp_synack_retries</strong></td>
+<td>5（约180s）</td>
+<td>1</td>
+<td>对于远端的连接请求SYN，内核会发送SYN ＋ ACK数据报，以确认收到上一个 SYN连接请求包。这是所谓的三次握手机制的第二个步骤。这里决定内核在放弃连接之前所送出的 SYN+ACK 数目。不应该大于255。</td>
+</tr>
+<tr>
+<td><strong>tcp_keepalive_time</strong></td>
+<td>7200</td>
+<td>600</td>
+<td>TCP发送keepalive探测消息的间隔时间（秒），用于确认TCP连接是否有效。防止两边建立连接但不发送数据的攻击。</td>
+</tr>
+<tr>
+<td><strong>tcp_keepalive_probes</strong></td>
+<td>9</td>
+<td>3</td>
+<td>TCP发送keepalive探测消息的间隔时间（秒），用于确认TCP连接是否有效。</td>
+</tr>
+<tr>
+<td><strong>tcp_keepalive_intvl</strong></td>
+<td>75</td>
+<td>15</td>
+<td>探测消息未获得响应时，重发该消息的间隔时间（秒）。 (对于普通应用来说,这个值有一些偏大,可以根据需要改小.特别是web类服务器需要改小该值,15是个比较合适的值)</td>
+</tr>
+<tr>
+<td><strong>tcp_retries1</strong></td>
+<td>3</td>
+<td>3</td>
+<td>放弃回应一个TCP连接请求前﹐需要进行多少次重试。RFC规定最低的数值是3</td>
+</tr>
+<tr>
+<td><strong>tcp_retries2</strong></td>
+<td>15</td>
+<td>5</td>
+<td>在丢弃激活(已建立通讯状况)的TCP连接之前﹐需要进行多少次重试。根据RTO的值来决定，相当于13-30分钟(RFC1122规定，必须大于100秒).(这个值根据目前的网络设置,可以适当地改小,我的网络内修改为了5)</td>
+</tr>
+<tr>
+<td><strong>tcp_orphan_retries</strong></td>
+<td>7</td>
+<td>3</td>
+<td>在近端丢弃TCP连接之前﹐要进行多少次重试。默认值是7个﹐相当于 50秒 - 16分钟﹐视 RTO 而定。如果您的系统是负载很大的web服务器﹐那么也许需要降低该值﹐这类 sockets 可能会耗费大量的资源。另外参的考<strong>tcp_max_orphans</strong>。(事实上做NAT的时候,降低该值也是好处显著的,我本人的网络环境中降低该值为3)</td>
+</tr>
+<tr>
+<td><strong>tcp_fin_timeout</strong></td>
+<td>60</td>
+<td>2</td>
+<td>对于本端断开的socket连接，TCP保持在FIN-WAIT-2状态的时间。对方可能会断开连接或一直不结束连接或不可预料的进程死亡。默认值为 60 秒。</td>
+</tr>
+<tr>
+<td><strong>tcp_max_tw_buckets</strong></td>
+<td>180000</td>
+<td>36000</td>
+<td>系统在同时所处理的最大 timewait sockets 数目。如果超过此数的话﹐time-wait socket 会被立即砍除并且显示警告信息。之所以要设定这个限制﹐纯粹为了抵御那些简单的 DoS 攻击﹐不过﹐如果网络条件需要比默认值更多﹐则可以提高它(或许还要增加内存)。(事实上做NAT的时候最好可以适当地增加该值)</td>
+</tr>
+<tr>
+<td><strong>tcp_tw_recycle</strong></td>
+<td>0</td>
+<td>1</td>
+<td>打开快速 TIME-WAIT sockets 回收。除非得到技术专家的建议或要求﹐请不要随意修改这个值。(做NAT的时候，建议打开它)</td>
+</tr>
+<tr>
+<td><strong>tcp_tw_reuse</strong></td>
+<td>0</td>
+<td>1</td>
+<td>表示是否允许重新应用处于TIME-WAIT状态的socket用于新的TCP连接(这个对快速重启动某些服务,而启动后提示端口已经被使用的情形非常有帮助)</td>
+</tr>
+<tr>
+<td><strong>tcp_max_orphans</strong></td>
+<td>8192</td>
+<td>32768</td>
+<td>系统所能处理不属于任何进程的TCP sockets最大数量。假如超过这个数量﹐那么不属于任何进程的连接会被立即reset，并同时显示警告信息。之所以要设定这个限制﹐纯粹为了抵御那些简单的 DoS 攻击﹐千万不要依赖这个或是人为的降低这个限制。如果内存大更应该增加这个值。(这个值Redhat AS版本中设置为32768,但是很多防火墙修改的时候,建议该值修改为2000)</td>
+</tr>
+<tr>
+<td><strong>tcp_abort_on_overflow</strong></td>
+<td>0</td>
+<td>0</td>
+<td>当守护进程太忙而不能接受新的连接，就象对方发送reset消息，默认值是false。这意味着当溢出的原因是因为一个偶然的猝发，那么连接将恢复状态。只有在你确信守护进程真的不能完成连接请求时才打开该选项，该选项会影响客户的使用。(对待已经满载的sendmail,apache这类服务的时候,这个可以很快让客户端终止连接,可以给予服务程序处理已有连接的缓冲机会,所以很多防火墙上推荐打开它)</td>
+</tr>
+<tr>
+<td><strong>tcp_syncookies</strong></td>
+<td>0</td>
+<td>1</td>
+<td>只有在内核编译时选择了CONFIG_SYNCOOKIES时才会发生作用。当出现syn等候队列出现溢出时象对方发送syncookies。目的是为了防止syn flood攻击。</td>
+</tr>
+<tr>
+<td><strong>tcp_stdurg</strong></td>
+<td>0</td>
+<td>0</td>
+<td>使用 TCP urg pointer 字段中的主机请求解释功能。大部份的主机都使用老旧的 BSD解释，因此如果您在 Linux打开它﹐或会导致不能和它们正确沟通。</td>
+</tr>
+<tr>
+<td><strong>tcp_max_syn_backlog</strong></td>
+<td>1024</td>
+<td>16384</td>
+<td>对于那些依然还未获得客户端确认的连接请求﹐需要保存在队列中最大数目。对于超过 128Mb 内存的系统﹐默认值是 1024 ﹐低于 128Mb 的则为 128。如果服务器经常出现过载﹐可以尝试增加这个数字。警告﹗假如您将此值设为大于 1024﹐最好修改include/net/tcp.h里面的TCP_SYNQ_HSIZE﹐以保持TCP_SYNQ_HSIZE*16(SYN Flood攻击利用TCP协议散布握手的缺陷，伪造虚假源IP地址发送大量TCP-SYN半打开连接到目标系统，最终导致目标系统Socket队列资源耗尽而无法接受新的连接。为了应付这种攻击，现代Unix系统中普遍采用多连接队列处理的方式来缓冲(而不是解决)这种攻击，是用一个基本队列处理正常的完全连接应用(Connect()和Accept() )，是用另一个队列单独存放半打开连接。这种双队列处理方式和其他一些系统内核措施(例如Syn-Cookies/Caches)联合应用时，能够比较有效的缓解小规模的SYN Flood攻击(事实证明)</td>
+</tr>
+<tr>
+<td><strong>tcp_window_scaling</strong></td>
+<td>1</td>
+<td>1</td>
+<td>该文件表示设置tcp/ip会话的滑动窗口大小是否可变。参数值为布尔值，为1时表示可变，为0时表示不可变。tcp/ip通常使用的窗口最大可达到 65535 字节，对于高速网络，该值可能太小，这时候如果启用了该功能，可以使tcp/ip滑动窗口大小增大数个数量级，从而提高数据传输的能力(RFC 1323)。</td>
+</tr>
+<tr>
+<td><strong>tcp_timestamps</strong></td>
+<td>1</td>
+<td>1</td>
+<td>Timestamps 用在其它一些东西中﹐可以防范那些伪造的sequence 号码。一条1G的宽带线路或许会重遇到带 out-of-line数值的旧sequence 号码(假如它是由于上次产生的)。Timestamp 会让它知道这是个 ‘旧封包’。(该文件表示是否启用以一种比超时重发更精确的方法（RFC 1323）来启用对 RTT 的计算；为了实现更好的性能应该启用这个选项。)</td>
+</tr>
+<tr>
+<td><strong>tcp_sack</strong></td>
+<td>1</td>
+<td>1</td>
+<td>使用 Selective ACK﹐它可以用来查找特定的遗失的数据报— 因此有助于快速恢复状态。该文件表示是否启用有选择的应答（Selective Acknowledgment），这可以通过有选择地应答乱序接收到的报文来提高性能（这样可以让发送者只发送丢失的报文段）。(对于广域网通信来说这个选项应该启用，但是这会增加对 CPU 的占用。)</td>
+</tr>
+<tr>
+<td><strong>tcp_fack</strong></td>
+<td>1</td>
+<td>1</td>
+<td>打开FACK拥塞避免和快速重传功能。(注意，当<strong>tcp_sack</strong>设置为0的时候，这个值即使设置为1也无效)[这个是TCP连接靠谱的核心功能]</td>
+</tr>
+<tr>
+<td><strong>tcp_dsack</strong></td>
+<td>1</td>
+<td>1</td>
+<td>允许TCP发送”两个完全相同”的SACK。</td>
+</tr>
+<tr>
+<td><strong>tcp_ecn</strong></td>
+<td>0</td>
+<td>0</td>
+<td>TCP的直接拥塞通告功能。</td>
+</tr>
+<tr>
+<td><strong>tcp_reordering</strong></td>
+<td>3</td>
+<td>6</td>
+<td>TCP流中重排序的数据报最大数量。 (一般有看到推荐把这个数值略微调整大一些,比如5)</td>
+</tr>
+<tr>
+<td><strong>tcp_retrans_collapse</strong></td>
+<td>1</td>
+<td>0</td>
+<td>对于某些有bug的打印机提供针对其bug的兼容性。(一般不需要这个支持,可以关闭它)</td>
+</tr>
+<tr>
+<td>*<em>tcp_wmem</em>***：*<em>min**<strong><strong>default</strong></strong>max*</em></td>
+<td>409616384131072</td>
+<td>819213107216777216</td>
+<td>发送缓存设置min：为TCP socket预留用于发送缓冲的内存最小值。每个tcp socket都可以在建议以后都可以使用它。默认值为4096(4K)。default：为TCP socket预留用于发送缓冲的内存数量，默认情况下该值会影响其它协议使用的net.core.wmem_default 值，一般要低于net.core.wmem_default的值。默认值为16384(16K)。max: 用于TCP socket发送缓冲的内存最大值。该值不会影响net.core.wmem_max，”静态”选择参数SO_SNDBUF则不受该值影响。默认值为131072(128K)。（对于服务器而言，增加这个参数的值对于发送数据很有帮助,在我的网络环境中,修改为了51200 131072 204800）</td>
+</tr>
+<tr>
+<td>*<em>tcp_<strong><strong>r</strong></strong>mem</em>***：*<em>min**<strong><strong>default</strong></strong>max*</em></td>
+<td>409687380174760</td>
+<td>3276813107216777216</td>
+<td>接收缓存设置同tcp_wmem</td>
+</tr>
+<tr>
+<td>*<em>tcp_mem</em>***：*<em>min**<strong><strong>default</strong></strong>max*</em></td>
+<td>根据内存计算</td>
+<td>7864321048576 1572864</td>
+<td><strong>low</strong>：当TCP使用了低于该值的内存页面数时，TCP不会考虑释放内存。即低于此值没有内存压力。(理想情况下，这个值应与指定给 tcp_wmem 的第 2 个值相匹配 - 这第 2 个值表明，最大页面大小乘以最大并发请求数除以页大小 (131072 * 300 / 4096)。 )<strong>pressure</strong>：当TCP使用了超过该值的内存页面数量时，TCP试图稳定其内存使用，进入pressure模式，当内存消耗低于low值时则退出pressure状态。(理想情况下这个值应该是 TCP 可以使用的总缓冲区大小的最大值 (204800 * 300 / 4096)。 )<strong>high</strong>：允许所有tcp sockets用于排队缓冲数据报的页面量。(如果超过这个值，TCP 连接将被拒绝，这就是为什么不要令其过于保守 (512000 * 300 / 4096) 的原因了。 在这种情况下，提供的价值很大，它能处理很多连接，是所预期的 2.5 倍；或者使现有连接能够传输 2.5 倍的数据。 我的网络里为192000 300000 732000)一般情况下这些值是在系统启动时根据系统内存数量计算得到的。</td>
+</tr>
+<tr>
+<td><strong>tcp_app_win</strong></td>
+<td>31</td>
+<td>31</td>
+<td>保留max(window/2^tcp_app_win, mss)数量的窗口由于应用缓冲。当为0时表示不需要缓冲。</td>
+</tr>
+<tr>
+<td><strong>tcp_adv_win_scale</strong></td>
+<td>2</td>
+<td>2</td>
+<td>计算缓冲开销bytes/2^tcp_adv_win_scale(如果tcp_adv_win_scale &gt; 0)或者bytes-bytes/2^(-tcp_adv_win_scale)(如果tcp_adv_win_scale BOOLEAN&gt;0)</td>
+</tr>
+<tr>
+<td><strong>tcp_low_latency</strong></td>
+<td>0</td>
+<td>0</td>
+<td>允许 TCP/IP 栈适应在高吞吐量情况下低延时的情况；这个选项一般情形是的禁用。(但在构建Beowulf 集群的时候,打开它很有帮助)</td>
+</tr>
+<tr>
+<td><strong>tcp_westwood</strong></td>
+<td>0</td>
+<td>0</td>
+<td>启用发送者端的拥塞控制算法，它可以维护对吞吐量的评估，并试图对带宽的整体利用情况进行优化；对于 WAN通信来说应该启用这个选项。</td>
+</tr>
+<tr>
+<td><strong>tcp_bic</strong></td>
+<td>0</td>
+<td>0</td>
+<td>为快速长距离网络启用 Binary Increase Congestion；这样可以更好地利用以 GB 速度进行操作的链接；对于WAN 通信应该启用这个选项。</td>
+</tr>
+<tr>
+<td><strong>ip_forward</strong></td>
+<td>0</td>
+<td>－</td>
+<td>NAT必须开启IP转发支持，把该值写1</td>
+</tr>
+<tr>
+<td><strong>ip_local_port_range</strong>:minmax</td>
+<td>3276861000</td>
+<td>102465000</td>
+<td>表示用于向外连接的端口范围，默认比较小，这个范围同样会间接用于NAT表规模。</td>
+</tr>
+<tr>
+<td><strong>ip_conntrack_max</strong></td>
+<td>65535</td>
+<td>65535</td>
+<td>系统支持的最大ipv4连接数，默认65536（事实上这也是理论最大值），同时这个值和你的内存大小有关，如果内存128M，这个值最大8192，1G以上内存这个值都是默认65536</td>
+</tr>
+</tbody></table>
+<p> 所处目录<code>/proc/sys/net/ipv4/netfilter/</code>，文件需要打开防火墙才会存在</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>建议值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ip_conntrack_max</strong></td>
+<td>65536</td>
+<td>65536</td>
+<td>系统支持的最大ipv4连接数，默认65536（事实上这也是理论最大值），同时这个值和你的内存大小有关，如果内存128M，这个值最大8192，1G以上内存这个值都是默认65536,这个值受/proc/sys/net/ipv4/ip_conntrack_max限制</td>
+</tr>
+<tr>
+<td><strong>ip_conntrack_tcp_timeout_established</strong></td>
+<td>432000</td>
+<td>180</td>
+<td>已建立的tcp连接的超时时间，默认432000，也就是5天。影响：这个值过大将导致一些可能已经不用的连接常驻于内存中，占用大量链接资源，从而可能导致NAT ip_conntrack: table full的问题。建议：对于NAT负载相对本机的 NAT表大小很紧张的时候，可能需要考虑缩小这个值，以尽早清除连接，保证有可用的连接资源；如果不紧张，不必修改</td>
+</tr>
+<tr>
+<td><strong>ip_conntrack_tcp_timeout_time_wait</strong></td>
+<td>120</td>
+<td>120</td>
+<td>time_wait状态超时时间，超过该时间就清除该连接</td>
+</tr>
+<tr>
+<td><strong>ip_conntrack_tcp_timeout_close_wait</strong></td>
+<td>60</td>
+<td>60</td>
+<td>close_wait状态超时时间，超过该时间就清除该连接</td>
+</tr>
+<tr>
+<td><strong>ip_conntrack_tcp_timeout_fin_wait</strong></td>
+<td>120</td>
+<td>120</td>
+<td>fin_wait状态超时时间，超过该时间就清除该连接</td>
+</tr>
+</tbody></table>
+<p> 文件所处目录<code>/proc/sys/net/core/</code></p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>默认值</th>
+<th>建议值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>netdev_max_backlog</td>
+<td>1024</td>
+<td>16384</td>
+<td>每个网络接口接收数据包的速率比内核处理这些包的速率快时，允许送到队列的数据包的最大数目，对重负载服务器而言，该值需要调高一点。</td>
+</tr>
+<tr>
+<td>somaxconn</td>
+<td>128</td>
+<td>16384</td>
+<td>用来限制监听(LISTEN)队列最大数据包的数量，超过这个数量就会导致链接超时或者触发重传机制。web应用中listen函数的backlog默认会给我们内核参数的net.core.somaxconn限制到128，而nginx定义的NGX_LISTEN_BACKLOG默认为511，所以有必要调整这个值。对繁忙的服务器,增加该值有助于网络性能</td>
+</tr>
+<tr>
+<td>wmem_default</td>
+<td>129024</td>
+<td>129024</td>
+<td>默认的发送窗口大小（以字节为单位）</td>
+</tr>
+<tr>
+<td>rmem_default</td>
+<td>129024</td>
+<td>129024</td>
+<td>默认的接收窗口大小（以字节为单位）</td>
+</tr>
+<tr>
+<td>rmem_max</td>
+<td>129024</td>
+<td>873200</td>
+<td>最大的TCP数据接收缓冲</td>
+</tr>
+<tr>
+<td>wmem_max</td>
+<td>129024</td>
+<td>873200</td>
+<td>最大的TCP数据发送缓冲</td>
+</tr>
+</tbody></table>
+<h3 id="1-11-2-修改内核参数的方法"><a href="#1-11-2-修改内核参数的方法" class="headerlink" title="1.11.2 修改内核参数的方法"></a>1.11.2 修改内核参数的方法</h3><p>1、使用echo value方式直接追加到文件里如<code>echo "1" &gt;/proc/sys/net/ipv4/tcp_syn_retries</code>，但这种方法设备重启后又会恢复为默认值</p>
+<p>2、把参数添加到<code>/etc/sysctl.conf</code>中，然后执行sysctl -p使参数生效，永久生效</p>
+<h3 id="1-11-3-内核生产环境优化参数"><a href="#1-11-3-内核生产环境优化参数" class="headerlink" title="1.11.3 内核生产环境优化参数"></a>1.11.3 内核生产环境优化参数</h3><p>这里所列参数是生产中常用的参数：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">net.ipv4.tcp_syn_retries <span class="token operator">=</span> <span class="token number">1</span>
+net.ipv4.tcp_synack_retries <span class="token operator">=</span> <span class="token number">1</span>
+net.ipv4.tcp_keepalive_time <span class="token operator">=</span> <span class="token number">600</span>
+net.ipv4.tcp_keepalive_probes <span class="token operator">=</span> <span class="token number">3</span>
+net.ipv4.tcp_keepalive_intvl <span class="token operator">=</span><span class="token number">15</span>
+net.ipv4.tcp_retries2 <span class="token operator">=</span> <span class="token number">5</span>
+net.ipv4.tcp_fin_timeout <span class="token operator">=</span> <span class="token number">2</span>
+net.ipv4.tcp_max_tw_buckets <span class="token operator">=</span> <span class="token number">36000</span>
+net.ipv4.tcp_tw_recycle <span class="token operator">=</span> <span class="token number">1</span>
+net.ipv4.tcp_tw_reuse <span class="token operator">=</span> <span class="token number">1</span>
+net.ipv4.tcp_max_orphans <span class="token operator">=</span> <span class="token number">32768</span>
+net.ipv4.tcp_syncookies <span class="token operator">=</span> <span class="token number">1</span>
+net.ipv4.tcp_max_syn_backlog <span class="token operator">=</span> <span class="token number">16384</span>
+net.ipv4.tcp_wmem <span class="token operator">=</span> <span class="token number">8192</span> <span class="token number">131072</span> <span class="token number">16777216</span>
+net.ipv4.tcp_rmem <span class="token operator">=</span> <span class="token number">32768</span> <span class="token number">131072</span> <span class="token number">16777216</span>
+net.ipv4.tcp_mem <span class="token operator">=</span> <span class="token number">786432</span> <span class="token number">1048576</span> <span class="token number">1572864</span>
+net.ipv4.ip_local_port_range <span class="token operator">=</span> <span class="token number">1024</span> <span class="token number">65000</span>
+net.ipv4.ip_conntrack_max <span class="token operator">=</span> <span class="token number">65536</span>
+net.ipv4.netfilter.ip_conntrack_max<span class="token operator">=</span><span class="token number">65536</span>
+net.ipv4.netfilter.ip_conntrack_tcp_timeout_established<span class="token operator">=</span><span class="token number">180</span>
+net.core.somaxconn <span class="token operator">=</span> <span class="token number">16384</span>
+net.core.netdev_max_backlog <span class="token operator">=</span> <span class="token number">16384</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+<h2 id="1-12-进程管理"><a href="#1-12-进程管理" class="headerlink" title="1.12 进程管理"></a>1.12 进程管理</h2><h3 id="1-12-1-Top命令"><a href="#1-12-1-Top命令" class="headerlink" title="1.12.1 Top命令"></a>1.12.1 Top命令</h3><p>实时占用的资源:</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">top</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>top命令执行结果分为两个区域：<strong>统计信息区</strong>和<strong>进程信息区</strong></p>
+<h4 id="统计信息区"><a href="#统计信息区" class="headerlink" title="统计信息区"></a>统计信息区</h4><p><strong>TOP：任务队列信息，与uptime命令执行结果相同.</strong></p>
+<ul>
+<li><code>15:33:39</code>：系统时间</li>
+<li><code>up 5:40</code>：主机已运行时间</li>
+<li><code>2 users</code>：用户连接数（不是用户数，who命令）</li>
+<li><code>load average: 1.09, 1.04, 0.98</code>：系统平均负载，统计最近1，5，15分钟的系统平均负载</li>
+</ul>
+<p><strong>Tasks：进程信息</strong></p>
+<ul>
+<li><code>123 total</code>：进程总数</li>
+<li><code>3 running</code>：正在运行的进程数</li>
+<li><code>120 sleeping</code>：睡眠的进程数</li>
+<li><code>0 stopped</code>：停止的进程数</li>
+<li><code>0 zombie</code>：僵尸进程数</li>
+</ul>
+<p><strong>%CPU(s)：CPU信息（当有多个CPU时，这些内容可能会超过两行）</strong></p>
+<ul>
+<li><code>42.1 us</code>：用户空间所占CPU百分比</li>
+<li><code>2.0 sy</code>：内核空间占用CPU百分比</li>
+<li><code>0.0 ni</code>：用户进程空间内改变过优先级的进程占用CPU百分比</li>
+<li><code>49.2 id</code>：空闲CPU百分比</li>
+<li><code>0.0 wa</code>：等待输入输出的CPU时间百分比</li>
+<li><code>6.0 hi</code>：硬件CPU终端占用百分比</li>
+<li><code>0.7 si</code>：软中断占用百分比</li>
+<li><code>0.0 st</code>：虚拟机占用百分比</li>
+</ul>
+<p><strong>KiB Mem：内存信息（与第五行的信息类似与free命令类似）</strong></p>
+<ul>
+<li><code>3780.9 total</code>：物理内存总量</li>
+<li><code>727.4 free</code>：已使用的内存总量</li>
+<li><code>668.8 used</code>：空闲的内存总量（free + userd = total）</li>
+<li><code>2384.7 buff/cache</code>：用作内核缓存的内存量</li>
+</ul>
+<p><strong>KiB：swap信息</strong></p>
+<ul>
+<li><code>2048.0 total</code>：交换分区总量</li>
+<li><code>2.0 used</code>：已使用的交换分区总量</li>
+<li><code>2046.0 free</code>：空闲交换分区总量</li>
+<li><code>859.6 avail</code>：缓冲的交换区总量，内存中的内容被换出到交换区，然后又被换入到内存，但是使用过的交换区没有被覆盖，交换区的这些内容已存在于内存中的交换区的大小，相应的内存再次被换出时可不必再对交换区写入。</li>
+</ul>
+<h4 id="进程信息区"><a href="#进程信息区" class="headerlink" title="进程信息区"></a>进程信息区</h4><ul>
+<li>PID:进程id</li>
+<li>USER:进程所有者的用户名</li>
+<li>PR:优先级</li>
+<li>NI:nice值。负值表示高优先级，正值表示低优先级</li>
+<li>RES:进程使用的、未被换出的物理内存的大小</li>
+<li>%CPU:上次更新到现在的CPU时间占用百分比</li>
+<li>%MEM:进程使用的物理内存百分比</li>
+<li>TIME+：进程所使用的CPU时间总计，单位1/100秒</li>
+<li>COMMAND:命令名/行</li>
+<li>PPID:父进程id</li>
+<li>RUSER:Real user name（看了好多，都是这样写，也不知道和user有什么区别，欢迎补充此处）</li>
+<li>UID:进程所有者的id</li>
+<li>VIRT:进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES</li>
+<li>GROUP:进程所有者的组名</li>
+<li>TTY:启动进程的终端名。不是从终端启动的进程则显示为?</li>
+<li>NI:nice值。负值表示高优先级，正值表示低优先级</li>
+<li>P:最后使用的CPU，仅在多CPU环境下有意义</li>
+<li>TIME:进程使用的CPU时间总计，单位秒</li>
+<li>SWAP:进程使用的虚拟内存中被被换出的大小</li>
+<li>CODE:可执行代码占用的物理内存大小</li>
+<li>DATA:可执行代码以外的部分（数据段+栈）占用的物理内存大小</li>
+<li>SHR:共享内存大小</li>
+<li>nFLT:页面错误次数</li>
+<li>nDRT:最后一次写入到现在，被修改过的页面数</li>
+<li>S:进程状态（D=不可中断的睡眠状态，R=运行，S=睡眠，T=跟踪/停止，Z=僵尸进程）</li>
+<li>WCHAN:若该进程在睡眠，则显示睡眠中的系统函数名</li>
+<li>Flags:任务标志</li>
+</ul>
+<h3 id="1-12-2-PS命令"><a href="#1-12-2-PS命令" class="headerlink" title="1.12.2 PS命令"></a>1.12.2 PS命令</h3><p>进程的状态：</p>
+<ul>
+<li> R 运行 runnable (on run queue) ，正在运行或在运行队列中等待)。</li>
+<li> S 中断 sleeping，休眠中, 受阻, 在等待某个条件的形成或接受到信号。</li>
+<li> D 不可中断 uninterruptible sleep (usually IO)，收到信号不唤醒和不可运行, 进程必须等待直到有中断发生)</li>
+<li> Z 僵死 a defunct (”zombie”) process，进程已终止, 但进程描述符存在, 直到父进程调用wait4()系统调用后释放。</li>
+<li> T 停止 traced or stopped ，进程收到SIGSTOP，SIGSTP，SIGTIN，SIGTOU信号后停止运行运行。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>命令选项</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a</td>
+<td>显示所有进程</td>
+</tr>
+<tr>
+<td>-a</td>
+<td>显示一个终端的所有进程，除了会话引线</td>
+</tr>
+<tr>
+<td>-A</td>
+<td>显示所有进程，等同于-e</td>
+</tr>
+<tr>
+<td>-m</td>
+<td>显示所有的线程</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>用户自定义格式</td>
+</tr>
+<tr>
+<td>c</td>
+<td>显示进程的真实名称</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>显示所有进程，等于“-A”</td>
+</tr>
+<tr>
+<td>e</td>
+<td>显示环境变量</td>
+</tr>
+<tr>
+<td>f</td>
+<td>显示程序间的关系</td>
+</tr>
+<tr>
+<td>-H</td>
+<td>显示树状结构</td>
+</tr>
+<tr>
+<td>r</td>
+<td>显示当前终端的进程</td>
+</tr>
+<tr>
+<td>T</td>
+<td>显示与此终端关联的所有进程。等同于 t (不带任何参数)</td>
+</tr>
+<tr>
+<td>u</td>
+<td>指定用户的所有进程</td>
+</tr>
+<tr>
+<td>-au</td>
+<td>显示较详细的资讯</td>
+</tr>
+<tr>
+<td>-aux</td>
+<td>显示所有包含其他使用者的行程</td>
+</tr>
+<tr>
+<td>-C&lt;命令&gt;</td>
+<td>列出指定命令的状况</td>
+</tr>
+<tr>
+<td>–lines&lt;行数&gt;</td>
+<td>每页显示的行数</td>
+</tr>
+<tr>
+<td>–width&lt;字符数&gt;</td>
+<td>每页显示的字符数</td>
+</tr>
+<tr>
+<td>–help</td>
+<td>显示帮助信息</td>
+</tr>
+<tr>
+<td>–version</td>
+<td>显示版本显示</td>
+</tr>
+</tbody></table>
+<p><strong>ps命令主要用途</strong></p>
+<p>查看进程有没有启动<br>查看进程的pid并使用kill命令杀掉<br>查看哪些进程占用的cpu高<br>查看哪些进程占用内存高<br>查看进程的状态</p>
+<p>ps命令，有两种形式一种是Linux形式（ps -ef），一种是unix形式(ps aux)，两种效果一样，aux结果展示更直观。</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token comment"># 查看系统中所有进程，使用BSD操作系统格式</span>
+<span class="token function">ps</span> aux
+选项：
+a：显示一个终端的所有进程，除了会话引线
+u：显示进程的归属用户及内存的使用情况
+x：显示没有控制终端的进程<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-none"><code class="language-none">USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>USER：该进程是由哪个用户产生的；</li>
+<li>PID：进程的ID号；</li>
+<li>%CPU：该进程占用CPU资源的百分比，占用越高，进程越耗费资源；</li>
+<li>%MEM：该进程占用物理内存的百分比，占用越高，进程越耗费资源；</li>
+<li>VSZ：该进程占用虚拟内存的大小，单位KB；</li>
+<li>RSS：该进程占用实际物理内存的大小，单位KB；</li>
+<li>TTY：该进程是在哪个终端中运行的。其中tty1-tty7代表本地控制台终端，tty1-tty6是本地的字符界面终端，tty7是图形终端。pts/0-255代表虚拟终端（现在不止256个）。？表示内核启动的</li>
+<li>STAT：进程状态。常见的状态有R运行，S睡眠，T停止状态，s包含子进程，+位于后台</li>
+<li>START：该进程的启动时间</li>
+<li>TIME：该进程占用CPU的运算时间，注意不是系统时间</li>
+<li>COMMAND：产生此进程的命令名</li>
+</ul>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 按cpu使用率降序显示</span>
+<span class="token function">ps</span> -aux --sort -pcpu
+
+<span class="token comment"># 按内存使用率降序显示</span>
+<span class="token function">ps</span> -aux --sort -pmem
+
+<span class="token comment"># 找出消耗内存最多的前10名进程</span>
+<span class="token function">ps</span> -aux --sort -pcpu <span class="token operator">|</span> <span class="token function">head</span> -10<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>常用的是ps -aux，然后再利用一个管道符号导向到grep去查找特定的进程，然后再对特定的进程进行操作。</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token comment"># 查看指定进程pid(sshd)</span>
+<span class="token function">ps</span> <span class="token operator">-</span>aux <span class="token punctuation">|</span> grep sshd<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>实际上，我们也能经常看到<code>ps -ef | grep java</code>，那么这两者什么时候用呢？</p>
+<p><strong>ps -ef 和ps -aux使用</strong></p>
+<p>如果想跟踪cpu占用率和内存占用率, 用aux；如果想跟踪父进程和完整的启动命令，那么使用ef。</p>
+<p>查找指定进程</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">ps</span> <span class="token operator">-</span>ef <span class="token punctuation">|</span> grep 进程名<span class="token operator">/</span>PID<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>ps命令将某个进程显示出来，中间的 | 是管道命令，是指ps命令与grep命令同时进行。<br>grep是查找，是一种强大的文本搜索工具，它能使用正则表达式搜索文本，并把匹配的行打印出来。rep全称是Global Regular Expression Print，表示全局正则表达式版本，它的使用权限是所有用户。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># 查看系统中所有进程，使用Linux标准命令格式</span>
+<span class="token function">ps</span> -le
+选项：
+-l：长格式显示。显示更加详细的信息
+-e：显示所有进程，和-a作用一致
+最常使用的就是ps -ef <span class="token operator">|</span> <span class="token function">grep</span> 进程，查看当前系统的进程状态<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>以下这条命令是检查java 进程是否存在：</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> -ef <span class="token operator">|</span> <span class="token function">grep</span> java
+root     <span class="token number">29670</span> <span class="token number">16446</span>  <span class="token number">0</span> 01:11 pts/2    00:00:00 <span class="token function">grep</span> --color<span class="token operator">=</span>auto java
+
+<span class="token function">ps</span> -ef
+<span class="token environment constant">UID</span>        PID  <span class="token environment constant">PPID</span>  C STIME TTY          TIME CMD
+root         <span class="token number">1</span>     <span class="token number">0</span>  <span class="token number">0</span> <span class="token number">5</span>月20 ?       00:00:02 /usr/lib/systemd/systemd --switched-root --system --deserialize <span class="token number">22</span>
+root         <span class="token number">2</span>     <span class="token number">0</span>  <span class="token number">0</span> <span class="token number">5</span>月20 ?       00:00:00 <span class="token punctuation">[</span>kthreadd<span class="token punctuation">]</span>
+root         <span class="token number">4</span>     <span class="token number">2</span>  <span class="token number">0</span> <span class="token number">5</span>月20 ?       00:00:00 <span class="token punctuation">[</span>kworker/0:0H<span class="token punctuation">]</span>
+root         <span class="token number">6</span>     <span class="token number">2</span>  <span class="token number">0</span> <span class="token number">5</span>月20 ?       00:00:01 <span class="token punctuation">[</span>ksoftirqd/0<span class="token punctuation">]</span>
+root         <span class="token number">7</span>     <span class="token number">2</span>  <span class="token number">0</span> <span class="token number">5</span>月20 ?       00:00:01 <span class="token punctuation">[</span>migration/0<span class="token punctuation">]</span>
+<span class="token punctuation">..</span><span class="token punctuation">..</span><span class="token punctuation">..</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>字段含义如下：</p>
+<ul>
+<li>UID：用户ID（User ID）</li>
+<li>PID：进程ID（Process ID）</li>
+<li>PPID：父进程的进程ID（Parent Process id）</li>
+<li>C：CPU使用的资源百分比（CPU用户计算执行优先级的因子，数值越大CPU密集运算执行优先级越低）</li>
+<li>STIME ：启动时间</li>
+<li>TTY：与进程关联的终端（tty）（完整的终端名称）</li>
+<li>TIME：进程使用的总cpu时间</li>
+<li>CMD：正在执行的命令行命令</li>
+</ul>
+<p><strong>实例一</strong></p>
+<p>1.可以用 | 管道和 more 连接起来分页查看命令：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">ps</span> <span class="token operator">-</span>aux <span class="token punctuation">|</span>more<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>2.把所有进程显示出来，并输出到ps001.txt文件命令：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">ps</span> <span class="token operator">-</span>aux &gt; ps001<span class="token punctuation">.</span>txt<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>3.输出指定的字段命令：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">ps</span> <span class="token operator">-</span>o pid<span class="token punctuation">,</span>ppid<span class="token punctuation">,</span>pgrp<span class="token punctuation">,</span>session<span class="token punctuation">,</span>tpgid<span class="token punctuation">,</span>comm<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>实例二</strong></p>
+<p>ps -aux默认是无序的，可以通过–sort命令来排序，如：按照cpu占用来降序排序：</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell"><span class="token function">ps</span> <span class="token operator">-</span>aux <span class="token operator">--</span><span class="token function">sort</span> <span class="token operator">-</span>pcpu<span class="token punctuation">|</span>less <span class="token operator">-</span>N     <span class="token comment">#按照cpu占用来排序</span>
+<span class="token function">ps</span> <span class="token operator">-</span>aux <span class="token operator">--</span><span class="token function">sort</span> <span class="token operator">-</span>pmem<span class="token punctuation">|</span>less <span class="token operator">-</span>N     <span class="token comment">#按照内存占用来排序</span>
+
+<span class="token comment"># 查看进程的pid、启动时间、运行时间</span>
+<span class="token function">ps</span> <span class="token operator">-</span>eo pid<span class="token punctuation">,</span>lstart<span class="token punctuation">,</span>etime <span class="token punctuation">|</span> grep <span class="token punctuation">[</span> pid <span class="token punctuation">]</span>
+
+<span class="token comment"># 假如我们使用top命令看到PID为3356的进程占用CPU太高，那么，就可以使用以下命令来定位是哪些线程</span>
+<span class="token function">ps</span> <span class="token operator">-</span><span class="token function">mp</span> 3356 <span class="token operator">-</span>o THREAD<span class="token punctuation">,</span>tid<span class="token punctuation">,</span>time <span class="token punctuation">|</span> more  <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>使用ps命令实时查看进程<br>　　ps 命令会显示你系统当前的进程状态，但是这个结果是静态的。如果我们想要使用ps命令来实时查看进程状态，并且通过CPU和内存用量来对结果进行排序，并且希望结果能够每秒刷新1次，我们可以把ps命令和watch命令结合起来使用。</p>
+<pre class="line-numbers language-powershell" data-language="powershell"><code class="language-powershell">watch <span class="token operator">-</span>n 1 <span class="token string">'ps -aux --sort -pcpu,+pmem | head -6'</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>解释一下这个命令：该命令每秒刷新1次，ps -aux会显示所有的进程，–sort -pcpu,+pmem 会使用CPU、内存来排序，head -6会显示前6行数据，即只看前5个进程情况，通过watch命令来做到每秒更新。</p>
+<h3 id="1-12-3-kill命令"><a href="#1-12-3-kill命令" class="headerlink" title="1.12.3 kill命令"></a>1.12.3 kill命令</h3><p>在Linux系统中，kill命令用于向运行中的进程发送信号，默认发送的信号是终止信号，会请求进程退出。kill（杀）可能会引起误解，实际上发送的信号可能与杀死进程无关。</p>
+<p><strong>我们最常使用到的kill命令为：</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> PID
+
+<span class="token function">kill</span> -9 PID<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>前者为请求目标进程退出，后者为强制杀死目标进程。</p>
+<p><strong>1. kill PID</strong></p>
+<p>kill命令默认发送的信号是SIGTERM。该信号会被目标进程捕获，在收到这个信号以后目标进程可以做一些有用的操作（如保存数据），然后退出。然而，许多进程并没有专门实现处理此信号的程序，此时会调用默认的信号处理函数。而在某些情况下，有特殊处理程序的进程也会出错，无法正确处理信号。总之，SIGTERM信号不能确保目标进程能够退出。</p>
+<p><strong>SIGTERM信号的编号通常为15，可通过以下四种方式发送SIGTERM信号：</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> PID
+
+<span class="token function">kill</span> -s <span class="token environment constant">TERM</span> PID
+
+<span class="token function">kill</span> -<span class="token environment constant">TERM</span> PID
+
+<span class="token function">kill</span> -15 PID<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>2. kill -9 PID</strong></p>
+<p>此时发送的是SIGKILL信号。正如前文所述，SIGTERM信号不一定能够“杀死”目标进程，在这种情况下，我们就会释放大杀器，SKGKILL信号。SIGKILL信号不会被进程所“截获”，它只能由主机系统内核处理，由其负责提供可靠的控制进程执行的方法，SIGKILL会杀死进程。</p>
+<p><strong>SIGKILL信号的编号通常为9，可通过三种方式发送SIGKILL信号：</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> -s KILL PID
+
+<span class="token function">kill</span> -KILL PID
+
+<span class="token function">kill</span> -9 PID<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p><strong>3. 其他kill信号</strong></p>
+<p>​        kill命令可以发送的信号还有很多，其它有用的信号包括HUP、TRAP、INT、SEGV及ALRM等。</p>
+<p>​        HUP发送SIGHUP信号，SIGHUP信号的意思为挂起。在规范上，进程应当在收到这个信号时重新加载配置，相当于重启。但在实际使用中，通常只有守护进程会按照规范实施，而普通进程则是执行退出。</p>
+<p>​        INT发送SIGINT信号，意为中断，在终端中，只需按下CTRL+C便可以产生SIGINT信号。</p>
+<p>​        在终端中，CTRL+Z通常映射至SIGTSTP，CTRL+\（反斜杠）映射至SIGQUIT，这可强制程序进行核心转储。</p>
+<p><strong>kill能确保杀死进程吗？</strong></p>
+<p>答案是否定的，某些情况下即使kill -9也无法杀死进程。</p>
+<p><strong>1. 用户授权</strong></p>
+<p>UNIX提供了安全机制，以防止未授权用户杀死其他进程。实际上，若进程欲向另一个进程发送信号，发送信号的进程的所有者必须与接收信号的进程的所有者相同，或者发送信号的进程的所有者是超级用户root。</p>
+<p>例如，假设当前终端的用户是dancen，则无法kill掉用户nginx启动的进程。</p>
+<p><strong>2. 超级进程</strong></p>
+<p>即使root用户也无法向PID为1的进程发送信号。内核初始化的最后一步就是启动init进程。这个进程是系统的第一个进程，PID为1，又叫超级进程，也叫根进程。它负责产生其他所有用户进程。所有的进程都会被挂在这个进程下，如果这个进程退出了，那么所有的进程都被kill。如果一个子进程的父进程退了，那么这个子进程会被挂到PID 1下面，即PPID为1。</p>
+<p><strong>3. 内核态进程</strong></p>
+<p>当一个进程执行系统调用而陷入内核代码中执行时，该进程由用户态转为内核态，处于内核态的进程将忽略所有信号处理。如果进程在执行系统调用时无限期地阻塞，则可能无法终止该进程。</p>
+<p><strong>4. 僵尸进程</strong></p>
+<p>进程停止后，该进程就会从进程列表中移除。但是，有时候有些进程即使执行完了也依然留在进程列表中。这些完成了生命周期但却依然留在进程列表中的进程，我们称之为 “僵尸进程”。</p>
+<p><strong>a. 僵尸进程的产生</strong></p>
+<p>一个进程可能会产生很多子进程。这些子进程执行完毕后会发送一个Exit信号然后死掉。这个Exit信号需要被父进程所读取。父进程随后调用wait命令来读取子进程的退出状态，并将子进程从进程列表中移除。但若父进程未能读取到子进程的Exit信号，则这个子进程不会从进程列表中删掉。</p>
+<p><strong>b. 找出僵尸进程</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">ps</span> aux <span class="token operator">|</span> <span class="token function">grep</span> Z<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>c. kill僵尸进程</strong></p>
+<p>我们可以分别通过SIGTERM信号、SIGKILL信号、SIGHUP信号来尝试kill僵尸进程。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> PID
+
+<span class="token function">kill</span> -9 PID
+
+<span class="token function">kill</span> -HUP PID<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>如果僵尸进程没能kill掉，则可查看僵尸进程的PPID，找到父进程，令其回收子进程；如果无效，则可直接kill掉僵尸进程的父进程，父进程死后，僵尸进程成为”孤儿进程”，过继给1号进程init，由init负责清理僵尸进程。</p>
+<p>方法一，传递信号给父进程，命令其回收子进程的资源</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> -CHLD <span class="token environment constant">PPID</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>方法二，直接kill父进程，将此进程变成孤儿进程，交给init进程管理，由init进程回收此进程的资源</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> -9 <span class="token environment constant">PPID</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p><strong>5. 自我保护的进程</strong></p>
+<p>例如，在执行硬盘扩展时，需要将硬盘卸载，但在执行umount命令时，提示设备忙。</p>
+<p><strong>a. 找出正在使用设备的进程</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># fuser -mv /mnt/volume1/</span>
+                     <span class="token environment constant">USER</span>        PID ACCESS COMMAND
+/mnt/volume1:        root     kernel <span class="token function">mount</span> /mnt/volume1
+                     root      <span class="token number">10516</span> f<span class="token punctuation">..</span><span class="token punctuation">..</span> AliYunDun<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>结果显示名为AliYunDun的进程占用了设备。</p>
+<p><strong>b. kill AliYunDun进程1</strong></p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token comment"># kill 10516</span>
+bash: kill: <span class="token punctuation">(</span><span class="token number">10516</span><span class="token punctuation">)</span> - Operation not permitted
+
+<span class="token comment"># kill -9 10516</span>
+bash: kill: <span class="token punctuation">(</span><span class="token number">10516</span><span class="token punctuation">)</span> - Operation not permitted
+
+<span class="token comment"># sudo kill -9 10516</span>
+kill: sending signal to <span class="token number">10516</span> failed: Operation not permitted<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>AliYunDun是阿里云安全中心的客户端代理，为了防止被恶意kill，具有自我保护功能，在kill该进程时，提示没有权限，并且收到了阿里云的告警。</p>
+<p><strong>c. kill AliYunDun进程2</strong></p>
+<p>暂时不知道AliYunDun自我保护功能的实现原理，但该进程可以通过 HUP信号kill掉。</p>
+<pre class="line-numbers language-bash" data-language="bash"><code class="language-bash"><span class="token function">kill</span> -HUP <span class="token number">1051</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="/about" rel="external nofollow noreferrer">Shuyan</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://shuyanCoding.github.io/2023/10/17/ctf-xue-xi/yi-ji-chu-zhi-shi/linux-ji-chu/">http://shuyanCoding.github.io/2023/10/17/ctf-xue-xi/yi-ji-chu-zhi-shi/linux-ji-chu/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="/about" target="_blank">Shuyan</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/Linux/">
+                                    <span class="chip bg-color">Linux</span>
+                                </a>
+                            
+                                <a href="/tags/CTF/">
+                                    <span class="chip bg-color">CTF</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+<div id="article-share">
+
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">您的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.jpg" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2023/10/17/ctf-xue-xi/yi-ji-chu-zhi-shi/linux-ji-chu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="linux基础">
+                        
+                        <span class="card-title">linux基础</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            CTF基础篇--Linux基础知识
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-10-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/CTF/" class="post-category">
+                                    CTF
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                    <a href="/tags/CTF/">
+                        <span class="chip bg-color">CTF</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2023/10/10/linux-fu-wu/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="linux服务">
+                        
+                        <span class="card-title">linux服务</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2023-10-10
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Linux/">
+                        <span class="chip bg-color">Linux</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+<script>
+    $('#articleContent').on('copy', function (e) {
+        // IE8 or earlier browser is 'undefined'
+        if (typeof window.getSelection === 'undefined') return;
+
+        var selection = window.getSelection();
+        // if the selection is short let's not annoy our users.
+        if (('' + selection).length < Number.parseInt('120')) {
+            return;
+        }
+
+        // create a div outside of the visible area and fill it with the selected text.
+        var bodyElement = document.getElementsByTagName('body')[0];
+        var newdiv = document.createElement('div');
+        newdiv.style.position = 'absolute';
+        newdiv.style.left = '-99999px';
+        bodyElement.appendChild(newdiv);
+        newdiv.appendChild(selection.getRangeAt(0).cloneContents());
+
+        // we need a <pre> tag workaround.
+        // otherwise the text inside "pre" loses all the line breaks!
+        if (selection.getRangeAt(0).commonAncestorContainer.nodeName === 'PRE' || selection.getRangeAt(0).commonAncestorContainer.nodeName === 'CODE') {
+            newdiv.innerHTML = "<pre>" + newdiv.innerHTML + "</pre>";
+        }
+
+        var url = document.location.href;
+        newdiv.innerHTML += '<br />'
+            + '来源: Shuyan<br />'
+            + '文章作者: Shuyan<br />'
+            + '文章链接: <a href="' + url + '">' + url + '</a><br />'
+            + '本文章著作权归作者所有，任何形式的转载都请注明出处。';
+
+        selection.selectAllChildren(newdiv);
+        window.setTimeout(function () {bodyElement.removeChild(newdiv);}, 200);
+    });
+</script>
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+
+  <!-- 是否加载使用自带的 prismjs. -->
+  <script type="text/javascript" src="/libs/prism/prism.min.js"></script>
+
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget card" style="background-color: white;">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        
+        display: none;
+        
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        
+        display: none;
+        
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="/libs/aplayer/Meting.min.js"></script>
+
+    
+
+    <div class="container row center-align"
+         style="margin-bottom: 0px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            
+                <span id="year">2023</span>
+            
+            <a href="/about" target="_blank">Shuyan</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            
+            <br>
+            
+            
+            
+                
+            
+            
+                <span id="busuanzi_container_site_pv">
+                &nbsp;|&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;
+                    <span id="busuanzi_value_site_pv" class="white-color"></span>
+            </span>
+            
+            
+                <span id="busuanzi_container_site_uv">
+                &nbsp;|&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;
+                    <span id="busuanzi_value_site_uv" class="white-color"></span>
+            </span>
+            
+            <br>
+
+            <!-- 运行天数提醒. -->
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/shuyanCoding" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:24371197969@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2437197969" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 2437197969" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+    <a href="https://weibo.com/u/7836229572" class="tooltipped" target="_blank" data-tooltip="关注我的微博: https://weibo.com/u/7836229572" data-position="top" data-delay="50">
+        <i class="fab fa-weibo"></i>
+    </a>
+
+
+
+    <a href="https://www.zhihu.com/people/jiu-ye-wei-yang-81" class="tooltipped" target="_blank" data-tooltip="关注我的知乎: https://www.zhihu.com/people/jiu-ye-wei-yang-81" data-position="top" data-delay="50">
+        <i class="fab fa-zhihu1">知</i>
+    </a>
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+$(function () {
+    var searchFunc = function (path, search_id, content_id) {
+        'use strict';
+        $.ajax({
+            url: path,
+            dataType: "xml",
+            success: function (xmlResponse) {
+                // get the contents from search data
+                var datas = $("entry", xmlResponse).map(function () {
+                    return {
+                        title: $("title", this).text(),
+                        content: $("content", this).text(),
+                        url: $("url", this).text()
+                    };
+                }).get();
+                var $input = document.getElementById(search_id);
+                var $resultContent = document.getElementById(content_id);
+                $input.addEventListener('input', function () {
+                    var str = '<ul class=\"search-result-list\">';
+                    var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                    $resultContent.innerHTML = "";
+                    if (this.value.trim().length <= 0) {
+                        return;
+                    }
+                    // perform local searching
+                    datas.forEach(function (data) {
+                        var isMatch = true;
+                        var data_title = data.title.trim().toLowerCase();
+                        var data_content = data.content.trim().replace(/<[^>]+>/g, "").toLowerCase();
+                        var data_url = data.url;
+                        data_url = data_url.indexOf('/') === 0 ? data.url : '/' + data_url;
+                        var index_title = -1;
+                        var index_content = -1;
+                        var first_occur = -1;
+                        // only match artiles with not empty titles and contents
+                        if (data_title !== '' && data_content !== '') {
+                            keywords.forEach(function (keyword, i) {
+                                index_title = data_title.indexOf(keyword);
+                                index_content = data_content.indexOf(keyword);
+                                if (index_title < 0 && index_content < 0) {
+                                    isMatch = false;
+                                } else {
+                                    if (index_content < 0) {
+                                        index_content = 0;
+                                    }
+                                    if (i === 0) {
+                                        first_occur = index_content;
+                                    }
+                                }
+                            });
+                        }
+                        // show search results
+                        if (isMatch) {
+                            str += "<li><a href='" + data_url + "' class='search-result-title'>" + data_title + "</a>";
+                            var content = data.content.trim().replace(/<[^>]+>/g, "");
+                            if (first_occur >= 0) {
+                                // cut out 100 characters
+                                var start = first_occur - 20;
+                                var end = first_occur + 80;
+                                if (start < 0) {
+                                    start = 0;
+                                }
+                                if (start === 0) {
+                                    end = 100;
+                                }
+                                if (end > content.length) {
+                                    end = content.length;
+                                }
+                                var match_content = content.substr(start, end);
+                                // highlight all keywords
+                                keywords.forEach(function (keyword) {
+                                    var regS = new RegExp(keyword, "gi");
+                                    match_content = match_content.replace(regS, "<em class=\"search-keyword\">" + keyword + "</em>");
+                                });
+
+                                str += "<p class=\"search-result\">" + match_content + "...</p>"
+                            }
+                            str += "</li>";
+                        }
+                    });
+                    str += "</ul>";
+                    $resultContent.innerHTML = str;
+                });
+            }
+        });
+    };
+
+    searchFunc('/search.xml', 'searchInput', 'searchResult');
+});
+</script>
+
+    <!-- 白天和黑夜主题 -->
+<div class="stars-con">
+    <div id="stars"></div>
+    <div id="stars2"></div>
+    <div id="stars3"></div>  
+</div>
+
+<script>
+    function switchNightMode() {
+        $('<div class="Cuteen_DarkSky"><div class="Cuteen_DarkPlanet"></div></div>').appendTo($('body')),
+        setTimeout(function () {
+            $('body').hasClass('DarkMode') 
+            ? ($('body').removeClass('DarkMode'), localStorage.setItem('isDark', '0'), $('#sum-moon-icon').removeClass("fa-sun").addClass('fa-moon')) 
+            : ($('body').addClass('DarkMode'), localStorage.setItem('isDark', '1'), $('#sum-moon-icon').addClass("fa-sun").removeClass('fa-moon')),
+            
+            setTimeout(function () {
+            $('.Cuteen_DarkSky').fadeOut(1e3, function () {
+                $(this).remove()
+            })
+            }, 2e3)
+        })
+    }
+</script>
+
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    
+
+    
+    
+    
+
+    <!-- 雪花特效 -->
+     
+        <script type="text/javascript">
+            // 只在桌面版网页启用特效
+            var windowWidth = $(window).width();
+            if (windowWidth > 768) {
+                document.write('<script type="text/javascript" src="/libs/others/snow.js"><\/script>');
+            }
+        </script>
+    
+
+    <!-- 鼠标星星特效 -->
+    
+
+     
+        <script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+        <script src="/libs/others/TencentCaptcha.js"></script>
+        <button id="TencentCaptcha" data-appid="xxxxxxxxxx" data-cbfn="callback" type="button" hidden></button>
+    
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    <!--腾讯兔小巢-->
+    
+    
+
+    
+
+    
+
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
